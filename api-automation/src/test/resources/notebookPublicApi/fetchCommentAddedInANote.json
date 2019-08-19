@@ -1,0 +1,205 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "result",
+    "message",
+    "status"
+  ],
+  "properties": {
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "title": "The Result Schema",
+      "required": [
+        "success",
+        "user_comment_list",
+        "message"
+      ],
+      "properties": {
+        "success": {
+          "$id": "#/properties/result/properties/success",
+          "type": "integer",
+          "title": "The Success Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "user_comment_list": {
+          "$id": "#/properties/result/properties/user_comment_list",
+          "type": "array",
+          "title": "The User_comment_list Schema",
+          "items": {
+            "$id": "#/properties/result/properties/user_comment_list/items",
+            "type": "object",
+            "title": "The Items Schema",
+            "required": [
+              "description_code",
+              "updated_at",
+              "reference_id",
+              "created_at",
+              "comment",
+              "is_edited",
+              "location",
+              "text",
+              "source",
+              "comment_id",
+              "created_by",
+              "status"
+            ],
+            "properties": {
+              "description_code": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/description_code",
+                "type": "integer",
+                "title": "The Description_code Schema",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "updated_at": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/updated_at",
+                "type": "integer",
+                "title": "The Updated_at Schema",
+                "default": 0,
+                "examples": [
+                  1565081447000
+                ]
+              },
+              "reference_id": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/reference_id",
+                "type": "string",
+                "title": "The Reference_id Schema",
+                "default": "",
+                "examples": [
+                  "5d4825926eff360435fb2188"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "created_at": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/created_at",
+                "type": "integer",
+                "title": "The Created_at Schema",
+                "default": 0,
+                "examples": [
+                  1565081447000
+                ]
+              },
+              "comment": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/comment",
+                "type": "string",
+                "title": "The Comment Schema",
+                "default": "",
+                "examples": [
+                  "Comment"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "is_edited": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/is_edited",
+                "type": "boolean",
+                "title": "The Is_edited Schema",
+                "default": false,
+                "examples": [
+                  false
+                ]
+              },
+              "location": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/location",
+                "type": "string",
+                "title": "The Location Schema",
+                "default": "",
+                "examples": [
+                  ""
+                ],
+                "pattern": "^(.*)$"
+              },
+              "text": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/text",
+                "type": "string",
+                "title": "The Text Schema",
+                "default": "",
+                "examples": [
+                  "Comment"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "source": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/source",
+                "type": "string",
+                "title": "The Source Schema",
+                "default": "",
+                "examples": [
+                  "note"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "comment_id": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/comment_id",
+                "type": "string",
+                "title": "The Comment_id Schema",
+                "default": "",
+                "examples": [
+                  "5d493f676eff36042cc23925"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "created_by": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/created_by",
+                "type": "string",
+                "title": "The Created_by Schema",
+                "default": "",
+                "examples": [
+                  "qa.3"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "status": {
+                "$id": "#/properties/result/properties/user_comment_list/items/properties/status",
+                "type": "integer",
+                "title": "The Status Schema",
+                "default": 0,
+                "examples": [
+                  1
+                ]
+              }
+            }
+          }
+        },
+        "message": {
+          "$id": "#/properties/result/properties/message",
+          "type": "string",
+          "title": "The Message Schema",
+          "default": "",
+          "examples": [
+            "Comments fetched successfully!"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "message": {
+      "$id": "#/properties/message",
+      "type": "string",
+      "title": "The Message Schema",
+      "default": "",
+      "examples": [
+        "Success"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "integer",
+      "title": "The Status Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    }
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ],
+  "properties": {
+    "counter": {
+      "$id": "#/properties/counter",
+      "type": "integer",
+      "title": "The Counter Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "title": "The Result Schema",
+      "required": [
+        "comment",
+        "status",
+        "is_edited",
+        "text",
+        "comment_id",
+        "updated_at",
+        "reference_id",
+        "message",
+        "success",
+        "description_code",
+        "created_by",
+        "source",
+        "location",
+        "created_at"
+      ],
+      "properties": {
+        "comment": {
+          "$id": "#/properties/result/properties/comment",
+          "type": "string",
+          "title": "The Comment Schema",
+          "default": "",
+          "examples": [
+            "This is edited today's comment - 1558950734658"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "status": {
+          "$id": "#/properties/result/properties/status",
+          "type": "integer",
+          "title": "The Status Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "is_edited": {
+          "$id": "#/properties/result/properties/is_edited",
+          "type": "boolean",
+          "title": "The Is_edited Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "text": {
+          "$id": "#/properties/result/properties/text",
+          "type": "string",
+          "title": "The Text Schema",
+          "default": "",
+          "examples": [
+            "This is edited today's comment - 1558950734658"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "comment_id": {
+          "$id": "#/properties/result/properties/comment_id",
+          "type": "string",
+          "title": "The Comment_id Schema",
+          "default": "",
+          "examples": [
+            "5cebb35ff8fe3630f06ae153"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "updated_at": {
+          "$id": "#/properties/result/properties/updated_at",
+          "type": "integer",
+          "title": "The Updated_at Schema",
+          "default": 0,
+          "examples": [
+            1558951013000
+          ]
+        },
+        "reference_id": {
+          "$id": "#/properties/result/properties/reference_id",
+          "type": "string",
+          "title": "The Reference_id Schema",
+          "default": "",
+          "examples": [
+            "599e809177c6bd64ae0193de"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "message": {
+          "$id": "#/properties/result/properties/message",
+          "type": "string",
+          "title": "The Message Schema",
+          "default": "",
+          "examples": [
+            "Comment successfully updated!"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "success": {
+          "$id": "#/properties/result/properties/success",
+          "type": "integer",
+          "title": "The Success Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "description_code": {
+          "$id": "#/properties/result/properties/description_code",
+          "type": "integer",
+          "title": "The Description_code Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "created_by": {
+          "$id": "#/properties/result/properties/created_by",
+          "type": "string",
+          "title": "The Created_by Schema",
+          "default": "",
+          "examples": [
+            "autotester"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "source": {
+          "$id": "#/properties/result/properties/source",
+          "type": "string",
+          "title": "The Source Schema",
+          "default": "",
+          "examples": [
+            "note"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "location": {
+          "$id": "#/properties/result/properties/location",
+          "type": "string",
+          "title": "The Location Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "created_at": {
+          "$id": "#/properties/result/properties/created_at",
+          "type": "integer",
+          "title": "The Created_at Schema",
+          "default": 0,
+          "examples": [
+            1558950751000
+          ]
+        }
+      }
+    },
+    "response": {
+      "$id": "#/properties/response",
+      "type": "object",
+      "title": "The Response Schema",
+      "required": [
+        "status",
+        "msg"
+      ],
+      "properties": {
+        "status": {
+          "$id": "#/properties/response/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "msg": {
+          "$id": "#/properties/response/properties/msg",
+          "type": "string",
+          "title": "The Msg Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}

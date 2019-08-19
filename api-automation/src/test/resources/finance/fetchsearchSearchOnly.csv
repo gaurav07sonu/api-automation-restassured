@@ -1,0 +1,8 @@
+query,facets_flag
+sales,true
+profit,false
+velocity,true
+profit NEAR loss,false
+iphone,false
+iPad,false
+mitsubhishi,true

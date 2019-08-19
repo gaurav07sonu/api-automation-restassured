@@ -1,0 +1,622 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ],
+  "properties": {
+    "counter": {
+      "$id": "#/properties/counter",
+      "type": "integer",
+      "title": "The Counter Schema",
+      "default": 0,
+      "examples": [
+        3
+      ]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "title": "The Result Schema",
+      "required": [
+        "status",
+        "res",
+        "message"
+      ],
+      "properties": {
+        "status": {
+          "$id": "#/properties/result/properties/status",
+          "type": "integer",
+          "title": "The Status Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "res": {
+          "$id": "#/properties/result/properties/res",
+          "type": "array",
+          "title": "The Res Schema",
+          "items": {
+            "$id": "#/properties/result/properties/res/items",
+            "type": "object",
+            "title": "The Items Schema",
+            "required": [
+              "updated_at",
+              "note_id",
+              "id",
+              "entity_type",
+              "tags",
+              "comments",
+              "children",
+              "state",
+              "version",
+              "update_version",
+              "username",
+              "users",
+              "root_id",
+              "collab",
+              "groups",
+              "active",
+              "tickers",
+              "locked",
+              "name",
+              "created_at",
+              "locked_by",
+              "owner_type",
+              "comment_ids",
+              "thesis_type"
+            ],
+            "properties": {
+              "updated_at": {
+                "$id": "#/properties/result/properties/res/items/properties/updated_at",
+                "type": "integer",
+                "title": "The Updated_at Schema",
+                "default": 0,
+                "examples": [
+                  1562576309000
+                ]
+              },
+              "note_id": {
+                "$id": "#/properties/result/properties/res/items/properties/note_id",
+                "type": "string",
+                "title": "The Note_id Schema",
+                "default": "",
+                "examples": [
+                  "5d2305b4c0af3159018c6c52"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "id": {
+                "$id": "#/properties/result/properties/res/items/properties/id",
+                "type": "string",
+                "title": "The Id Schema",
+                "default": "",
+                "examples": [
+                  "5d2305b4c0af3159018c6c50"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "entity_type": {
+                "$id": "#/properties/result/properties/res/items/properties/entity_type",
+                "type": "string",
+                "title": "The Entity_type Schema",
+                "default": "",
+                "examples": [
+                  "Thesis"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "tags": {
+                "$id": "#/properties/result/properties/res/items/properties/tags",
+                "type": "array",
+                "title": "The Tags Schema"
+              },
+              "comments": {
+                "$id": "#/properties/result/properties/res/items/properties/comments",
+                "type": "array",
+                "title": "The Comments Schema"
+              },
+              "children": {
+                "$id": "#/properties/result/properties/res/items/properties/children",
+                "type": "array",
+                "title": "The Children Schema",
+                "items": {
+                  "$id": "#/properties/result/properties/res/items/properties/children/items",
+                  "type": "object",
+                  "title": "The Items Schema",
+                  "required": [
+                    "updated_at",
+                    "children",
+                    "temp_id",
+                    "entity_type",
+                    "id",
+                    "username",
+                    "active",
+                    "name",
+                    "created_at",
+                    "owner_type",
+                    "comment_ids"
+                  ],
+                  "properties": {
+                    "updated_at": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/updated_at",
+                      "type": "integer",
+                      "title": "The Updated_at Schema",
+                      "default": 0,
+                      "examples": [
+                        1562576309000
+                      ]
+                    },
+                    "children": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children",
+                      "type": "array",
+                      "title": "The Children Schema",
+                      "items": {
+                        "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items",
+                        "type": "object",
+                        "title": "The Items Schema",
+                        "required": [
+                          "updated_at",
+                          "id",
+                          "temp_id",
+                          "entity_type",
+                          "children",
+                          "version",
+                          "username",
+                          "keys",
+                          "active",
+                          "name",
+                          "created_at",
+                          "values",
+                          "owner_type",
+                          "comment_ids",
+                          "order"
+                        ],
+                        "properties": {
+                          "updated_at": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/updated_at",
+                            "type": "integer",
+                            "title": "The Updated_at Schema",
+                            "default": 0,
+                            "examples": [
+                              1562576309000
+                            ]
+                          },
+                          "id": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/id",
+                            "type": "string",
+                            "title": "The Id Schema",
+                            "default": "",
+                            "examples": [
+                              "5d2305b5c0af3159018c6c56"
+                            ],
+                            "pattern": "^(.*)$"
+                          },
+                          "temp_id": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/temp_id",
+                            "type": "string",
+                            "title": "The Temp_id Schema",
+                            "default": "",
+                            "examples": [
+                              "None"
+                            ],
+                            "pattern": "^(.*)$"
+                          },
+                          "entity_type": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/entity_type",
+                            "type": "string",
+                            "title": "The Entity_type Schema",
+                            "default": "",
+                            "examples": [
+                              "FieldSection"
+                            ],
+                            "pattern": "^(.*)$"
+                          },
+                          "children": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/children",
+                            "type": "array",
+                            "title": "The Children Schema"
+                          },
+                          "version": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/version",
+                            "type": "integer",
+                            "title": "The Version Schema",
+                            "default": 0,
+                            "examples": [
+                              1
+                            ]
+                          },
+                          "username": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/username",
+                            "type": "string",
+                            "title": "The Username Schema",
+                            "default": "",
+                            "examples": [
+                              "autotester"
+                            ],
+                            "pattern": "^(.*)$"
+                          },
+                          "keys": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/keys",
+                            "type": "array",
+                            "title": "The Keys Schema"
+                          },
+                          "active": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/active",
+                            "type": "integer",
+                            "title": "The Active Schema",
+                            "default": 0,
+                            "examples": [
+                              1
+                            ]
+                          },
+                          "name": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/name",
+                            "type": "string",
+                            "title": "The Name Schema",
+                            "default": "",
+                            "examples": [
+                              ""
+                            ],
+                            "pattern": "^(.*)$"
+                          },
+                          "created_at": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/created_at",
+                            "type": "integer",
+                            "title": "The Created_at Schema",
+                            "default": 0,
+                            "examples": [
+                              1562576309000
+                            ]
+                          },
+                          "values": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/values",
+                            "type": "object",
+                            "title": "The Values Schema"
+                          },
+                          "owner_type": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/owner_type",
+                            "type": "string",
+                            "title": "The Owner_type Schema",
+                            "default": "",
+                            "examples": [
+                              "None"
+                            ],
+                            "pattern": "^(.*)$"
+                          },
+                          "comment_ids": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/comment_ids",
+                            "type": "array",
+                            "title": "The Comment_ids Schema"
+                          },
+                          "order": {
+                            "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/order",
+                            "type": "array",
+                            "title": "The Order Schema",
+                            "items": {
+                              "$id": "#/properties/result/properties/res/items/properties/children/items/properties/children/items/properties/order/items",
+                              "type": "integer",
+                              "title": "The Items Schema",
+                              "default": 0,
+                              "examples": [
+                                0,
+                                0,
+                                0
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "temp_id": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/temp_id",
+                      "type": "string",
+                      "title": "The Temp_id Schema",
+                      "default": "",
+                      "examples": [
+                        "None"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "entity_type": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/entity_type",
+                      "type": "string",
+                      "title": "The Entity_type Schema",
+                      "default": "",
+                      "examples": [
+                        "Tab"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "id": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/id",
+                      "type": "string",
+                      "title": "The Id Schema",
+                      "default": "",
+                      "examples": [
+                        "5d2305b5c0af3159018c6c54"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "username": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/username",
+                      "type": "string",
+                      "title": "The Username Schema",
+                      "default": "",
+                      "examples": [
+                        "autotester"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "active": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/active",
+                      "type": "integer",
+                      "title": "The Active Schema",
+                      "default": 0,
+                      "examples": [
+                        1
+                      ]
+                    },
+                    "name": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/name",
+                      "type": "string",
+                      "title": "The Name Schema",
+                      "default": "",
+                      "examples": [
+                        "Overview"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "created_at": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/created_at",
+                      "type": "integer",
+                      "title": "The Created_at Schema",
+                      "default": 0,
+                      "examples": [
+                        1562576309000
+                      ]
+                    },
+                    "owner_type": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/owner_type",
+                      "type": "string",
+                      "title": "The Owner_type Schema",
+                      "default": "",
+                      "examples": [
+                        "None"
+                      ],
+                      "pattern": "^(.*)$"
+                    },
+                    "comment_ids": {
+                      "$id": "#/properties/result/properties/res/items/properties/children/items/properties/comment_ids",
+                      "type": "array",
+                      "title": "The Comment_ids Schema"
+                    }
+                  }
+                }
+              },
+              "state": {
+                "$id": "#/properties/result/properties/res/items/properties/state",
+                "type": "string",
+                "title": "The State Schema",
+                "default": "",
+                "examples": [
+                  "Draft"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "version": {
+                "$id": "#/properties/result/properties/res/items/properties/version",
+                "type": "integer",
+                "title": "The Version Schema",
+                "default": 0,
+                "examples": [
+                  1
+                ]
+              },
+              "update_version": {
+                "$id": "#/properties/result/properties/res/items/properties/update_version",
+                "type": "integer",
+                "title": "The Update_version Schema",
+                "default": 0,
+                "examples": [
+                  4
+                ]
+              },
+              "username": {
+                "$id": "#/properties/result/properties/res/items/properties/username",
+                "type": "string",
+                "title": "The Username Schema",
+                "default": "",
+                "examples": [
+                  "autotester"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "users": {
+                "$id": "#/properties/result/properties/res/items/properties/users",
+                "type": "array",
+                "title": "The Users Schema",
+                "items": {
+                  "$id": "#/properties/result/properties/res/items/properties/users/items",
+                  "type": "string",
+                  "title": "The Items Schema",
+                  "default": "",
+                  "examples": [
+                    "autotester"
+                  ],
+                  "pattern": "^(.*)$"
+                }
+              },
+              "root_id": {
+                "$id": "#/properties/result/properties/res/items/properties/root_id",
+                "type": "string",
+                "title": "The Root_id Schema",
+                "default": "",
+                "examples": [
+                  "5d2305b4c0af3159018c6c50"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "collab": {
+                "$id": "#/properties/result/properties/res/items/properties/collab",
+                "type": "integer",
+                "title": "The Collab Schema",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "groups": {
+                "$id": "#/properties/result/properties/res/items/properties/groups",
+                "type": "array",
+                "title": "The Groups Schema",
+                "items": {
+                  "$id": "#/properties/result/properties/res/items/properties/groups/items",
+                  "type": "string",
+                  "title": "The Items Schema",
+                  "default": "",
+                  "examples": [
+                    "check15"
+                  ],
+                  "pattern": "^(.*)$"
+                }
+              },
+              "active": {
+                "$id": "#/properties/result/properties/res/items/properties/active",
+                "type": "integer",
+                "title": "The Active Schema",
+                "default": 0,
+                "examples": [
+                  1
+                ]
+              },
+              "tickers": {
+                "$id": "#/properties/result/properties/res/items/properties/tickers",
+                "type": "array",
+                "title": "The Tickers Schema",
+                "items": {
+                  "$id": "#/properties/result/properties/res/items/properties/tickers/items",
+                  "type": "string",
+                  "title": "The Items Schema",
+                  "default": "",
+                  "examples": [
+                    "dfkcy"
+                  ],
+                  "pattern": "^(.*)$"
+                }
+              },
+              "locked": {
+                "$id": "#/properties/result/properties/res/items/properties/locked",
+                "type": "integer",
+                "title": "The Locked Schema",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "name": {
+                "$id": "#/properties/result/properties/res/items/properties/name",
+                "type": "string",
+                "title": "The Name Schema",
+                "default": "",
+                "examples": [
+                  "DFKCY Thesis"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "created_at": {
+                "$id": "#/properties/result/properties/res/items/properties/created_at",
+                "type": "integer",
+                "title": "The Created_at Schema",
+                "default": 0,
+                "examples": [
+                  1562576308000
+                ]
+              },
+              "locked_by": {
+                "$id": "#/properties/result/properties/res/items/properties/locked_by",
+                "type": "null",
+                "title": "The Locked_by Schema",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "owner_type": {
+                "$id": "#/properties/result/properties/res/items/properties/owner_type",
+                "type": "string",
+                "title": "The Owner_type Schema",
+                "default": "",
+                "examples": [
+                  "None"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "comment_ids": {
+                "$id": "#/properties/result/properties/res/items/properties/comment_ids",
+                "type": "array",
+                "title": "The Comment_ids Schema"
+              },
+              "thesis_type": {
+                "$id": "#/properties/result/properties/res/items/properties/thesis_type",
+                "type": "string",
+                "title": "The Thesis_type Schema",
+                "default": "",
+                "examples": [
+                  "thesis"
+                ],
+                "pattern": "^(.*)$"
+              }
+            }
+          }
+        },
+        "message": {
+          "$id": "#/properties/result/properties/message",
+          "type": "string",
+          "title": "The Message Schema",
+          "default": "",
+          "examples": [
+            "Success"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "response": {
+      "$id": "#/properties/response",
+      "type": "object",
+      "title": "The Response Schema",
+      "required": [
+        "status",
+        "msg"
+      ],
+      "properties": {
+        "status": {
+          "$id": "#/properties/response/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "msg": {
+          "$id": "#/properties/response/properties/msg",
+          "type": "string",
+          "title": "The Msg Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}

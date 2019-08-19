@@ -1,0 +1,58 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ],
+  "properties": {
+    "counter": {
+      "$id": "#/properties/counter",
+      "type": "integer",
+      "title": "The Counter Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "array",
+      "title": "The Result Schema"
+    },
+    "response": {
+      "$id": "#/properties/response",
+      "type": "object",
+      "title": "The Response Schema",
+      "required": [
+        "status",
+        "msg"
+      ],
+      "properties": {
+        "status": {
+          "$id": "#/properties/response/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "msg": {
+          "$id": "#/properties/response/properties/msg",
+          "type": "string",
+          "title": "The Msg Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    }
+  }
+}

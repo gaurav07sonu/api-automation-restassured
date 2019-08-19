@@ -1,0 +1,13 @@
+no_docs,facets_flag,error
+0,true,""
+1,true,""
+2,true,""
+4,true,""
+5,true,""
+6,true,""
+7,true,""
+8,true,""
+9,true,""
+6,"",""
+6,null,"Value not in correct bool format"
+6,ABCD,"Value not json encoded"

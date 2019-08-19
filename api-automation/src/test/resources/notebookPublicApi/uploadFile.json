@@ -1,0 +1,54 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "success",
+    "filename",
+    "content_type",
+    "id"
+  ],
+  "properties": {
+    "success": {
+      "$id": "#/properties/success",
+      "type": "boolean",
+      "title": "The Success Schema",
+      "default": false,
+      "examples": [
+        true
+      ]
+    },
+    "filename": {
+      "$id": "#/properties/filename",
+      "type": "string",
+      "title": "The Filename Schema",
+      "default": "",
+      "examples": [
+        "notebookPublicApi\\pptfile.pptx"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "content_type": {
+      "$id": "#/properties/content_type",
+      "type": "string",
+      "title": "The Content_type Schema",
+      "default": "",
+      "examples": [
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The Id Schema",
+      "default": "",
+      "examples": [
+        "5d441280e0c6fa4ec24f3c88"
+      ],
+      "pattern": "^(.*)$"
+    }
+  }
+}

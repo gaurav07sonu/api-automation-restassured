@@ -1,0 +1,994 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ],
+  "properties": {
+    "counter": {
+      "$id": "#/properties/counter",
+      "type": "integer",
+      "title": "The Counter Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "title": "The Result Schema",
+      "required": [
+        "yearly",
+        "dpsgrowth",
+        "m_open",
+        "p_affo",
+        "p_e",
+        "ev_sales",
+        "sales",
+        "ev_ebitda",
+        "currency",
+        "ychange",
+        "ih_flag",
+        "MRBF",
+        "mkt_cap",
+        "trade_str",
+        "current_price",
+        "ptb",
+        "ev",
+        "open",
+        "ebitda",
+        "intraday",
+        "MRBL",
+        "ev_ebit",
+        "high_52",
+        "p_sales",
+        "post_intra",
+        "orderlist",
+        "stock-flag",
+        "pttb",
+        "shares",
+        "duration",
+        "rivals",
+        "low_52",
+        "net_debt",
+        "trade_time",
+        "div_yield",
+        "trade_date",
+        "etype",
+        "day_high",
+        "prev",
+        "yprice",
+        "alternative_exchange",
+        "ebitda-yoy",
+        "fcf_yield",
+        "after_market_flag",
+        "pre_intra",
+        "day_range",
+        "tri_sector",
+        "exchange",
+        "price",
+        "name",
+        "fund_data_annual",
+        "roe",
+        "volume",
+        "DDPS1",
+        "bv",
+        "MRBF-yoy",
+        "roa",
+        "p_eps",
+        "minpref",
+        "tbv",
+        "ticker",
+        "mgmt_flag",
+        "change",
+        "it_flag",
+        "day_low",
+        "fund_data_quarterly",
+        "market_prices",
+        "follow_status",
+        "sales-yoy",
+        "perc_change",
+        "range_52",
+        "fcfpershare",
+        "eps",
+        "rel_sp",
+        "assetsoverequity",
+        "ticker_list",
+        "xbrl_flag",
+        "found",
+        "eps-yoy",
+        "p_ffo",
+        "avg_volume"
+      ],
+      "properties": {
+        "yearly": {
+          "$id": "#/properties/result/properties/yearly",
+          "type": "array",
+          "title": "The Yearly Schema",
+          "items": {
+            "$id": "#/properties/result/properties/yearly/items",
+            "type": "array",
+            "title": "The Items Schema",
+            "items": {
+              "$id": "#/properties/result/properties/yearly/items/items",
+              "type": "number",
+              "title": "The Items Schema",
+              "default": 0,
+              "examples": [
+                1525737600000,
+                184.99001,
+                186.22001,
+                183.665,
+                186.05001,
+                28402778
+              ]
+            }
+          }
+        },
+        "dpsgrowth": {
+          "$id": "#/properties/result/properties/dpsgrowth",
+          "type": "number",
+          "title": "The Dpsgrowth Schema",
+          "default": 0.0,
+          "examples": [
+            9.30147058824
+          ]
+        },
+        "m_open": {
+          "$id": "#/properties/result/properties/m_open",
+          "type": "string",
+          "title": "The M_open Schema",
+          "default": "",
+          "examples": [
+            "09,30"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "p_affo": {
+          "$id": "#/properties/result/properties/p_affo",
+          "type": "integer",
+          "title": "The P_affo Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "p_e": {
+          "$id": "#/properties/result/properties/p_e",
+          "type": "number",
+          "title": "The P_e Schema",
+          "default": 0.0,
+          "examples": [
+            17.65729701505526
+          ]
+        },
+        "ev_sales": {
+          "$id": "#/properties/result/properties/ev_sales",
+          "type": "number",
+          "title": "The Ev_sales Schema",
+          "default": 0.0,
+          "examples": [
+            3.189894136362239
+          ]
+        },
+        "sales": {
+          "$id": "#/properties/result/properties/sales",
+          "type": "number",
+          "title": "The Sales Schema",
+          "default": 0.0,
+          "examples": [
+            257305.441
+          ]
+        },
+        "ev_ebitda": {
+          "$id": "#/properties/result/properties/ev_ebitda",
+          "type": "number",
+          "title": "The Ev_ebitda Schema",
+          "default": 0.0,
+          "examples": [
+            10.966472409413985
+          ]
+        },
+        "currency": {
+          "$id": "#/properties/result/properties/currency",
+          "type": "string",
+          "title": "The Currency Schema",
+          "default": "",
+          "examples": [
+            "usd"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "ychange": {
+          "$id": "#/properties/result/properties/ychange",
+          "type": "string",
+          "title": "The Ychange Schema",
+          "default": "",
+          "examples": [
+            "28.6293819811"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "ih_flag": {
+          "$id": "#/properties/result/properties/ih_flag",
+          "type": "boolean",
+          "title": "The Ih_flag Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "MRBF": {
+          "$id": "#/properties/result/properties/MRBF",
+          "type": "null",
+          "title": "The Mrbf Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "mkt_cap": {
+          "$id": "#/properties/result/properties/mkt_cap",
+          "type": "number",
+          "title": "The Mkt_cap Schema",
+          "default": 0.0,
+          "examples": [
+            933558.1174999999
+          ]
+        },
+        "trade_str": {
+          "$id": "#/properties/result/properties/trade_str",
+          "type": "string",
+          "title": "The Trade_str Schema",
+          "default": "",
+          "examples": [
+            "May 8, 2019, 04:00 PM "
+          ],
+          "pattern": "^(.*)$"
+        },
+        "current_price": {
+          "$id": "#/properties/result/properties/current_price",
+          "type": "number",
+          "title": "The Current_price Schema",
+          "default": 0.0,
+          "examples": [
+            202.9
+          ]
+        },
+        "ptb": {
+          "$id": "#/properties/result/properties/ptb",
+          "type": "number",
+          "title": "The Ptb Schema",
+          "default": 0.0,
+          "examples": [
+            10.308387948991516
+          ]
+        },
+        "ev": {
+          "$id": "#/properties/result/properties/ev",
+          "type": "number",
+          "title": "The Ev Schema",
+          "default": 0.0,
+          "examples": [
+            820777.1174999999
+          ]
+        },
+        "open": {
+          "$id": "#/properties/result/properties/open",
+          "type": "number",
+          "title": "The Open Schema",
+          "default": 0.0,
+          "examples": [
+            201.9
+          ]
+        },
+        "ebitda": {
+          "$id": "#/properties/result/properties/ebitda",
+          "type": "number",
+          "title": "The Ebitda Schema",
+          "default": 0.0,
+          "examples": [
+            74844.224
+          ]
+        },
+        "intraday": {
+          "$id": "#/properties/result/properties/intraday",
+          "type": "array",
+          "title": "The Intraday Schema",
+          "items": {
+            "$id": "#/properties/result/properties/intraday/items",
+            "type": "array",
+            "title": "The Items Schema",
+            "items": {
+              "$id": "#/properties/result/properties/intraday/items/items",
+              "type": "number",
+              "title": "The Items Schema",
+              "default": 0,
+              "examples": [
+                1557307814000,
+                202.43
+              ]
+            }
+          }
+        },
+        "MRBL": {
+          "$id": "#/properties/result/properties/MRBL",
+          "type": "null",
+          "title": "The Mrbl Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "ev_ebit": {
+          "$id": "#/properties/result/properties/ev_ebit",
+          "type": "integer",
+          "title": "The Ev_ebit Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "high_52": {
+          "$id": "#/properties/result/properties/high_52",
+          "type": "number",
+          "title": "The High_52 Schema",
+          "default": 0.0,
+          "examples": [
+            233.47001
+          ]
+        },
+        "p_sales": {
+          "$id": "#/properties/result/properties/p_sales",
+          "type": "number",
+          "title": "The P_sales Schema",
+          "default": 0.0,
+          "examples": [
+            3.62820978006
+          ]
+        },
+        "post_intra": {
+          "$id": "#/properties/result/properties/post_intra",
+          "type": "array",
+          "title": "The Post_intra Schema"
+        },
+        "orderlist": {
+          "$id": "#/properties/result/properties/orderlist",
+          "type": "array",
+          "title": "The Orderlist Schema",
+          "items": {
+            "$id": "#/properties/result/properties/orderlist/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "mkt_cap",
+              "p_eps",
+              "ev_ebitda",
+              "ev_sales",
+              "fcf_yield",
+              "div_yield"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "stock-flag": {
+          "$id": "#/properties/result/properties/stock-flag",
+          "type": "boolean",
+          "title": "The Stock-flag Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "pttb": {
+          "$id": "#/properties/result/properties/pttb",
+          "type": "number",
+          "title": "The Pttb Schema",
+          "default": 0.0,
+          "examples": [
+            14.93449138819373
+          ]
+        },
+        "shares": {
+          "$id": "#/properties/result/properties/shares",
+          "type": "number",
+          "title": "The Shares Schema",
+          "default": 0.0,
+          "examples": [
+            4601.075
+          ]
+        },
+        "duration": {
+          "$id": "#/properties/result/properties/duration",
+          "type": "number",
+          "title": "The Duration Schema",
+          "default": 0.0,
+          "examples": [
+            6.55
+          ]
+        },
+        "rivals": {
+          "$id": "#/properties/result/properties/rivals",
+          "type": "array",
+          "title": "The Rivals Schema",
+          "items": {
+            "$id": "#/properties/result/properties/rivals/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "aapl",
+              "msft",
+              "vz",
+              "hpq",
+              "googl",
+              "sne",
+              "nvda",
+              "dtegy",
+              "adbe",
+              "s"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "low_52": {
+          "$id": "#/properties/result/properties/low_52",
+          "type": "number",
+          "title": "The Low_52 Schema",
+          "default": 0,
+          "examples": [
+            142
+          ]
+        },
+        "net_debt": {
+          "$id": "#/properties/result/properties/net_debt",
+          "type": "number",
+          "title": "The Net_debt Schema",
+          "default": 0,
+          "examples": [
+            -112781
+          ]
+        },
+        "trade_time": {
+          "$id": "#/properties/result/properties/trade_time",
+          "type": "string",
+          "title": "The Trade_time Schema",
+          "default": "",
+          "examples": [
+            "05/08/2019 04:00:00 PM"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "div_yield": {
+          "$id": "#/properties/result/properties/div_yield",
+          "type": "number",
+          "title": "The Div_yield Schema",
+          "default": 0.0,
+          "examples": [
+            1.465253819615574
+          ]
+        },
+        "trade_date": {
+          "$id": "#/properties/result/properties/trade_date",
+          "type": "string",
+          "title": "The Trade_date Schema",
+          "default": "",
+          "examples": [
+            "05/08/2019"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "etype": {
+          "$id": "#/properties/result/properties/etype",
+          "type": "string",
+          "title": "The Etype Schema",
+          "default": "",
+          "examples": [
+            "OrdinaryShares"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "day_high": {
+          "$id": "#/properties/result/properties/day_high",
+          "type": "number",
+          "title": "The Day_high Schema",
+          "default": 0.0,
+          "examples": [
+            205.34
+          ]
+        },
+        "prev": {
+          "$id": "#/properties/result/properties/prev",
+          "type": "number",
+          "title": "The Prev Schema",
+          "default": 0.0,
+          "examples": [
+            202.86001
+          ]
+        },
+        "yprice": {
+          "$id": "#/properties/result/properties/yprice",
+          "type": "string",
+          "title": "The Yprice Schema",
+          "default": "",
+          "examples": [
+            "157.74001"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "alternative_exchange": {
+          "$id": "#/properties/result/properties/alternative_exchange",
+          "type": "array",
+          "title": "The Alternative_exchange Schema",
+          "items": {
+            "$id": "#/properties/result/properties/alternative_exchange/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "aapl34:bz"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "ebitda-yoy": {
+          "$id": "#/properties/result/properties/ebitda-yoy",
+          "type": "number",
+          "title": "The Ebitda-yoy Schema",
+          "default": 0.0,
+          "examples": [
+            -8.50451216978
+          ]
+        },
+        "fcf_yield": {
+          "$id": "#/properties/result/properties/fcf_yield",
+          "type": "number",
+          "title": "The Fcf_yield Schema",
+          "default": 0.0,
+          "examples": [
+            6.9103006407097105
+          ]
+        },
+        "after_market_flag": {
+          "$id": "#/properties/result/properties/after_market_flag",
+          "type": "boolean",
+          "title": "The After_market_flag Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "pre_intra": {
+          "$id": "#/properties/result/properties/pre_intra",
+          "type": "array",
+          "title": "The Pre_intra Schema"
+        },
+        "day_range": {
+          "$id": "#/properties/result/properties/day_range",
+          "type": "string",
+          "title": "The Day_range Schema",
+          "default": "",
+          "examples": [
+            "201.75 - 205.34"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "tri_sector": {
+          "$id": "#/properties/result/properties/tri_sector",
+          "type": "string",
+          "title": "The Tri_sector Schema",
+          "default": "",
+          "examples": [
+            "IND"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "exchange": {
+          "$id": "#/properties/result/properties/exchange",
+          "type": "string",
+          "title": "The Exchange Schema",
+          "default": "",
+          "examples": [
+            "NASD"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "price": {
+          "$id": "#/properties/result/properties/price",
+          "type": "number",
+          "title": "The Price Schema",
+          "default": 0.0,
+          "examples": [
+            202.9
+          ]
+        },
+        "name": {
+          "$id": "#/properties/result/properties/name",
+          "type": "string",
+          "title": "The Name Schema",
+          "default": "",
+          "examples": [
+            "APPLE INC"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "fund_data_annual": {
+          "$id": "#/properties/result/properties/fund_data_annual",
+          "type": "array",
+          "title": "The Fund_data_annual Schema",
+          "items": {
+            "$id": "#/properties/result/properties/fund_data_annual/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "Geographic Segment",
+              "CAS",
+              "Business Segment",
+              "Metrics",
+              "BAL",
+              "INC"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "roe": {
+          "$id": "#/properties/result/properties/roe",
+          "type": "number",
+          "title": "The Roe Schema",
+          "default": 0.0,
+          "examples": [
+            58.431
+          ]
+        },
+        "volume": {
+          "$id": "#/properties/result/properties/volume",
+          "type": "string",
+          "title": "The Volume Schema",
+          "default": "",
+          "examples": [
+            "26339504.0"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "DDPS1": {
+          "$id": "#/properties/result/properties/DDPS1",
+          "type": "number",
+          "title": "The Ddps1 Schema",
+          "default": 0.0,
+          "examples": [
+            2.973
+          ]
+        },
+        "bv": {
+          "$id": "#/properties/result/properties/bv",
+          "type": "number",
+          "title": "The Bv Schema",
+          "default": 0.0,
+          "examples": [
+            19.683
+          ]
+        },
+        "MRBF-yoy": {
+          "$id": "#/properties/result/properties/MRBF-yoy",
+          "type": "null",
+          "title": "The Mrbf-yoy Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "roa": {
+          "$id": "#/properties/result/properties/roa",
+          "type": "number",
+          "title": "The Roa Schema",
+          "default": 0.0,
+          "examples": [
+            16.296
+          ]
+        },
+        "p_eps": {
+          "$id": "#/properties/result/properties/p_eps",
+          "type": "number",
+          "title": "The P_eps Schema",
+          "default": 0.0,
+          "examples": [
+            17.65729701505526
+          ]
+        },
+        "minpref": {
+          "$id": "#/properties/result/properties/minpref",
+          "type": "integer",
+          "title": "The Minpref Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "tbv": {
+          "$id": "#/properties/result/properties/tbv",
+          "type": "number",
+          "title": "The Tbv Schema",
+          "default": 0.0,
+          "examples": [
+            13.586
+          ]
+        },
+        "ticker": {
+          "$id": "#/properties/result/properties/ticker",
+          "type": "string",
+          "title": "The Ticker Schema",
+          "default": "",
+          "examples": [
+            "AAPL"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "mgmt_flag": {
+          "$id": "#/properties/result/properties/mgmt_flag",
+          "type": "string",
+          "title": "The Mgmt_flag Schema",
+          "default": "",
+          "examples": [
+            "true"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "change": {
+          "$id": "#/properties/result/properties/change",
+          "type": "string",
+          "title": "The Change Schema",
+          "default": "",
+          "examples": [
+            "0.03999"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "it_flag": {
+          "$id": "#/properties/result/properties/it_flag",
+          "type": "boolean",
+          "title": "The It_flag Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "day_low": {
+          "$id": "#/properties/result/properties/day_low",
+          "type": "number",
+          "title": "The Day_low Schema",
+          "default": 0.0,
+          "examples": [
+            201.75
+          ]
+        },
+        "fund_data_quarterly": {
+          "$id": "#/properties/result/properties/fund_data_quarterly",
+          "type": "array",
+          "title": "The Fund_data_quarterly Schema",
+          "items": {
+            "$id": "#/properties/result/properties/fund_data_quarterly/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "Geographic Segment",
+              "CAS",
+              "Business Segment",
+              "Metrics",
+              "BAL",
+              "INC"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "market_prices": {
+          "$id": "#/properties/result/properties/market_prices",
+          "type": "array",
+          "title": "The Market_prices Schema",
+          "items": {
+            "$id": "#/properties/result/properties/market_prices/items",
+            "type": "array",
+            "title": "The Items Schema",
+            "items": {
+              "$id": "#/properties/result/properties/market_prices/items/items",
+              "type": ["string","number"],
+              "title": "The Items Schema",
+              "default": "",
+              "examples": [
+                "S&P 500",
+                2879.42,
+                -0.160538
+              ],
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "follow_status": {
+          "$id": "#/properties/result/properties/follow_status",
+          "type": "boolean",
+          "title": "The Follow_status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "sales-yoy": {
+          "$id": "#/properties/result/properties/sales-yoy",
+          "type": "number",
+          "title": "The Sales-yoy Schema",
+          "default": 0.0,
+          "examples": [
+            -3.12112765677
+          ]
+        },
+        "perc_change": {
+          "$id": "#/properties/result/properties/perc_change",
+          "type": "string",
+          "title": "The Perc_change Schema",
+          "default": "",
+          "examples": [
+            "0.019713"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "range_52": {
+          "$id": "#/properties/result/properties/range_52",
+          "type": "string",
+          "title": "The Range_52 Schema",
+          "default": "",
+          "examples": [
+            "142.0 - 233.47001"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "fcfpershare": {
+          "$id": "#/properties/result/properties/fcfpershare",
+          "type": "number",
+          "title": "The Fcfpershare Schema",
+          "default": 0.0,
+          "examples": [
+            14.021
+          ]
+        },
+        "eps": {
+          "$id": "#/properties/result/properties/eps",
+          "type": "number",
+          "title": "The Eps Schema",
+          "default": 0.0,
+          "examples": [
+            11.491
+          ]
+        },
+        "rel_sp": {
+          "$id": "#/properties/result/properties/rel_sp",
+          "type": "array",
+          "title": "The Rel_sp Schema",
+          "items": {
+            "$id": "#/properties/result/properties/rel_sp/items",
+            "type": "array",
+            "title": "The Items Schema",
+            "items": {
+              "$id": "#/properties/result/properties/rel_sp/items/items",
+              "type": "number",
+              "title": "The Items Schema",
+              "default": 0,
+              "examples": [
+                1557307800000,
+                203.54554846847313
+              ]
+            }
+          }
+        },
+        "assetsoverequity": {
+          "$id": "#/properties/result/properties/assetsoverequity",
+          "type": "number",
+          "title": "The Assetsoverequity Schema",
+          "default": 0.0,
+          "examples": [
+            3.32253400123
+          ]
+        },
+        "ticker_list": {
+          "$id": "#/properties/result/properties/ticker_list",
+          "type": "string",
+          "title": "The Ticker_list Schema",
+          "default": "",
+          "examples": [
+            "aapl"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "xbrl_flag": {
+          "$id": "#/properties/result/properties/xbrl_flag",
+          "type": "boolean",
+          "title": "The Xbrl_flag Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "found": {
+          "$id": "#/properties/result/properties/found",
+          "type": "boolean",
+          "title": "The Found Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "eps-yoy": {
+          "$id": "#/properties/result/properties/eps-yoy",
+          "type": "number",
+          "title": "The Eps-yoy Schema",
+          "default": 0.0,
+          "examples": [
+            -3.51805205709
+          ]
+        },
+        "p_ffo": {
+          "$id": "#/properties/result/properties/p_ffo",
+          "type": "integer",
+          "title": "The P_ffo Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "avg_volume": {
+          "$id": "#/properties/result/properties/avg_volume",
+          "type": "string",
+          "title": "The Avg_volume Schema",
+          "default": "",
+          "examples": [
+            "26519097.5"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "response": {
+      "$id": "#/properties/response",
+      "type": "object",
+      "title": "The Response Schema",
+      "required": [
+        "status",
+        "msg"
+      ],
+      "properties": {
+        "status": {
+          "$id": "#/properties/response/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "msg": {
+          "$id": "#/properties/response/properties/msg",
+          "type": "array",
+          "title": "The Msg Schema",
+          "items": {
+            "$id": "#/properties/response/properties/msg/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "success",
+              "success"
+            ],
+            "pattern": "^(.*)$"
+          }
+        }
+      }
+    }
+  }
+}

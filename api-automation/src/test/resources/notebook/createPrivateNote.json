@@ -1,0 +1,665 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "result",
+    "response",
+    "counter"
+  ],
+  "properties": {
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "title": "The Result Schema",
+      "required": [
+        "snippet",
+        "date",
+        "note_title",
+        "finalTags",
+        "allowed",
+        "temp_id",
+        "type",
+        "tickers",
+        "source_url",
+        "create_source",
+        "last_updated_by",
+        "delTickers",
+        "public_note",
+        "userTags",
+        "id",
+        "locked",
+        "tasks",
+        "page_count",
+        "new_note",
+        "kind",
+        "delTags",
+        "suggestedTickers",
+        "active",
+        "created_by",
+        "version",
+        "tags",
+        "collab",
+        "parent_id",
+        "finalTickers",
+        "status",
+        "authors",
+        "attachments",
+        "status_code",
+        "read_by",
+        "suggestedTags",
+        "access_date",
+        "origin",
+        "attachment_status",
+        "temporary_new_note",
+        "child_highlight_id",
+        "title",
+        "highlight_note_id",
+        "content",
+        "content_type",
+        "locked_at",
+        "timestamp",
+        "owner",
+        "thesis_id",
+        "comments",
+        "original_file_s3_id",
+        "author_groups",
+        "stars",
+        "userContact",
+        "doc_id",
+        "url",
+        "locked_by",
+        "convert_status",
+        "user_comments",
+        "userTickers",
+        "allowed_groups",
+        "user",
+        "ts"
+      ],
+      "properties": {
+        "snippet": {
+          "$id": "#/properties/result/properties/snippet",
+          "type": "string",
+          "title": "The Snippet Schema",
+          "default": "",
+          "examples": [
+            "Hello world!!"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "date": {
+          "$id": "#/properties/result/properties/date",
+          "type": "integer",
+          "title": "The Date Schema",
+          "default": 0,
+          "examples": [
+            1558511996000
+          ]
+        },
+        "note_title": {
+          "$id": "#/properties/result/properties/note_title",
+          "type": "string",
+          "title": "The Note_title Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "finalTags": {
+          "$id": "#/properties/result/properties/finalTags",
+          "type": "array",
+          "title": "The Finaltags Schema"
+        },
+        "allowed": {
+          "$id": "#/properties/result/properties/allowed",
+          "type": "array",
+          "title": "The Allowed Schema",
+          "items": {
+            "$id": "#/properties/result/properties/allowed/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "atish.garg"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "temp_id": {
+          "$id": "#/properties/result/properties/temp_id",
+          "type": "string",
+          "title": "The Temp_id Schema",
+          "default": "",
+          "examples": [
+            "quill1558511986820"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "type": {
+          "$id": "#/properties/result/properties/type",
+          "type": "string",
+          "title": "The Type Schema",
+          "default": "",
+          "examples": [
+            "notebook"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "tickers": {
+          "$id": "#/properties/result/properties/tickers",
+          "type": "array",
+          "title": "The Tickers Schema"
+        },
+        "source_url": {
+          "$id": "#/properties/result/properties/source_url",
+          "type": "string",
+          "title": "The Source_url Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "create_source": {
+          "$id": "#/properties/result/properties/create_source",
+          "type": "string",
+          "title": "The Create_source Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "last_updated_by": {
+          "$id": "#/properties/result/properties/last_updated_by",
+          "type": "string",
+          "title": "The Last_updated_by Schema",
+          "default": "",
+          "examples": [
+            "atish.garg"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "delTickers": {
+          "$id": "#/properties/result/properties/delTickers",
+          "type": "array",
+          "title": "The Deltickers Schema"
+        },
+        "public_note": {
+          "$id": "#/properties/result/properties/public_note",
+          "type": "boolean",
+          "title": "The Public_note Schema",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "userTags": {
+          "$id": "#/properties/result/properties/userTags",
+          "type": "array",
+          "title": "The Usertags Schema"
+        },
+        "id": {
+          "$id": "#/properties/result/properties/id",
+          "type": "string",
+          "title": "The Id Schema",
+          "default": "",
+          "examples": [
+            "5ce5017cf8fe365edec58424"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "locked": {
+          "$id": "#/properties/result/properties/locked",
+          "type": "integer",
+          "title": "The Locked Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "tasks": {
+          "$id": "#/properties/result/properties/tasks",
+          "type": "array",
+          "title": "The Tasks Schema"
+        },
+        "page_count": {
+          "$id": "#/properties/result/properties/page_count",
+          "type": "integer",
+          "title": "The Page_count Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "new_note": {
+          "$id": "#/properties/result/properties/new_note",
+          "type": "boolean",
+          "title": "The New_note Schema",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "kind": {
+          "$id": "#/properties/result/properties/kind",
+          "type": "string",
+          "title": "The Kind Schema",
+          "default": "",
+          "examples": [
+            "General"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "delTags": {
+          "$id": "#/properties/result/properties/delTags",
+          "type": "array",
+          "title": "The Deltags Schema"
+        },
+        "suggestedTickers": {
+          "$id": "#/properties/result/properties/suggestedTickers",
+          "type": "array",
+          "title": "The Suggestedtickers Schema"
+        },
+        "active": {
+          "$id": "#/properties/result/properties/active",
+          "type": "integer",
+          "title": "The Active Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "created_by": {
+          "$id": "#/properties/result/properties/created_by",
+          "type": "null",
+          "title": "The Created_by Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "version": {
+          "$id": "#/properties/result/properties/version",
+          "type": "integer",
+          "title": "The Version Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "tags": {
+          "$id": "#/properties/result/properties/tags",
+          "type": "array",
+          "title": "The Tags Schema"
+        },
+        "collab": {
+          "$id": "#/properties/result/properties/collab",
+          "type": "integer",
+          "title": "The Collab Schema",
+          "default": 0,
+          "examples": [
+            0
+          ]
+        },
+        "parent_id": {
+          "$id": "#/properties/result/properties/parent_id",
+          "type": "null",
+          "title": "The Parent_id Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "finalTickers": {
+          "$id": "#/properties/result/properties/finalTickers",
+          "type": "array",
+          "title": "The Finaltickers Schema"
+        },
+        "status": {
+          "$id": "#/properties/result/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "authors": {
+          "$id": "#/properties/result/properties/authors",
+          "type": "array",
+          "title": "The Authors Schema"
+        },
+        "attachments": {
+          "$id": "#/properties/result/properties/attachments",
+          "type": "array",
+          "title": "The Attachments Schema"
+        },
+        "status_code": {
+          "$id": "#/properties/result/properties/status_code",
+          "type": "integer",
+          "title": "The Status_code Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "read_by": {
+          "$id": "#/properties/result/properties/read_by",
+          "type": "array",
+          "title": "The Read_by Schema",
+          "items": {
+            "$id": "#/properties/result/properties/read_by/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "atish.garg"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "suggestedTags": {
+          "$id": "#/properties/result/properties/suggestedTags",
+          "type": "array",
+          "title": "The Suggestedtags Schema"
+        },
+        "access_date": {
+          "$id": "#/properties/result/properties/access_date",
+          "type": "integer",
+          "title": "The Access_date Schema",
+          "default": 0,
+          "examples": [
+            1558243808000
+          ]
+        },
+        "origin": {
+          "$id": "#/properties/result/properties/origin",
+          "type": "string",
+          "title": "The Origin Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "attachment_status": {
+          "$id": "#/properties/result/properties/attachment_status",
+          "type": "null",
+          "title": "The Attachment_status Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "temporary_new_note": {
+          "$id": "#/properties/result/properties/temporary_new_note",
+          "type": "boolean",
+          "title": "The Temporary_new_note Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "child_highlight_id": {
+          "$id": "#/properties/result/properties/child_highlight_id",
+          "type": "array",
+          "title": "The Child_highlight_id Schema"
+        },
+        "title": {
+          "$id": "#/properties/result/properties/title",
+          "type": "string",
+          "title": "The Title Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "highlight_note_id": {
+          "$id": "#/properties/result/properties/highlight_note_id",
+          "type": "string",
+          "title": "The Highlight_note_id Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "content": {
+          "$id": "#/properties/result/properties/content",
+          "type": "string",
+          "title": "The Content Schema",
+          "default": "",
+          "examples": [
+            "<p>Hello world!!</p>"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "content_type": {
+          "$id": "#/properties/result/properties/content_type",
+          "type": "null",
+          "title": "The Content_type Schema",
+          "default": null,
+          "examples": [
+            null
+          ]
+        },
+        "locked_at": {
+          "$id": "#/properties/result/properties/locked_at",
+          "type": "integer",
+          "title": "The Locked_at Schema",
+          "default": 0,
+          "examples": [
+            1558243808000
+          ]
+        },
+        "timestamp": {
+          "$id": "#/properties/result/properties/timestamp",
+          "type": "integer",
+          "title": "The Timestamp Schema",
+          "default": 0,
+          "examples": [
+            1558511996000
+          ]
+        },
+        "owner": {
+          "$id": "#/properties/result/properties/owner",
+          "type": "string",
+          "title": "The Owner Schema",
+          "default": "",
+          "examples": [
+            "atish.garg"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "thesis_id": {
+          "$id": "#/properties/result/properties/thesis_id",
+          "type": "string",
+          "title": "The Thesis_id Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "comments": {
+          "$id": "#/properties/result/properties/comments",
+          "type": "object",
+          "title": "The Comments Schema",
+          "required": [
+            "comments",
+            "id"
+          ],
+          "properties": {
+            "comments": {
+              "$id": "#/properties/result/properties/comments/properties/comments",
+              "type": "array",
+              "title": "The Comments Schema"
+            },
+            "id": {
+              "$id": "#/properties/result/properties/comments/properties/id",
+              "type": "string",
+              "title": "The Id Schema",
+              "default": "",
+              "examples": [
+                "5ce5017cf8fe365edec58424"
+              ],
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "original_file_s3_id": {
+          "$id": "#/properties/result/properties/original_file_s3_id",
+          "type": "string",
+          "title": "The Original_file_s3_id Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "author_groups": {
+          "$id": "#/properties/result/properties/author_groups",
+          "type": "array",
+          "title": "The Author_groups Schema"
+        },
+        "stars": {
+          "$id": "#/properties/result/properties/stars",
+          "type": "array",
+          "title": "The Stars Schema"
+        },
+        "userContact": {
+          "$id": "#/properties/result/properties/userContact",
+          "type": "array",
+          "title": "The Usercontact Schema"
+        },
+        "doc_id": {
+          "$id": "#/properties/result/properties/doc_id",
+          "type": "string",
+          "title": "The Doc_id Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "url": {
+          "$id": "#/properties/result/properties/url",
+          "type": "string",
+          "title": "The Url Schema",
+          "default": "",
+          "examples": [
+            "http://snt.io/A4F2SbJSM"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "locked_by": {
+          "$id": "#/properties/result/properties/locked_by",
+          "type": "string",
+          "title": "The Locked_by Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "convert_status": {
+          "$id": "#/properties/result/properties/convert_status",
+          "type": "integer",
+          "title": "The Convert_status Schema",
+          "default": 0,
+          "examples": [
+            1
+          ]
+        },
+        "user_comments": {
+          "$id": "#/properties/result/properties/user_comments",
+          "type": "object",
+          "title": "The User_comments Schema",
+          "required": [
+            "user_comment_list"
+          ],
+          "properties": {
+            "user_comment_list": {
+              "$id": "#/properties/result/properties/user_comments/properties/user_comment_list",
+              "type": "array",
+              "title": "The User_comment_list Schema"
+            }
+          }
+        },
+        "userTickers": {
+          "$id": "#/properties/result/properties/userTickers",
+          "type": "array",
+          "title": "The Usertickers Schema"
+        },
+        "allowed_groups": {
+          "$id": "#/properties/result/properties/allowed_groups",
+          "type": "array",
+          "title": "The Allowed_groups Schema"
+        },
+        "user": {
+          "$id": "#/properties/result/properties/user",
+          "type": "string",
+          "title": "The User Schema",
+          "default": "",
+          "examples": [
+            "atish.garg"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "ts": {
+          "$id": "#/properties/result/properties/ts",
+          "type": "integer",
+          "title": "The Ts Schema",
+          "default": 0,
+          "examples": [
+            1558511996000
+          ]
+        }
+      }
+    },
+    "response": {
+      "$id": "#/properties/response",
+      "type": "object",
+      "title": "The Response Schema",
+      "required": [
+        "msg",
+        "status"
+      ],
+      "properties": {
+        "msg": {
+          "$id": "#/properties/response/properties/msg",
+          "type": "string",
+          "title": "The Msg Schema",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "pattern": "^(.*)$"
+        },
+        "status": {
+          "$id": "#/properties/response/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        }
+      }
+    },
+    "counter": {
+      "$id": "#/properties/counter",
+      "type": "integer",
+      "title": "The Counter Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    }
+  }
+}

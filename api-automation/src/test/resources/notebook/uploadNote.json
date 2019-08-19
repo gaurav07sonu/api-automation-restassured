@@ -1,0 +1,86 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "s3_key",
+    "data",
+    "id",
+    "success",
+    "filename"
+  ],
+  "properties": {
+    "s3_key": {
+      "$id": "#/properties/s3_key",
+      "type": "string",
+      "title": "The S3_key Schema",
+      "default": "",
+      "examples": [
+        "5ce533ccf8fe365ee187b2bf.ppt"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "data": {
+      "$id": "#/properties/data",
+      "type": "object",
+      "title": "The Data Schema",
+      "required": [
+        "id",
+        "content_type"
+      ],
+      "properties": {
+        "id": {
+          "$id": "#/properties/data/properties/id",
+          "type": "string",
+          "title": "The Id Schema",
+          "default": "",
+          "examples": [
+            "5ce533ccf8fe365ee187b2bf"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "content_type": {
+          "$id": "#/properties/data/properties/content_type",
+          "type": "string",
+          "title": "The Content_type Schema",
+          "default": "",
+          "examples": [
+            "application/vnd.ms-powerpoint"
+          ],
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The Id Schema",
+      "default": "",
+      "examples": [
+        "5ce533ccf8fe365ee187b2bf"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "success": {
+      "$id": "#/properties/success",
+      "type": "boolean",
+      "title": "The Success Schema",
+      "default": false,
+      "examples": [
+        true
+      ]
+    },
+    "filename": {
+      "$id": "#/properties/filename",
+      "type": "string",
+      "title": "The Filename Schema",
+      "default": "",
+      "examples": [
+        "pptfile.pptx"
+      ],
+      "pattern": "^(.*)$"
+    }
+  }
+}

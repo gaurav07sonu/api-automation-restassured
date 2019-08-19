@@ -1,0 +1,7 @@
+bin
+build
+.gradle
+.settings
+.project
+tests_output
+Dockerfile

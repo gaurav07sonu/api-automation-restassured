@@ -1,0 +1,7 @@
+tickers, model,historical_periods,forecast_periods,report_currency
+aapl,val_Quarterly,3year,3year,usd
+fb,val_ltm,3year,3year,cad
+msft,val_Annual,all,all,euro
+aapl,Quarterly,3year,3year,usd
+googl,Annual,all,all,cad
+amzn,ltm,all,3year,euro

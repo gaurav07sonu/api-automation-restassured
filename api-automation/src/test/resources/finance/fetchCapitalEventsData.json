@@ -1,0 +1,419 @@
+{
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ],
+  "properties": {
+    "counter": {
+      "$id": "#/properties/counter",
+      "type": "integer",
+      "title": "The Counter Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "result": {
+      "$id": "#/properties/result",
+      "type": "object",
+      "title": "The Result Schema",
+      "required": [
+        "sort_key",
+        "top_header",
+        "first_col_map",
+        "sort_state",
+        "top_header_map",
+        "data"
+      ],
+      "properties": {
+        "sort_key": {
+          "$id": "#/properties/result/properties/sort_key",
+          "type": "string",
+          "title": "The Sort_key Schema",
+          "default": "",
+          "examples": [
+            "announceddate"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "top_header": {
+          "$id": "#/properties/result/properties/top_header",
+          "type": "array",
+          "title": "The Top_header Schema",
+          "items": {
+            "$id": "#/properties/result/properties/top_header/items",
+            "type": "string",
+            "title": "The Items Schema",
+            "default": "",
+            "examples": [
+              "announceddate",
+              "recorddate",
+              "effectivedate",
+              "split",
+              "Curr. of Cash Offering",
+              "Cash Amt"
+            ],
+            "pattern": "^(.*)$"
+          }
+        },
+        "first_col_map": {
+          "$id": "#/properties/result/properties/first_col_map",
+          "type": "object",
+          "title": "The First_col_map Schema",
+          "required": [
+            "Stock Split"
+          ],
+          "properties": {
+            "Stock Split": {
+              "$id": "#/properties/result/properties/first_col_map/properties/Stock Split",
+              "type": "string",
+              "title": "The Stock split Schema",
+              "default": "",
+              "examples": [
+                "Stock Split"
+              ],
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "sort_state": {
+          "$id": "#/properties/result/properties/sort_state",
+          "type": "string",
+          "title": "The Sort_state Schema",
+          "default": "",
+          "examples": [
+            "desc"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "top_header_map": {
+          "$id": "#/properties/result/properties/top_header_map",
+          "type": "object",
+          "title": "The Top_header_map Schema",
+          "required": [
+            "Renounciability",
+            "Event Status",
+            "effectivedate",
+            "numoldshares",
+            "Cash Amt",
+            "recorddate",
+            "announceddate",
+            "Offerer Name",
+            "numnewshares",
+            "split",
+            "Curr. of Cash Offering",
+            "multiissuemarker"
+          ],
+          "properties": {
+            "Renounciability": {
+              "$id": "#/properties/result/properties/top_header_map/properties/Renounciability",
+              "type": "string",
+              "title": "The Renounciability Schema",
+              "default": "",
+              "examples": [
+                "Renounciability"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "Event Status": {
+              "$id": "#/properties/result/properties/top_header_map/properties/Event Status",
+              "type": "string",
+              "title": "The Event status Schema",
+              "default": "",
+              "examples": [
+                "Event Status"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "effectivedate": {
+              "$id": "#/properties/result/properties/top_header_map/properties/effectivedate",
+              "type": "string",
+              "title": "The Effectivedate Schema",
+              "default": "",
+              "examples": [
+                "Effective Date"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "numoldshares": {
+              "$id": "#/properties/result/properties/top_header_map/properties/numoldshares",
+              "type": "string",
+              "title": "The Numoldshares Schema",
+              "default": "",
+              "examples": [
+                "Number of Old Shares"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "Cash Amt": {
+              "$id": "#/properties/result/properties/top_header_map/properties/Cash Amt",
+              "type": "string",
+              "title": "The Cash amt Schema",
+              "default": "",
+              "examples": [
+                "Cash Amount per Share"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "recorddate": {
+              "$id": "#/properties/result/properties/top_header_map/properties/recorddate",
+              "type": "string",
+              "title": "The Recorddate Schema",
+              "default": "",
+              "examples": [
+                "Record Date"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "announceddate": {
+              "$id": "#/properties/result/properties/top_header_map/properties/announceddate",
+              "type": "string",
+              "title": "The Announceddate Schema",
+              "default": "",
+              "examples": [
+                "Announcement Date"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "Offerer Name": {
+              "$id": "#/properties/result/properties/top_header_map/properties/Offerer Name",
+              "type": "string",
+              "title": "The Offerer name Schema",
+              "default": "",
+              "examples": [
+                "Offerer Name"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "numnewshares": {
+              "$id": "#/properties/result/properties/top_header_map/properties/numnewshares",
+              "type": "string",
+              "title": "The Numnewshares Schema",
+              "default": "",
+              "examples": [
+                "Number of New Shares"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "split": {
+              "$id": "#/properties/result/properties/top_header_map/properties/split",
+              "type": "string",
+              "title": "The Split Schema",
+              "default": "",
+              "examples": [
+                "Share Ratio (New : Old)"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "Curr. of Cash Offering": {
+              "$id": "#/properties/result/properties/top_header_map/properties/Curr. of Cash Offering",
+              "type": "string",
+              "title": "The Curr. of cash offering Schema",
+              "default": "",
+              "examples": [
+                "Currency"
+              ],
+              "pattern": "^(.*)$"
+            },
+            "multiissuemarker": {
+              "$id": "#/properties/result/properties/top_header_map/properties/multiissuemarker",
+              "type": "string",
+              "title": "The Multiissuemarker Schema",
+              "default": "",
+              "examples": [
+                "Multiple Issue"
+              ],
+              "pattern": "^(.*)$"
+            }
+          }
+        },
+        "data": {
+          "$id": "#/properties/result/properties/data",
+          "type": "array",
+          "title": "The Data Schema",
+          "items": {
+            "$id": "#/properties/result/properties/data/items",
+            "type": "object",
+            "title": "The Items Schema",
+            "required": [
+              "Renounciability",
+              "Event Status",
+              "Offerer Name",
+              "effectivedate",
+              "numoldshares",
+              "numnewshares",
+              "Cash Amt",
+              "value",
+              "expirydate",
+              "announceddate",
+              "Curr. of Cash Offering",
+              "recorddate",
+              "multiissuemarker",
+              "split"
+            ],
+            "properties": {
+              "Renounciability": {
+                "$id": "#/properties/result/properties/data/items/properties/Renounciability",
+                "type": "string",
+                "title": "The Renounciability Schema",
+                "default": "",
+                "examples": [
+                  "Not Applicable"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "Event Status": {
+                "$id": "#/properties/result/properties/data/items/properties/Event Status",
+                "type": "null",
+                "title": "The Event status Schema",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "Offerer Name": {
+                "$id": "#/properties/result/properties/data/items/properties/Offerer Name",
+                "type": "null",
+                "title": "The Offerer name Schema",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "effectivedate": {
+                "$id": "#/properties/result/properties/data/items/properties/effectivedate",
+                "type": "integer",
+                "title": "The Effectivedate Schema",
+                "default": 0,
+                "examples": [
+                  1402272000000
+                ]
+              },
+              "numoldshares": {
+                "$id": "#/properties/result/properties/data/items/properties/numoldshares",
+                "type": "number",
+                "title": "The Numoldshares Schema",
+                "default": 0,
+                "examples": [
+                  1
+                ]
+              },
+              "numnewshares": {
+                "$id": "#/properties/result/properties/data/items/properties/numnewshares",
+                "type": "number",
+                "title": "The Numnewshares Schema",
+                "default": 0,
+                "examples": [
+                  7
+                ]
+              },
+              "Cash Amt": {
+                "$id": "#/properties/result/properties/data/items/properties/Cash Amt",
+                "type": "number",
+                "title": "The Cash amt Schema",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "value": {
+                "$id": "#/properties/result/properties/data/items/properties/value",
+                "type": "string",
+                "title": "The Value Schema",
+                "default": "",
+                "examples": [
+                  "Stock Split"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "expirydate": {
+                "$id": "#/properties/result/properties/data/items/properties/expirydate",
+                "type": "null",
+                "title": "The Expirydate Schema",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "announceddate": {
+                "$id": "#/properties/result/properties/data/items/properties/announceddate",
+                "type": ["integer","null"],
+                "title": "The Announceddate Schema",
+                "default": 0,
+                "examples": [
+                  1398211200000
+                ]
+              },
+              "Curr. of Cash Offering": {
+                "$id": "#/properties/result/properties/data/items/properties/Curr. of Cash Offering",
+                "type": "null",
+                "title": "The Curr. of cash offering Schema",
+                "default": null,
+                "examples": [
+                  null
+                ]
+              },
+              "recorddate": {
+                "$id": "#/properties/result/properties/data/items/properties/recorddate",
+                "type": ["integer","null"],
+                "title": "The Recorddate Schema",
+                "default": 0,
+                "examples": [
+                  1401667200000
+                ]
+              },
+              "multiissuemarker": {
+                "$id": "#/properties/result/properties/data/items/properties/multiissuemarker",
+                "type": "string",
+                "title": "The Multiissuemarker Schema",
+                "default": "",
+                "examples": [
+                  "Not applicable"
+                ],
+                "pattern": "^(.*)$"
+              },
+              "split": {
+                "$id": "#/properties/result/properties/data/items/properties/split",
+                "type": "string",
+                "title": "The Split Schema",
+                "default": "",
+                "examples": [
+                  "7.0 : 1.0"
+                ],
+                "pattern": "^(.*)$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "$id": "#/properties/response",
+      "type": "object",
+      "title": "The Response Schema",
+      "required": [
+        "status",
+        "msg"
+      ],
+      "properties": {
+        "status": {
+          "$id": "#/properties/response/properties/status",
+          "type": "boolean",
+          "title": "The Status Schema",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "msg": {
+          "$id": "#/properties/response/properties/msg",
+          "type": "array",
+          "title": "The Msg Schema"
+        }
+      }
+    }
+  }
+}

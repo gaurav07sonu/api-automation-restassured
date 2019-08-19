@@ -1,0 +1,186 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "note_type",
+    "owner",
+    "attachments",
+    "created_at",
+    "active",
+    "shared_with_groups",
+    "title",
+    "message",
+    "version",
+    "tickers",
+    "tags",
+    "short_url",
+    "highlights",
+    "updated_at",
+    "id",
+    "shared_with_users",
+    "note_category",
+    "status"
+  ],
+  "properties": {
+    "note_type": {
+      "$id": "#/properties/note_type",
+      "type": "string",
+      "title": "The Note_type Schema",
+      "default": "",
+      "examples": [
+        "notebook"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "owner": {
+      "$id": "#/properties/owner",
+      "type": "string",
+      "title": "The Owner Schema",
+      "default": "",
+      "examples": [
+        "qa.3"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "attachments": {
+      "$id": "#/properties/attachments",
+      "type": "array",
+      "title": "The Attachments Schema"
+    },
+    "created_at": {
+      "$id": "#/properties/created_at",
+      "type": "string",
+      "title": "The Created_at Schema",
+      "default": "",
+      "examples": [
+        "2019-08-05T07:36:49"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "active": {
+      "$id": "#/properties/active",
+      "type": "integer",
+      "title": "The Active Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "shared_with_groups": {
+      "$id": "#/properties/shared_with_groups",
+      "type": "array",
+      "title": "The Shared_with_groups Schema"
+    },
+    "title": {
+      "$id": "#/properties/title",
+      "type": "string",
+      "title": "The Title Schema",
+      "default": "",
+      "examples": [
+        "PrivateNote-1"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "message": {
+      "$id": "#/properties/message",
+      "type": "string",
+      "title": "The Message Schema",
+      "default": "",
+      "examples": [
+        "Success"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "version": {
+      "$id": "#/properties/version",
+      "type": "integer",
+      "title": "The Version Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "tickers": {
+      "$id": "#/properties/tickers",
+      "type": "array",
+      "title": "The Tickers Schema"
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "type": "array",
+      "title": "The Tags Schema"
+    },
+    "short_url": {
+      "$id": "#/properties/short_url",
+      "type": "string",
+      "title": "The Short_url Schema",
+      "default": "",
+      "examples": [
+        "http://snt.io/jTF58cYLC"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "highlights": {
+      "$id": "#/properties/highlights",
+      "type": "array",
+      "title": "The Highlights Schema"
+    },
+    "updated_at": {
+      "$id": "#/properties/updated_at",
+      "type": "string",
+      "title": "The Updated_at Schema",
+      "default": "",
+      "examples": [
+        "2019-08-05T07:36:49"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The Id Schema",
+      "default": "",
+      "examples": [
+        "5d47dc91e0c6fa2d27ab5c84"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "shared_with_users": {
+      "$id": "#/properties/shared_with_users",
+      "type": "array",
+      "title": "The Shared_with_users Schema",
+      "items": {
+        "$id": "#/properties/shared_with_users/items",
+        "type": "string",
+        "title": "The Items Schema",
+        "default": "",
+        "examples": [
+          "qa.3"
+        ],
+        "pattern": "^(.*)$"
+      }
+    },
+    "note_category": {
+      "$id": "#/properties/note_category",
+      "type": "string",
+      "title": "The Note_category Schema",
+      "default": "",
+      "examples": [
+        "meeting"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "integer",
+      "title": "The Status Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+tickers,facets_flag
+aapl,false
+msft,true
+fb,false
+vod:ln,true
+hdfcbank:in,true
+a,false
+hdb,true
