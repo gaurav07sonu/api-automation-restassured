@@ -1,0 +1,17 @@
+api-automation-restassured/build/
+*.class
+.DS_Store
+api-automation-restassured/.gradle
+api-automation-restassured/.idea/*
+.vscode
+api-automation-restassured/out
+api-automation-restassured/tests_output
+api-automation-restassured/test-output
+api-automation-restassured/.classpath
+api-automation-restassured/.project
+api-automation-restassured/.settings/
+api-automation-restassured/bin/
+api-automation-restassured/tests_output/
+.gradle
+.idea
+
