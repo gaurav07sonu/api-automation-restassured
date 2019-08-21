@@ -1171,7 +1171,7 @@ public class NotebookApis extends APIDriver {
 	}
 	
 	
-	@Test(groups = "sanity", description = "create Thesis template")
+	@Test(groups = "sanity", description = "create Thesis template", enabled = false)
 	public void createThesisTemplate() throws Exception {
 		try {
 			
@@ -1216,7 +1216,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 	
-	@Test(groups = "sanity", description = "create tab template")
+	@Test(groups = "sanity", description = "create tab template", enabled = false)
 	public void createTabTemplate() throws Exception {
 		try {
 			
@@ -1260,7 +1260,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 	
-	@Test(groups = "sanity", description = "Delete thesis template")
+	@Test(groups = "sanity", description = "Delete thesis template", enabled = false)
 	public void deleteThesisTemplate() throws Exception {
 		try {
 			
