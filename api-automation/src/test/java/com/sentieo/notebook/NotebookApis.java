@@ -915,7 +915,6 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Create Thesis and verify", enabled = false)
 	public void createThesis() throws Exception {
 		try {
-
 			HashMap<String, String> thesisData = new HashMap<String, String>();
 			thesisData.put("thesis_type", "thesis");
 			thesisData.put("tickers", "dfkcy");
