@@ -1,0 +1,32 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sentieo tests" parallel="classes" thread-count="1">
+	<listeners>
+		<listener class-name="com.sentieo.listener.TestListener" />
+		<listener
+			class-name="com.sentieo.listener.AnnotationTransformer" />
+			<listener
+			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
+	</listeners>
+	
+		<test name="notebook" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.notebook" />
+		</packages>
+	</test>
+
+	<test name="finance" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.finance" />
+		</packages>
+	</test>
+	<test name="others" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.*">
+				<exclude name="com.sentieo.finance"></exclude>
+				<exclude name="com.sentieo.notebookpublicapis"></exclude>
+				<exclude name="com.sentieo.notebook"></exclude>
+			</package>
+		</packages>
+	</test>
+
+</suite>
