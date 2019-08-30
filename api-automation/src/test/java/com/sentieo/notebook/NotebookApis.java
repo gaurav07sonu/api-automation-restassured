@@ -912,7 +912,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Create Thesis and verify", enabled = false)
+	@Test(groups = "sanity", description = "Create Thesis and verify")
 	public void createThesis() throws Exception {
 		try {
 			HashMap<String, String> thesisData = new HashMap<String, String>();
@@ -1170,7 +1170,7 @@ public class NotebookApis extends APIDriver {
 	}
 	
 	
-	@Test(groups = "sanity", description = "create Thesis template", enabled = false)
+	@Test(groups = "sanity", description = "create Thesis template")
 	public void createThesisTemplate() throws Exception {
 		try {
 			
@@ -1215,7 +1215,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 	
-	@Test(groups = "sanity", description = "create tab template", enabled = false)
+	@Test(groups = "sanity", description = "create tab template")
 	public void createTabTemplate() throws Exception {
 		try {
 			
@@ -1259,7 +1259,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 	
-	@Test(groups = "sanity", description = "Delete thesis template", enabled = false)
+	@Test(groups = "sanity", description = "Delete thesis template")
 	public void deleteThesisTemplate() throws Exception {
 		try {
 			
