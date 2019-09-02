@@ -51,7 +51,7 @@ compile group: 'io.rest-assured', name: 'json-schema-validator', version: '3.0.0
     compile group: 'com.epam.reportportal', name: 'logger-java-logback', version:'4.0.0'
     compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
     compile group: 'org.apache.commons', name: 'commons-math3', version:'3.5'
-    compile group: 'com.epam.reportportal', name: 'agent-java-testng', version:'4.2.0'
+    compile group: 'com.epam.reportportal', name: 'agent-java-testng', version:'4.2.1-BETA'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.3'
     compile group: 'org.codehaus.jackson', name:'jackson-mapper-asl', version:'1.9.9'
 }
