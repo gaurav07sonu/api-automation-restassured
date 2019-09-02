@@ -56,7 +56,7 @@ public class WebandSocialData extends APIDriver {
 			Calendar calNewYork = Calendar.getInstance();
 			calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-			if (dayofweek != 2) {
+			if (dayofweek != 1 && dayofweek != 2 && dayofweek!=7) {
 				String URI = APP_URL + GET_GTRENDS;
 				for (int i = 0; i < tickers.size(); i++) {
 					parameters.put("head_name", "Google Trends");
@@ -89,7 +89,7 @@ public class WebandSocialData extends APIDriver {
 			}
 
 			else {
-				ExtentTestManager.getTest().log(LogStatus.INFO, "Skip test because of data is not updated on Monday: ");
+				ExtentTestManager.getTest().log(LogStatus.INFO, "Skip test because of data is not updated on  : "+Calendar.DAY_OF_WEEK +"day");
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());

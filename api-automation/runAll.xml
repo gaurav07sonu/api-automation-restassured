@@ -33,8 +33,18 @@
 				<exclude name="com.sentieo.notebookpublicapis"></exclude>
 				<exclude name="com.sentieo.notebook"></exclude>
 				<exclude name="com.sentieo.logintest"></exclude>
+				<exclude name="com.sentieo.plotter"></exclude>
 			</package>
 		</packages>
 	</test>
-
+	
+	<test name="plotter test" >
+    <classes>
+      <class name="com.sentieo.plotter.DocumentData"/>
+      <class name="com.sentieo.plotter.IncomeStatement"/>
+      <class name="com.sentieo.plotter.StockData"/>
+       <class name="com.sentieo.plotter.Volume"/>
+        <class name="com.sentieo.plotter.WebandSocialData"/>
+    </classes>
+	</test>
 </suite>
