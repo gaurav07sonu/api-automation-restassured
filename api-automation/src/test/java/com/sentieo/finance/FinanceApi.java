@@ -509,6 +509,7 @@ public class FinanceApi extends APIDriver {
 			}
 			verify.verifyAll();
 		}
+		else
 		{
 			ExtentTestManager.getTest().log(LogStatus.INFO,
 					"Skip test because of  Current Date Point is not available on  : " + Calendar.DAY_OF_WEEK + "day");
