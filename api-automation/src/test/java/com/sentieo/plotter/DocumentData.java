@@ -24,7 +24,7 @@ public class DocumentData extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
-	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "lb","amzn"));
+	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "lb", "amzn"));
 	String documentDate;
 	String plotterDate;
 	double EXPECTEDDAYS = 1;
@@ -96,12 +96,21 @@ public class DocumentData extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyResponseTime(resp, 5000);
-			JSONObject values = respJson.getJSONObject("result").getJSONArray("transcripts").getJSONObject(0);
-			String timeStamp = values.get("timestamp").toString();
-			double timestamp = Double.parseDouble(timeStamp);
-			int digit = (int) (timestamp / 1000);
-			CommonUtil util = new CommonUtil();
-			documentDate = util.convertTimestampIntoDate(digit);
+			// JSONObject values =
+			// respJson.getJSONObject("result").getJSONArray("transcripts").getJSONObject(0);
+			JSONArray values = respJson.getJSONObject("result").getJSONArray("transcripts");
+			for (int j = 0; j < values.length(); j++) {
+				JSONObject object = values.getJSONObject(j);
+				if ((Boolean) object.get("has_intel") == true) {
+					String timeStamp = object.get("timestamp").toString();
+					double timestamp = Double.parseDouble(timeStamp);
+					int digit = (int) (timestamp / 1000);
+					CommonUtil util = new CommonUtil();
+					documentDate = util.convertTimestampIntoDate(digit);
+					break;
+
+				}
+			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
