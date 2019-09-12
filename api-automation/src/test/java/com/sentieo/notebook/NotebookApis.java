@@ -36,6 +36,7 @@ public class NotebookApis extends APIDriver {
 
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
+	String URI = null;
 
 	@BeforeMethod
 	public void setUp() {
@@ -45,7 +46,7 @@ public class NotebookApis extends APIDriver {
 
 	@BeforeSuite
 	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
+		URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
 		loginData.put("email", EMAIL);
 		loginData.put("password", PASSWORD);
@@ -95,7 +96,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -138,7 +139,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -146,7 +147,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Email note")
 	public void emailNote() throws Exception {
 		try {
-			
+
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("ts", tempId);
@@ -160,7 +161,7 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
+
 			String emailId = SEND_NOTE_EMAIL;
 			HashMap<String, String> emailParams = new HashMap<String, String>();
 			emailParams.put("emailto", emailId);
@@ -178,9 +179,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(emailRespJson.getJSONObject("result").getJSONArray("allowed_addresses").get(0), emailId,
 					"Verify that Requested ticker Visible in the API");
 			verify.jsonSchemaValidation(emailResp, "notebook" + File.separator + "emailNote.json");
-			
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -189,7 +189,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -221,7 +221,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -294,7 +294,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -328,7 +328,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -365,7 +365,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -401,7 +401,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -437,7 +437,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -473,7 +473,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -511,7 +511,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -547,7 +547,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -583,7 +583,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -619,7 +619,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -655,7 +655,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -691,7 +691,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -727,7 +727,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -763,7 +763,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -799,7 +799,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -835,7 +835,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -871,7 +871,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -907,7 +907,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -915,43 +915,45 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Create Thesis and verify")
 	public void createThesis() throws Exception {
 		try {
-			HashMap<String, String> thesisData = new HashMap<String, String>();
-			thesisData.put("thesis_type", "thesis");
-			thesisData.put("tickers", "dfkcy");
-			thesisData.put("name", "DFKCY Thesis");
-			thesisData.put("tab_name", "Overview");
+			if (URI.contains("app")) {
 
-			String dataJson = jsonUtils.toJson(thesisData);
+				HashMap<String, String> thesisData = new HashMap<String, String>();
+				thesisData.put("thesis_type", "thesis");
+				thesisData.put("tickers", "dfkcy");
+				thesisData.put("name", "DFKCY Thesis");
+				thesisData.put("tab_name", "Overview");
 
-			HashMap<String, String> thesisParams = new HashMap<String, String>();
-			thesisParams.put("action", "create_thesis_and_tab");
-			thesisParams.put("thesis_dictionary", dataJson);
-			thesisParams.put("create_default_children", Boolean.TRUE.toString());
+				String dataJson = jsonUtils.toJson(thesisData);
 
-			RequestSpecification spec = formParamsSpec(thesisParams);
-			Response resp = RestOperationUtils.post(THESIS_ENTITY, null, spec, thesisParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			// verify.jsonSchemaValidation(resp, "notebook" + File.separator +
-			// "createThesis.json");
+				HashMap<String, String> thesisParams = new HashMap<String, String>();
+				thesisParams.put("action", "create_thesis_and_tab");
+				thesisParams.put("thesis_dictionary", dataJson);
+				thesisParams.put("create_default_children", Boolean.TRUE.toString());
+
+				RequestSpecification spec = formParamsSpec(thesisParams);
+				Response resp = RestOperationUtils.post(THESIS_ENTITY, null, spec, thesisParams);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				// verify.jsonSchemaValidation(resp, "notebook" + File.separator +
+				// "createThesis.json");
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
 
 	@Test(groups = "sanity", description = "Add Note Tag")
 	public void addNoteTag() throws Exception {
 		try {
-			//note creation
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -965,7 +967,7 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
+
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("id", note_id);
 			params.put("field", "tag");
@@ -982,8 +984,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(tagRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(tagResp, "notebook" + File.separator + "addNoteTag.json");
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -992,7 +994,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -1000,7 +1002,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Remove Note Tag")
 	public void removeNoteTag() throws Exception {
 		try {
-			//note creation
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1014,8 +1016,8 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
-			//add tag
+
+			// add tag
 			HashMap<String, String> addparams = new HashMap<String, String>();
 			addparams.put("id", note_id);
 			addparams.put("field", "tag");
@@ -1024,8 +1026,8 @@ public class NotebookApis extends APIDriver {
 
 			RequestSpecification tagSpec = formParamsSpec(addparams);
 			RestOperationUtils.post(UPDATE_TAG_TICKER, null, tagSpec, addparams);
-			
-			//remove tag
+
+			// remove tag
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("id", note_id);
 			params.put("field", "tag");
@@ -1042,8 +1044,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(tagRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(tagResp, "notebook" + File.separator + "removeNoteTag.json");
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1052,7 +1054,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -1060,7 +1062,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Add Note Ticker")
 	public void addNoteTicker() throws Exception {
 		try {
-			//note creation
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1074,8 +1076,8 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-		
-			//add ticker
+
+			// add ticker
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("id", note_id);
 			params.put("field", "ticker");
@@ -1092,18 +1094,18 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(tickerRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(tickerResp, "notebook" + File.separator + "addNoteTag.json");
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
 			RequestSpecification deleteSpec = formParamsSpec(deleteNoteParams);
 			RestOperationUtils.post(DELETE_NOTE, null, deleteSpec, deleteNoteParams);
-			
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -1111,7 +1113,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Remove Note Ticker")
 	public void removeNoteTicker() throws Exception {
 		try {
-			//note creation
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1125,8 +1127,8 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-		
-			//add ticker
+
+			// add ticker
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("id", note_id);
 			params.put("field", "ticker");
@@ -1135,8 +1137,7 @@ public class NotebookApis extends APIDriver {
 
 			RequestSpecification tickerSpec = formParamsSpec(params);
 			RestOperationUtils.post(UPDATE_TAG_TICKER, null, tickerSpec, params);
-			
-			
+
 			HashMap<String, String> removeTickerParams = new HashMap<String, String>();
 			removeTickerParams.put("id", note_id);
 			removeTickerParams.put("field", "tag");
@@ -1153,9 +1154,9 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(removeRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(removeResp, "notebook" + File.separator + "removeNoteTag.json");
-			
-			//delete note
-			
+
+			// delete note
+
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1164,110 +1165,111 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
-	
+
 	@Test(groups = "sanity", description = "create Thesis template")
 	public void createThesisTemplate() throws Exception {
 		try {
-			
-			HashMap<String, String> templateDict = new HashMap<String, String>();
-			templateDict.put("name", "autothesis"+ new Date());
-			
-			String templateDictJson = jsonUtils.toJson(templateDict);
-			
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("create_default_children", Boolean.TRUE.toString());
-			params.put("action", "create_thesis_template");
-			params.put("template_dictionary", templateDictJson);
+			if (URI.contains("app")) {
+				HashMap<String, String> templateDict = new HashMap<String, String>();
+				templateDict.put("name", "autothesis" + new Date());
 
-			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec, params);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				String templateDictJson = jsonUtils.toJson(templateDict);
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			//verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createThesisTemplate.json");
-			
-			//delete template
-			JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
-			String id = String.valueOf(res.get("id"));
-			
-			
-			HashMap<String, String> deleteParams = new HashMap<String, String>();
-			deleteParams.put("template_id", id);
-			deleteParams.put("action", "delete_template");
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("create_default_children", Boolean.TRUE.toString());
+				params.put("action", "create_thesis_template");
+				params.put("template_dictionary", templateDictJson);
 
-			RequestSpecification spec1 = formParamsSpec(deleteParams);
-			RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
+				RequestSpecification spec = formParamsSpec(params);
+				Response resp = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec, params);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				// verify.jsonSchemaValidation(resp, "notebook" + File.separator +
+				// "createThesisTemplate.json");
+
+				// delete template
+				JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
+				String id = String.valueOf(res.get("id"));
+
+				HashMap<String, String> deleteParams = new HashMap<String, String>();
+				deleteParams.put("template_id", id);
+				deleteParams.put("action", "delete_template");
+
+				RequestSpecification spec1 = formParamsSpec(deleteParams);
+				RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "create tab template")
 	public void createTabTemplate() throws Exception {
 		try {
-			
-			HashMap<String, String> templateDict = new HashMap<String, String>();
-			templateDict.put("name", "autoTab"+ new Date().getTime());
-			
-			String templateDictJson = jsonUtils.toJson(templateDict);
-			
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("create_default_children", Boolean.TRUE.toString());
-			params.put("action", "create_tab_template");
-			params.put("template_dictionary", templateDictJson);
+			if (URI.contains("app")) {
 
-			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec, params);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				HashMap<String, String> templateDict = new HashMap<String, String>();
+				templateDict.put("name", "autoTab" + new Date().getTime());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createTabTemplate.json");
-			
-			//delete template
-			JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
-			String id = String.valueOf(res.get("id"));
-			
-			
-			HashMap<String, String> deleteParams = new HashMap<String, String>();
-			deleteParams.put("template_id", id);
-			deleteParams.put("action", "delete_template");
+				String templateDictJson = jsonUtils.toJson(templateDict);
 
-			RequestSpecification spec1 = formParamsSpec(deleteParams);
-			RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("create_default_children", Boolean.TRUE.toString());
+				params.put("action", "create_tab_template");
+				params.put("template_dictionary", templateDictJson);
+
+				RequestSpecification spec = formParamsSpec(params);
+				Response resp = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec, params);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createTabTemplate.json");
+
+				// delete template
+				JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
+				String id = String.valueOf(res.get("id"));
+
+				HashMap<String, String> deleteParams = new HashMap<String, String>();
+				deleteParams.put("template_id", id);
+				deleteParams.put("action", "delete_template");
+
+				RequestSpecification spec1 = formParamsSpec(deleteParams);
+				RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "Delete thesis template")
 	public void deleteThesisTemplate() throws Exception {
 		try {
-			
+			if(URI.contains("app")) {
+				
 			HashMap<String, String> templateDict = new HashMap<String, String>();
-			templateDict.put("name", "autothesis"+ new Date());
-			
+			templateDict.put("name", "autothesis" + new Date());
+
 			String templateDictJson = jsonUtils.toJson(templateDict);
-			
+
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("create_default_children", Boolean.TRUE.toString());
 			params.put("action", "create_thesis_template");
@@ -1279,8 +1281,7 @@ public class NotebookApis extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
 			String id = String.valueOf(res.get("id"));
-			
-			
+
 			HashMap<String, String> deleteParams = new HashMap<String, String>();
 			deleteParams.put("template_id", id);
 			deleteParams.put("action", "delete_template");
@@ -1295,20 +1296,20 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deleteThesisTemplate.json");
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
-	
+
 	@Test(groups = "sanity", description = "Star note")
 	public void starNote() throws Exception {
 		try {
-			
-			//note creation
+
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1322,10 +1323,10 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
+
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("noteid", note_id);
-			
+
 			RequestSpecification starSpec = formParamsSpec(params);
 			Response starResp = RestOperationUtils.post(STAR_NOTE, null, starSpec, params);
 			APIResponse starApiResp = new APIResponse(starResp);
@@ -1335,11 +1336,10 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(starResp, 5000);
 			verify.verifyEquals(starRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyEquals(starRespJson.get("result"), "starred",
-					"Verify the API result");
+			verify.verifyEquals(starRespJson.get("result"), "starred", "Verify the API result");
 			verify.jsonSchemaValidation(starResp, "notebook" + File.separator + "starNote.json");
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1348,17 +1348,17 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 
 	}
-	
+
 	@Test(groups = "sanity", description = "un-Star note")
 	public void unstarNote() throws Exception {
 		try {
-			
-			//note creation
+
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1372,11 +1372,10 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
-			
+
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("noteid", note_id);
-			
+
 			RequestSpecification unstarSpec = formParamsSpec(params);
 			RestOperationUtils.post(STAR_NOTE, null, unstarSpec, params);
 			Response unstarResp = RestOperationUtils.post(UNSTAR_NOTE, null, unstarSpec, params);
@@ -1387,12 +1386,11 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(unstarResp, 5000);
 			verify.verifyEquals(unstarRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyEquals(unstarRespJson.get("result"), "unstarred",
-					"Verify the API result");
+			verify.verifyEquals(unstarRespJson.get("result"), "unstarred", "Verify the API result");
 			verify.jsonSchemaValidation(unstarResp, "notebook" + File.separator + "unstarNote.json");
-			
-			//Delete note
-			
+
+			// Delete note
+
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1401,18 +1399,17 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 
 	}
-	
-	
+
 	@Test(groups = "sanity", description = "Add attachment to a note")
 	public void addAttachmentToANote() throws Exception {
 		try {
-			
-			//note creation
+
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1426,8 +1423,7 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
-			
+
 			String folderName = "notebook" + File.separator;
 			String fileName = folderName + "wordFile.docx";
 			FileUtil fileUtil = new FileUtil();
@@ -1444,7 +1440,7 @@ public class NotebookApis extends APIDriver {
 			String id = uploadRespJson.get("id").toString();
 			verify.verifyStatusCode(uploadApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(uploadResp, 5000);
-			
+
 			HashMap<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("file_id", id);
 			dataMap.put("filename", fileName);
@@ -1456,10 +1452,10 @@ public class NotebookApis extends APIDriver {
 			List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
 			dataList.add(dataMap);
 			String dataJson = jsonUtils.toJson(dataList);
-			
+
 			HashMap<String, String> attachParams = new HashMap<String, String>();
 			attachParams.put("dataDict", dataJson);
-			
+
 			RequestSpecification spec1 = formParamsSpec(attachParams);
 			Response resp1 = RestOperationUtils.post(SAVE_ATTACHMENT, null, spec1, attachParams);
 			APIResponse apiResp1 = new APIResponse(resp1);
@@ -1469,8 +1465,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp1, 3000);
 			verify.verifyEquals(respJson1.getJSONObject("response").get("status"), true,
 					"Verify the API Response Status");
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 			RequestSpecification deleteSpec = formParamsSpec(deleteNoteParams);
@@ -1478,16 +1474,16 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "Remove attachment from a note")
 	public void removeAttachmentFromANote() throws Exception {
 		try {
-			
-			//note creation
+
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> noteParams = new HashMap<String, String>();
 			noteParams.put("ts", tempId);
@@ -1501,13 +1497,13 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
-			//Adding attachement
+
+			// Adding attachement
 			String folderName = "notebook" + File.separator;
 			String fileName = folderName + "wordFile.docx";
 			FileUtil fileUtil = new FileUtil();
 			File file = fileUtil.getFileFromResources(fileName);
-			
+
 			HashMap<String, Object> params = new HashMap<String, Object>();
 			params.put("attachments", file);
 			params.put("qqfile", fileName);
@@ -1520,7 +1516,7 @@ public class NotebookApis extends APIDriver {
 			String id = attachRespJson.get("id").toString();
 			verify.verifyStatusCode(attachApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(attachResp, 5000);
-			
+
 			HashMap<String, String> dataMap = new HashMap<String, String>();
 			dataMap.put("file_id", id);
 			dataMap.put("filename", fileName);
@@ -1532,10 +1528,10 @@ public class NotebookApis extends APIDriver {
 			List<HashMap<String, String>> dataList = new ArrayList<HashMap<String, String>>();
 			dataList.add(dataMap);
 			String dataJson = jsonUtils.toJson(dataList);
-			
+
 			HashMap<String, String> attachParams = new HashMap<String, String>();
 			attachParams.put("dataDict", dataJson);
-			
+
 			RequestSpecification spec1 = formParamsSpec(attachParams);
 			Response resp1 = RestOperationUtils.post(SAVE_ATTACHMENT, null, spec1, attachParams);
 			APIResponse apiResp1 = new APIResponse(resp1);
@@ -1545,26 +1541,23 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp1, 3000);
 			verify.verifyEquals(respJson1.getJSONObject("response").get("status"), true,
 					"Verify the API Response Status");
-			
-			
-			//Removing attachment
+
+			// Removing attachment
 			HashMap<String, String> dataMapForRemove = new HashMap<String, String>();
 			dataMapForRemove.put("file_id", id);
 			dataMapForRemove.put("note_id", note_id);
-			
+
 			RequestSpecification spec2 = formParamsSpec(dataMapForRemove);
 			Response resp2 = RestOperationUtils.get(REMOVE_ATTACHMENT, spec2, dataMapForRemove);
 			APIResponse apiResp2 = new APIResponse(resp2);
 			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
-			
-			
+
 			verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
 			verify.verifyResponseTime(resp2, 3000);
 			verify.verifyEquals(respJson2.getJSONObject("response").get("status"), true,
 					"Verify the API Response Status");
-			
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1573,15 +1566,15 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "add user comments")
 	public void addUserComments() throws Exception {
 		try {
-			//note creation
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("ts", tempId);
@@ -1595,8 +1588,8 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
-			//add comments
+
+			// add comments
 			HashMap<String, String> commentDictParams = new HashMap<String, String>();
 			commentDictParams.put("source", "note");
 			commentDictParams.put("reference_id", note_id);
@@ -1618,9 +1611,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(commentRespJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(commentResp, "notebook" + File.separator + "addUserComment.json");
-			
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1629,7 +1621,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 
@@ -1638,8 +1630,8 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "delete user comments")
 	public void deleteUserComments() throws Exception {
 		try {
-			
-			//note creation
+
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("ts", tempId);
@@ -1653,7 +1645,7 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
+
 			HashMap<String, String> commentDictParams = new HashMap<String, String>();
 			commentDictParams.put("source", "note");
 			commentDictParams.put("reference_id", note_id);
@@ -1676,8 +1668,7 @@ public class NotebookApis extends APIDriver {
 			commentDictParams1.put("source", "note");
 			commentDictParams1.put("comment_id", commentId);
 
-			
-			//delete comment
+			// delete comment
 			String json1 = jsonUtils.toJson(commentDictParams1);
 
 			HashMap<String, String> params1 = new HashMap<String, String>();
@@ -1694,9 +1685,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deleteUserComment.json");
-			
-			
-			//delete note
+
+			// delete note
 			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
 			deleteNoteParams.put("note_id", note_id);
 
@@ -1705,7 +1695,7 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 
@@ -1714,7 +1704,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Edit user comments")
 	public void editUserComments() throws Exception {
 		try {
-			//note creation
+			// note creation
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("ts", tempId);
@@ -1728,7 +1718,7 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String note_id = respJson.getJSONObject("result").getString("id");
-			
+
 			HashMap<String, String> commentDictParams = new HashMap<String, String>();
 			commentDictParams.put("source", "note");
 			commentDictParams.put("reference_id", note_id);
@@ -1780,10 +1770,10 @@ public class NotebookApis extends APIDriver {
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
-		}finally {
+		} finally {
 			verify.verifyAll();
 		}
 
 	}
-	
+
 }
