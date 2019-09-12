@@ -3,6 +3,7 @@ package com.sentieo.logintest;
 import static com.sentieo.constants.Constants.*;
 import java.util.HashMap;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
@@ -18,6 +19,11 @@ public class VerifyLogin extends APIDriver {
 	String bamsUserName = "atish2";
 	String userName;
 	APIAssertions verify = new APIAssertions();
+
+	@BeforeMethod
+	public void setUp() {
+		verify = new APIAssertions();
+	}
 
 	@Test(groups = "sanity", description = "check", dataProvider = "URLNames")
 	public void verifyLogin(String url, String email, String password) throws Exception {
