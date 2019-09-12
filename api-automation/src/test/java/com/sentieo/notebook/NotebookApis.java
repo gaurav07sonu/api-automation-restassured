@@ -915,7 +915,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Create Thesis and verify")
 	public void createThesis() throws Exception {
 		try {
-			if (URI.contains("app")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
 
 				HashMap<String, String> thesisData = new HashMap<String, String>();
 				thesisData.put("thesis_type", "thesis");
@@ -1173,7 +1173,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "create Thesis template")
 	public void createThesisTemplate() throws Exception {
 		try {
-			if (URI.contains("app")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
 				HashMap<String, String> templateDict = new HashMap<String, String>();
 				templateDict.put("name", "autothesis" + new Date());
 
@@ -1218,11 +1218,11 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "create tab template")
 	public void createTabTemplate() throws Exception {
 		try {
-			if (URI.contains("app")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
 
 				HashMap<String, String> templateDict = new HashMap<String, String>();
 				templateDict.put("name", "autoTab" + new Date().getTime());
-
+				
 				String templateDictJson = jsonUtils.toJson(templateDict);
 
 				HashMap<String, String> params = new HashMap<String, String>();
@@ -1263,7 +1263,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Delete thesis template")
 	public void deleteThesisTemplate() throws Exception {
 		try {
-			if(URI.contains("app")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
 				
 			HashMap<String, String> templateDict = new HashMap<String, String>();
 			templateDict.put("name", "autothesis" + new Date());
