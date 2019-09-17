@@ -7,6 +7,12 @@
 		<listener
 			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
+	
+	<test name="notebook" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.notebook" />
+		</packages>
+	</test>
 
 
 	<test name="finance" preserve-order="true">
