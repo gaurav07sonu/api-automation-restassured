@@ -1,9 +1,10 @@
 package com.sentieo.plotter;
 
 import static com.sentieo.constants.Constants.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -13,6 +14,7 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
+import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -22,8 +24,10 @@ public class IncomeStatement extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
-	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
-
+	//public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
+	InputTicker obj = new InputTicker();
+	List<String[]> tickers = obj.readTickerCSV(); 
+	
 	@BeforeClass
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
@@ -47,7 +51,8 @@ public class IncomeStatement extends APIDriver {
 	public void incomeStatement(String headName, String subType, String dataSource) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
-			for (int i = 0; i < tickers.size(); i++) {
+			for (String[] row : tickers) {
+				for (String cell : row) {
 				parameters.put("head_name", headName);
 				parameters.put("pagetype", "plotter");
 				parameters.put("graphtype", "financialData");
@@ -63,7 +68,7 @@ public class IncomeStatement extends APIDriver {
 				parameters.put("day_dma", "0");
 				parameters.put("getestimates", "false");
 				parameters.put("yUnit", "millions");
-				parameters.put("ticker", tickers.get(i));
+				parameters.put("ticker", cell);
 				parameters.put("freq_set1", "");
 				parameters.put("freq_type1", "mean");
 				RequestSpecification spec = queryParamsSpec(parameters);
@@ -76,10 +81,11 @@ public class IncomeStatement extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
 				String title = getSeries.getString("title").replaceAll(" ", "");
-				String actualTitle = tickers.get(i).toUpperCase() + parameters.get("periodtype")
+				String actualTitle = cell.toUpperCase() + parameters.get("periodtype")
 						+ parameters.get("head_name").replaceAll(" ", "") + parameters.get("datasource").toUpperCase();
 				verify.verifyEquals(actualTitle, title, "Verify Series Title");
 				verify.verifyAll();
+			}
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
