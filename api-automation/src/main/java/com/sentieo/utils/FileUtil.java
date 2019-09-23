@@ -50,7 +50,7 @@ public class FileUtil {
 			replaceEnvValue(env);
 
 			String userName = args[2];
-			replaceUserValue(userName, testNGFileName);
+			replaceUserValue(userName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,9 +84,9 @@ public class FileUtil {
 		}
 	}
 
-	public static void replaceUserValue(String uname, String testNGName) {
+	public static void replaceUserValue(String uname) {
 		try {
-			Path path = Paths.get("../../../tests_xml/" + testNGName);
+			Path path = Paths.get("com/sentieo/constants/Constants.java");
 			Stream<String> lines = Files.lines(path);
 			List<String> replaced = lines.map(line -> line.replaceAll("alphagani35@gmail.com", uname))
 					.collect(Collectors.toList());
