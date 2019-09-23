@@ -2,6 +2,8 @@ package com.sentieo.comparables;
 
 import static com.sentieo.constants.Constants.*;
 import java.util.HashMap;
+import java.util.List;
+
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -10,6 +12,7 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
+import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -17,7 +20,9 @@ import com.sentieo.rest.base.RestOperationUtils;
 public class Comparables extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
-	
+	InputTicker obj = new InputTicker();
+	List<String[]> tickers = obj.readTickerCSV();
+
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
@@ -57,84 +62,109 @@ public class Comparables extends APIDriver {
 	@Test(groups = "sanity", description = "comparable_search")
 	public void comparablesearch() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("tickers", "aapl");
-		queryParams.put("pagetype", "company");
-		queryParams.put("currency", "usd");
-		queryParams.put("model_id", "company");
-		queryParams.put("init", "1");
-		queryParams.put("rival", "1");
-		RequestSpecification spec = formParamsSpec(queryParams);
-		Response resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				queryParams.put("tickers", cell);
+				queryParams.put("pagetype", "company");
+				queryParams.put("currency", "usd");
+				queryParams.put("model_id", "company");
+				queryParams.put("init", "1");
+				queryParams.put("rival", "1");
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+			}
+		}
 		verify.verifyAll();
 	}
 
 	@Test(groups = "sanity", description = "managementinfo")
 	public void managementinfo() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("ticker", "aapl");
-		RequestSpecification spec = formParamsSpec(queryParams);
-		Response resp = RestOperationUtils.post(MANAGEMENT_INFO, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
+		for (String[] row : tickers) {
+			for (String cell : row) {
+
+				queryParams.put("ticker", cell);
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(MANAGEMENT_INFO, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+			}
+		}
 		verify.verifyAll();
 	}
 
 	@Test(groups = "sanity", description = "fetch_institutional_holdings_snapshot")
 	public void fetchinstitutionalholdings_snapshot() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("ticker", "aapl");
-		RequestSpecification spec = formParamsSpec(queryParams);
-		Response resp = RestOperationUtils.post(FETCH_HOLDINGS, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				queryParams.put("ticker", cell);
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(FETCH_HOLDINGS, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+			}
+		}
 		verify.verifyAll();
 	}
 
 	@Test(groups = "sanity", description = "fetch_main_graph")
 	public void fetchmaingraph() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("ticker", "aapl");
-		RequestSpecification spec = formParamsSpec(queryParams);
-		Response resp = RestOperationUtils.post(FETCH_MAIN_GRAPH, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				queryParams.put("ticker", cell);
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(FETCH_MAIN_GRAPH, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+			}
+		}
 		verify.verifyAll();
 	}
 
 	@Test(groups = "sanity", description = "fetch_company_events")
 	public void fetchcompanyevents() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("ticker", "aapl");
-		queryParams.put("size", "40");
-		RequestSpecification spec = formParamsSpec(queryParams);
-		Response resp = RestOperationUtils.post(FETCH_COMPANY_EVENTS, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				queryParams.put("ticker", cell);
+				queryParams.put("size", "40");
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(FETCH_COMPANY_EVENTS, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+			}
+		}
 		verify.verifyAll();
 	}
 
 	@Test(groups = "sanity", description = "managementinfo_new")
 	public void managementinfo_new() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("ticker", "aapl");
-		RequestSpecification spec = queryParamsSpec(queryParams);
-		Response resp = RestOperationUtils.get(MANAGEMENT_INFO_NEW, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				queryParams.put("ticker", cell);
+				RequestSpecification spec = queryParamsSpec(queryParams);
+				Response resp = RestOperationUtils.get(MANAGEMENT_INFO_NEW, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+			}
+		}
 		verify.verifyAll();
 	}
 }

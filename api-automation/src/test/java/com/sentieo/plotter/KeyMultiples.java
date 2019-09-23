@@ -3,7 +3,6 @@ package com.sentieo.plotter;
 import static com.sentieo.constants.Constants.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +17,7 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
+import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -26,7 +26,9 @@ import com.sentieo.utils.CoreCommonException;
 public class KeyMultiples extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
-	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
+//	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
+	InputTicker obj = new InputTicker();
+	List<String[]> tickers = obj.readTickerCSV();
 	List<String> l1 = new ArrayList<String>();
 	List<String> l2 = new ArrayList<String>();
 	List<String> l3 = new ArrayList<String>();
@@ -65,7 +67,8 @@ public class KeyMultiples extends APIDriver {
 			gethHeadName = headName;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			String fetchGraphURI = APP_URL + FETCH_GRAPH_DATA;
-			for (int i = 0; i < tickers.size(); i++) {
+			for (String[] row : tickers) {
+				for (String cell : row) {
 				parameters.put("head_name", headName);
 				parameters.put("pagetype", "plotter");
 				parameters.put("graphtype", "newratioestimate");
@@ -83,7 +86,7 @@ public class KeyMultiples extends APIDriver {
 				parameters.put("freq_set1", "");
 				parameters.put("freq_type1", "mean");
 				parameters.put("ratio", ratio);
-				parameters.put("ticker", tickers.get(i));
+				parameters.put("ticker",cell);
 
 				RequestSpecification spec = queryParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(fetchGraphURI, spec, parameters);
@@ -99,7 +102,7 @@ public class KeyMultiples extends APIDriver {
 							.getJSONArray("series");
 					Double ebitdaValue = (Double) values.getJSONArray(values.length() - 1).get(1);
 					fetchGraphEbitdaValue = new Double(ebitdaValue).toString();
-					testKeyMultiples(i);
+					testKeyMultiples(cell);
 					verify.verifyEquals(evEbitdaValue, fetchGraphEbitdaValue, "Verify EV/EBITDA values ");
 				}
 				if (headName.contains("EV/Sales")) {
@@ -109,10 +112,11 @@ public class KeyMultiples extends APIDriver {
 					DecimalFormat df2 = new DecimalFormat("#.#");
 					evValue = Double.valueOf(df2.format(evValue));
 					fetchGraphEvSalesValue = new Double(evValue).toString();
-					testKeyMultiples(i);
+					testKeyMultiples(cell);
 					verify.verifyEquals(evSalesValue, fetchGraphEvSalesValue, "Verify EV Sales values ");
 
 				}
+			}
 			}
 			verify.verifyAll();
 		} catch (Exception e) {
@@ -122,13 +126,13 @@ public class KeyMultiples extends APIDriver {
 
 	}
 
-	public void testKeyMultiples(int i) throws Exception {
+	public void testKeyMultiples(String cell) throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;
 		parameters.put("summary", "true");
 		parameters.put("yearly", "1");
 		parameters.put("new_wl", "true");
-		parameters.put("ticker", tickers.get(i));
+		parameters.put("ticker", cell);
 		RequestSpecification spec = queryParamsSpec(parameters);
 		Response resp = RestOperationUtils.get(URI, spec, parameters);
 		APIResponse apiResp = new APIResponse(resp);
