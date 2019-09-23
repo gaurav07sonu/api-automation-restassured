@@ -4,7 +4,7 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-			<listener
+		<listener
 			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
 	
@@ -14,18 +14,19 @@
 		</packages>
 	</test>
 
+
 	<test name="finance" preserve-order="true">
 		<packages>
 			<package name="com.sentieo.finance" />
 		</packages>
 	</test>
-	
+
 	<test name="login" preserve-order="true">
 		<classes>
 			<class name="com.sentieo.logintest.VerifyLogin" />
 		</classes>
 	</test>
-	
+
 	<test name="others" preserve-order="true">
 		<packages>
 			<package name="com.sentieo.*">
@@ -37,14 +38,15 @@
 			</package>
 		</packages>
 	</test>
-	
-	<test name="plotter test" >
-    <classes>
-      <class name="com.sentieo.plotter.DocumentData"/>
-      <class name="com.sentieo.plotter.IncomeStatement"/>
-      <class name="com.sentieo.plotter.StockData"/>
-       <class name="com.sentieo.plotter.Volume"/>
-        <class name="com.sentieo.plotter.WebandSocialData"/>
-    </classes>
+
+	<test name="plotter test">
+		<classes>
+			<class name="com.sentieo.plotter.DocumentData" />
+			<class name="com.sentieo.plotter.IncomeStatement" />
+			<class name="com.sentieo.plotter.StockData" />
+			<class name="com.sentieo.plotter.Volume" />
+			<class name="com.sentieo.plotter.WebandSocialData" />
+		</classes>
 	</test>
+
 </suite>
