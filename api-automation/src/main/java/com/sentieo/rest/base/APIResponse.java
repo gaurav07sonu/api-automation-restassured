@@ -9,39 +9,38 @@ import org.json.simple.parser.JSONParser;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.response.Response;
+import com.sentieo.utils.CoreCommonException;
 
 public class APIResponse {
 	protected final Response res;
 	private static final String BREAK_LINE = "</br>";
 
-	private static final String HTTP_INFO_STYLE = "<span style=\"font: bold 12px/30px Georgia, serif;margin-right:5px\" >";
-	
 	public APIResponse(Response res) {
 		this.res = res;
 	}
 	
-	public String getResponseAsString() throws Exception
+	public String getResponseAsString() throws CoreCommonException
 	{
-		String infoMessage = "";
 		String response = "";
 		try {
-			infoMessage = "Error while trying to get response as string.";
 			if (res != null)
 				response = this.res.asString();
 		}
 		catch(Exception e)
 		{
+			throw new CoreCommonException(e);
 		}
 		return response;
 	}
 
-	public int getStatusCode() throws Exception {
+	public int getStatusCode() throws CoreCommonException {
 		int actualStatusCode = 0;
 		String infoMessage = "";
 		try {
 			actualStatusCode = res.getStatusCode();
 			infoMessage = infoMessage + BREAK_LINE + " A: " + actualStatusCode;
 		} catch (Exception e) {
+			throw new CoreCommonException(e);
 		}
 		return actualStatusCode;
 	}
@@ -68,7 +67,6 @@ public class APIResponse {
 	public boolean isNodePresent(String jsonPath) throws Exception {
 		JsonPath j = new JsonPath(res.asString());
 		Boolean value = false;
-		String infoMessage = "isNodePresent " + BREAK_LINE + "JsonPath:" + jsonPath;
 		try {
 			if (j.get(jsonPath).getClass().equals(ArrayList.class)) {
 
@@ -105,14 +103,11 @@ public class APIResponse {
 	
 	public boolean contains(String valueToFind) throws Exception {
 		boolean containString = false;
-		String infoMessage = "";
 		try {
 			String response = res.asString();
 			if (StringUtils.contains(response, valueToFind) && StringUtils.containsIgnoreCase(response, valueToFind)) {
-				infoMessage = "ContainsString " + BREAK_LINE + "Contains expected string in response : " + valueToFind;
 				containString = true;
 			} else {
-				infoMessage = "Containsstring " + BREAK_LINE + "Does not Contains string in response : " + valueToFind;
 			}
 		} catch (Exception e) {
 		}

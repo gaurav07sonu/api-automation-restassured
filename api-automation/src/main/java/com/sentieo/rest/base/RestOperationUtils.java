@@ -10,9 +10,9 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.report.Reporter;
+import com.sentieo.utils.CoreCommonException;
 
 public class RestOperationUtils {
-	private static final String REQUEST_MSG = "Request: ";
 	private static final String BREAK_LINE = "\n";
 	protected static final Reporter reporter = Reporter.getInstance();
 	
@@ -20,7 +20,7 @@ public class RestOperationUtils {
 		
 	}
 	
-	public static Response post(String url, String payload, RequestSpecification spec, Map params) throws Exception {
+	public static Response post(String url, String payload, RequestSpecification spec, Map params) throws CoreCommonException {
 		Response res = null;
 		try{
 			String payloadOutput = (payload == null || payload.isEmpty()) ? "": reporter.generateFormatedPayload(payload);
@@ -40,12 +40,12 @@ public class RestOperationUtils {
 			ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new Exception(e);
+			throw new CoreCommonException(e);
 		}
 		return res;
 	}
 	
-	public static Response login(String url, String payload, RequestSpecification spec, HashMap<String, String> params) throws Exception {
+	public static Response login(String url, String payload, RequestSpecification spec, HashMap<String, String> params) throws CoreCommonException {
 		Response res = null;
 		try{
 			if(payload == null){
@@ -55,12 +55,12 @@ public class RestOperationUtils {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new Exception(e);
+			throw new CoreCommonException(e);
 		}
 		return res;
 	}
 
-	public static Response get(String url, RequestSpecification spec, Map params) throws Exception {
+	public static Response get(String url, RequestSpecification spec, Map params) throws CoreCommonException {
 		Response res = null;
 		try{
 			String infoMessage = BREAK_LINE + "<div> Type: [GET] </div>" + BREAK_LINE + "<div> Parameters: "
@@ -74,12 +74,12 @@ public class RestOperationUtils {
 			res = given().spec(spec).when().get(url);
 			ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
 		}catch(Exception e){
-			throw new Exception(e);
+			throw new CoreCommonException(e);
 		}
 		return res;
 	}
 
-	public static Response put(String url, String payload, RequestSpecification spec, BaseRestParameter params) throws Exception {
+	public static Response put(String url, String payload, RequestSpecification spec, BaseRestParameter params) throws CoreCommonException {
 		Response res = null;
 		try{
 			String payloadOutput = (payload == null || payload.isEmpty()) ? "": reporter.generateFormatedPayload(payload);
@@ -97,13 +97,13 @@ public class RestOperationUtils {
 				res = given().spec(spec).body(payload).when().put(url);
 			}
 		}catch(Exception e){
-			throw new Exception(e);
+			throw new CoreCommonException(e);
 		}
 		return res;
 	}
 	
 	
-	public static Response delete(String url, String payload, RequestSpecification spec, BaseRestParameter params) throws Exception {
+	public static Response delete(String url, String payload, RequestSpecification spec, BaseRestParameter params) throws CoreCommonException {
 		Response res = null;
 		try{
 			String payloadOutput = payload == null ? "": reporter.generateFormatedPayload(payload);
@@ -121,13 +121,13 @@ public class RestOperationUtils {
 				res = given().spec(spec).body(payload).when().delete(url);
 			}
 		}catch(Exception e){
-			throw new Exception(e);
+			throw new CoreCommonException(e);
 		}
 		return res;
 	}
 	
 	
-	public static Response patch(String url, String payload, RequestSpecification spec, BaseRestParameter params) throws Exception {
+	public static Response patch(String url, String payload, RequestSpecification spec, BaseRestParameter params) throws CoreCommonException {
 		Response res = null;
 		try{
 			String payloadOutput = (payload == null || payload.isEmpty()) ? "": reporter.generateFormatedPayload(payload);
@@ -146,7 +146,7 @@ public class RestOperationUtils {
 				res = given().spec(spec).body(payload).when().patch(url);
 			}
 		}catch(Exception e){
-			throw new Exception(e);
+			throw new CoreCommonException(e);
 		}
 		return res;
 	}
