@@ -475,40 +475,6 @@ public class DocumentSearch extends APIDriver {
 		}
 		
 	}
-
-	@Test(groups = "sanity", description = "Searching with Regions filter only", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
-	public void fetchsearchRegions(String fillingtype, String facets_flag) throws CoreCommonException {
-
-		try {
-			String URI = APP_URL + FETCH_SEARCH;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("geog_filter", fillingtype);
-
-			if (facets_flag.equalsIgnoreCase("true")) {
-				queryParams.put("facets_flag", facets_flag);
-				queryParams.put("no_docs", "6");
-			} else {
-				queryParams.put("facets_flag", facets_flag);
-			}
-
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-
-	}
-
 	@Test(groups = "sanity", description = "Searching with Source filter only", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchSource(String facets_flag) throws CoreCommonException {
 
