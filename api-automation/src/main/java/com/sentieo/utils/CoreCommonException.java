@@ -19,5 +19,6 @@ public class CoreCommonException extends Exception {
 
 	 public CoreCommonException(Exception cause) {
 	  super(cause);
+	  ExtentTestManager.getTest().log(LogStatus.FAIL, cause.getMessage());
 	 }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.report.ExtentTestManager;
+import com.sentieo.utils.CoreCommonException;
 
 
 public abstract class SentieoSoftAssertion {
@@ -16,12 +17,12 @@ public abstract class SentieoSoftAssertion {
 		return verificationFailures; 
 	}
 	
-	public void verifyAll() throws Exception{
+	public void verifyAll() throws CoreCommonException{
 		if (!this.getVerificationFailures().isEmpty()) {
 			int size = this.getVerificationFailures().size();
             // if there's only one failure just set that
             if (size == 1) {
-            	throw new Exception(((Throwable) this.getVerificationFailures().get(0)).getMessage());
+            	throw new CoreCommonException(((Throwable) this.getVerificationFailures().get(0)).getMessage());
             } else if(size!=0) {
                 // create a failure message with all failures and stack
                 // traces (except last failure)
@@ -29,7 +30,7 @@ public abstract class SentieoSoftAssertion {
                 ExtentTestManager.getTest().log(LogStatus.FAIL, failureMessage.toString());
                 // set merged throwable
                 Throwable merged = new Throwable(failureMessage.toString());
-                throw new Exception(merged.getMessage());
+                throw new CoreCommonException(merged.getMessage());
             }
 		}
 	}

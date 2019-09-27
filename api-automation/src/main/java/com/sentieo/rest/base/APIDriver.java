@@ -5,13 +5,23 @@ import static com.jayway.restassured.RestAssured.given;
 import java.io.File;
 import java.util.HashMap;
 
+import org.testng.annotations.BeforeMethod;
+
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.sentieo.assertion.APIAssertions;
 
 public class APIDriver {
 	
+	protected APIAssertions verify = null;
 	protected String apid = "";
 	protected String usid = "";
+	
+
+	@BeforeMethod
+	public void initVerify() {
+		verify = new APIAssertions();
+	}
 	
 	
 	protected RequestSpecification loginSpec(HashMap<String, String> formParams) {

@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.testng.Assert;
@@ -132,7 +131,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 			verificationFailures.add(jsve);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, FormatterUtil.generateFormatedResponse(res, sb.toString()));
 		} catch (AssertionError ae) {
-			verificationFailures.add(ae);
+			verificationFailures.add(new Exception("JSON schema validation failed"));
 			ExtentTestManager.getTest().log(LogStatus.FAIL, FormatterUtil.generateFormatedResponse(res, sb.toString()));
 		}
 
@@ -160,7 +159,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 			verificationFailures.add(jsve);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, FormatterUtil.generateFormatedResponse(res, sb.toString()));
 		} catch (AssertionError ae) {
-			verificationFailures.add(ae);
+			verificationFailures.add(new Exception("JSON schema validation failed"));
 			String error = ae.getMessage();
 			String errorLog = jsonSchemaErrorLogs(error);
 			ExtentTestManager.getTest().log(LogStatus.FAIL,
