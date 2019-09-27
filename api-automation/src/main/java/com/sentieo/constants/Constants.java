@@ -114,6 +114,22 @@ public class Constants {
 	public static final String FETCH_FIREWALL_TEST="/api/fetch_firewall_test";
 	public static final String FETCH_USERS_WATCHLIST= "/api/fetch_users_watchlist_api/";	
 	
-	
+	//private companies
+	public static final String FETCH_CB_EXIT_TABLE="/api/fetch_cb_exit_table/";
+	//public static final String FETCH_NEW_COMPANY_HEADER_DATA  ="/api/fetch_new_company_header_data/";
+	public static final String FETCH_CB_FR_TABLE="/api/fetch_cb_fr_table/";
+	public static final String FETCH_CB_FR_HIGHLIGHTS="/api/fetch_cb_fr_highlights/";
+	public static final String FETCH_CB_FR_cumulative="/api/fetch_cb_fr_cumulative/";
+	public static final String FETCH_CB_INV_TABLE="/api/fetch_cb_inv_table/";
+	public static final String FETCH_CB_INV_QUARTERWISE="/api/fetch_cb_inv_quarterwise/";
+	public static final String FETCH_CB_INV_CATEGORY="/api/fetch_cb_inv_category/";
+	public static final String FETCH_CB_EXIT_CATEGORY="/api/fetch_cb_exit_category/";
+	public static final String FETCH_CB_ACQ_TABLE="/api/fetch_cb_acq_table/";
+	public static final String FETCH_CB_FUNDS_TABLE="/api/fetch_cb_funds_table/";
+	public static final String FETCH_CB_KEY_INVESTORS="/api/fetch_cb_key_investors/";
+	public static final String MSTAR_SET_MAPPING="/api/mstar_set_mapping/";
+	public static final String MSTAR_DEL_MAPPING="/api/mstar_del_mapping/";
+	public static final String MSTAR_GET_ALL_MAPPINGS="/api/mstar_get_all_mappings/";
+	public static final String MSTAR_GET_ALL_INSTRUMENTS="/api/mstar_get_all_instruments/";
 
 }

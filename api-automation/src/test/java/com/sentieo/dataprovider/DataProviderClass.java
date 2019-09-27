@@ -2,6 +2,7 @@ package com.sentieo.dataprovider;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import static com.sentieo.constants.Constants.*;
 
 import org.testng.annotations.DataProvider;
 
@@ -123,5 +124,18 @@ public class DataProviderClass {
 		users= new String[][] { {"alphagani35@gmail.com", "DGL=14412jg"},{"bhaskar@sentieo.com","Sentieo.789" },{"atish.garg@sentieo.com","Atishgarg1@"},{"sanjay.saini@sentieo.com","sanjay.saini97"}};
 		return users;
 	}
+	@DataProvider(name = "numberof_rows")
+	public Object[][] fetchPrivateData() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { { "all"}, { "4"}, { "50"}};
+		return groupArray;
+		}
+	
+	@DataProvider(name = "sortingData")
+	public Object[][] privateDataSorting() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"asc",FETCH_CB_EXIT_TABLE},{"asc",FETCH_CB_ACQ_TABLE},{"asc",FETCH_CB_FUNDS_TABLE},{"asc",FETCH_CB_KEY_INVESTORS}, {"desc",FETCH_CB_EXIT_TABLE},{"desc",FETCH_CB_ACQ_TABLE},{"desc",FETCH_CB_FUNDS_TABLE},{"desc",FETCH_CB_KEY_INVESTORS}};
+		return groupArray;
+		}
 
 }

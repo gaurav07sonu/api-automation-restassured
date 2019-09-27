@@ -32,4 +32,20 @@ public class InputTicker {
 
 	}
 
+	public List<String[]> randomTickerCSV() {
+		FileReader filereader;
+		try {
+			filereader = new FileReader(
+					RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
+			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+			List<String[]> allData = csvReader.readAll();
+			return allData;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 }
