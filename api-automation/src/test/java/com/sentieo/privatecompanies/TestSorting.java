@@ -32,6 +32,7 @@ public class TestSorting extends APIDriver {
 	int firstCount = 0;
 	HashMap<String, String> parameters = new HashMap<String, String>();
 	APIAssertions verify = new APIAssertions();
+	boolean flag=true;
 
 	@BeforeClass
 	public void setup() throws Exception {
@@ -44,7 +45,7 @@ public class TestSorting extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-		CommonUtil.generateRandomTickers();
+	
 	}
 
 	@BeforeMethod
@@ -53,6 +54,9 @@ public class TestSorting extends APIDriver {
 	}
 
 	public void getSortKey(String order, String URI, String ticker) throws Exception {
+		if(flag)
+			CommonUtil.generateRandomTickers();
+			flag=false;
 		JSONArray shortExitsArray = null;
 		String resultNode = "";
 		parameters.put("num_rows", "all");

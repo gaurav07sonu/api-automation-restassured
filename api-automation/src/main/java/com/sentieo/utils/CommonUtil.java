@@ -15,6 +15,8 @@ import java.util.TimeZone;
 
 import com.sentieo.finance.InputTicker;
 
+//import com.sentieo.finance.InputTicker;
+
 public class CommonUtil {
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
 
