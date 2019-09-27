@@ -15,7 +15,6 @@ import java.util.TimeZone;
 
 import com.sentieo.finance.InputTicker;
 
-
 public class CommonUtil {
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
 
@@ -85,12 +84,14 @@ public class CommonUtil {
 	}
 
 	public static void generateRandomTickers() {
+		InputTicker input= new InputTicker();
+		List<String[]>tickers=input.randomTickerCSV();
 		randomTickers.put(1001, "AAPL");
 		randomTickers.put(1001, "AMZN");
 		randomTickers.put(1001, "TSLA");
 		randomTickers.put(1001, "ASNA");
-		InputTicker obj = new InputTicker();
-		List<String[]> tickers = obj.randomTickerCSV();
+//		InputTicker inmput= new InputTicker();
+//		List<String[]> tickers = obj.randomTickerCSV();
 		for (String[] row : tickers) {
 			int highlightLabelRandom = new Random().nextInt(tickers.size());
 			String[] cell = tickers.get(highlightLabelRandom);
