@@ -5,6 +5,8 @@ import static com.sentieo.constants.Constants.EMAIL;
 import static com.sentieo.constants.Constants.LOGIN_URL;
 import static com.sentieo.constants.Constants.PASSWORD;
 import static com.sentieo.constants.Constants.USER_APP_URL;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class TestSorting extends APIDriver {
 	int firstCount = 0;
 	HashMap<String, String> parameters = new HashMap<String, String>();
 	APIAssertions verify = new APIAssertions();
-	boolean flag=true;
+	boolean flag = true;
 
 	@BeforeClass
 	public void setup() throws Exception {
@@ -45,7 +47,7 @@ public class TestSorting extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-	
+
 	}
 
 	@BeforeMethod
@@ -54,9 +56,10 @@ public class TestSorting extends APIDriver {
 	}
 
 	public void getSortKey(String order, String URI, String ticker) throws Exception {
-		if(flag)
-			CommonUtil.generateRandomTickers();
-			flag=false;
+		CommonUtil commUtil=new CommonUtil();
+		if (flag)
+			commUtil.generateRandomTickers();
+		flag = false;
 		JSONArray shortExitsArray = null;
 		String resultNode = "";
 		parameters.put("num_rows", "all");
@@ -77,9 +80,9 @@ public class TestSorting extends APIDriver {
 			while (keys.hasNext()) {
 				String key = keys.next();
 				if (key.contains("sort_key")) {
-					List<Integer> sortingIntegerValue = new ArrayList<Integer>();
+					List<BigInteger> sortingIntegerValue = new ArrayList<BigInteger>();
 					List<String> sortingString = new ArrayList<String>();
-					List<Integer> newList = new ArrayList<Integer>(sortingIntegerValue);
+					List<BigInteger> newList = new ArrayList<BigInteger>(sortingIntegerValue);
 					List<String> newList2 = new ArrayList<String>(sortingString);
 					Object obj = json.get(key);
 					if (obj != JSONObject.NULL) {
@@ -108,15 +111,27 @@ public class TestSorting extends APIDriver {
 						if (URI.contains("/api/fetch_cb_key_investors/"))
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("investors");
 						resultNode = "investors";
+						if (URI.contains("fetch_cb_fr_table"))
+							shortExitsArray = respJson.getJSONObject("result").getJSONArray("funding_rounds");
+						resultNode = "funding_rounds";
+
+						if (URI.contains("fetch_cb_inv_table"))
+							shortExitsArray = respJson.getJSONObject("result").getJSONArray("investments");
+						resultNode = "investments";
+
 						for (int j = 0; j < shortExitsArray.length(); j++) {
 							String path = "result." + resultNode + "[" + j + "]." + seriesValue;
+							// String path = "result." + resultNode + "[" + j + "]." +"money_raised_usd";
+
 							String result = String.valueOf(apiResp.getNodeValue(path));
 							if (result != null && !result.isEmpty()) {
 								if (result != null && !result.isEmpty()) {
 									if (CommonUtil.isNumber(result)) {
-										int value = Integer.parseInt(result);
-										sortingIntegerValue.add(value);
-										newList = new ArrayList<Integer>(sortingIntegerValue);
+										BigInteger bigIntegerStr = new BigInteger(result);
+										// int value = bigIntegerStr.intValue();
+										// int value = Integer.parseInt(result);
+										sortingIntegerValue.add(bigIntegerStr);
+										newList = new ArrayList<BigInteger>(sortingIntegerValue);
 										if (order.contains("asc"))
 											Collections.sort(sortingIntegerValue);
 										else
@@ -157,5 +172,4 @@ public class TestSorting extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-
 }

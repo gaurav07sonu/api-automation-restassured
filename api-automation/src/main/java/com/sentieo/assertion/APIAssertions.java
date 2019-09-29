@@ -3,6 +3,7 @@ package com.sentieo.assertion;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -249,7 +250,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 		return result;
 	}
 
-	public boolean assertEquals(List<Integer> actual, List<Integer> expected, String stepDetail) {
+	public boolean assertEquals(List<BigInteger> actual, List<BigInteger> expected, String stepDetail) {
 		boolean result = false;
 		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
 				+ (actual != null ? actual.toString() : "null") + BREAK_LINE + EXPECT_DECO

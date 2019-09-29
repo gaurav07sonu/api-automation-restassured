@@ -1,5 +1,9 @@
 package com.sentieo.utils;
 
+import static com.sentieo.constants.Constants.RESOURCE_PATH;
+
+import java.io.File;
+import java.io.FileReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -13,6 +17,8 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.sentieo.finance.InputTicker;
 
 //import com.sentieo.finance.InputTicker;
@@ -85,15 +91,12 @@ public class CommonUtil {
 		return true;
 	}
 
-	public static void generateRandomTickers() {
-		InputTicker input= new InputTicker();
-		List<String[]>tickers=input.randomTickerCSV();
+	public void generateRandomTickers() {
+		List<String[]> tickers = randomTickerCSV();
 		randomTickers.put(1001, "AAPL");
 		randomTickers.put(1001, "AMZN");
 		randomTickers.put(1001, "TSLA");
 		randomTickers.put(1001, "ASNA");
-//		InputTicker inmput= new InputTicker();
-//		List<String[]> tickers = obj.randomTickerCSV();
 		for (String[] row : tickers) {
 			int highlightLabelRandom = new Random().nextInt(tickers.size());
 			String[] cell = tickers.get(highlightLabelRandom);
@@ -106,6 +109,22 @@ public class CommonUtil {
 			if (randomTickers.size() >= 100)
 				break;
 		}
+	}
+
+	public List<String[]> randomTickerCSV() {
+		FileReader filereader;
+		try {
+			filereader = new FileReader(
+					RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
+			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+			List<String[]> allData = csvReader.readAll();
+			return allData;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 }
