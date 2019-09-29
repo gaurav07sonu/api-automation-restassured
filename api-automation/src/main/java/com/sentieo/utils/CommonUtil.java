@@ -16,12 +16,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
-
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.sentieo.finance.InputTicker;
-
-//import com.sentieo.finance.InputTicker;
 
 public class CommonUtil {
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
