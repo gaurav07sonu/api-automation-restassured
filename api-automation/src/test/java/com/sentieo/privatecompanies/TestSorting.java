@@ -46,7 +46,7 @@ public class TestSorting extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-		CommonUtil commUtil=new CommonUtil();
+		CommonUtil commUtil = new CommonUtil();
 		commUtil.generateRandomTickers();
 
 	}
@@ -57,7 +57,7 @@ public class TestSorting extends APIDriver {
 	}
 
 	public void getSortKey(String order, String URI, String ticker) throws Exception {
-		
+
 		JSONArray shortExitsArray = null;
 		String resultNode = "";
 		parameters.put("num_rows", "all");
@@ -94,28 +94,37 @@ public class TestSorting extends APIDriver {
 						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 								"Verify the API Response Status");
 						verify.verifyResponseTime(resp, 5000);
-						if (URI.contains("/api/fetch_cb_exit_table/"))
+						if (URI.contains("/api/fetch_cb_exit_table/")) {
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("exits");
-						resultNode = "exits";
-						if (URI.contains("/api/fetch_cb_fr_table/"))
+							resultNode = "exits";
+						}
+
+						if (URI.contains("/api/fetch_cb_fr_table/")) {
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("funding_rounds");
-						resultNode = "funding_rounds";
-						if (URI.contains("/api/fetch_cb_acq_table/"))
+							resultNode = "funding_rounds";
+						}
+						if (URI.contains("/api/fetch_cb_acq_table/")) {
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("acquisitions");
-						resultNode = "acquisitions";
-						if (URI.contains("/api/fetch_cb_funds_table/"))
+							resultNode = "acquisitions";
+						}
+						if (URI.contains("/api/fetch_cb_funds_table/")) {
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("funds");
-						resultNode = "funds";
-						if (URI.contains("/api/fetch_cb_key_investors/"))
+							resultNode = "funds";
+						}
+						if (URI.contains("/api/fetch_cb_key_investors/")) {
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("investors");
-						resultNode = "investors";
-						if (URI.contains("fetch_cb_fr_table"))
+							resultNode = "investors";
+						}
+						if (URI.contains("fetch_cb_fr_table")) {
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("funding_rounds");
-						resultNode = "funding_rounds";
+							resultNode = "funding_rounds";
+						}
 
 						if (URI.contains("fetch_cb_inv_table"))
+						{
 							shortExitsArray = respJson.getJSONObject("result").getJSONArray("investments");
 						resultNode = "investments";
+						}
 
 						for (int j = 0; j < shortExitsArray.length(); j++) {
 							String path = "result." + resultNode + "[" + j + "]." + seriesValue;
