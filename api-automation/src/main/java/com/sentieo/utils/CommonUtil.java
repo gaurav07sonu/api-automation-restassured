@@ -90,9 +90,9 @@ public class CommonUtil {
 	public void generateRandomTickers() {
 		List<String[]> tickers = randomTickerCSV();
 		randomTickers.put(1001, "AAPL");
-		randomTickers.put(1001, "AMZN");
-		randomTickers.put(1001, "TSLA");
-		randomTickers.put(1001, "ASNA");
+		randomTickers.put(1002, "AMZN");
+		randomTickers.put(1003, "TSLA");
+		randomTickers.put(1004, "ASNA");
 		for (String[] row : tickers) {
 			int highlightLabelRandom = new Random().nextInt(tickers.size());
 			String[] cell = tickers.get(highlightLabelRandom);

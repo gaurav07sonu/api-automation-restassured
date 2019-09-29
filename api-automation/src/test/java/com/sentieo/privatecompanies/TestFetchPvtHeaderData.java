@@ -2,6 +2,7 @@ package com.sentieo.privatecompanies;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,6 +38,8 @@ public class TestFetchPvtHeaderData extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
+		CommonUtil commUtil = new CommonUtil();
+		commUtil.generateRandomTickers();
 	}
 
 	@BeforeMethod
@@ -44,330 +47,365 @@ public class TestFetchPvtHeaderData extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-//	@Test(groups = "sanity", description = "private tickers", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-//	public void fetchCBExitTable(String paginationRequestCount) throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_EXIT_TABLE;
-//			parameters.put("num_rows", paginationRequestCount);
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONArray mappingArray = respJson.getJSONObject("result").getJSONArray("mapping");
-//			for (int i = 0; i < mappingArray.length(); i++) {
-//			    JSONObject json = mappingArray.getJSONObject(i);
-//			    Iterator<String> keys = json.keys();
-//			    while (keys.hasNext()) {
-//			        String key = keys.next();
-//			        if(key.contains("sort_key"))
-//			        {
-//			        	String seriesValue = (String) json.get(key);
-//					        System.out.println("Key :" + key + "  Value :" + json.get(key));
-//			        }
-//			       
-//			    }
-//
-//			}
-//
-//			JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("exits");
-//			int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
-//			int exitsArrayLength = exitsArray.length();
-//			if (paginationRequestCount.equals("all")) {
-//				verify.verifyEquals(exitsArrayLength, totalExitsCount, "");
-//			} else {
-//				int paginationCount = Integer.parseInt(paginationRequestCount);
-//				if (paginationCount > totalExitsCount) // 50>40
-//					verify.verifyEquals(totalExitsCount, exitsArrayLength, "");
-//				else
-//					verify.verifyEquals(paginationCount, exitsArrayLength, "");
-//			}
-//
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCFRTable() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_FR_TABLE;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBFRhighlights() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_FR_HIGHLIGHTS;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBFRCumulative() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_FR_cumulative;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//
-	@Test(groups = "sanity", description = "private tickers")
-	public void fetchCBINVTable() throws CoreCommonException {
+	@Test(groups = "sanity", description = "private tickers", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
+	public void fetchCBExitTable(String paginationRequestCount) throws CoreCommonException {
 		try {
-			String URI = APP_URL + FETCH_CB_INV_TABLE;
-			//parameters.put("num_rows", "all");
-			//parameters.put("sort_key", "money_raised_usd");
-			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get(URI, spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.verifyResponseTime(resp, 5000);
-			JSONObject values = respJson.getJSONObject("result");
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_EXIT_TABLE;
+				parameters.put("num_rows", paginationRequestCount);
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONArray mappingArray = respJson.getJSONObject("result").getJSONArray("mapping");
+				for (int i = 0; i < mappingArray.length(); i++) {
+					JSONObject json = mappingArray.getJSONObject(i);
+					Iterator<String> keys = json.keys();
+					while (keys.hasNext()) {
+						String key = keys.next();
+						if (key.contains("sort_key")) {
+							String seriesValue = (String) json.get(key);
+							System.out.println("Key :" + key + "  Value :" + json.get(key));
+						}
+
+					}
+
+				}
+
+				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("exits");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int exitsArrayLength = exitsArray.length();
+				if (paginationRequestCount.equals("all")) {
+					verify.verifyEquals(exitsArrayLength, totalExitsCount, "");
+				} else {
+					int paginationCount = Integer.parseInt(paginationRequestCount);
+					if (paginationCount > totalExitsCount) // 50>40
+						verify.verifyEquals(totalExitsCount, exitsArrayLength, "");
+					else
+						verify.verifyEquals(paginationCount, exitsArrayLength, "");
+				}
+			}
+
 			verify.verifyAll();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-//
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBINVQuarterwise() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_INV_QUARTERWISE;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBINVCategory() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_INV_CATEGORY;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//	
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBKeyInvestors() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_KEY_INVESTORS;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBexitCategory() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_EXIT_CATEGORY;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//	
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBacqTable() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_ACQ_TABLE;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchCBFundsTable() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_CB_FUNDS_TABLE;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//
-//
-//	@Test(groups = "sanity", description = "private tickers")
-//	public void fetchHeaderData() throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_NEW_COMPANY_HEADER_DATA;
-//			parameters.put("num_rows", "all");
-//			parameters.put("sort_key", "money_raised_usd");
-//			parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.get(URI, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-//					"Verify the API Response Status");
-//			verify.verifyResponseTime(resp, 5000);
-//			JSONObject values = respJson.getJSONObject("result");
-//			verify.verifyAll();
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//			throw new CoreCommonException(e.getMessage());
-//		}
-//	}
-//
-//	public void getSortKey(String paginationRequestCount) throws Exception
-//	{
-//		String URI = APP_URL + FETCH_CB_EXIT_TABLE;
-//		parameters.put("num_rows", paginationRequestCount);
-//		parameters.put("sort_key", "money_raised_usd");
-//		parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
-//		RequestSpecification spec = formParamsSpec(parameters);
-//		Response resp = RestOperationUtils.get(URI, spec, parameters);
-//		APIResponse apiResp = new APIResponse(resp);
-//		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//		JSONArray mappingArray = respJson.getJSONObject("result").getJSONArray("mapping");
-//		for (int i = 0; i < mappingArray.length(); i++) {
-//		    JSONObject json = mappingArray.getJSONObject(i);
-//		    Iterator<String> keys = json.keys();
-//		    while (keys.hasNext()) {
-//		        String key = keys.next();
-//		        JSONObject seriesValue = (JSONObject) json.get(key);
-//		        System.out.println("Key :" + key + "  Value :" + json.get(key));
-//		    }
-//
-//		}
-//	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCFRTable() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_FR_TABLE;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBFRhighlights() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_FR_HIGHLIGHTS;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBFRCumulative() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_FR_cumulative;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBINVTable() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_INV_TABLE;
+				// parameters.put("num_rows", "all");
+				// parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBINVQuarterwise() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_INV_QUARTERWISE;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBINVCategory() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_INV_CATEGORY;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBKeyInvestors() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_KEY_INVESTORS;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBexitCategory() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_EXIT_CATEGORY;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBacqTable() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_ACQ_TABLE;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchCBFundsTable() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_CB_FUNDS_TABLE;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	@Test(groups = "sanity", description = "private tickers")
+	public void fetchHeaderData() throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + FETCH_NEW_COMPANY_HEADER_DATA;
+				parameters.put("num_rows", "all");
+				parameters.put("sort_key", "money_raised_usd");
+				parameters.put("ticker", ticker);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject values = respJson.getJSONObject("result");
+			}
+			verify.verifyAll();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+
+	public void getSortKey(String paginationRequestCount) throws Exception {
+		String URI = APP_URL + FETCH_CB_EXIT_TABLE;
+		parameters.put("num_rows", paginationRequestCount);
+		parameters.put("sort_key", "money_raised_usd");
+		parameters.put("ticker", "aefa3a84519300c35cbfec5ec2645672-cb:pvt");
+		RequestSpecification spec = formParamsSpec(parameters);
+		Response resp = RestOperationUtils.get(URI, spec, parameters);
+		APIResponse apiResp = new APIResponse(resp);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+		JSONArray mappingArray = respJson.getJSONObject("result").getJSONArray("mapping");
+		for (int i = 0; i < mappingArray.length(); i++) {
+			JSONObject json = mappingArray.getJSONObject(i);
+			Iterator<String> keys = json.keys();
+			while (keys.hasNext()) {
+				String key = keys.next();
+				JSONObject seriesValue = (JSONObject) json.get(key);
+				System.out.println("Key :" + key + "  Value :" + json.get(key));
+			}
+
+		}
+	}
 
 }
