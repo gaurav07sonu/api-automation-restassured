@@ -168,12 +168,26 @@ public class TestSorting extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "private tickers", dataProvider = "sortingData", dataProviderClass = DataProviderClass.class)
-	public void performSorting(String sortOrder, String api) throws CoreCommonException {
+	public void testSortingWithSortingOrder(String sortOrder, String api) throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
 				String URI = APP_URL + api;
 				getSortKey(sortOrder, URI, ticker);
+			}
+		} catch (Exception e) {
+			throw new CoreCommonException(e.getMessage());
+		}
+	}
+	
+
+	@Test(groups = "sanity", description = "private tickers", dataProvider = "withoutsortingorder", dataProviderClass = DataProviderClass.class)
+	public void testSorting( String api) throws CoreCommonException {
+		try {
+			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
+				String ticker = tickerValue.getValue();
+				String URI = APP_URL + api;
+				getSortKey("", URI, ticker);
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());

@@ -137,5 +137,11 @@ public class DataProviderClass {
 		groupArray = new String[][] {{"asc",FETCH_CB_EXIT_TABLE},{"asc",FETCH_CB_ACQ_TABLE},{"asc",FETCH_CB_FUNDS_TABLE},{"asc",FETCH_CB_KEY_INVESTORS}, {"desc",FETCH_CB_EXIT_TABLE},{"desc",FETCH_CB_ACQ_TABLE},{"desc",FETCH_CB_FUNDS_TABLE},{"desc",FETCH_CB_KEY_INVESTORS}};
 		return groupArray;
 		}
+	@DataProvider(name = "withoutsortingorder")
+	public Object[][] privateDataWithoutSortingOrder() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{FETCH_CB_EXIT_TABLE},{FETCH_CB_ACQ_TABLE},{FETCH_CB_FUNDS_TABLE},{FETCH_CB_KEY_INVESTORS}, {FETCH_CB_EXIT_TABLE}};
+		return groupArray;
+		}
 
 }
