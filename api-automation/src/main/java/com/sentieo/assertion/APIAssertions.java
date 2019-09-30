@@ -3,12 +3,17 @@ package com.sentieo.assertion;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+
 import com.jayway.restassured.response.Response;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.report.ExtentTestManager;
@@ -27,17 +32,17 @@ public class APIAssertions extends SentieoSoftAssertion {
 	public void verifyResponseTime(Response res, long timeInMillis) {
 		String message = "";
 		try {
-			//Assert.assertTrue(res.getTimeIn(TimeUnit.MILLISECONDS) < timeInMillis);
+			// Assert.assertTrue(res.getTimeIn(TimeUnit.MILLISECONDS) < timeInMillis);
 			message = "Response time: [" + res.getTimeIn(TimeUnit.MILLISECONDS) + " ms] is less than expected ["
 					+ timeInMillis + "] milliseconds.";
 			ExtentTestManager.getTest().log(LogStatus.PASS, message);
 		} catch (JSONException je) {
-			//verificationFailures.add(je);
+			// verificationFailures.add(je);
 			message = "Response time: [<font color=\"red\">" + res.getTimeIn(TimeUnit.MILLISECONDS)
 					+ "</font> ms] is more than expected [" + timeInMillis + "] milliseconds.";
 			ExtentTestManager.getTest().log(LogStatus.WARNING, message);
 		} catch (AssertionError ae) {
-			//verificationFailures.add(ae);
+			// verificationFailures.add(ae);
 			message = "Response time: [<font color=\"red\">" + res.getTimeIn(TimeUnit.MILLISECONDS)
 					+ "</font> ms] is more than expected [" + timeInMillis + "] milliseconds.";
 			ExtentTestManager.getTest().log(LogStatus.WARNING, message);
@@ -66,8 +71,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 		}
 		return result;
 	}
-	
-	
+
 	public boolean verifyTrue(Object actual, String stepDetail) {
 		boolean result = false;
 		String message = "verifyTrue: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
@@ -85,7 +89,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
 		}
 		return result;
-		
+
 	}
 
 	public boolean assertEqualsActualContainsExpected(String actual, String expected, final String stepDetail) {
@@ -100,7 +104,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 		} catch (JSONException je) {
 			verificationFailures.add(je);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
-		}catch (AssertionError e) {
+		} catch (AssertionError e) {
 			verificationFailures.add(e);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
 		}
@@ -135,7 +139,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 
 		return assertJsonSchema;
 	}
-	
+
 	public boolean jsonSchemaValidation(Response res, String jsonFileName) {
 		boolean assertJsonSchema = false;
 		StringBuffer sb = new StringBuffer();
@@ -160,13 +164,12 @@ public class APIAssertions extends SentieoSoftAssertion {
 			verificationFailures.add(new Exception("JSON schema validation failed"));
 			String error = ae.getMessage();
 			String errorLog = jsonSchemaErrorLogs(error);
-			ExtentTestManager.getTest().log(LogStatus.FAIL, FormatterUtil.generateFormatedResponse(res, sb.toString(), errorLog));
+			ExtentTestManager.getTest().log(LogStatus.FAIL,
+					FormatterUtil.generateFormatedResponse(res, sb.toString(), errorLog));
 		}
 
 		return assertJsonSchema;
 	}
-
-
 
 	public boolean assertNotEquals(Object actual, Object expected, final String stepDetail) {
 		boolean result = true;
@@ -180,36 +183,35 @@ public class APIAssertions extends SentieoSoftAssertion {
 		} catch (JSONException je) {
 			verificationFailures.add(je);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
-		}catch (AssertionError ae) {
+		} catch (AssertionError ae) {
 			verificationFailures.add(ae);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
 		}
 		return result;
 	}
-	
-	public boolean verifyEquals(Double actual, Double  expected, final String stepDetail) {
-        boolean result = false;
-        String ACTUAL_DECO = "<span style=\"font-weight: bold;\"> Difference : </span>";
-        String EXPECT_DECO = "<span style=\"font-weight: bold;\"> Expected Delta not more than : </span>";
-        String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
-                + (actual != null ? actual.toString() : "null") + BREAK_LINE + EXPECT_DECO
-                + (expected != null ? expected.toString() : "null");
-        try {
-            Assert.assertFalse(actual>expected);
-            ExtentTestManager.getTest().log(LogStatus.PASS, message);
-            result = true;
-        } catch (JSONException je) {
-            verificationFailures.add(je);
-            ExtentTestManager.getTest().log(LogStatus.FAIL, message);
-        } catch (AssertionError ae) {
-            verificationFailures.add(ae);
-            ExtentTestManager.getTest().log(LogStatus.FAIL, message);
-        }
-        return result;
-	} 
 
-	
-	public boolean assertTrue(boolean value,String stepDetail) {
+	public boolean verifyEquals(Double actual, Double expected, final String stepDetail) {
+		boolean result = false;
+		String ACTUAL_DECO = "<span style=\"font-weight: bold;\"> Difference : </span>";
+		String EXPECT_DECO = "<span style=\"font-weight: bold;\"> Expected Delta not more than : </span>";
+		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
+				+ (actual != null ? actual.toString() : "null") + BREAK_LINE + EXPECT_DECO
+				+ (expected != null ? expected.toString() : "null");
+		try {
+			Assert.assertFalse(actual > expected);
+			ExtentTestManager.getTest().log(LogStatus.PASS, message);
+			result = true;
+		} catch (JSONException je) {
+			verificationFailures.add(je);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		} catch (AssertionError ae) {
+			verificationFailures.add(ae);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		}
+		return result;
+	}
+
+	public boolean assertTrue(boolean value, String stepDetail) {
 		boolean result = false;
 		try {
 			Assert.assertTrue(value);
@@ -217,13 +219,14 @@ public class APIAssertions extends SentieoSoftAssertion {
 			result = true;
 		} catch (JSONException je) {
 			verificationFailures.add(je);
-			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail );
-		}catch (AssertionError e) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail);
+		} catch (AssertionError e) {
 			verificationFailures.add(e);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail);
 		}
 		return result;
 	}
+
 	public boolean compareDates(String actual, String expected, final String stepDetail) throws ParseException {
 		boolean result = false;
 		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
@@ -233,7 +236,7 @@ public class APIAssertions extends SentieoSoftAssertion {
 			Date date1 = new SimpleDateFormat("M/dd/yy").parse(actual);
 
 			Date date2 = new SimpleDateFormat("M/dd/yy").parse(expected);
-			
+
 			Assert.assertEquals(date1, date2);
 			ExtentTestManager.getTest().log(LogStatus.PASS, message);
 			result = true;
@@ -246,14 +249,57 @@ public class APIAssertions extends SentieoSoftAssertion {
 		}
 		return result;
 	}
-	
+
+	public boolean assertEquals(List<BigInteger> actual, List<BigInteger> expected, String stepDetail) {
+		boolean result = false;
+		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
+				+ (actual != null ? actual.toString() : "null") + BREAK_LINE + EXPECT_DECO
+				+ (expected != null ? expected.toString() : "null");
+		try {
+			SoftAssert softAssertion = new SoftAssert();
+			softAssertion.assertEquals(actual.size(), expected.size());
+			softAssertion.assertEquals(actual, expected);
+			softAssertion.assertAll();
+			ExtentTestManager.getTest().log(LogStatus.PASS, message);
+			result = true;
+		} catch (JSONException je) {
+			verificationFailures.add(je);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		} catch (AssertionError e) {
+			verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		}
+		return result;
+	}
+	public boolean assertEquals(List<String> actual, List<String> expected,  String stepDetail, boolean val) {
+		boolean result = false;
+		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
+				+ (actual != null ? actual.toString() : "null") + BREAK_LINE + EXPECT_DECO
+				+ (expected != null ? expected.toString() : "null");
+		try {
+			SoftAssert softAssertion = new SoftAssert();
+			softAssertion.assertEquals(actual.size(), expected.size());
+			softAssertion.assertEquals(actual, expected);
+			softAssertion.assertAll();
+			ExtentTestManager.getTest().log(LogStatus.PASS, message);
+			result = true;
+		} catch (JSONException je) {
+			verificationFailures.add(je);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		} catch (AssertionError e) {
+			verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		}
+		return result;
+	}
+
 	public String jsonSchemaErrorLogs(String stackTrace) {
 		StringBuffer sb = new StringBuffer();
 		int errorCounter = 1;
 		try {
 			String[] tokenisedErrorStackTrace = stackTrace.split("\\n");
-			for (int i=0 ; i<tokenisedErrorStackTrace.length ; i++) {
-				if(tokenisedErrorStackTrace[i].contains("error:")) {
+			for (int i = 0; i < tokenisedErrorStackTrace.length; i++) {
+				if (tokenisedErrorStackTrace[i].contains("error:")) {
 					sb.append("******Error#" + String.valueOf(errorCounter++) + "******");
 					sb.append(System.getProperty("line.separator"));
 					++i;
