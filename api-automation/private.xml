@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sentieo tests" parallel="classes" thread-count="2" >
+<suite name="Sentieo tests" parallel="classes" thread-count="5" >
    <listeners>
         <listener class-name="com.sentieo.listener.TestListener"/>
         <listener class-name="com.sentieo.listener.AnnotationTransformer"/>

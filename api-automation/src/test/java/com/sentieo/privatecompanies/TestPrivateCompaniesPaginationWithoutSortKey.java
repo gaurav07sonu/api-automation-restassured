@@ -173,7 +173,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_funding_rounds");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("funding_rounds");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -209,7 +209,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_funding_rounds");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("funding_rounds");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -245,7 +245,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_funding_rounds");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("funding_rounds");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -421,7 +421,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_investments_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("investments");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -457,7 +457,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_investments_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("investments");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -494,7 +494,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_investments_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("investments");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -667,7 +667,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_investors_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("investors");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -702,7 +702,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_investors_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("investors");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -737,7 +737,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_investors_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("investors");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -912,7 +912,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_funds_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("funds");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -948,7 +948,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_funds_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("funds");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
@@ -985,7 +985,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				int totalExitsCount = respJson.getJSONObject("result").getInt("total_exits_count");
+				int totalExitsCount = respJson.getJSONObject("result").getInt("total_funds_count");
 				JSONArray exitsArray = respJson.getJSONObject("result").getJSONArray("funds");
 				int exitsArrayLength = exitsArray.length();
 				if (paginationRequestCount.equals("all")) {
