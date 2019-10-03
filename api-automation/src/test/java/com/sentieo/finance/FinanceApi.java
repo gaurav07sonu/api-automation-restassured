@@ -618,6 +618,7 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetch_value_table", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
 	public void fetchvaluetable(String subtype, String currency) throws Exception {
+
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
@@ -635,6 +636,34 @@ public class FinanceApi extends APIDriver {
 			}
 		}
 		verify.verifyAll();
+	}
+
+	@Test(groups = "sanity", description = "FETCH_NEW_MODEL_DATA")
+	public void fetchNewModelData() throws Exception {
+		if (USER_APP_URL.equalsIgnoreCase("app2") || USER_APP_URL.equalsIgnoreCase("dev")) {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			for (String[] row : tickers) {
+				for (String cell : row) {
+					tickerData.put("model_source", "vpt");
+					tickerData.put("ticker", cell);
+					tickerData.put("ptype", "fq");
+					tickerData.put("report_currency", "usd");
+					tickerData.put("units", "T");
+					tickerData.put("historical_periods", "3year");
+					tickerData.put("forecast_periods", "3year");
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(FETCH_NEW_MODEL_DATA, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+				}
+			}
+			verify.verifyAll();
+		}
+
 	}
 
 	@Test(groups = "sanity", description = "fetch_institutional_holdings_data3")
