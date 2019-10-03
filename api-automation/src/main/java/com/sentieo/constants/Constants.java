@@ -52,6 +52,7 @@ public class Constants {
 	public static final String FETCH_PAST_INTRADAY = "/api/fetch_past_intra/";
 	public static final String FETCH_GRAPH_DATA = "/api/fetch_graph_data/";
 	public static final String FETCH_VALUE_DATA= "/api/fetch_value_table/";
+	public static final String FETCH_NEW_MODEL_DATA="/api/fetch_new_model_data/";
 	public static final String FETCH_HOLDINGS_DATA= "/api/fetch_institutional_holdings_data3/";
 	
 	
