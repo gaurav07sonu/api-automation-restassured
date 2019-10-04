@@ -285,6 +285,8 @@ public class FinanceApi extends APIDriver {
 	@Test(groups = "sanity", description = "fetch_yearly_data", dataProvider = "fetch_yearly_data1", dataProviderClass = DataProviderClass.class)
 	public void fetchyearlydata(String ticker, String model, String historical_periods, String forecast_periods,
 			String report_currency) throws Exception {
+		String url=USER_APP_URL;
+		if(url.equals("user-app2.sentieo.com")&& (!url.contains("user-dev.sentieo.com"))) {
 		for (String[] row : tickers) {
 			for (String cell : row) {
 				HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -305,6 +307,7 @@ public class FinanceApi extends APIDriver {
 						"Verify the API Message");
 
 			}
+		}
 		}
 		verify.verifyAll();
 	}
@@ -640,7 +643,8 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "FETCH_NEW_MODEL_DATA")
 	public void fetchNewModelData() throws Exception {
-		if (USER_APP_URL.equalsIgnoreCase("app2") || USER_APP_URL.equalsIgnoreCase("dev")) {
+		String url=USER_APP_URL;
+		if(url.equals("https://user-app2.sentieo.com")&& (url.equals("https://user-dev.sentieo.com"))) {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {
