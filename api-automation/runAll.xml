@@ -35,6 +35,7 @@
 				<exclude name="com.sentieo.notebook"></exclude>
 				<exclude name="com.sentieo.logintest"></exclude>
 				<exclude name="com.sentieo.plotter"></exclude>
+				<exclude name="com.sentieo.privatecompanies"></exclude>
 			</package>
 		</packages>
 	</test>
