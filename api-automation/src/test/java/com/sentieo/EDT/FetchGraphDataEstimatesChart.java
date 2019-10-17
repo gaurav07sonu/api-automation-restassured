@@ -116,7 +116,7 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 			verify.assertEqualsActualContainsExpected(errorMsgAPP2,"success","verify app2 message");
 		}
 		}
-		//verify.verifyAll();
+		verify.verifyAll();
 	}
 
 }

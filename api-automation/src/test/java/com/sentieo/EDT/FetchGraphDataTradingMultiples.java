@@ -115,9 +115,9 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-//		finally {
-//			verify.verifyAll();
-//		}
+		finally {
+			verify.verifyAll();
+		}
 	}
 
 }
