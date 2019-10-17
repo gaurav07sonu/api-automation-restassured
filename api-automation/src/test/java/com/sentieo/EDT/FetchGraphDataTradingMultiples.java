@@ -66,10 +66,6 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		Response resp = RestOperationUtils.post(FETCH_GRAPH_DATA, null, spec, tickerData);
 		APIResponse apiResp = new APIResponse(resp);
 		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
 		appSeries = respJson.getJSONObject("result").getJSONArray("series");
 
 	}
@@ -88,7 +84,6 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		APIResponse apiResp = new APIResponse(resp);
 		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
 		app2Series = respJson.getJSONObject("result").getJSONArray("series");
