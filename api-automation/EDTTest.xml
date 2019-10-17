@@ -6,8 +6,8 @@
    </listeners>
  
   <test name="sentieo-private companies tests" preserve-order="true">
-    <packages>
-      <package name="com.sentieo.EDT.*" />
-    </packages>
+    <classes>
+      <class name="com.sentieo.EDT.FetchGraphDataEstimatesChart" />
+    </classes>
   </test>
 </suite>
