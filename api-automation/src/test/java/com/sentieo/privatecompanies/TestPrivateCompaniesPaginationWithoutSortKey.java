@@ -37,7 +37,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
 		CommonUtil commUtil = new CommonUtil();
-		commUtil.generateRandomTickers("randomtickers.csv");
+		commUtil.generateRandomTickers();
 	}
 
 	@BeforeMethod

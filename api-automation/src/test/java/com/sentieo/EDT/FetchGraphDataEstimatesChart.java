@@ -8,6 +8,7 @@ import static com.sentieo.constants.Constants.LOGIN_URL;
 import static com.sentieo.constants.Constants.PASSWORD;
 import static com.sentieo.constants.Constants.USER_APP_URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,8 +46,6 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-		CommonUtil commUtil = new CommonUtil();
-		commUtil.generateRandomTickers("EDTTicker.csv");
 	}
 
 	@BeforeMethod
@@ -102,17 +101,20 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "graphDataYearlyEstimate", dataProviderClass = DataProviderClass.class)
 	public void yearlyEstimateTest(String subType) throws Exception {
-		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
-			String ticker = tickerValue.getValue();
-			ticker=ticker.toLowerCase();
-			fetchGraphdataYearlyEstimatesapp(subType,ticker);
-			fetchGraphdataYearlyEstimatesapp2(subType,ticker);
+		CommonUtil commUtil = new CommonUtil();
+		List<String[]> tickers =commUtil.readTickerCSV();
+		for (String[] row : tickers)  {
+			for (String tickerName : row) {
+				tickerName = tickerName.toLowerCase();
+			fetchGraphdataYearlyEstimatesapp(subType,tickerName);
+			fetchGraphdataYearlyEstimatesapp2(subType,tickerName);
 			int appSeriesLength = appSeries.length();
 			int app2SeriesLength = app2Series.length();
 			verify.verifyEquals(appSeriesLength, app2SeriesLength,
 					"verify series length" + "  app series  " + appSeriesLength + "  app2 series  " + app2SeriesLength + " for series "+subType);
 			verify.assertEqualsActualContainsExpected(errorMsgAPP,"success","verify app message");
 			verify.assertEqualsActualContainsExpected(errorMsgAPP2,"success","verify app2 message");
+		}
 		}
 		verify.verifyAll();
 	}
