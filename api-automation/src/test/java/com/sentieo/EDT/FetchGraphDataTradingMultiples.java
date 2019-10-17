@@ -45,6 +45,7 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
+
 	}
 
 	@BeforeMethod
@@ -98,20 +99,24 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 	public void yearlyEstimateTest(String ratio, String pType, String rationName) throws Exception {
 		try {
 			CommonUtil commUtil = new CommonUtil();
-			List<String[]> tickers =commUtil.readTickerCSV();;
-			for (String[] row : tickers)  {
+			List<String[]> tickers = commUtil.readTickerCSV();
+			for (String[] row : tickers) {
 				for (String tickerName : row) {
 					tickerName = tickerName.toLowerCase();
-				fetchGraphdataMultiplesapp2(ratio, pType, rationName, tickerName);
-				fetchGraphdataMultiplesapp(ratio, pType, rationName, tickerName);
-				int appSeriesLength = appSeries.length();
-				int app2SeriesLength = app2Series.length();
-				verify.verifyEquals(appSeriesLength, app2SeriesLength, "verify series length" + "  app series  "
-						+ appSeriesLength + "  app2 series  " + app2SeriesLength);
-			}}
-			verify.verifyAll();
+					fetchGraphdataMultiplesapp2(ratio, pType, rationName, tickerName);
+					fetchGraphdataMultiplesapp(ratio, pType, rationName, tickerName);
+					int appSeriesLength = appSeries.length();
+					int app2SeriesLength = app2Series.length();
+					verify.verifyEquals(app2SeriesLength, appSeriesLength, "verify series length" + "  app series  "
+							+ appSeriesLength + "  app2 series  " + app2SeriesLength);
+				}
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e);
+		}
+		finally {
+			verify.verifyAll();
 		}
 	}
 
