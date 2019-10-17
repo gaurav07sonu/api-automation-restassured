@@ -87,8 +87,8 @@ public class CommonUtil {
 		return true;
 	}
 
-	public void generateRandomTickers() {
-		List<String[]> tickers = randomTickerCSV();
+	public void generateRandomTickers(String csvName) {
+		List<String[]> tickers = randomTickerCSV(csvName);
 		randomTickers.put(1001, "AAPL");
 		randomTickers.put(1002, "AMZN");
 		randomTickers.put(1003, "TSLA");
@@ -107,11 +107,11 @@ public class CommonUtil {
 		}
 	}
 
-	public List<String[]> randomTickerCSV() {
+	public List<String[]> randomTickerCSV(String csvName) {
 		FileReader filereader;
 		try {
 			filereader = new FileReader(
-					RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
+					RESOURCE_PATH + File.separator + "finance" + File.separator + csvName);
 			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
 			List<String[]> allData = csvReader.readAll();
 			return allData;
