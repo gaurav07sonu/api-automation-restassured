@@ -111,7 +111,7 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 							+ appSeriesLength + "  app2 series  " + app2SeriesLength);
 				}
 			}
-			
+			verify.verifyAll();
 
 		} catch (Exception e) {
 		}
