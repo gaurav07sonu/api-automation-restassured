@@ -31,8 +31,8 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 	HashMap<String, String> tickerData = new HashMap<String, String>();
 	JSONArray appSeries;
 	JSONArray app2Series;
-	String errorMsgAPP="";
-	String errorMsgAPP2="";
+	String errorMsgAPP = "";
+	String errorMsgAPP2 = "";
 
 	@BeforeClass
 	public void setup() throws Exception {
@@ -69,7 +69,7 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
 		appSeries = respJson.getJSONObject("result").getJSONArray("series");
-		errorMsgAPP=respJson.getJSONObject("response").getJSONArray("msg").toString();
+		errorMsgAPP = respJson.getJSONObject("response").getJSONArray("msg").toString();
 	}
 
 	public void fetchGraphdataMultiplesapp2(String ratio, String pType, String rationName, String ticker)
@@ -89,25 +89,26 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
 		app2Series = respJson.getJSONObject("result").getJSONArray("series");
-		errorMsgAPP2=respJson.getJSONObject("response").getJSONArray("msg").toString();
+		errorMsgAPP2 = respJson.getJSONObject("response").getJSONArray("msg").toString();
 	}
 
 	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "tradingMultiplesCombination", dataProviderClass = DataProviderClass.class)
 	public void yearlyEstimateTest(String ratio, String pType, String rationName) throws Exception {
-			CommonUtil commUtil = new CommonUtil();
-			List<String[]> tickers = commUtil.readTickerCSV();
-			for (String[] row : tickers) {
-				for (String tickerName : row) {
-					tickerName = tickerName.toLowerCase();
-					fetchGraphdataMultiplesapp2(ratio, pType, rationName, tickerName);
-					fetchGraphdataMultiplesapp(ratio, pType, rationName, tickerName);
-					int appSeriesLength = appSeries.length();
-					int app2SeriesLength = app2Series.length();
-					verify.assertEqualsActualContainsExpected(errorMsgAPP2,"success","verify app2 message");
-					verify.verifyEquals(app2SeriesLength, appSeriesLength, "verify series length" + "  app series  "+ appSeriesLength + "  app2 series  " + app2SeriesLength+" for series " + ratio +" and ticker is : "+tickerName);
-				}
+		CommonUtil commUtil = new CommonUtil();
+		List<String[]> tickers = commUtil.readTickerCSV();
+		for (String[] row : tickers) {
+			for (String tickerName : row) {
+				tickerName = tickerName.toLowerCase();
+				fetchGraphdataMultiplesapp2(ratio, pType, rationName, "dow");
+				fetchGraphdataMultiplesapp(ratio, pType, rationName, "dow");
+				int appSeriesLength = appSeries.length();
+				int app2SeriesLength = app2Series.length();
+				if (appSeriesLength > app2SeriesLength)
+					verify.assertTrue(false, "verify series length" + "  app series  " + appSeriesLength
+							+ "  app2 series  " + app2SeriesLength + " for series " + ratio + " and ticker is : " +tickerName);
+				verify.assertEqualsActualContainsExpected(errorMsgAPP2, "success", "verify app2 message");
 			}
-			verify.verifyAll();
 		}
+		verify.verifyAll();
 	}
-
+}
