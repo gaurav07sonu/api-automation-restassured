@@ -1,6 +1,5 @@
 package com.sentieo.EDT;
 
-
 import static com.sentieo.constants.Constants.APP_URL;
 import static com.sentieo.constants.Constants.EMAIL;
 import static com.sentieo.constants.Constants.*;
@@ -9,7 +8,6 @@ import static com.sentieo.constants.Constants.PASSWORD;
 import static com.sentieo.constants.Constants.USER_APP_URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
@@ -31,8 +29,8 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 	HashMap<String, String> tickerData = new HashMap<String, String>();
 	JSONArray appSeries;
 	JSONArray app2Series;
-	String errorMsgAPP="";
-	String errorMsgAPP2="";
+	String errorMsgAPP = "";
+	String errorMsgAPP2 = "";
 
 	@BeforeClass
 	public void setup() throws Exception {
@@ -53,7 +51,7 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	public void fetchGraphdataYearlyEstimatesapp(String subType,String ticker) throws Exception {
+	public void fetchGraphdataYearlyEstimatesapp(String subType, String ticker) throws Exception {
 		if (subType.contains("GrossProfit"))
 			subType = "gross_profit";
 		if (subType.contains("EbitdaMargin"))
@@ -76,10 +74,10 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
 		appSeries = respJson.getJSONObject("result").getJSONArray("series");
-		errorMsgAPP=respJson.getJSONObject("response").getJSONArray("msg").toString();
+		errorMsgAPP = respJson.getJSONObject("response").getJSONArray("msg").toString();
 	}
 
-	public void fetchGraphdataYearlyEstimatesapp2(String subType,String ticker) throws CoreCommonException {
+	public void fetchGraphdataYearlyEstimatesapp2(String subType, String ticker) throws CoreCommonException {
 		tickerData.put("ticker", ticker);
 		tickerData.put("graphtype", "yearlyEstimate");
 		tickerData.put("subtype", subType);
@@ -96,25 +94,25 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
 		app2Series = respJson.getJSONObject("result").getJSONArray("series");
-		errorMsgAPP2=respJson.getJSONObject("response").getJSONArray("msg").toString();
+		errorMsgAPP2 = respJson.getJSONObject("response").getJSONArray("msg").toString();
 	}
 
 	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "graphDataYearlyEstimate", dataProviderClass = DataProviderClass.class)
 	public void yearlyEstimateTest(String subType) throws Exception {
 		CommonUtil commUtil = new CommonUtil();
-		List<String[]> tickers =commUtil.readTickerCSV();
-		for (String[] row : tickers)  {
+		List<String[]> tickers = commUtil.readTickerCSV();
+		for (String[] row : tickers) {
 			for (String tickerName : row) {
 				tickerName = tickerName.toLowerCase();
-			fetchGraphdataYearlyEstimatesapp(subType,tickerName);
-			fetchGraphdataYearlyEstimatesapp2(subType,tickerName);
-			int appSeriesLength = appSeries.length();
-			int app2SeriesLength = app2Series.length();
-			verify.verifyEquals(appSeriesLength, app2SeriesLength,
-					"verify series length" + "  app series  " + appSeriesLength + "  app2 series  " + app2SeriesLength + " for series "+subType);
-			verify.assertEqualsActualContainsExpected(errorMsgAPP,"success","verify app message");
-			verify.assertEqualsActualContainsExpected(errorMsgAPP2,"success","verify app2 message");
-		}
+				fetchGraphdataYearlyEstimatesapp(subType, tickerName);
+				fetchGraphdataYearlyEstimatesapp2(subType, tickerName);
+				int appSeriesLength = appSeries.length();
+				int app2SeriesLength = app2Series.length();
+				verify.verifyEquals(appSeriesLength, app2SeriesLength, "verify series length" + "  app series  "
+						+ appSeriesLength + "  app2 series  " + app2SeriesLength + " for series " + subType);
+				verify.assertEqualsActualContainsExpected(errorMsgAPP, "success", "verify app message");
+				verify.assertEqualsActualContainsExpected(errorMsgAPP2, "success", "verify app2 message");
+			}
 		}
 		verify.verifyAll();
 	}

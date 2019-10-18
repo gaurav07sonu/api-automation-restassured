@@ -104,8 +104,8 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 					fetchGraphdataMultiplesapp(ratio, pType, rationName, tickerName);
 					int appSeriesLength = appSeries.length();
 					int app2SeriesLength = app2Series.length();
-					verify.verifyEquals(app2SeriesLength, appSeriesLength, "verify series length" + "  app series  "
-							+ appSeriesLength + "  app2 series  " + app2SeriesLength);
+					verify.assertEqualsActualContainsExpected(errorMsgAPP2,"success","verify app2 message");
+					verify.verifyEquals(app2SeriesLength, appSeriesLength, "verify series length" + "  app series  "+ appSeriesLength + "  app2 series  " + app2SeriesLength+" for series " + ratio +" and ticker is : "+tickerName);
 				}
 			}
 			verify.verifyAll();
