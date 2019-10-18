@@ -109,7 +109,7 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 				int appSeriesLength = appSeries.length();
 				int app2SeriesLength = app2Series.length();
 				verify.verifyEquals(appSeriesLength, app2SeriesLength, "verify series length" + "  app series  "
-						+ appSeriesLength + "  app2 series  " + app2SeriesLength + " for series " + subType);
+						+ appSeriesLength + "  app2 series  " + app2SeriesLength + " for series " + subType +" and ticker is : "+tickerName);
 				verify.assertEqualsActualContainsExpected(errorMsgAPP, "success", "verify app message");
 				verify.assertEqualsActualContainsExpected(errorMsgAPP2, "success", "verify app2 message");
 			}

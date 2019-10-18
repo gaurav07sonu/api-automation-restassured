@@ -94,7 +94,6 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "tradingMultiplesCombination", dataProviderClass = DataProviderClass.class)
 	public void yearlyEstimateTest(String ratio, String pType, String rationName) throws Exception {
-		try {
 			CommonUtil commUtil = new CommonUtil();
 			List<String[]> tickers = commUtil.readTickerCSV();
 			for (String[] row : tickers) {
@@ -109,9 +108,6 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 				}
 			}
 			verify.verifyAll();
-		} catch (Exception e) {
 		}
-
 	}
 
-}
