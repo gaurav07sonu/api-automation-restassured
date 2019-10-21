@@ -1,8 +1,6 @@
 package com.sentieo.finance;
 
 import static com.sentieo.constants.Constants.*;
-
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -82,7 +80,8 @@ public class FinanceApi extends APIDriver {
 						"Verify that Requested ticker Visible in the API");
 				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
 						"Verify the API Message");
-				verify.jsonSchemaValidation(resp, "finance" + File.separator + "fetchCurrentStockData.json");
+				// verify.jsonSchemaValidation(resp, "finance" + File.separator +
+				// "fetchCurrentStockData.json");
 
 			}
 		}
@@ -104,7 +103,8 @@ public class FinanceApi extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				verify.jsonSchemaValidation(resp, "finance" + File.separator + "fetchCapitalEventsData.json");
+				// verify.jsonSchemaValidation(resp, "finance" + File.separator +
+				// "fetchCapitalEventsData.json");
 			}
 		}
 		verify.verifyAll();
@@ -277,33 +277,6 @@ public class FinanceApi extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-			}
-		}
-		verify.verifyAll();
-	}
-
-	@Test(groups = "sanity", description = "fetch_yearly_data", dataProvider = "fetch_yearly_data1", dataProviderClass = DataProviderClass.class)
-	public void fetchyearlydata(String ticker, String model, String historical_periods, String forecast_periods,
-			String report_currency) throws Exception {
-		for (String[] row : tickers) {
-			for (String cell : row) {
-				HashMap<String, String> tickerData = new HashMap<String, String>();
-				tickerData.put("ticker", cell);
-				tickerData.put("model", model);
-				tickerData.put("historical_periods", historical_periods);
-				tickerData.put("forecast_periods", forecast_periods);
-				tickerData.put("report_currency", report_currency);
-				RequestSpecification spec = formParamsSpec(tickerData);
-				Response resp = RestOperationUtils.post(FETCH_YEARLY_DATA, null, spec, tickerData);
-				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 5000);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyEquals(respJson.getJSONObject("response").getString("msg"), "success",
-						"Verify the API Message");
-
 			}
 		}
 		verify.verifyAll();
@@ -618,7 +591,6 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetch_value_table", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
 	public void fetchvaluetable(String subtype, String currency) throws Exception {
-
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
@@ -636,34 +608,6 @@ public class FinanceApi extends APIDriver {
 			}
 		}
 		verify.verifyAll();
-	}
-
-	@Test(groups = "sanity", description = "FETCH_NEW_MODEL_DATA")
-	public void fetchNewModelData() throws Exception {
-		if (USER_APP_URL.equalsIgnoreCase("app2") || USER_APP_URL.equalsIgnoreCase("dev")) {
-			HashMap<String, String> tickerData = new HashMap<String, String>();
-			for (String[] row : tickers) {
-				for (String cell : row) {
-					tickerData.put("model_source", "vpt");
-					tickerData.put("ticker", cell);
-					tickerData.put("ptype", "fq");
-					tickerData.put("report_currency", "usd");
-					tickerData.put("units", "T");
-					tickerData.put("historical_periods", "3year");
-					tickerData.put("forecast_periods", "3year");
-					RequestSpecification spec = queryParamsSpec(tickerData);
-					Response resp = RestOperationUtils.get(FETCH_NEW_MODEL_DATA, spec, tickerData);
-					APIResponse apiResp = new APIResponse(resp);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					verify.verifyResponseTime(resp, 5000);
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-				}
-			}
-			verify.verifyAll();
-		}
-
 	}
 
 	@Test(groups = "sanity", description = "fetch_institutional_holdings_data3")
