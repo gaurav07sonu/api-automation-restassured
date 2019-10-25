@@ -99,8 +99,8 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 		for (String[] row : tickers) {
 			for (String tickerName : row) {
 				tickerName = tickerName.toLowerCase();
-				fetchGraphdataMultiplesapp2(ratio, pType, rationName, "dow");
-				fetchGraphdataMultiplesapp(ratio, pType, rationName, "dow");
+				fetchGraphdataMultiplesapp2(ratio, pType, rationName, tickerName);
+				fetchGraphdataMultiplesapp(ratio, pType, rationName, tickerName);
 				int appSeriesLength = appSeries.length();
 				int app2SeriesLength = app2Series.length();
 				if (appSeriesLength > app2SeriesLength)

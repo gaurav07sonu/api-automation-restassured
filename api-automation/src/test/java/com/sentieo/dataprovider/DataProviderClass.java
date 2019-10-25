@@ -160,4 +160,11 @@ public class DataProviderClass {
 		return groupArray;
 		}
 	
+	@DataProvider(name = "tradingMultiplesLTMNTM")
+	public Object[][] tradingMultiplesLTMNTM() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"p_eps","blended"},{"p_eps","backward"},{"ev_sales","blended"},{"ev_sales","backward"},{"p_sales","blended"},{"p_sales","backward"},{"ev_ebitda","blended"},{"ev_ebitda","backward"},{"ev_ebit","blended"},{"ev_ebit","backward"}};
+		return groupArray;
+		}
+	
 }
