@@ -1548,7 +1548,7 @@ public class NotebookApis extends APIDriver {
 			dataMapForRemove.put("note_id", note_id);
 
 			RequestSpecification spec2 = formParamsSpec(dataMapForRemove);
-			Response resp2 = RestOperationUtils.get(REMOVE_ATTACHMENT, spec2, dataMapForRemove);
+			Response resp2 = RestOperationUtils.post(REMOVE_ATTACHMENT, null, spec2, dataMapForRemove);
 			APIResponse apiResp2 = new APIResponse(resp2);
 			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
 

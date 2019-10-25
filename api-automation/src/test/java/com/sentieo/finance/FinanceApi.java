@@ -1,8 +1,6 @@
 package com.sentieo.finance;
 
 import static com.sentieo.constants.Constants.*;
-
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -82,7 +80,8 @@ public class FinanceApi extends APIDriver {
 						"Verify that Requested ticker Visible in the API");
 				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
 						"Verify the API Message");
-				verify.jsonSchemaValidation(resp, "finance" + File.separator + "fetchCurrentStockData.json");
+				// verify.jsonSchemaValidation(resp, "finance" + File.separator +
+				// "fetchCurrentStockData.json");
 
 			}
 		}
@@ -104,7 +103,8 @@ public class FinanceApi extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				verify.jsonSchemaValidation(resp, "finance" + File.separator + "fetchCapitalEventsData.json");
+				// verify.jsonSchemaValidation(resp, "finance" + File.separator +
+				// "fetchCapitalEventsData.json");
 			}
 		}
 		verify.verifyAll();
@@ -282,6 +282,7 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
+
 	@Test(groups = "sanity", description = "fetch_yearly_data", dataProvider = "fetch_yearly_data1", dataProviderClass = DataProviderClass.class)
 	public void fetchyearlydata(String ticker, String model, String historical_periods, String forecast_periods,
 			String report_currency) throws Exception {
@@ -311,6 +312,7 @@ public class FinanceApi extends APIDriver {
 		}
 		verify.verifyAll();
 	}
+
 
 	@Test(groups = "sanity", description = "fetch_trading_ratios")
 	public void fetchtradingratios() throws Exception {
@@ -621,7 +623,6 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetch_value_table", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
 	public void fetchvaluetable(String subtype, String currency) throws Exception {
-
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
@@ -640,6 +641,7 @@ public class FinanceApi extends APIDriver {
 		}
 		verify.verifyAll();
 	}
+
 
 	@Test(groups = "sanity", description = "FETCH_NEW_MODEL_DATA")
 	public void fetchNewModelData() throws Exception {
@@ -669,6 +671,7 @@ public class FinanceApi extends APIDriver {
 		}
 
 	}
+
 
 	@Test(groups = "sanity", description = "fetch_institutional_holdings_data3")
 	public void fetchinstitutionalholdingsdata() throws Exception {
