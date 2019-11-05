@@ -33,6 +33,8 @@ public class Constants {
 	public static final String FETCH_DOCS_META_DATA = "/api/fetch_docs_meta_data/";
 	public static final String FETCH_CUSTOM_DOC_DIFF = "/api/fetch_custom_doc_diff/";
 	public static final String FETCH_IMPACT_SCORE = "/api/fetch_impact_score/";
+	public static final String LOAD_SAVED_SEARCH_DATA = "/api/load_saved_search_data/";
+	
 	
 	
 	//finance / plotter
