@@ -34,7 +34,7 @@ compile group: 'io.rest-assured', name: 'json-schema-validator', version: '3.0.0
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.google.apis:google-api-services-sheets:v4-rev502-1.23.0'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.+'
-    compile group: 'com.google.guava', name: 'guava', version: '24.0-jre'
+    compile group: 'com.google.guava', name: 'guava', version: '27.0-jre'
     compile 'com.squareup.okio:okio:1.14.0'
     compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.4.1'
     compile 'com.google.apis:google-api-services-gmail:v1-rev83-1.23.0'
