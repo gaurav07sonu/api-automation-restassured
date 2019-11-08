@@ -31,8 +31,7 @@ public class TestTradingMultiples extends APIDriver {
 	JSONArray appSeries;
 	JSONArray app2Series;
 	String errorMsgAPP = "";
-	String errorMsgAPP2 = "";
-	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("adbe", "amzn", "tsla", "aapl"));
+	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("vod:ln", "baba", "ads:gr", "aapl", "700:hk","7203:jp"));
 
 	@BeforeClass
 	public void setup() throws Exception {
@@ -77,20 +76,29 @@ public class TestTradingMultiples extends APIDriver {
 				Double secondValue = (Double) values.getJSONArray(i + 1).get(1);
 				if (firstValue >= secondValue) {
 					if (firstValue == -999999.0 || secondValue == -999999.0)
-						verify.assertTrue(false, "<b>" + "verify negative value : " +"<br/>"+"<b>" +  " first value is: "  + firstValue  +"<br/>"+ "<b>"
-					+ " second value is : " + secondValue +"<b>" +"<br/>"+ " for ticker : " + ticker);
+						verify.assertTrue(false,
+								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
+										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
+										+ " for ticker : " + ticker);
 					Double postivePerChnage = getpostivePercentageChange(i, values);
 					if (postivePerChnage > 25) {
-						verify.assertTrue(false,"<b>"+"verify increment of value percentage : "  +"<b>"+ postivePerChnage +"<br/>"+"<b>" + " for ticker : " + ticker+"<br/>"
-										+ " first value is : " + firstValue  +"<br/>"+"<b>" + " second value is : " + secondValue);
+						verify.assertTrue(false,
+								"<b>" + "verify increment of value percentage : " + "<b>" + postivePerChnage + "<br/>"
+										+ "<b>" + " for ticker : " + ticker + "<br/>" + " first value is : "
+										+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue);
 					}
 				} else {
 					if (firstValue == -999999.0 || secondValue == -999999.0)
-						verify.assertTrue(false, "<b>" + "verify negative value : " +"<br/>"+"<b>" +  " first value is: "  + firstValue  +"<br/>"+ "<b>"+ " second value is : " + secondValue +"<b>" +"<br/>"+ " for ticker : " + ticker);
+						verify.assertTrue(false,
+								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
+										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
+										+ " for ticker : " + ticker);
 					Double negativePerChnage = getnegativePercentageChange(i, values);
 					if (negativePerChnage > 25) {
-						verify.assertTrue(false,"<b>"+"verify decrement of value percentage : "  +"<b>"+ negativePerChnage +"<br/>"+"<b>" + " for ticker : " + ticker+"<br/>"
-										+ " first value is : " + firstValue  +"<br/>"+"<b>" + " second value is : " + secondValue);
+						verify.assertTrue(false,
+								"<b>" + "verify decrement of value percentage : " + "<b>" + negativePerChnage + "<br/>"
+										+ "<b>" + " for ticker : " + ticker + "<br/>" + " first value is : "
+										+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue);
 					}
 				}
 			}
