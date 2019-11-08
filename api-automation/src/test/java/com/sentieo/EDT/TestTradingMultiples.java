@@ -71,7 +71,11 @@ public class TestTradingMultiples extends APIDriver {
 		if (statusCode == 200) {
 			JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
 					.getJSONArray("series");
+			System.out.println(values.length());
 			for (int i = 0; i < values.length(); i++) {
+				if(values.length()-1!=i)
+				{
+					
 				Double firstValue = (Double) values.getJSONArray(i).get(1);
 				Double secondValue = (Double) values.getJSONArray(i + 1).get(1);
 				if (firstValue >= secondValue) {
@@ -101,6 +105,7 @@ public class TestTradingMultiples extends APIDriver {
 										+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue);
 					}
 				}
+			}
 			}
 		}
 

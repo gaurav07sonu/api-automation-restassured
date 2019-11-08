@@ -6,7 +6,7 @@
         <listener class-name="com.sentieo.listener.AnnotationTransformer"/>
    </listeners>
  
-  <test name="sentieo-private companies tests" preserve-order="true">
+  <test name="sentieo-trading multiples estimate tests" preserve-order="true">
     <classes>
       <class name="com.sentieo.EDT.TestTradingMultiples" />
     </classes>
