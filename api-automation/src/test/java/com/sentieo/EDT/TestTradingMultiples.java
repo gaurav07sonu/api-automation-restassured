@@ -71,7 +71,6 @@ public class TestTradingMultiples extends APIDriver {
 		if (statusCode == 200) {
 			JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
 					.getJSONArray("series");
-			System.out.println(values.length());
 			for (int i = 0; i < values.length(); i++) {
 				if(values.length()-1!=i)
 				{
@@ -84,7 +83,7 @@ public class TestTradingMultiples extends APIDriver {
 								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
 										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
 										+ " for ticker : " + ticker);
-					Double postivePerChnage = getpostivePercentageChange(i, values);
+					Double postivePerChnage = getpostivePercentageChange(firstValue,secondValue);
 					if (postivePerChnage > 25) {
 						verify.assertTrue(false,
 								"<b>" + "verify increment of value percentage : " + "<b>" + postivePerChnage + "<br/>"
@@ -97,7 +96,7 @@ public class TestTradingMultiples extends APIDriver {
 								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
 										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
 										+ " for ticker : " + ticker);
-					Double negativePerChnage = getnegativePercentageChange(i, values);
+					Double negativePerChnage = getnegativePercentageChange(firstValue,secondValue);
 					if (negativePerChnage > 25) {
 						verify.assertTrue(false,
 								"<b>" + "verify decrement of value percentage : " + "<b>" + negativePerChnage + "<br/>"
@@ -119,9 +118,7 @@ public class TestTradingMultiples extends APIDriver {
 		verify.verifyAll();
 	}
 
-	public Double getpostivePercentageChange(int i, JSONArray values) {
-		Double firstValue = (Double) values.getJSONArray(i).get(1);
-		Double secondValue = (Double) values.getJSONArray(i + 1).get(1);
+	public Double getpostivePercentageChange(Double firstValue, Double secondValue) {
 		Double difference = firstValue - secondValue;
 		Double average = (firstValue + secondValue) / 2;
 		Double divideDIfference = difference / average;
@@ -129,9 +126,7 @@ public class TestTradingMultiples extends APIDriver {
 		return perChange;
 	}
 
-	public Double getnegativePercentageChange(int i, JSONArray values) {
-		Double firstValue = (Double) values.getJSONArray(i).get(1);
-		Double secondValue = (Double) values.getJSONArray(i + 1).get(1);
+	public Double getnegativePercentageChange(Double firstValue, Double secondValue) {
 		Double difference = secondValue - firstValue;
 		Double average = (firstValue + secondValue) / 2;
 		Double divideDIfference = difference / average;
