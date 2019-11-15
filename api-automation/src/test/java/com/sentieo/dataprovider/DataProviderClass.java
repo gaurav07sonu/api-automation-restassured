@@ -40,6 +40,24 @@ public class DataProviderClass {
 		}else if (testmethodname.getName().equalsIgnoreCase("load_saved_search_data")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "load_saved_search_data.csv");
 
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_company_docs")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_company_docs.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_pdf_flag")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_pdf_flag.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_note_doc")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_note_doc.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_transform_doc_content")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_transform_doc_content.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_exhibits")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_exhibits.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_pagelink")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_pagelink.csv");
+
 		}
 		return groupArray;
 

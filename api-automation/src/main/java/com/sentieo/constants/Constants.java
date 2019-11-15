@@ -34,7 +34,14 @@ public class Constants {
 	public static final String FETCH_CUSTOM_DOC_DIFF = "/api/fetch_custom_doc_diff/";
 	public static final String FETCH_IMPACT_SCORE = "/api/fetch_impact_score/";
 	public static final String LOAD_SAVED_SEARCH_DATA = "/api/load_saved_search_data/";
-	
+	public static final String FETCH_COMPANY_DOCS1 = "/api/fetch_company_docs/";
+	public static final String FETCH_SECTIONS = "/api/fetch_sections/";
+	public static final String FETCH_PDF_FLAG = "/api/fetch_pdf_flag/";
+	public static final String FETCH_SEARCHLIBRARY = "/api/fetch_searchlibrary/";
+	public static final String FETCH_NOTE_DOC = "/api/fetch_note_doc/";
+	public static final String FETCH_TRANSFORM_DOC_CONTENT = "/api/fetch_transform_doc_content/";
+	public static final String FETCH_EXHIBITS = "/api/fetch_exhibits/";
+	public static final String FETCH_PAGELINK = "/api/fetch_pagelink/";
 	
 	
 	//finance / plotter
