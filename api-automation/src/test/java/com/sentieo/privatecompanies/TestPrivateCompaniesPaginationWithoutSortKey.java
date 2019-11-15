@@ -1,5 +1,6 @@
 package com.sentieo.privatecompanies;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -36,13 +37,14 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-		CommonUtil commUtil = new CommonUtil();
-		commUtil.generateRandomTickers();
+		
 	}
 
 	@BeforeMethod
-	public void initVerify() {
+	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
+		CommonUtil commUtil = new CommonUtil();
+		commUtil.generateRandomTickers(testMethod);
 	}
 
 	@Test(groups = "sanity", description = "fetch cb exit table without sort key and sort order", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
@@ -80,8 +82,10 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
+
 	@Test(groups = "sanity", description = "fetch cb exit table without sort key and sort order", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBExitTableWithoutSortKeyAndSortOrderIsASC(String paginationRequestCount) throws CoreCommonException {
+	public void fetchCBExitTableWithoutSortKeyAndSortOrderIsASC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -89,7 +93,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				parameters.put("num_rows", paginationRequestCount);
 				parameters.put("sort_order", "asc");
 				parameters.put("ticker", ticker);
-				
+
 				RequestSpecification spec = formParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(URI, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
@@ -117,9 +121,10 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "fetch cb exit table without sort key and sort order", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBExitTableWithoutSortKeyAndSortOrderIsDESC(String paginationRequestCount) throws CoreCommonException {
+	public void fetchCBExitTableWithoutSortKeyAndSortOrderIsDESC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -127,7 +132,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				parameters.put("num_rows", paginationRequestCount);
 				parameters.put("sort_order", "desc");
 				parameters.put("ticker", ticker);
-				
+
 				RequestSpecification spec = formParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(URI, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
@@ -155,7 +160,6 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-
 
 	@Test(groups = "sanity", description = "cgeck fetch cbfr table witohut sort key and order", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
 	public void fetchCBFRTableWithoutSortKeyAndSortOrder(String paginationRequestCount) throws CoreCommonException {
@@ -191,9 +195,10 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "Check fetch cbfr table without sort key and sort order is asc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBFRTableWithoutSortKeyAndSortOrderIsASC(String paginationRequestCount) throws CoreCommonException {
+	public void fetchCBFRTableWithoutSortKeyAndSortOrderIsASC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -227,9 +232,10 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "Check fetch cbfr table without sort key and sort order is desc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBFRTableWithoutSortKeyAndSortOrderIsDESC(String paginationRequestCount) throws CoreCommonException {
+	public void fetchCBFRTableWithoutSortKeyAndSortOrderIsDESC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -270,7 +276,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
 				String URI = APP_URL + FETCH_CB_FR_HIGHLIGHTS;
-				parameters.put("num_rows","all");
+				parameters.put("num_rows", "all");
 				parameters.put("ticker", ticker);
 				RequestSpecification spec = formParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(URI, spec, parameters);
@@ -286,7 +292,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "verify fetch cbfr highlights without sort key and sort order is asc")
 	public void fetchCBFRhighlightsWithoutSortKeyAndOrderIsASC() throws CoreCommonException {
 		try {
@@ -334,7 +340,6 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 		}
 	}
 
-	
 	@Test(groups = "sanity", description = "check fetch cbfr cumulative without sort key and order")
 	public void fetchCBFRCumulativeWithoutSortKeyAndOrder() throws CoreCommonException {
 		try {
@@ -357,7 +362,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "check fetch cbfr cumulative without sort key and order is asc")
 	public void fetchCBFRCumulativeWithoutSortKeyAndOrderIsASC() throws CoreCommonException {
 		try {
@@ -380,7 +385,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "check fetch cbfr cumulative without sort key and order is desc")
 	public void fetchCBFRCumulativeWithoutSortKeyAndOrderIsDESC() throws CoreCommonException {
 		try {
@@ -439,7 +444,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "check fetch CBINVT table without sort key and order is asc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
 	public void fetchCBINVTableWithoutSortKeyAndOrderIsASC(String paginationRequestCount) throws CoreCommonException {
 		try {
@@ -475,7 +480,6 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
 
 	@Test(groups = "sanity", description = "check fetch CBINVT table without sort key and order is desc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
 	public void fetchCBINVTableWithoutSortKeyAndOrderIsDESC(String paginationRequestCount) throws CoreCommonException {
@@ -534,6 +538,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
+
 	@Test(groups = "sanity", description = "check fetch cbinv quarterwise without sort key and order is asc")
 	public void fetchCBINVQuarterwiseWithoutSortKeyAndOrderIsASC() throws CoreCommonException {
 		try {
@@ -557,6 +562,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
+
 	@Test(groups = "sanity", description = "check fetch cbinv quarterwise without sort key and order is desc")
 	public void fetchCBINVQuarterwiseWithoutSortKeyAndOrderIsDESC() throws CoreCommonException {
 		try {
@@ -602,7 +608,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "check fetch cbinv category without sort key and order is asc")
 	public void fetchCBINVCategoryWithoutSortKeyAndOrderIsASC() throws CoreCommonException {
 		try {
@@ -626,7 +632,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "check fetch cbinv category without sort key and order is desc")
 	public void fetchCBINVCategoryWithoutSortKeyAndOrderIsDESC() throws CoreCommonException {
 		try {
@@ -651,7 +657,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "check fetch cbkey investors without sorting key and order",dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "check fetch cbkey investors without sorting key and order", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
 	public void fetchCBKeyInvestorsWithoutSortKeyAndOrder(String paginationRequestCount) throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
@@ -675,9 +681,13 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 				} else {
 					int paginationCount = Integer.parseInt(paginationRequestCount);
 					if (paginationCount > totalExitsCount) // 50>40
-						verify.verifyEquals(totalExitsCount, exitsArrayLength, "");
+						verify.verifyEquals(totalExitsCount, exitsArrayLength,
+								"verify total exits count and array length " + "total exits count is : "
+										+ totalExitsCount + " and array length is : " + exitsArrayLength);
 					else
-						verify.verifyEquals(paginationCount, exitsArrayLength, "");
+						verify.verifyEquals(paginationCount, exitsArrayLength,
+								"verify pagination count and array length " + "pagination count is : " + paginationCount
+										+ " and array length is : " + exitsArrayLength);
 				}
 			}
 			verify.verifyAll();
@@ -685,8 +695,10 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	@Test(groups = "sanity", description = "check fetch cbkey investors without sorting key and order is asc",dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBKeyInvestorsWithoutSortKeyAndOrderIsASC(String paginationRequestCount) throws CoreCommonException {
+
+	@Test(groups = "sanity", description = "check fetch cbkey investors without sorting key and order is asc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
+	public void fetchCBKeyInvestorsWithoutSortKeyAndOrderIsASC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -720,8 +732,10 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	@Test(groups = "sanity", description = "check fetch cbkey investors without sorting key and order is desc",dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBKeyInvestorsWithoutSortKeyAndOrderIsDESC(String paginationRequestCount) throws CoreCommonException {
+
+	@Test(groups = "sanity", description = "check fetch cbkey investors without sorting key and order is desc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
+	public void fetchCBKeyInvestorsWithoutSortKeyAndOrderIsDESC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -930,7 +944,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "Check fetch cbfunds table without sortkey and order is asc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
 	public void fetchCBFundsTableWithoutSortKeyAndOrderIsASC(String paginationRequestCount) throws CoreCommonException {
 		try {
@@ -960,16 +974,17 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 					else
 						verify.verifyEquals(paginationCount, exitsArrayLength, "");
 				}
-				
+
 			}
 			verify.verifyAll();
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "Check fetch cbfunds table without sortkey and order is desc", dataProvider = "numberof_rows", dataProviderClass = DataProviderClass.class)
-	public void fetchCBFundsTableWithoutSortKeyAndOrderIsDESC(String paginationRequestCount) throws CoreCommonException {
+	public void fetchCBFundsTableWithoutSortKeyAndOrderIsDESC(String paginationRequestCount)
+			throws CoreCommonException {
 		try {
 			for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 				String ticker = tickerValue.getValue();
@@ -1025,6 +1040,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
+
 	@Test(groups = "sanity", description = "check fetch header data without sort key and order")
 	public void fetchHeaderDataWithoutSortKeyAndOrderIsASC() throws CoreCommonException {
 		try {
@@ -1048,6 +1064,7 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
+
 	@Test(groups = "sanity", description = "check fetch header data without sort key and order is desc")
 	public void fetchHeaderDataWithoutSortKeyAndOrderIsDESC() throws CoreCommonException {
 		try {
@@ -1071,6 +1088,5 @@ public class TestPrivateCompaniesPaginationWithoutSortKey extends APIDriver {
 			throw new CoreCommonException(e.getMessage());
 		}
 	}
-
 
 }
