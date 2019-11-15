@@ -4,6 +4,7 @@ import static com.sentieo.constants.Constants.RESOURCE_PATH;
 
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -87,8 +88,8 @@ public class CommonUtil {
 		return true;
 	}
 
-	public void generateRandomTickers() {
-		List<String[]> tickers = randomTickerCSV();
+	public void generateRandomTickers(Method testMethod) {
+		List<String[]> tickers = randomTickerCSV(testMethod);
 		randomTickers.put(1001, "AAPL");
 		randomTickers.put(1002, "AMZN");
 		randomTickers.put(1003, "TSLA");
@@ -98,20 +99,36 @@ public class CommonUtil {
 			String[] cell = tickers.get(highlightLabelRandom);
 			for (String tickerName : cell) {
 				randomTickers.put(highlightLabelRandom, tickerName);
+				if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+					if (randomTickers.size() >= 10)
+						break;
+				} else {
+					if (randomTickers.size() >= 100)
+						break;
+				}
+
+			}
+			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+				if (randomTickers.size() >= 10)
+					break;
+			} else {
 				if (randomTickers.size() >= 100)
 					break;
 			}
-
-			if (randomTickers.size() >= 100)
-				break;
 		}
 	}
 
-	public List<String[]> randomTickerCSV() {
+	public List<String[]> randomTickerCSV(Method testMethod) {
 		FileReader filereader;
 		try {
-			filereader = new FileReader(
-					RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
+			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "dailyseries.csv");
+			} else {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
+			}
+
 			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
 			List<String[]> allData = csvReader.readAll();
 			return allData;
@@ -121,6 +138,36 @@ public class CommonUtil {
 		}
 		return null;
 
+	}
+
+	public List<String[]> readTickerCSV() {
+		FileReader filereader;
+		try {
+			filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "EDTTicker.csv");
+			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+			List<String[]> allData = csvReader.readAll();
+			return allData;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+	public Double getpostivePercentageChange(Double firstValue, Double secondValue) {
+		Double difference = firstValue - secondValue;
+		Double average = (firstValue + secondValue) / 2;
+		Double divideDIfference = difference / average;
+		Double perChange = divideDIfference * 100;
+		return perChange;
+	}
+
+	public Double getnegativePercentageChange(Double firstValue, Double secondValue) {
+		Double difference = secondValue - firstValue;
+		Double average = (firstValue + secondValue) / 2;
+		Double divideDIfference = difference / average;
+		Double perChange = divideDIfference * 100;
+		return perChange;
 	}
 
 }
