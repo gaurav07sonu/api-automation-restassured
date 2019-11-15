@@ -24,6 +24,7 @@ import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CommonUtil;
 
 public class TestTradingMultiples extends APIDriver {
 
@@ -54,6 +55,7 @@ public class TestTradingMultiples extends APIDriver {
 	}
 
 	public void fetchGraphdataMultiplesapp(String ratio, String shift, String ticker) throws Exception {
+		CommonUtil com=new CommonUtil();
 		tickerData.put("ticker", ticker);
 		tickerData.put("graphtype", "TradingMultiples");
 		tickerData.put("ratio", ratio);
@@ -83,7 +85,7 @@ public class TestTradingMultiples extends APIDriver {
 								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
 										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
 										+ " for ticker : " + ticker);
-					Double postivePerChnage = getpostivePercentageChange(firstValue,secondValue);
+					Double postivePerChnage = com.getpostivePercentageChange(firstValue,secondValue);
 					if (postivePerChnage > 25) {
 						verify.assertTrue(false,
 								"<b>" + "verify increment of value percentage : " + "<b>" + postivePerChnage + "<br/>"
@@ -96,7 +98,7 @@ public class TestTradingMultiples extends APIDriver {
 								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
 										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
 										+ " for ticker : " + ticker);
-					Double negativePerChnage = getnegativePercentageChange(firstValue,secondValue);
+					Double negativePerChnage = com.getnegativePercentageChange(firstValue,secondValue);
 					if (negativePerChnage > 25) {
 						verify.assertTrue(false,
 								"<b>" + "verify decrement of value percentage : " + "<b>" + negativePerChnage + "<br/>"
@@ -118,19 +120,4 @@ public class TestTradingMultiples extends APIDriver {
 		verify.verifyAll();
 	}
 
-	public Double getpostivePercentageChange(Double firstValue, Double secondValue) {
-		Double difference = firstValue - secondValue;
-		Double average = (firstValue + secondValue) / 2;
-		Double divideDIfference = difference / average;
-		Double perChange = divideDIfference * 100;
-		return perChange;
-	}
-
-	public Double getnegativePercentageChange(Double firstValue, Double secondValue) {
-		Double difference = secondValue - firstValue;
-		Double average = (firstValue + secondValue) / 2;
-		Double divideDIfference = difference / average;
-		Double perChange = divideDIfference * 100;
-		return perChange;
-	}
 }
