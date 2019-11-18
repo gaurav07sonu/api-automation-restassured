@@ -36,6 +36,7 @@
 				<exclude name="com.sentieo.logintest"></exclude>
 				<exclude name="com.sentieo.plotter"></exclude>
 				<exclude name="com.sentieo.privatecompanies"></exclude>
+				<exclude name="com.sentieo.EDT"></exclude>
 			</package>
 		</packages>
 	</test>
