@@ -7,8 +7,8 @@ public class Constants {
 	//general set of data
 	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
 			+ "test" + File.separator + "resources";
-	public static final String EMAIL = "bhaskar@sentieo.com";
-	public static final String PASSWORD = "Sentieo.789";
+	public static final String EMAIL = "alphagani35@gmail.com";
+	public static final String PASSWORD = "DGL=14412jg";
 	public static final String APP_URL = "https://app.sentieo.com";
 	public static final String USER_APP_URL = "https://user-app.sentieo.com";
 	public static final String LOGIN_URL = "/api/login_1/";
