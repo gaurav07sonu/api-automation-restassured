@@ -122,7 +122,6 @@ public class DataProviderClass {
 					{ "DilutedEPSTotal", "AnnualRestated" }, { "DilutedEPSTotal", "QuarterlyRestated" },
 					{ "FreeCashFlowPerShare", "QuarterlyRestated" }, { "FreeCashFlowPerShare", "AnnualRestated" } };
 		}
-
 		return groupArray;
 	}
 
@@ -177,6 +176,41 @@ public class DataProviderClass {
 		groupArray = new String[][] { { FETCH_CB_EXIT_TABLE }, { FETCH_CB_ACQ_TABLE }, { FETCH_CB_FUNDS_TABLE },
 				{ FETCH_CB_KEY_INVESTORS }, { FETCH_CB_EXIT_TABLE } };
 		return groupArray;
+		}
+	@DataProvider(name = "graphDataYearlyEstimate")
+	public Object[][] yearlyEstimate() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"DilutedEPSTotal"},{"TotalRevenue"},{"GrossProfit"},{"Ebitda"}, {"Ebit"},{"NetIncome"},{"DividendsPaidPerShare"},{"CashFlowPerShare"},{"PurchaseOfPropertyPlantAndEquipment"},{"GrossMargin"},{"EbitdaMargin"},{"EbitMargin"}};
+		return groupArray;
+		}
+	
+	@DataProvider(name = "tradingMultiplesCombination")
+	public Object[][] tradingMultiples() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"p_eps","rolling","Next 4 Quarters"},{"p_eps","rolling","NTM Rolling"},{"p_eps","carry","Current Year"},{"p_eps","rolling","Trailing 4 Quarters"}, {"p_eps","carry","Next Year"}
+		,{"ev_sales","rolling","Next 4 Quarters"},{"ev_sales","rolling","NTM Rolling"},{"ev_sales","carry","Current Year"},{"ev_sales","rolling","Trailing 4 Quarters"},{"ev_sales","carry","Next Year"},
+		{"p_sales","rolling","Next 4 Quarters"},{"p_sales","rolling","NTM Rolling"},{"p_sales","carry","Current Year"},{"p_sales","rolling","Trailing 4 Quarters"},{"p_sales","carry","Next Year"},
+		{"ev_ebitda","rolling","Next 4 Quarters"},{"ev_ebitda","rolling","NTM Rolling"},{"ev_ebitda","carry","Current Year"},{"ev_ebitda","rolling","Trailing 4 Quarters"},{"ev_ebitda","carry","Next Year"},
+		{"ev_ebit","rolling","Next 4 Quarters"},{"ev_ebit","rolling","NTM Rolling"},{"ev_ebit","carry","Current Year"},{"ev_ebit","rolling","Trailing 4 Quarters"},{"ev_ebit","carry","Next Year"}};
+		return groupArray;
+		}
+	
+	@DataProvider(name = "tradingMultiplesLTMNTM")
+	public Object[][] tradingMultiplesLTMNTM() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"p_eps","blended"},{"p_eps","backward"},{"ev_sales","blended"},{"ev_sales","backward"},{"p_sales","blended"},{"p_sales","backward"},{"ev_ebitda","blended"},{"ev_ebitda","backward"},{"ev_ebit","blended"},{"ev_ebit","backward"}};
+		return groupArray;
+		}
+	
+	@DataProvider(name = "plotterDailySeries")
+	public Object[][] dailySeries() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"P/E","p_eps"},{"EV/EBITDA","ev_ebitda"},{"EV/GROSS PROFIT","ev_grossprofit"},{"EV/(EBITDA-CAPEX)","ev_ebitdacapex"},{"EV/EBIT","ev_ebit"},{"EV/Sales","ev_sales"},{"P/Sales","p_sales"},{"FCF Yield","fcfyield_mkt"}
+		,{"FCF Yield using EV","fcfyield_ev"},{"P/Book Value","price_bookvalue"},{"P/Tangible Book Value","tang_bookvalue"},{"P/Cash Flow","price_cashflow"},
+		{"Enterprise Value","ev_daily"},{"Market Cap","mkt_cap_daily"}};
+		return groupArray;
+		}
+	
 	}
 
-}
+

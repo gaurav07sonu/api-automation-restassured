@@ -6,6 +6,7 @@ import static com.sentieo.constants.Constants.LOGIN_URL;
 import static com.sentieo.constants.Constants.PASSWORD;
 import static com.sentieo.constants.Constants.USER_APP_URL;
 
+import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,14 +47,15 @@ public class TestSorting extends APIDriver {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-		CommonUtil commUtil = new CommonUtil();
-		commUtil.generateRandomTickers();
+		
 
 	}
 
 	@BeforeMethod
-	public void initVerify() {
+	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
+		CommonUtil commUtil = new CommonUtil();
+		commUtil.generateRandomTickers(testMethod);
 	}
 
 	public void getSortKey(String order, String URI, String ticker) throws Exception {

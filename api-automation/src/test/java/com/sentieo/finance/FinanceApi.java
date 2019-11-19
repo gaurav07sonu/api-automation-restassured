@@ -282,6 +282,38 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
+
+	@Test(groups = "sanity", description = "fetch_yearly_data", dataProvider = "fetch_yearly_data1", dataProviderClass = DataProviderClass.class)
+	public void fetchyearlydata(String ticker, String model, String historical_periods, String forecast_periods,
+			String report_currency) throws Exception {
+		String url=USER_APP_URL;
+		if(url.equals("user-app2.sentieo.com")&& (!url.contains("user-dev.sentieo.com"))) {
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				HashMap<String, String> tickerData = new HashMap<String, String>();
+				tickerData.put("ticker", cell);
+				tickerData.put("model", model);
+				tickerData.put("historical_periods", historical_periods);
+				tickerData.put("forecast_periods", forecast_periods);
+				tickerData.put("report_currency", report_currency);
+				RequestSpecification spec = formParamsSpec(tickerData);
+				Response resp = RestOperationUtils.post(FETCH_YEARLY_DATA, null, spec, tickerData);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyEquals(respJson.getJSONObject("response").getString("msg"), "success",
+						"Verify the API Message");
+
+			}
+		}
+		}
+		verify.verifyAll();
+	}
+
+
 	@Test(groups = "sanity", description = "fetch_trading_ratios")
 	public void fetchtradingratios() throws Exception {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -510,61 +542,61 @@ public class FinanceApi extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity", description = "fetch_graph_data1", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
-	public void fetchgraphdata1(String subtype) throws Exception {
-		Calendar calNewYork = Calendar.getInstance();
-		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-		if (dayofweek != 1 && dayofweek != 7) {
-			HashMap<String, String> tickerData = new HashMap<String, String>();
-			for (String[] row : tickers) {
-				for (String cell : row) {
-					tickerData.put("ticker", cell);
-					tickerData.put("graphtype", "yearlyEstimate");
-					tickerData.put("subtype", subtype);
-					tickerData.put("getstock", "true");
-					tickerData.put("ptype", "q5");
-					tickerData.put("next4", "true");
-					RequestSpecification spec = queryParamsSpec(tickerData);
-					Response resp = RestOperationUtils.get(FETCH_GRAPH_DATA, spec, tickerData);
-					APIResponse apiResp = new APIResponse(resp);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					verify.verifyResponseTime(resp, 5000);
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					try {
-						JSONArray verifyTickerName = respJson.getJSONObject("result").getJSONArray("series");
-						String name = verifyTickerName.getJSONObject(verifyTickerName.length() - 1).getString("title");
-						if (name.contains("NTM")) {
-							JSONArray values = respJson.getJSONObject("result").getJSONArray("series")
-									.getJSONObject(verifyTickerName.length() - 1).getJSONArray("series");
-							JSONArray value = values.getJSONArray(values.length() - 1);
-							while (isMarketClosed()) {
-								double timestamp = value.getDouble(0);
-								int digit = (int) (timestamp / 1000);
-								String date = convertTimestampIntoDate(digit);
-								String systemDate = getCurrentUSDate();
-								verify.compareDates(date, systemDate, "Verify the Current Date Point");
-								break;
-							}
-						}
-
-					} catch (JSONException je) {
-						verify.verificationFailures.add(je);
-						ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
-					} catch (AssertionError ae) {
-						verify.verificationFailures.add(ae);
-						ExtentTestManager.getTest().log(LogStatus.FAIL, ae.getMessage());
-					}
-				}
-			}
-			verify.verifyAll();
-		} else {
-			ExtentTestManager.getTest().log(LogStatus.INFO,
-					"Skip test because of  Current Date Point is not available on  : " + Calendar.DAY_OF_WEEK + "day");
-		}
-	}
+//	@Test(groups = "sanity", description = "fetch_graph_data1", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
+//	public void fetchgraphdata1(String subtype) throws Exception {
+//		Calendar calNewYork = Calendar.getInstance();
+//		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+//		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+//		if (dayofweek != 1 && dayofweek != 7) {
+//			HashMap<String, String> tickerData = new HashMap<String, String>();
+//			for (String[] row : tickers) {
+//				for (String cell : row) {
+//					tickerData.put("ticker", cell);
+//					tickerData.put("graphtype", "yearlyEstimate");
+//					tickerData.put("subtype", subtype);
+//					tickerData.put("getstock", "true");
+//					tickerData.put("ptype", "q5");
+//					tickerData.put("next4", "true");
+//					RequestSpecification spec = queryParamsSpec(tickerData);
+//					Response resp = RestOperationUtils.get(FETCH_GRAPH_DATA, spec, tickerData);
+//					APIResponse apiResp = new APIResponse(resp);
+//					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+//					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+//					verify.verifyResponseTime(resp, 5000);
+//					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+//							"Verify the API Response Status");
+//					try {
+//						JSONArray verifyTickerName = respJson.getJSONObject("result").getJSONArray("series");
+//						String name = verifyTickerName.getJSONObject(verifyTickerName.length() - 1).getString("title");
+//						if (name.contains("NTM")) {
+//							JSONArray values = respJson.getJSONObject("result").getJSONArray("series")
+//									.getJSONObject(verifyTickerName.length() - 1).getJSONArray("series");
+//							JSONArray value = values.getJSONArray(values.length() - 1);
+//							while (isMarketClosed()) {
+//								double timestamp = value.getDouble(0);
+//								int digit = (int) (timestamp / 1000);
+//								String date = convertTimestampIntoDate(digit);
+//								String systemDate = getCurrentUSDate();
+//								verify.compareDates(date, systemDate, "Verify the Current Date Point");
+//								break;
+//							}
+//						}
+//
+//					} catch (JSONException je) {
+//						verify.verificationFailures.add(je);
+//						ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+//					} catch (AssertionError ae) {
+//						verify.verificationFailures.add(ae);
+//						ExtentTestManager.getTest().log(LogStatus.FAIL, ae.getMessage());
+//					}
+//				}
+//			}
+//			verify.verifyAll();
+//		} else {
+//			ExtentTestManager.getTest().log(LogStatus.INFO,
+//					"Skip test because of  Current Date Point is not available on  : " + Calendar.DAY_OF_WEEK + "day");
+//		}
+//	}
 
 	@Test(groups = "sanity", description = "fetch_graph_data2", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
 	public void fetchgraphdata2(String subtype) throws Exception {
@@ -609,6 +641,37 @@ public class FinanceApi extends APIDriver {
 		}
 		verify.verifyAll();
 	}
+
+
+	@Test(groups = "sanity", description = "FETCH_NEW_MODEL_DATA")
+	public void fetchNewModelData() throws Exception {
+		String url=USER_APP_URL;
+		if(url.equals("https://user-app2.sentieo.com")&& (url.equals("https://user-dev.sentieo.com"))) {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			for (String[] row : tickers) {
+				for (String cell : row) {
+					tickerData.put("model_source", "vpt");
+					tickerData.put("ticker", cell);
+					tickerData.put("ptype", "fq");
+					tickerData.put("report_currency", "usd");
+					tickerData.put("units", "T");
+					tickerData.put("historical_periods", "3year");
+					tickerData.put("forecast_periods", "3year");
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(FETCH_NEW_MODEL_DATA, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+				}
+			}
+			verify.verifyAll();
+		}
+
+	}
+
 
 	@Test(groups = "sanity", description = "fetch_institutional_holdings_data3")
 	public void fetchinstitutionalholdingsdata() throws Exception {
