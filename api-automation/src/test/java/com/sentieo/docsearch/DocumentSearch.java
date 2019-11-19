@@ -386,7 +386,7 @@ public class DocumentSearch extends APIDriver {
 		
 	}
 
-	@Test(groups = "sanity", description = "Fetach search source", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "Fetch search source", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchDate(String period, String facets_flag) throws CoreCommonException {
 
 		try {
