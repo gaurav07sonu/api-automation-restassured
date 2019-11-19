@@ -37,6 +37,27 @@ public class DataProviderClass {
 		} else if (testmethodname.getName().equalsIgnoreCase("fetch_docs_meta_data")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_docs_meta_data.csv");
 
+		}else if (testmethodname.getName().equalsIgnoreCase("load_saved_search_data")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "load_saved_search_data.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_company_docs")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_company_docs.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_pdf_flag")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_pdf_flag.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_note_doc")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_note_doc.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_transform_doc_content")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_transform_doc_content.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_exhibits")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_exhibits.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_pagelink")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_pagelink.csv");
+
 		}
 		return groupArray;
 
@@ -46,8 +67,8 @@ public class DataProviderClass {
 	public Object[][] getDataFromDataprovider(Method testmethodname) {
 		Object[][] groupArray = null;
 		if (testmethodname.getName().equalsIgnoreCase("fetchsearchRegions")) {
-			groupArray = new Object[][] { { "{\"United States\":{\"United States\":[\"us\"]}}" },
-					{ "{\"Canada\":{\"Canada\":[\"ca\"]}}" },
+			groupArray = new Object[][] { { "{\"United States\":{\"United States\":[\"us\"]}}","true" },
+					{ "{\"Canada\":{\"Canada\":[\"ca\"]}}","true" },
 					{ "{\"Latin America & Caribbean\":{\"South America\":[\"pe\",\"br\",\"co\",\"cl\",\"ar\",\"ve\"],\"Mexico\":[\"mx\"],\"Caribbean\":[\"vg\",\"ky\",\"bm\",\"jm\"]}}",
 							"false" },
 					{ "{\"Europe\":{\"Western Europe\":[\"gb\",\"de\",\"it\",\"fr\",\"ch\",\"be\",\"ie\",\"es\",\"lu\",\"nl\",\"fi\",\"pt\",\"gr\",\"dk\",\"mt\",\"is\",\"no\",\"gi\",\"se\"],\"Central & Eastern Europe\":[\"ru\",\"pl\",\"hu\",\"cz\",\"lv\",\"bg\",\"at\",\"ee\",\"cy\",\"ro\",\"si\",\"lt\",\"sk\",\"ua\"],\"Southern Europe\":[\"hr\",\"mk\",\"rs\",\"me\"]}}",

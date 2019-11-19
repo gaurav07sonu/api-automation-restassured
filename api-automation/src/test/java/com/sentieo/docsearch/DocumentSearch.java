@@ -6,10 +6,12 @@ import java.util.HashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -32,170 +34,12 @@ public class DocumentSearch extends APIDriver {
 
 		RestAssured.baseURI = USER_APP_URL;
 	}
-
-	@Test(groups = "sanity", description = "Fetch saved filters")
-	public void fetchsavedfilters() throws CoreCommonException {
-		try {
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("counter", "1");
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(FETCH_SAVED_FILTERS, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-		
+	
+	@BeforeMethod
+	public void initVerify() {
+		verify = new APIAssertions();
 	}
 
-	@Test(groups="sanity", description= "Bulk Download", dataProvider= "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class) 
-	public void bulk_download(String doc_ids, String email) throws CoreCommonException {
-		try {
-			String URI = APP_URL + BULK_DOWNLOAD;
-			HashMap <String , String> queryParams = new HashMap <String , String> ();
-			queryParams.put("doc_ids", doc_ids);
-			queryParams.put("email", email);
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-		}  catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-	}
-	
-	@Test(groups="sanity", description= "Fetch docs meta-data", dataProvider= "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class) 
-	public void fetch_docs_meta_data(String doc_ids) throws CoreCommonException {
-		try {
-			String URI = APP_URL + FETCH_DOCS_META_DATA;
-			HashMap <String , String> queryParams = new HashMap <String , String> ();
-			queryParams.put("doc_ids", doc_ids);
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-		}  catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-	}
-	
-		
-	@Test(groups = "sanity", description = "Fetch note filters")
-	public void fetchnotefilters() throws CoreCommonException {
-		try {
-			String URI = APP_URL + FETCH_NOTE_FILTERS;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("counter", "1");
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-	}
-
-	@Test(groups = "sanity", description = "Fetch search library")
-	public void fetchsearchlibrary() throws CoreCommonException {
-		try {
-			String URI = APP_URL + FETCH_SEARCH_LIBRARY;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("counter", "1");
-			RequestSpecification spec = queryParamsSpec(queryParams);
-			Response resp = RestOperationUtils.get(URI, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-	}
-	
-
-	@Test(groups = "sanity", description = "Fetch custom doc diff", dataProvider= "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void fetch_custom_doc_diff(String doc_id, String custom_doc_id) throws CoreCommonException {
-		try {
-			String URI = APP_URL + FETCH_CUSTOM_DOC_DIFF;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("doc_id", doc_id);
-			queryParams.put("custom_doc_id", custom_doc_id);
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			}
-			catch (Exception e) {
-				throw new CoreCommonException(e);
-			}
-			finally {
-				verify.verifyAll();
-			}
-		}
-	
-	
-	@Test(groups = "sanity", description = "Fetch impact score", dataProvider= "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void fetch_impact_score(String did, String query) throws CoreCommonException {
-	try {
-		String URI = APP_URL + FETCH_IMPACT_SCORE;
-		HashMap<String, String> queryParams = new HashMap<String, String>();
-		queryParams.put("did", did);
-		queryParams.put("query", query);
-		RequestSpecification spec = formParamsSpec(queryParams);
-		Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
-		}
-		catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		finally {
-			verify.verifyAll();
-		}
-}
-	
-	
 
 	@Test(groups = "sanity", description = "Fetch search", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetchsearch(String ticker, String query, String fillingtype, String filing_subtype, String sensivity,
@@ -238,7 +82,7 @@ public class DocumentSearch extends APIDriver {
 		
 	}
 
-	@Test(groups = "sanity", description = "Searching with tickers only", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "Fetch search ticker only", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchtickerOnly(String ticker, String facets_flag) throws CoreCommonException {
 		
 		try {
@@ -312,7 +156,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Searching doc type and sub types with tickers and query", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "fetch_search_tickerOnly", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchSearchOnly(String query, String facets_flag) throws CoreCommonException {
 
 		try {
@@ -345,7 +189,7 @@ public class DocumentSearch extends APIDriver {
 		
 	}
 
-	@Test(groups = "sanity", description = "Searching with doc type and sub types filter", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchDoctype(String fillingtype, String facets_flag) throws CoreCommonException {
 
 		try {
@@ -396,7 +240,7 @@ public class DocumentSearch extends APIDriver {
 		
 	}
 
-	@Test(groups = "sanity", description = "Searching with Sector filters", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchSector(String fillingtype, String facets_flag) throws CoreCommonException {
 
 		try {
@@ -475,7 +319,41 @@ public class DocumentSearch extends APIDriver {
 		}
 		
 	}
-	@Test(groups = "sanity", description = "Searching with Source filter only", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+
+	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+	public void fetchsearchRegions(String geog_filter, String facets_flag) throws CoreCommonException {
+
+		try {
+			String URI = APP_URL + FETCH_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("geog_filter", geog_filter);
+
+			if (facets_flag.equalsIgnoreCase("true")) {
+				queryParams.put("facets_flag", facets_flag);
+				queryParams.put("no_docs", "6");
+			} else {
+				queryParams.put("facets_flag", facets_flag);
+			}
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		}
+		finally {
+			verify.verifyAll();
+		}
+
+	}
+
+	@Test(groups = "sanity", description = "Fetch search source", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchSource(String facets_flag) throws CoreCommonException {
 
 		try {
@@ -508,7 +386,7 @@ public class DocumentSearch extends APIDriver {
 		
 	}
 
-	@Test(groups = "sanity", description = "Searching with Date filter only", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "Fetch search source", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchDate(String period, String facets_flag) throws CoreCommonException {
 
 		try {
