@@ -28,10 +28,10 @@ public class DataProviderClass {
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearch")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetchsearch.csv");
 
-		} else if (testmethodname.getName().contains("fetchsearch2")) {
+		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearch2")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetchsearch2.csv");
 
-		} else if (testmethodname.getName().contains("bulk_download")) {
+		} else if (testmethodname.getName().equalsIgnoreCase("bulk_download")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "bulk_download.csv");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetch_docs_meta_data")) {
@@ -57,6 +57,27 @@ public class DataProviderClass {
 
 		}else if (testmethodname.getName().equalsIgnoreCase("fetch_pagelink")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_pagelink.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("pub_doc_viewer")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "pub_doc_viewer.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("pub_doc_viewer1")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "pub_doc_viewer1.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("get_bulk_download_doc")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "get_bulk_download_doc.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("get_doc_pdf")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "get_doc_pdf.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("query_suggest_autocomplete")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "query_suggest_autocomplete.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_snippets")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_snippets.csv");
+
+		}else if (testmethodname.getName().equalsIgnoreCase("fetch_search_term_count")) {
+			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_search_term_count.csv");
 
 		}
 		return groupArray;

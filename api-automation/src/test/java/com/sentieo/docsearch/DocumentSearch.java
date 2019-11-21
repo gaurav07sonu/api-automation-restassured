@@ -34,16 +34,15 @@ public class DocumentSearch extends APIDriver {
 
 		RestAssured.baseURI = USER_APP_URL;
 	}
-	
+
 	@BeforeMethod
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-
 	@Test(groups = "sanity", description = "Fetch search", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetchsearch(String ticker, String query, String fillingtype, String filing_subtype, String sensivity,
-		String facets_flag) throws CoreCommonException {
+			String facets_flag) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -57,8 +56,8 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("no_docs", "6");
 			} else {
 				queryParams.put("facets_flag", facets_flag);
-			}	
-			
+			}
+
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -69,22 +68,22 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			if (!facets_flag.equalsIgnoreCase("true")) {
-				verify.verifyEquals(respJson.getJSONObject("result").getJSONArray("docs").getJSONObject(0).getString("ticker"),
+				verify.verifyEquals(
+						respJson.getJSONObject("result").getJSONArray("docs").getJSONObject(0).getString("ticker"),
 						ticker, "Verify Entered ticker should visible in the doc");
-				
-					}
+
+			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
-		
+
 	}
 
 	@Test(groups = "sanity", description = "Fetch search ticker only", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetchsearchtickerOnly(String ticker, String facets_flag) throws CoreCommonException {
-		
+
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -108,13 +107,12 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 			if (!facets_flag.equalsIgnoreCase("true")) {
 				verify.verifyEquals(
-						respJson.getJSONObject("result").getJSONArray("docs").getJSONObject(0).getString("ticker"), ticker,
-						"Verify Entered ticker should visible in the doc");
+						respJson.getJSONObject("result").getJSONArray("docs").getJSONObject(0).getString("ticker"),
+						ticker, "Verify Entered ticker should visible in the doc");
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -127,8 +125,7 @@ public class DocumentSearch extends APIDriver {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("facets_flag", facets_flag);
 			queryParams.put("no_docs", no_docs);
-			
-			
+
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -136,22 +133,20 @@ public class DocumentSearch extends APIDriver {
 			System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
-						
-			if(!StringUtils.isEmpty(error)) {
+
+			if (!StringUtils.isEmpty(error)) {
 				String actualErorr = respJson.getJSONObject("response").getString("error");
 				verify.verifyEquals(actualErorr, error, "Comparing error message");
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
 						"Verify the API Response Status");
-			}
-			else {
+			} else {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
-				}
+						"Verify the API Response Status");
+			}
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
 	}
@@ -182,11 +177,10 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
-		
+
 	}
 
 	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
@@ -201,7 +195,8 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("filing_subtype",
 						"10-q#$10-k#$nt 10-q#$nt 10-k#$10qsb#$10ksb#$10-q/a#$10-k/a#$10qsb/a#$10ksb/a#$8-k agreement#$8-k credit#$8-k earnings#$8-k mgmt#$8-k restruct#$8-k update#$8-k voting#$8-k other#$425#$s-4#$8-k/a#$s-4/a#$6-k#$20-f#$40-f#$6-k/a#$def 14a#$defa14a#$pre 14a#$dfan14a#$def 14c#$prer14a#$pre 14c#$497#$defr14a#$n-px#$defm14a#$prec14a#$prer14c#$prem14a#$prrn14a#$defc14a#$prem14c#$pren14a#$defn14a#$defa14c#$defr14c#$defm14c#$dfrn14a#$n-px/a#$prec14c#$defc14c#$424b2#$424b3#$fwp#$424b5#$s-1/a#$pos am#$s-3#$s-1#$8-a12b#$s-3asr#$s-3/a#$424b4#$10-12g/a#$10-12b/a#$f-1#$f-3#$10-12g#$s-11#$10-12b#$sb-1#$sc 13g/a#$sc 13g#$sc 13d/a#$sc 13d#$13f-hr#$13f-hr/a#$s-8#$11-k#$s-8 pos#$form-3#$form-4#$form-5#$form-3/A#$form-4/A#$form-5/A#$1-a#$1-a pos#$1-a-w#$1-a/a#$1-e#$1-e/a#$1-z#$10-d#$10-d/a#$10-k405#$10-k405/a#$10-kt#$10-kt/a#$10-qt#$10-qt/a#$10ksb40#$10kt405#$10sb12b#$10sb12b/a#$10sb12g#$10sb12g/a#$11-k/a#$11-kt#$11-kt/a#$13f-nt#$13f-nt/a#$144#$144/a#$15-12b#$15-12b/a#$15-12g#$15-12g/a#$15-15d#$15-15d/a#$15f-12b#$15f-12b/a#$15f-12g#$15f-12g/a#$15f-15d#$15f-15d/a#$18-k#$2-e#$2-e/a#$20-f/a#$20fr12b#$20fr12b/a#$20fr12g#$20fr12g/a#$24f-2nt#$24f-2nt/a#$25#$25-nse#$25-nse/a#$25/a#$3#$305b2#$305b2/a#$35-cert#$35-cert/a#$40-17f1#$40-17f2#$40-17f2/a#$40-17g#$40-17g/a#$40-33#$40-6b#$40-6b/a#$40-8b25#$40-8f-2#$40-8f-2/a#$40-app#$40-app/a#$40-f/a#$40-oip#$40-oip/a#$40fr12b#$40fr12b/a#$40fr12g#$40fr12g/a#$424a#$424b1#$424b7#$424b8#$485apos#$485bpos#$485bxt#$486bpos#$497ad#$497h2#$497j#$497k#$6b ntc#$6b ordr#$8-a12b/a#$8-a12g#$8-a12g/a#$8-k12b#$8-k12b/a#$8-k12g3#$8-k12g3/a#$8-k15d5#$abs-15g#$abs-15g/a#$annlrpt#$app ntc#$app ordr#$app wd#$app wd/a#$app wdg#$ars#$ars/a#$aw#$aw wd#$cb#$cb/a#$corresp#$ct order#$d#$d/a#$defs14a#$del am#$drs#$drs/a#$drsltr#$effect#$f-1/a#$f-10#$f-10/a#$f-10ef#$f-10pos#$f-1mef#$f-2#$f-2/a#$f-3/a#$f-3asr#$f-3d#$f-3dpos#$f-3mef#$f-4#$f-4 pos#$f-4/a#$f-4mef#$f-6#$f-6 pos#$f-6/a#$f-6ef#$f-7#$f-7/a#$f-8#$f-8 pos#$f-8/a#$f-80#$f-80/a#$f-80pos#$f-9#$f-9 pos#$f-9/a#$f-9ef#$f-n#$f-n/a#$f-x#$f-x/a#$irannotice#$n-1/a#$n-14#$n-14 8c#$n-14 8c/a#$n-14/a#$n-14ae#$n-14ae/a#$n-14mef#$n-18f1#$n-1a#$n-1a/a#$n-2#$n-2/a#$n-23c-1#$n-23c-2#$n-23c-2/a#$n-23c3a#$n-23c3a/a#$n-2mef#$n-30b-2#$n-30d#$n-30d/a#$n-54a#$n-54c#$n-54c/a#$n-6f#$n-6f/a#$n-8a#$n-8a/a#$n-8f#$n-8f ntc#$n-8f/a#$n-csr#$n-csr/a#$n-csrs#$n-csrs/a#$n-mfp#$n-mfp/a#$n-mfp1#$n-q#$n-q/a#$nsar-a#$nsar-b#$nsar-u#$nsar-u/a#$nt 10-k/a#$nt 10-q/a#$nt 11-k#$nt 11-k/a#$nt 15d2#$nt 20-f#$nt 20-f/a#$nt-ncsr#$nt-nsar#$nt-nsar/a#$ntfnsar#$ntn 10k#$ntn 10q#$ntn 20f#$pos 8c#$pos amc#$pos ami#$pos ex#$pos462b#$pos462c#$posasr#$pres14a#$px14a6g#$px14a6n#$qualif#$regdex/a#$revoked#$rw#$rw wd#$s-11/a#$s-11mef#$s-1mef#$s-2#$s-2/a#$s-2mef#$s-3d#$s-3dpos#$s-3mef#$s-4 pos#$s-4ef#$s-4ef/a#$s-4mef#$s-b#$s-b/a#$sb-1/a#$sb-2#$sb-2/a#$sb-2mef#$sc 13e1#$sc 13e1/a#$sc 13e3#$sc 13e3/a#$sc 14d9#$sc 14d9/a#$sc 14f1#$sc 14f1/a#$sc to-c#$sc to-i#$sc to-i/a#$sc to-t#$sc to-t/a#$sc13e4f#$sc13e4f/a#$sc14d1f#$sc14d1f/a#$sc14d9c#$sc14d9f#$sc14d9f/a#$sd#$sd/a#$sp 15d2#$sp 15d2/a#$suppl#$t-3#$t-3/a#$u-1#$u-1/a#$u-12-ia#$u-12-ib#$u-13-60#$u-13-60/a#$u-33-s#$u-3a-2#$u-3a-2/a#$u-57#$u-57/a#$u-6b-2#$u-9c-3#$u-9c-3/a#$u5a#$u5a/a#$u5b#$u5s#$u5s/a#$under#$upload#$certnys#$no act#$certpac#$13fconp#$g-405n#$u-3a3-1#$sc 14d1#$ttw#$485a24f#$485a24e#$39-304d#$1-a-w/a#$n-cr/a#$19b-4#$26#$adv-h-c#$pre13e3#$s-6#$prea14a#$defs14c#$adv-h-t#$msd/a#$advco#$sc 14d1/a#$ta-2#$ta-1#$s-20#$f-7 pos#$g-fin/a#$cfportal#$reg-nr/a#$msdco#$13f-e/a#$qrtlyrpt/a#$13fconp/a#$g-finw#$40-8f-m#$8a12bt#$annlrpt/a#$ta-1/a#$focusn/a#$485b24f#$485b24e#$focusn#$1-z/a#$ma/a#$24f-1#$afdb/a#$ifc#$n14el24#$ta-w#$sf-1#$sf-3#$adv-e#$n-4 el/a#$dstrbrpt#$n-4 el#$40-24b2/a#$ebrd#$1-e ad#$8-m#$sf-1/a#$n-23c3c#$n-23c3b#$40-202a/a#$u-13e-1#$s-6el24/a#$n-23c3b/a#$n-cr#$c-w#$40-202a#$10-c/a#$u-7d#$u-6b-2/a#$n-23c-1/a#$n14ae24#$x-17a-5#$u5b/a#$s-6/a#$s-3d/a#$nrsro-ce/a#$pres14c#$nt n-mfp#$c#$10-qsb#$n-8b-2#$ma-w#$cfportal/a#$ma-i#$ma-a#$ma-i/a#$n-18f1/a#$nt 10-d/a#$24f-2el#$dstrbrpt/a#$253g2#$n-1a el/a#$253g1#$8-b12g#$2-a#$8-b12b#$nrsro-upd#$n-6/a#$497k1#$497k2#$dosltr#$n-1a el#$s-20/a#$10-c#$40-33/a#$c/a#$adb#$msd#$9-m#$nt 10-d#$n-6#$n-4#$bdco#$40-8f-b#$sdr#$40-8f-l/a#$8-k15d5/a#$40-8f-l#$u-12-ib/a#$x-17a-5/a#$def13e3/a#$advw#$13f-e#$sc 13e4/a#$8-b12b/a#$ma#$dos/a#$bw-2#$bw-3#$40-8f-m/a#$u-12-ia/a#$2-a/a#$n-23c3c/a#$s-6el24#$8a12bt/a#$s-8/a#$8-b12g/a#$iadb#$8a12bef#$n-3#$40-203a#$ttw/a#$40-8f-a#$afdb#$497k3a#$497k3b#$424h/a#$nt n-mfp1#$u-7d/a#$40-24b2#$sc 13e4#$n14el24/a#$n-mfp1/a#$s-bmef#$g-fin#$def-oc#$n-27d-1#$pre13e3/a#$n-8b-2/a#$adv-nr#$n-3/a#$424h#$taco#$487#$ebrd/a#$40-17gcs#$nt 15d2/a#$n-4/a#$18-12b#$def13e3#$sf-3/a#$24f-2tm#$40-8f-a/a#$reg-nr#$ta-2/a#$sl#$dos#$40-17f1/a#$486apos#$ntn 10d#$");
 			} else if (fillingtype.contains("tt#$")) {
-				queryParams.put("tt_category", "analyst_shareholder_meeting_other#$conference#$earnings#$guidance#$m&a#$");
+				queryParams.put("tt_category",
+						"analyst_shareholder_meeting_other#$conference#$earnings#$guidance#$m&a#$");
 
 			} else if (fillingtype.contains("ni#$")) {
 				queryParams.put("ni_category",
@@ -233,11 +228,10 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
-		
+
 	}
 
 	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
@@ -313,11 +307,10 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
-		
+
 	}
 
 	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
@@ -346,8 +339,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
 
@@ -379,11 +371,10 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
-		
+
 	}
 
 	@Test(groups = "sanity", description = "Fetch search source", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
@@ -399,7 +390,6 @@ public class DocumentSearch extends APIDriver {
 			} else {
 				queryParams.put("facets_flag", facets_flag);
 			}
-
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -411,10 +401,9 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
-		}
-		finally {
+		} finally {
 			verify.verifyAll();
 		}
-		
+
 	}
 }
