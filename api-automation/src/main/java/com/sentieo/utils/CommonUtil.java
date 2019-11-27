@@ -90,25 +90,40 @@ public class CommonUtil {
 
 	public void generateRandomTickers(Method testMethod) {
 		List<String[]> tickers = randomTickerCSV(testMethod);
-		randomTickers.put(1001, "AAPL");
-		randomTickers.put(1002, "AMZN");
-		randomTickers.put(1003, "TSLA");
-		randomTickers.put(1004, "ASNA");
+		randomTickers.clear();
+		if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")
+				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
+				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
+				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
+			randomTickers.put(1001, "AAPL");
+			randomTickers.put(1002, "AMZN");
+			randomTickers.put(1003, "TSLA");
+			randomTickers.put(1004, "ASNA");
+
+		}
 		for (String[] row : tickers) {
 			int highlightLabelRandom = new Random().nextInt(tickers.size());
 			String[] cell = tickers.get(highlightLabelRandom);
 			for (String tickerName : cell) {
 				randomTickers.put(highlightLabelRandom, tickerName);
-				if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+				if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
 					if (randomTickers.size() >= 10)
 						break;
 				} else {
 					if (randomTickers.size() >= 100)
 						break;
 				}
-
 			}
-			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
 				if (randomTickers.size() >= 10)
 					break;
 			} else {
@@ -121,9 +136,24 @@ public class CommonUtil {
 	public List<String[]> randomTickerCSV(Method testMethod) {
 		FileReader filereader;
 		try {
-			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+					|| (testMethod.getName().equalsIgnoreCase("keyMultiplesP_CashFlow"))) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "dailyseries.csv");
+			}
+
+			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "Tangible.csv");
+			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
+				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "gross.csv");
+			}
+
+			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
+				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
+			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
 			} else {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
@@ -154,6 +184,7 @@ public class CommonUtil {
 		return null;
 
 	}
+
 	public Double getpostivePercentageChange(Double firstValue, Double secondValue) {
 		Double difference = firstValue - secondValue;
 		Double average = (firstValue + secondValue) / 2;

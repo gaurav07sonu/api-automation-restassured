@@ -205,8 +205,7 @@ public class DataProviderClass {
 	@DataProvider(name = "plotterDailySeries")
 	public Object[][] dailySeries() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"P/E","p_eps"},{"EV/EBITDA","ev_ebitda"},{"EV/GROSS PROFIT","ev_grossprofit"},{"EV/(EBITDA-CAPEX)","ev_ebitdacapex"},{"EV/EBIT","ev_ebit"},{"EV/Sales","ev_sales"},{"P/Sales","p_sales"},{"FCF Yield","fcfyield_mkt"}
-		,{"FCF Yield using EV","fcfyield_ev"},{"P/Book Value","price_bookvalue"},{"P/Tangible Book Value","tang_bookvalue"},{"P/Cash Flow","price_cashflow"},
+		groupArray = new String[][] {{"P/E","p_eps"},{"EV/EBITDA","ev_ebitda"},{"EV/EBIT","ev_ebit"},{"EV/Sales","ev_sales"},{"P/Sales","p_sales"},{"P/Cash Flow","price_cashflow"},
 		{"Enterprise Value","ev_daily"},{"Market Cap","mkt_cap_daily"}};
 		return groupArray;
 		}
