@@ -91,11 +91,10 @@ public class CommonUtil {
 	public void generateRandomTickers(Method testMethod) {
 		List<String[]> tickers = randomTickerCSV(testMethod);
 		randomTickers.clear();
-		if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
-				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")
-				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
-				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
-				|| !testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
+		if (!testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM"))
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue"))
+				&&(!testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX"))
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT"))) {
 			randomTickers.put(1001, "AAPL");
 			randomTickers.put(1002, "AMZN");
 			randomTickers.put(1003, "TSLA");
