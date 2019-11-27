@@ -37,7 +37,7 @@ public class RestOperationUtils {
 			}else{
 				res = given().spec(spec).body(payload).when().post(url);
 			}
-			//ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
+			ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new CoreCommonException(e);
@@ -72,7 +72,7 @@ public class RestOperationUtils {
 			//reporter.reportStep(StepStatus.INFO, REQUEST_MSG, infoMessage);
 
 			res = given().spec(spec).when().get(url);
-			//ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
+			ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
 		}catch(Exception e){
 			throw new CoreCommonException(e);
 		}

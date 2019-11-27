@@ -93,12 +93,11 @@ public class KeyMultiples extends APIDriver {
 				RequestSpecification spec = queryParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(fetchGraphURI, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-
 				if (headName.contains("EV/EBITDA")) {
 					JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 							.getJSONArray("series");
