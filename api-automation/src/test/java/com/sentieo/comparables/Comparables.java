@@ -4,6 +4,7 @@ import static com.sentieo.constants.Constants.*;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -165,6 +166,40 @@ public class Comparables extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 			}
 		}
+		verify.verifyAll();
+	}
+	@Test(groups = "sanity", description = "fetchscreenersearch")
+	public void fetchscreenersearch() throws Exception {
+		HashMap<String, String> queryParams = new HashMap<String, String>();
+		queryParams.put("tickers", "aapl");
+		queryParams.put("pagetype", "screener");
+		queryParams.put("type", "company");
+		queryParams.put("sort", "FY_Y_S_mkt_cap:desc");
+		queryParams.put("currency", "usd");
+		queryParams.put("screener_search_settings", "{\"unique_str\":\"\",\"page_nav\":0,\"page_sort\":0}");
+
+		RequestSpecification spec = formParamsSpec(queryParams);
+
+		Response resp = RestOperationUtils.post(APP_URL + FETCH_SCREENER_SEARCH, null, spec, queryParams);
+		APIResponse apiResp = new APIResponse(resp);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		verify.verifyResponseTime(resp, 5000);
+		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+				"Verify the API Response Status");
+		JSONObject values = respJson.getJSONObject("result");
+		JSONObject ticker_currency = values.getJSONObject("ticker_currency");
+		JSONArray ticker = values.getJSONArray("tickers");
+		JSONObject fields_info = values.getJSONObject("fields_info");
+		if (values.length() == 0)
+			verify.verifyTrue(false, "verify result : ");
+		if (ticker.length() == 0)
+			verify.verifyTrue(false, "verify tickers : ");
+		if (ticker_currency.length() == 0)
+			verify.verifyTrue(false, "verify ticker :  ");
+		if (fields_info.length() == 0)
+			verify.verifyTrue(false, "verify fields info :  ");
+
 		verify.verifyAll();
 	}
 }
