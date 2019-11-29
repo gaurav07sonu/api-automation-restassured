@@ -30,7 +30,7 @@ public class RestOperationUtils {
 			infoMessage = infoMessage + reporter.generateFormatedRequestHeader(spec);
 			
 			infoMessage = 	infoMessage + BREAK_LINE + "<div>   URI : " + url + "</div>" +  payloadOutput;
-			ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
+			//ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
 			
 			if(payload == null){
 				res = given().spec(spec).when().post(url);
@@ -72,7 +72,7 @@ public class RestOperationUtils {
 			//reporter.reportStep(StepStatus.INFO, REQUEST_MSG, infoMessage);
 
 			res = given().spec(spec).when().get(url);
-			ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
+			//ExtentTestManager.getTest().log(LogStatus.INFO,reporter.generateFormatedResponse(res));
 		}catch(Exception e){
 			throw new CoreCommonException(e);
 		}
