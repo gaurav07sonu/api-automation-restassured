@@ -8,7 +8,7 @@
  
   <test name="sentieo-tests" preserve-order="true">
     <packages>
-      <package name="com.sentieo.plotter.*" />
+      <package name="com.sentieo.user.*" />
     </packages>
   </test>
 </suite>
