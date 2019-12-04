@@ -749,6 +749,20 @@ public class FinanceApi extends APIDriver {
 		} else {
 			dateformat = new SimpleDateFormat("M/dd/yy");
 		}
+		if(testName.equalsIgnoreCase("au"))
+		{	calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
+			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+			if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+				calNewYork.add(Calendar.DAY_OF_MONTH,0);
+				String str = dateformat.format(calNewYork.getTime());
+				return str;
+			} else {
+				calNewYork.add(Calendar.DAY_OF_MONTH,0);
+				String str = dateformat.format(calNewYork.getTime());
+				return str;
+			}
+		}
+		else {
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
 		if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
@@ -759,6 +773,7 @@ public class FinanceApi extends APIDriver {
 			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
 			String str = dateformat.format(calNewYork.getTime());
 			return str;
+		}
 		}
 	}
 
