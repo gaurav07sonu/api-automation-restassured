@@ -94,7 +94,7 @@ public class TestDailySeriesData extends APIDriver {
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
 				FinanceApi fin = new FinanceApi();
-				if (ticker.contains("au"))
+				if (ticker.contains("au") || ticker.contains(":jp"))
 					systemDate = fin.dateValidationForHistoricalChart("au");
 				else
 					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph");
@@ -161,7 +161,7 @@ public class TestDailySeriesData extends APIDriver {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
 			ticker = ticker.toLowerCase();
-			keyMultiples("P/Book Value", "price_bookvalue", ticker);
+			keyMultiples("P/Book Value", "price_bookvalue", "7203:jp");
 		}
 		verify.verifyAll();
 	}
