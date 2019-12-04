@@ -30,7 +30,7 @@ public class RestOperationUtils {
 			infoMessage = infoMessage + reporter.generateFormatedRequestHeader(spec);
 			
 			infoMessage = 	infoMessage + BREAK_LINE + "<div>   URI : " + url + "</div>" +  payloadOutput;
-			ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
+			//ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
 			
 			if(payload == null){
 				res = given().spec(spec).when().post(url);
