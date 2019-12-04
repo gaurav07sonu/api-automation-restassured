@@ -26,7 +26,7 @@ import com.sentieo.utils.CoreCommonException;
 public class WebandSocialData extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
-//	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
+	//	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
 	String actualMSG = "Success";
 	String yAxisActual = "Alexa Reach (per million internet users)";
 	String gtrendsYAxisActual = "Google Trends";
@@ -58,7 +58,7 @@ public class WebandSocialData extends APIDriver {
 			Calendar calNewYork = Calendar.getInstance();
 			calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-			if (dayofweek != 1 && dayofweek != 2 && dayofweek != 7) {
+			if (dayofweek != 1 && dayofweek != 2 && dayofweek != 3 && dayofweek != 7) {
 				String URI = APP_URL + GET_GTRENDS;
 				for (String[] row : tickers) {
 					for (String cell : row) {
@@ -95,7 +95,7 @@ public class WebandSocialData extends APIDriver {
 
 			else {
 				ExtentTestManager.getTest().log(LogStatus.INFO,
-						"Skip test because of data is not updated on  : " + Calendar.DAY_OF_WEEK + "day");
+						"Skip test because of data is not updated on  : " + dayofweek + "day");
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
