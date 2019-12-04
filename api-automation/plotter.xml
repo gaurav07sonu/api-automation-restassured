@@ -7,8 +7,8 @@
    </listeners>
  
   <test name="sentieo-tests" preserve-order="true">
-    <classes>
-      <class name="com.sentieo.plotter.WebandSocialData" />
-    </classes>
+   <packages>
+      <package name="com.sentieo.plotter.*" />
+    </packages>
   </test>
 </suite>
