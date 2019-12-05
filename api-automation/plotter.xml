@@ -5,10 +5,17 @@
         <listener class-name="com.sentieo.listener.AnnotationTransformer"/>
         <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
    </listeners>
- 
+ <test name="others" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.plotter">
+				<exclude name="com.sentieo.Volume"></exclude>
+			</package>
+		</packages>
+	</test>
   <test name="sentieo-tests" preserve-order="true">
    <packages>
       <package name="com.sentieo.plotter.*" />
     </packages>
+    
   </test>
 </suite>
