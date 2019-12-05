@@ -49,7 +49,6 @@
 			<class name="com.sentieo.plotter.StockData" />
 			<class name="com.sentieo.plotter.StockPrice49929"/>
 			<class name="com.sentieo.plotter.StockPrice50650"/>
-			<class name="com.sentieo.plotter.TestDailySeriesData"/>
 			<class name="com.sentieo.plotter.Volume" />
 			<class name="com.sentieo.plotter.WebandSocialData" />
 		</classes>
