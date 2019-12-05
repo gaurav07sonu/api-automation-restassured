@@ -45,7 +45,7 @@ public class Volume extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	//@Test(groups = "sanity", description = "Match stock price plotter series and stream call ")
+	@Test(groups = "sanity", description = "Match stock price plotter series and stream call ")
 	public void volume() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;
