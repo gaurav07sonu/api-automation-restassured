@@ -71,11 +71,12 @@ public class KeyMultiples extends APIDriver {
 			String fetchGraphURI = APP_URL + FETCH_GRAPH_DATA;
 			for (String[] row : tickers) {
 				for (String cell : row) {
+				cell=cell.toLowerCase();
 				parameters.put("head_name", headName);
 				parameters.put("pagetype", "plotter");
 				parameters.put("graphtype", "newratioestimate");
-				parameters.put("ptype", "carry");
-				parameters.put("ratio_name", "Current Year");
+				//parameters.put("ptype", "carry");
+				parameters.put("ratio_name", "ntm");
 				parameters.put("datasource", "rf");
 				parameters.put("stack", "0");
 				parameters.put("dma", "0");
@@ -89,7 +90,11 @@ public class KeyMultiples extends APIDriver {
 				parameters.put("freq_type1", "mean");
 				parameters.put("ratio", ratio);
 				parameters.put("ticker",cell);
-
+				parameters.put("graphtype_original", "ev_sales");
+				parameters.put("ptype", "rolling");
+				parameters.put("shift", "backward");
+				
+				
 				RequestSpecification spec = queryParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(fetchGraphURI, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
@@ -146,6 +151,7 @@ public class KeyMultiples extends APIDriver {
 	public void testKeyMultiples(String cell) throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;
+		cell=cell.toLowerCase();
 		parameters.put("summary", "true");
 		parameters.put("yearly", "1");
 		parameters.put("new_wl", "true");

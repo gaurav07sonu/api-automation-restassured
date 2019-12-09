@@ -58,6 +58,7 @@ public class DocumentData extends APIDriver {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			for (String[] row : tickers) {
 				for (String cell : row) {
+					cell=cell.toLowerCase();
 					parameters.put("head_name", "Transcript Sentiment Scores");
 					parameters.put("pagetype", "plotter");
 					parameters.put("graphtype", "transcriptSentiment");
@@ -92,6 +93,7 @@ public class DocumentData extends APIDriver {
 	public void fetchCompanyDocs(String cell) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_COMPANY_DOCS;
+			cell=cell.toLowerCase();
 			parameters.put("ticker", cell);
 			parameters.put("size", "10");
 			RequestSpecification spec = queryParamsSpec(parameters);
