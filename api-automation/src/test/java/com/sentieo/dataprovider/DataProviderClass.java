@@ -117,6 +117,9 @@ public class DataProviderClass {
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchSource")) {
 			groupArray = new Object[][] { { "false" }, { "true" } };
 
+		}else if (testmethodname.getName().equalsIgnoreCase("fetchsearchContext")) {
+			groupArray = new Object[][] { {"10k.item 1", "true"},{"10k.item 1a", "false"},{"10k.item 1b", "true"},{"10k.item 2", "true"},{"10k.item 3", "true"},{"10k.item 4", "false"},{"10k.item 5", "true"},{"10k.item 6", "false"},{"10k.item 7", "true"},{"10k.item 7a", "true"},{"10k.item 8", "true"},{"10k.item 9", "false"},{"10k.item 9a", "true"},{"10k.item 9b", "true"},{"10k.item 10", "true"},{"10k.item 11", "false"},{"10k.item 12", "true"},{"10k.item 13", "true"},{"10k.item 14", "true"},{"10k.item 15", "true"}};
+	
 		}
 		return groupArray;
 

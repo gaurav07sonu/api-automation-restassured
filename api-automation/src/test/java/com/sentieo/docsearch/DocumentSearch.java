@@ -235,58 +235,58 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "Fetch search", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
-	public void fetchsearchSector(String fillingtype, String facets_flag) throws CoreCommonException {
+	public void fetchsearchSector(String sector, String facets_flag) throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("sector", fillingtype);
+			queryParams.put("sector", sector);
 
-			if (fillingtype.contains("Communication Services#$")) {
+			if (sector.contains("Communication Services#$")) {
 				queryParams.put("subsector",
 						"Advertising#$Alternative Carriers#$Broadcasting#$Cable & Satellite#$Integrated Telecommunication Services#$Interactive Home Entertainment#$Interactive Media & Services#$Movies & Entertainment#$Publishing#$Wireless Telecommunication Services#$");
 
-			} else if (fillingtype.contains("Industrials#$")) {
+			} else if (sector.contains("Industrials#$")) {
 				queryParams.put("subsector",
 						"Aerospace & Defense#$Agricultural & Farm Machinery#$Air Freight & Logistics#$Airlines#$Airport Services#$Building Products#$Commercial Printing#$Construction & Engineering#$Construction Machinery & Heavy Trucks#$Diversified Support Services#$Electrical Components & Equipment#$Environmental & Facilities Services#$Heavy Electrical Equipment#$Highways & Railtracks#$Human Resource & Employment Services#$Industrial Conglomerates#$Industrial Machinery#$Marine#$Marine Ports & Services#$Office Services & Supplies#$Railroads#$Research & Consulting Services#$Security & Alarm Services#$Trading Companies & Distributors#$Trucking#$");
 
-			} else if (fillingtype.contains("Consumer Staples#$")) {
+			} else if (sector.contains("Consumer Staples#$")) {
 				queryParams.put("subsector",
 						"Agricultural Products#$Brewers#$Distillers & Vintners#$Drug Retail#$Food Distributors#$Food Retail#$Household Products#$Hypermarkets & Super Centers#$Packaged Foods & Meats#$Personal Products#$Soft Drinks#$Tobacco#$");
 
-			} else if (fillingtype.contains("Health Care#$")) {
+			} else if (sector.contains("Health Care#$")) {
 				queryParams.put("subsector",
 						"Biotechnology#$Health Care Distributors#$Health Care Equipment#$Health Care Facilities#$Health Care Services#$Health Care Supplies#$Health Care Technology#$Life Sciences Tools & Services#$Managed Health Care#$Pharmaceuticals#$");
 
-			} else if (fillingtype.contains("Materials#$")) {
+			} else if (sector.contains("Materials#$")) {
 				queryParams.put("subsector",
 						"Aluminum#$Commodity Chemicals#$Construction Materials#$Copper#$Diversified Chemicals#$Diversified Metals & Mining#$Fertilizers & Agricultural Chemicals#$Forest Products#$Gold#$Industrial Gases#$Metal & Glass Containers#$Paper Packaging#$Paper Products#$Precious Metals & Minerals#$Silver#$Specialty Chemicals#$Steel#$");
 
-			} else if (fillingtype.contains("Information Technology#$")) {
+			} else if (sector.contains("Information Technology#$")) {
 				queryParams.put("subsector",
 						"Application Software#$Communications Equipment#$Data Processing & Outsourced Services#$Electronic Components#$Electronic Equipment & Instruments#$Electronic Manufacturing Services#$IT Consulting & Other Services#$Internet Services & Infrastructure#$Semiconductor Equipment#$Semiconductors#$Systems Software#$Technology Distributors#$Technology Hardware, Storage & Peripherals#$");
 
-			} else if (fillingtype.contains("Consumer Discretionary#$")) {
+			} else if (sector.contains("Consumer Discretionary#$")) {
 				queryParams.put("subsector",
 						"Apparel Retail#$Apparel, Accessories & Luxury Goods#$Auto Parts & Equipment#$Automobile Manufacturers#$Automotive Retail#$Casinos & Gaming#$Computer & Electronics Retail#$Consumer Electronics#$Department Stores#$Distributors#$Education Services#$Footwear#$General Merchandise Stores#$Home Furnishings#$Home Improvement Retail#$Homebuilding#$Homefurnishing Retail#$Hotels, Resorts & Cruise Lines#$Household Appliances#$Housewares & Specialties#$Internet & Direct Marketing Retail#$Leisure Facilities#$Leisure Products#$Motorcycle Manufacturers#$Restaurants#$Specialized Consumer Services#$Specialty Stores#$Textiles#$Tires & Rubber#$");
 
-			} else if (fillingtype.contains("Utilities#$")) {
+			} else if (sector.contains("Utilities#$")) {
 				queryParams.put("subsector",
 						"Electric Utilities#$Gas Utilities#$Independent Power Producers & Energy Traders#$Multi-Utilities#$Renewable Electricity#$Water Utilities#$");
 
-			} else if (fillingtype.contains("Real Estate#$")) {
+			} else if (sector.contains("Real Estate#$")) {
 				queryParams.put("subsector",
 						"Diversified REITs#$Diversified Real Estate Activities#$Health Care REITs#$Hotel & Resort REITs#$Industrial REITs#$Office REITs#$Real Estate Development#$Real Estate Operating Companies#$Real Estate Services#$Residential REITs#$Retail REITs#$Specialized REITs#$");
 
-			} else if (fillingtype.contains("Energy#$")) {
+			} else if (sector.contains("Energy#$")) {
 				queryParams.put("subsector",
 						"Coal & Consumable Fuels#$Integrated Oil & Gas#$Oil & Gas Drilling#$Oil & Gas Equipment & Services#$Oil & Gas Exploration & Production#$Oil & Gas Refining & Marketing#$Oil & Gas Storage & Transportation#$");
 
-			} else if (fillingtype.contains("Financials#$")) {
+			} else if (sector.contains("Financials#$")) {
 				queryParams.put("subsector",
 						"Asset Management & Custody Banks#$Consumer Finance#$Diversified Banks#$Diversified Capital Markets#$Financial Exchanges & Data#$Insurance Brokers#$Investment Banking & Brokerage#$Life & Health Insurance#$Mortgage REITs#$Multi-Sector Holdings#$Multi-line Insurance#$Other Diversified Financial Services#$Property & Casualty Insurance#$Regional Banks#$Reinsurance#$Specialized Finance#$Thrifts & Mortgage Finance#$");
 
-			} else if (fillingtype.contains("Other#$")) {
+			} else if (sector.contains("Other#$")) {
 				queryParams.put("subsector", "Other#$");
 			}
 			if (facets_flag.equalsIgnoreCase("true")) {
@@ -404,6 +404,41 @@ public class DocumentSearch extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
-
 	}
+	
+	
+	
+	
+	@Test(groups = "sanity", description = "fetchsearchContext", dataProvider = "SearchProvider", dataProviderClass = DataProviderClass.class)
+	public void fetchsearchContext(String context, String facets_flag) throws CoreCommonException {
+
+	try {	
+		String URI = APP_URL + FETCH_SEARCH;
+		HashMap<String, String> queryParams = new HashMap<String, String>();
+		queryParams.put("context", context);
+		if (facets_flag.equalsIgnoreCase("true")) {
+			queryParams.put("facets_flag", facets_flag);
+			queryParams.put("no_docs", "6");
+		} else {
+			queryParams.put("facets_flag", facets_flag);
+		}
+		
+		RequestSpecification spec = formParamsSpec(queryParams);
+		Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+		APIResponse apiResp = new APIResponse(resp);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+		System.out.println(respJson.toString());
+		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		verify.verifyResponseTime(resp, 5000);
+		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+				"Verify the API Response Status");
+	} 	catch (Exception e) {
+		throw new CoreCommonException(e);
+	} finally {
+		verify.verifyAll();
+	}
+	}
+	
+
+
 }
