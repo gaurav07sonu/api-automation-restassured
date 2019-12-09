@@ -161,7 +161,7 @@ public class TestDailySeriesData extends APIDriver {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
 			ticker = ticker.toLowerCase();
-			keyMultiples("P/Book Value", "price_bookvalue", "7203:jp");
+			keyMultiples("P/Book Value", "price_bookvalue", ticker);
 		}
 		verify.verifyAll();
 	}

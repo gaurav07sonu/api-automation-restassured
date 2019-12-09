@@ -99,6 +99,7 @@ public class Volume extends APIDriver {
 					Double value = (Double) values.getJSONArray(values.length() - 1).get(1);
 					long plotterVolume = value.longValue();
 					verify.verifyEquals(currentstock_Volume, plotterVolume, "Verify volume values ");
+					verify.verifyAll();
 
 				}
 			}
