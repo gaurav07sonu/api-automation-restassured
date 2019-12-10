@@ -55,6 +55,7 @@ public class Volume extends APIDriver {
 					parameters.put("yearly", "1");
 					parameters.put("new_wl", "true");
 					parameters.put("ticker", cell);
+					cell=cell.toLowerCase();
 					RequestSpecification spec = queryParamsSpec(parameters);
 					Response resp = RestOperationUtils.get(URI, spec, parameters);
 					APIResponse apiResp = new APIResponse(resp);
