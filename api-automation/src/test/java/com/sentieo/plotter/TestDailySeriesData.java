@@ -58,6 +58,7 @@ public class TestDailySeriesData extends APIDriver {
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
+		ticker=ticker.toLowerCase();
 		parameters.put("head_name", headName);
 		parameters.put("graphtype_original", graphType);
 		parameters.put("ratio", graphType);

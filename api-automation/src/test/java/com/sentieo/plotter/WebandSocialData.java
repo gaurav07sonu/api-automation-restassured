@@ -62,6 +62,7 @@ public class WebandSocialData extends APIDriver {
 				String URI = APP_URL + GET_GTRENDS;
 				for (String[] row : tickers) {
 					for (String cell : row) {
+						cell=cell.toLowerCase();
 						parameters.put("head_name", "Google Trends");
 						parameters.put("pagetype", "plotter");
 						parameters.put("graphtype", "gtrends");
@@ -110,6 +111,7 @@ public class WebandSocialData extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {
+					cell=cell.toLowerCase();
 					parameters.put("url", "");
 					parameters.put("ticker", cell);
 					parameters.put("pagetype", "plotter");

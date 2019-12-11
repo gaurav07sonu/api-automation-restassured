@@ -51,6 +51,7 @@ public class StockPrice49929 extends APIDriver {
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			String cell = "^ixic,aapl,shs";
+			cell=cell.toLowerCase();
 			parameters.put("head_name", "Stock Price");
 			parameters.put("graphtype_original", "stock");
 			parameters.put("graphtype", "stock");
