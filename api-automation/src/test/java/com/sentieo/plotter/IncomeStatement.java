@@ -24,10 +24,11 @@ public class IncomeStatement extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
-	//public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn"));
+	// public ArrayList<String> tickers = new
+	// ArrayList<String>(Arrays.asList("aapl", "amzn"));
 	InputTicker obj = new InputTicker();
-	List<String[]> tickers = obj.readTickerCSV(); 
-	
+	List<String[]> tickers = obj.readTickerCSV();
+
 	@BeforeClass
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
@@ -53,44 +54,45 @@ public class IncomeStatement extends APIDriver {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			for (String[] row : tickers) {
 				for (String cell : row) {
-				parameters.put("head_name", headName);
-				parameters.put("pagetype", "plotter");
-				parameters.put("graphtype", "financialData");
-				parameters.put("subtype", subType);
-				parameters.put("periodtype", "Quarterly");
-				parameters.put("datasource", dataSource);
-				parameters.put("stack", "0");
-				parameters.put("dma", "0");
-				parameters.put("median", "0");
-				parameters.put("yoy_rt", "0");
-				parameters.put("qoq_rt", "0");
-				parameters.put("outliers", "0");
-				parameters.put("day_dma", "0");
-				parameters.put("getestimates", "false");
-				parameters.put("yUnit", "millions");
-				parameters.put("ticker", cell);
-				parameters.put("freq_set1", "");
-				parameters.put("freq_type1", "mean");
-				RequestSpecification spec = queryParamsSpec(parameters);
-				Response resp = RestOperationUtils.get(URI, spec, parameters);
-				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
-				String title = getSeries.getString("title").replaceAll(" ", "");
-				String actualTitle = cell.toUpperCase() + parameters.get("periodtype")
-						+ parameters.get("head_name").replaceAll(" ", "") + parameters.get("datasource").toUpperCase();
-				verify.verifyEquals(actualTitle, title, "Verify Series Title");
-				verify.verifyAll();
-			}
+					cell = cell.toLowerCase();
+					parameters.put("head_name", headName);
+					parameters.put("pagetype", "plotter");
+					parameters.put("graphtype", "financialData");
+					parameters.put("subtype", subType);
+					parameters.put("periodtype", "Quarterly");
+					parameters.put("datasource", dataSource);
+					parameters.put("stack", "0");
+					parameters.put("dma", "0");
+					parameters.put("median", "0");
+					parameters.put("yoy_rt", "0");
+					parameters.put("qoq_rt", "0");
+					parameters.put("outliers", "0");
+					parameters.put("day_dma", "0");
+					parameters.put("getestimates", "false");
+					parameters.put("yUnit", "millions");
+					parameters.put("ticker", cell);
+					parameters.put("freq_set1", "");
+					parameters.put("freq_type1", "mean");
+					RequestSpecification spec = queryParamsSpec(parameters);
+					Response resp = RestOperationUtils.get(URI, spec, parameters);
+					APIResponse apiResp = new APIResponse(resp);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
+					String title = getSeries.getString("title").replaceAll(" ", "");
+					String actualTitle = cell.toUpperCase() + parameters.get("periodtype")
+							+ parameters.get("head_name").replaceAll(" ", "")
+							+ parameters.get("datasource").toUpperCase();
+					verify.verifyEquals(actualTitle, title, "Verify Series Title");
+					verify.verifyAll();
+				}
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
-
 
 	}
 }

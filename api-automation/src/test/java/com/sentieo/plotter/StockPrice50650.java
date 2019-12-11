@@ -70,6 +70,7 @@ public class StockPrice50650 extends APIDriver {
 				JSONArray value = null;
 				String URI = APP_URL + FETCH_GRAPH_DATA;
 				String cell = "^gspc";
+				cell=cell.toLowerCase();
 				parameters.put("head_name", "Stock Price");
 				parameters.put("graphtype_original", "stock");
 				parameters.put("graphtype", "stock");

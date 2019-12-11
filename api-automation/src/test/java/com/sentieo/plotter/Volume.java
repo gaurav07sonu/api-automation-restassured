@@ -51,11 +51,11 @@ public class Volume extends APIDriver {
 			String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;
 			for (String[] row : tickers) {
 				for (String cell : row) {
+					cell=cell.toLowerCase();
 					parameters.put("summary", "true");
 					parameters.put("yearly", "1");
 					parameters.put("new_wl", "true");
 					parameters.put("ticker", cell);
-					cell=cell.toLowerCase();
 					RequestSpecification spec = queryParamsSpec(parameters);
 					Response resp = RestOperationUtils.get(URI, spec, parameters);
 					APIResponse apiResp = new APIResponse(resp);
