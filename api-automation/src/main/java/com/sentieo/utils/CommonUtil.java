@@ -199,5 +199,16 @@ public class CommonUtil {
 		Double perChange = divideDIfference * 100;
 		return perChange;
 	}
+	
+	public String getCurrentDate()
+	{
+		Calendar calNewYork = Calendar.getInstance();
+		DateFormat dateformat;
+		dateformat = new SimpleDateFormat("M/dd/yy");
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+		String str = dateformat.format(calNewYork.getTime());
+		return str;		
+	}
 
 }
