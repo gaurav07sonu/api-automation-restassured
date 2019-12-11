@@ -102,6 +102,7 @@ public class Constants {
 	//plotter
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
 	public static final String WEBSITETRAFFIC ="/api/alexaapi/";
+	public static final String MAPPING="/api/get_tracker_mappings/";
 	
 	
 	//screener
