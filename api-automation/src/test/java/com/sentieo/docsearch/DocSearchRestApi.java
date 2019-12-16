@@ -432,9 +432,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	
-	
+
 	@Test(groups = "sanity", description = "pub_doc_viewer", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void pub_doc_viewer(String id, String free_call) throws CoreCommonException {
 		try {
@@ -445,10 +443,9 @@ public class DocSearchRestApi extends APIDriver {
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.get(URI, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			//JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			// JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-			
 
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
@@ -457,8 +454,6 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	
-	
 	@Test(groups = "sanity", description = "pub_doc_viewer", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void pub_doc_viewer1(String id, String free_call, String error) throws CoreCommonException {
 		try {
@@ -475,13 +470,13 @@ public class DocSearchRestApi extends APIDriver {
 			if (!StringUtils.isEmpty(error)) {
 				String actualErorr = respJson.getJSONObject("response").getString("error");
 				verify.verifyEquals(actualErorr, error, "Comparing error message");
-			 	verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
 						"Verify the API Response Status");
 			}
 
 			else {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
+						"Verify the API Response Status");
 			}
 
 		} catch (JSONException e) {
@@ -490,10 +485,9 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	
+
 	@Test(groups = "sanity", description = "get_bulk_download_doc", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void get_bulk_download_doc(String id,String viewer) throws CoreCommonException {
+	public void get_bulk_download_doc(String id, String viewer) throws CoreCommonException {
 		try {
 			String URI = APP_URL + GET_BULK_DOWNLOAD_DOC;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -511,11 +505,9 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	
-	
+
 	@Test(groups = "sanity", description = "get_doc_pdf", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void get_doc_pdf(String doc_id,String viewer) throws CoreCommonException {
+	public void get_doc_pdf(String doc_id, String viewer) throws CoreCommonException {
 		try {
 			String URI = APP_URL + GET_DOC_PDF;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -533,9 +525,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	
-	
+
 	@Test(groups = "sanity", description = "query_suggest_autocomplete", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void query_suggest_autocomplete(String text, String tickers) throws CoreCommonException {
 		try {
@@ -550,16 +540,13 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
-
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
 		}
 	}
-	
-	
-	
+
 	@Test(groups = "sanity", description = "get_user_downloaded_docs_status ")
 	public void get_user_downloaded_docs_status() throws CoreCommonException {
 		try {
@@ -581,9 +568,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	
-	
+
 	@Test(groups = "sanity", description = "fetch_snippets", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetch_snippets(String doc_id, String tickers, String query, String error) throws CoreCommonException {
 		try {
@@ -593,7 +578,7 @@ public class DocSearchRestApi extends APIDriver {
 			queryParams.put("tickers", tickers);
 			queryParams.put("query", query);
 			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI,null, spec, queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -601,13 +586,13 @@ public class DocSearchRestApi extends APIDriver {
 			if (!StringUtils.isEmpty(error)) {
 				String actualErorr = respJson.getJSONObject("response").getString("error");
 				verify.verifyEquals(actualErorr, error, "Comparing error message");
-			 	verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
 						"Verify the API Response Status");
 			}
 
 			else {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
+						"Verify the API Response Status");
 			}
 
 		} catch (JSONException e) {
@@ -616,9 +601,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	
-	
+
 	@Test(groups = "sanity", description = "fetch_search_term_count", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetch_search_term_count(String size, String tickers, String query) throws CoreCommonException {
 		try {
@@ -628,12 +611,11 @@ public class DocSearchRestApi extends APIDriver {
 			queryParams.put("tickers", tickers);
 			queryParams.put("query", query);
 			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI,null, spec, queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-
 
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);

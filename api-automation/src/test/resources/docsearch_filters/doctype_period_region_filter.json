@@ -1,0 +1,10 @@
+ticker,query,filingtype,filing_subtype,tt_category,period,geog_filter,sensitivity,facets_flag,error
+aapl,sales,ef#$,10-q#$10-q/a#$,"",1m,"{\"United States\":{\"United States\":[\"us\"]}}",6,true,""
+fb,profit,ef#$,10-k#$10-k/a#$,"",6m,"{\"Europe\":{\"Western Europe\":[\"gb\",\"de\",\"it\",\"fr\",\"ch\",\"be\",\"ie\",\"es\",\"lu\",\"nl\",\"fi\",\"pt\",\"gr\",\"dk\",\"mt\",\"is\",\"no\",\"gi\",\"se\"],\"Central & Eastern Europe\":[\"ru\",\"pl\",\"hu\",\"cz\",\"lv\",\"bg\",\"at\",\"ee\",\"cy\",\"ro\",\"si\",\"lt\",\"sk\",\"ua\"],\"Southern Europe\":[\"hr\",\"mk\",\"rs\",\"me\"]}}",4,true,""
+msft,sales,tt#$,"","analyst_shareholder_meeting_other#$conference#$earnings#$guidance#$m&a#$",1y,"{\"Asia Pacific\":{\"East Asia\":[\"jp\",\"cn\",\"tw\",\"kr\",\"hk\"],\"South East Asia\":[\"id\",\"ph\",\"my\",\"th\",\"vn\",\"sg\"],\"South Asia\":[\"in\",\"bd\",\"lk\",\"pk\"],\"Central Asia\":[\"kz\"]}}",6,true,""
+googl,maps,rr#$,"","",3m,"{\"Latin America & Caribbean\":{\"South America\":[\"pe\",\"br\",\"co\",\"cl\",\"ar\",\"ve\"],\"Mexico\":[\"mx\"],\"Caribbean\":[\"vg\",\"ky\",\"bm\",\"jm\"]}}",11,true,""
+aapl,sales,ef#$,10-q#$10-q/a#$,"",1234,1234,6,true,"Value not in correct dict format"
+fb,profit,ef#$,10-k#$10-k/a#$,"","","",4,true,""
+msft,sales,tt#$,"","analyst_shareholder_meeting_other#$conference#$earnings#$guidance#$m&a#$",null,null,6,true,"Value not in correct dict format"
+fb,profit,ef#$,10-k#$10-k/a#$,"",1234,abcd,4,true,"Value not json encoded"
+fb,profit,ef#$,10-k#$10-k/a#$,"",1234abcd,abcd1234,4,true,"Value not json encoded"

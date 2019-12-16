@@ -1,0 +1,8 @@
+ticker, query , fillingtype ,filing_subtype,sensivity,facets_flag
+aapl,sales,ef#$,10-q#$10-q/a#$,6,false
+aapl,sales,tt#$,tth#$ttb#$,2,true
+fb,profit,ef#$,10-k#$10-k/a#$,4,false
+msft,sales,ef#$,8-k#$8-k/a#$8-k agreement#$8-k credit#$8-k earnings#$8-k mgmt#$8-k other#$8-k restruct#$8-k update#$8-k voting#$,6,true
+googl,maps,ef#$,def 14a#$,11,true
+tsla,cars,ef#$,10-q#$10-q/a#$,3,true
+amzn,sales,ppt#$,"",2,false
