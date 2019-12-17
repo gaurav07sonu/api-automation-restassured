@@ -100,18 +100,13 @@ public class FetchGraphDataEstimatesChart extends APIDriver {
 	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "graphDataYearlyEstimate", dataProviderClass = DataProviderClass.class)
 	public void yearlyEstimateTest(String subType) throws Exception {
 		CommonUtil commUtil = new CommonUtil();
-		List<String[]> tickers = commUtil.readTickerCSV();
+		List<String[]> tickers = commUtil.readTickerCSV("EDTTicker.csv");
 		for (String[] row : tickers) {
 			for (String tickerName : row) {
 				tickerName = tickerName.toLowerCase();
 				fetchGraphdataYearlyEstimatesapp(subType, tickerName);
 				fetchGraphdataYearlyEstimatesapp2(subType, tickerName);
-				int appSeriesLength = appSeries.length();
-				int app2SeriesLength = app2Series.length();
-				verify.verifyEquals(appSeriesLength, app2SeriesLength, "verify series length" + "  app series  "
-						+ appSeriesLength + "  app2 series  " + app2SeriesLength + " for series " + subType +" and ticker is : "+tickerName);
-				verify.assertEqualsActualContainsExpected(errorMsgAPP, "success", "verify app message");
-				verify.assertEqualsActualContainsExpected(errorMsgAPP2, "success", "verify app2 message");
+				
 			}
 		}
 		verify.verifyAll();

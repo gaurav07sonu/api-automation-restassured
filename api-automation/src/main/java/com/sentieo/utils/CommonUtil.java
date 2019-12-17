@@ -5,6 +5,7 @@ import static com.sentieo.constants.Constants.RESOURCE_PATH;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -169,10 +171,10 @@ public class CommonUtil {
 
 	}
 
-	public List<String[]> readTickerCSV() {
+	public List<String[]> readTickerCSV(String csv) {
 		FileReader filereader;
 		try {
-			filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "EDTTicker.csv");
+			filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + csv);
 			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
 			List<String[]> allData = csvReader.readAll();
 			return allData;
@@ -209,6 +211,16 @@ public class CommonUtil {
 		calNewYork.add(Calendar.DAY_OF_MONTH, 0);
 		String str = dateformat.format(calNewYork.getTime());
 		return str;		
+	}
+	
+	public Integer getYearFromTimeStamp(double timestamp)
+	{	
+		 Timestamp ts=new Timestamp((long) timestamp);  
+		 Calendar cal = Calendar.getInstance();
+		 cal.setTime(new Date(ts.getTime()));
+		 int year = cal.get(Calendar.YEAR);
+		return year;
+		
 	}
 
 }
