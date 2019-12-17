@@ -95,7 +95,7 @@ public class FetchGraphDataTradingMultiples extends APIDriver {
 	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "tradingMultiplesCombination", dataProviderClass = DataProviderClass.class)
 	public void yearlyEstimateTest(String ratio, String pType, String rationName) throws Exception {
 		CommonUtil commUtil = new CommonUtil();
-		List<String[]> tickers = commUtil.readTickerCSV();
+		List<String[]> tickers = commUtil.readTickerCSV("EDTTicker.csv");
 		for (String[] row : tickers) {
 			for (String tickerName : row) {
 				tickerName = tickerName.toLowerCase();

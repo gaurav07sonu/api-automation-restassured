@@ -7,7 +7,7 @@
  
   <test name="sentieo-private companies tests" preserve-order="true">
     <classes>
-      <class name="com.sentieo.EDT.FetchGraphDataEstimatesChart" />
+      <class name="com.sentieo.EDT.EstimateDataBug" />
     </classes>
   </test>
 </suite>
