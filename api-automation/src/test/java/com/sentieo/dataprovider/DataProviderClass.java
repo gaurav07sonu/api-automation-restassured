@@ -98,7 +98,7 @@ public class DataProviderClass {
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter6")) {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_sector_region_filter.json");
-
+			
 		}
 		
 		return groupArray;
