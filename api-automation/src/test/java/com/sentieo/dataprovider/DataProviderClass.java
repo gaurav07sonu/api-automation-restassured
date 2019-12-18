@@ -376,6 +376,6 @@ public class DataProviderClass {
 		{"Diluted EPS-NTM","loxo"}};
 		return groupArray;
 		}
-	}
+	
 
 }
