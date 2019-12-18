@@ -42,6 +42,13 @@ public class Constants {
 	public static final String FETCH_TRANSFORM_DOC_CONTENT = "/api/fetch_transform_doc_content/";
 	public static final String FETCH_EXHIBITS = "/api/fetch_exhibits/";
 	public static final String FETCH_PAGELINK = "/api/fetch_pagelink/";
+	public static final String PUB_DOC_VIEWER = "/api/pub_doc_viewer/";
+	public static final String GET_BULK_DOWNLOAD_DOC = "/api/get_bulk_download_doc/";
+	public static final String GET_DOC_PDF = "/api/get_doc_pdf/";
+	public static final String QUERY_SUGGEST_AUTOCOMPLETE = "/api/query_suggest_autocomplete/";
+	public static final String GET_USER_DOWNLOADED_DOCS_STATUS = "/api/get_user_downloaded_docs_status/";
+	public static final String FETCH_SNIPPETS = "/api/fetch_snippets/";
+	public static final String FETCH_SEARCH_TERM_COUNT = "/api/fetch_search_term_count/";
 	
 	
 	//finance / plotter

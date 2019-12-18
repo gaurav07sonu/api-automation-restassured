@@ -1,0 +1,5 @@
+id,free_call,error
+086630c5feb6d8bfcfedd3130784618370e845a97f30c700e25cd205ff1df9b779c2727c4b07a20c2342f1b,true ,"Size Error. Size should be equal to 96"
+086630c5feb6d8bfcfedd3130784618370e845a97f30c700e25cd205ff1df9b779c2727c4b07a20c2342f1b,false ,"Size Error. Size should be equal to 96"
+086630c5feb6d8bfcfedd3130784618370e845a97f30c700e25cd205ff1df9b779c2727c4b07a20c2342f1b2892bcef4,null,Value not in correct bool format
+086630c5feb6d8bfcfedd3130784618370e845a97f30c700e25cd205ff1df9b779c2727c4b07a20c2342f1b2892bcef4,ladhhdhfdahfhafhf,Value not json encoded

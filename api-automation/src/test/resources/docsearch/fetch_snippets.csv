@@ -1,0 +1,8 @@
+doc_id,tickers,query,error
+5dbab2426681142318000d6c,aapl,sales,
+5dd615449ce7ad786e00a2f8,goz:au,marketing,
+5db0d3b39ce7ad786e000503,msft,marketing,
+",hfhsfhkfhkfhksdh",aapl,sales,Value not in correct objid format
+1234,aapl,sales,Value not in correct objid format
+null,aapl,sales,Value not in correct objid format
+5dbab2426681142318000d6c,hshdaohdosahdoashd,sales,
