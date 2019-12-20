@@ -24,6 +24,8 @@ public class loginForMultipleUser extends APIDriver {
 		String URI = USER_APP_URL + LOGIN_URL;
 		System.out.println(URI + "==================");
 		ExtentTestManager.getTest().log(LogStatus.PASS, URI);
+		ExtentTestManager.getTest().log(LogStatus.PASS, EMAIL);
+		ExtentTestManager.getTest().log(LogStatus.PASS, PASSWORD);
 	}
 
 }

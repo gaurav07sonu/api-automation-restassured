@@ -3,6 +3,7 @@ package com.sentieo.constants;
 import java.io.File;
 import java.io.InputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
@@ -15,13 +16,15 @@ public class Constants {
 	public static String USER_APP_URL = "";
 	
 	 static{
-		 String env = System.getProperty("env");
+		 String envArg = System.getProperty("env");
+		 String usernameArg = System.getProperty("username");
+		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
 		 
 		    for (Object object : yaml.loadAll(inputStream)) {
-		    	if(((Configuration)object).getEnvName().equals(env)) {
+		    	if(((Configuration)object).getEnvName().equals(envArg)) {
 		    		APP_URL = ((Configuration)object).getAppURL();
 		    		USER_APP_URL = ((Configuration)object).getUserAppUrl();
 		    		EMAIL = ((Configuration)object).getUserName();
@@ -31,6 +34,12 @@ public class Constants {
 			        System.out.println(EMAIL);
 			        System.out.println(PASSWORD);
 		    	}
+		    }
+		    if(!StringUtils.isBlank(usernameArg)) {
+		    	EMAIL = usernameArg;
+		    }
+		    if(!StringUtils.isBlank(passwordArg)) {
+		    	PASSWORD = passwordArg;
 		    }
 			System.out.println("static block is invoked");
 		 }  
