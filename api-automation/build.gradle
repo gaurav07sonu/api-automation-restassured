@@ -67,6 +67,8 @@ test {
 
     useTestNG() {
     	systemProperty "env", System.getProperty("env")
+    	systemProperty "username", System.getProperty("username")
+    	systemProperty "password", System.getProperty("password")
         suites "logintest.xml"
     }
 }
