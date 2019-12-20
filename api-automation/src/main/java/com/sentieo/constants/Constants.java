@@ -15,7 +15,7 @@ public class Constants {
 	public static String USER_APP_URL = "";
 	
 	 static{
-		 String env = System.getProperty("envName");
+		 String env = System.getProperty("env");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
