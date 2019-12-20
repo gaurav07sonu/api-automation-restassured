@@ -1,16 +1,47 @@
 package com.sentieo.constants;
 
 import java.io.File;
+import java.io.InputStream;
+
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Constants {
+	
+	//static String env = "app";
+	public static String EMAIL = "";
+	public static String PASSWORD = "";
+	public static String APP_URL = "";
+	public static String USER_APP_URL = "";
+	
+	 static{
+		 String env = System.getProperty("envName");
+		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
+		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
+		 
+		    for (Object object : yaml.loadAll(inputStream)) {
+		    	if(((Configuration)object).getEnvName().equals(env)) {
+		    		APP_URL = ((Configuration)object).getAppURL();
+		    		USER_APP_URL = ((Configuration)object).getUserAppUrl();
+		    		EMAIL = ((Configuration)object).getUserName();
+		    		PASSWORD = ((Configuration)object).getPassword();
+			        System.out.println(APP_URL);
+			        System.out.println(USER_APP_URL);
+			        System.out.println(EMAIL);
+			        System.out.println(PASSWORD);
+		    	}
+		    }
+			System.out.println("static block is invoked");
+		 }  
 	
 	//general set of data
 	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
 			+ "test" + File.separator + "resources";
-	public static final String EMAIL = "alphagani35@gmail.com";
-	public static final String PASSWORD = "DGL=14412jg";
-	public static final String APP_URL = "https://app.sentieo.com";
-	public static final String USER_APP_URL = "https://user-app.sentieo.com";
+//	public static final String EMAIL = "alphagani35@gmail.com";
+//	public static final String PASSWORD = "DGL=14412jg";
+//	public static final String APP_URL = "https://app.sentieo.com";
+//	public static final String USER_APP_URL = "https://user-app.sentieo.com";
 	public static final String LOGIN_URL = "/api/login_1/";
 	
 	
