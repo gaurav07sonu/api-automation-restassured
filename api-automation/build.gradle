@@ -66,6 +66,7 @@ repositories {
 test { 
 
     useTestNG() {
+    systemProperty "envName", System.getProperty("envName")
         suites "logintest.xml"
     }
 }
