@@ -1,7 +1,5 @@
 package com.sentieo.finance;
 
-import static com.sentieo.constants.Constants.RESOURCE_PATH;
-
 import java.io.File;
 import java.io.FileReader;
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import static com.sentieo.constants.Constants.*;
+import static com.sentieo.utils.FileUtil.*;
 
 public class InputTicker {
 

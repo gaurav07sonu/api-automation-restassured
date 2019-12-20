@@ -45,8 +45,8 @@ public class Constants {
 		 }  
 	
 	//general set of data
-	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-			+ "test" + File.separator + "resources";
+//	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+//			+ "test" + File.separator + "resources";
 //	public static final String EMAIL = "alphagani35@gmail.com";
 //	public static final String PASSWORD = "DGL=14412jg";
 //	public static final String APP_URL = "https://app.sentieo.com";

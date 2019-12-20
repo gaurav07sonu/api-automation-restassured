@@ -1,7 +1,5 @@
 package com.sentieo.utils;
 
-import static com.sentieo.constants.Constants.RESOURCE_PATH;
-
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
@@ -21,6 +19,7 @@ import java.util.Random;
 import java.util.TimeZone;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import static com.sentieo.utils.FileUtil.*;
 
 public class CommonUtil {
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
