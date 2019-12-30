@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html> 
+<title>Sentieo API Heartbeat</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<head> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+<title>This is API health check</title><style> 
+<style> 
+
+h1 {
+  text-shadow: 0 0 3px #FF0000;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#apitable { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; border-collapse: collapse; width: 100%; } 
+#apitable td, #apitable th { border: 1px solid #ddd; padding: 8px; } 
+#apitable tr:nth-child(even){background-color: #f2f2f2;} 
+#apitable tr:hover {background-color: #ddd;} 
+#apitable th { padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white; } 
+</style> 
+</head> 
+<body> 
+<div> 
+<h1 style="display: inline-block">  API Heartbeat  </h1> 
+<img src="src/test/resources/api-heartbeat/heartbeat.jpg" style="display: inline-block" width="200" height="42" /> 
+<h4 style="display: inline-block><font color="#006699">(last executed: TIME_PLACEHOLDER)</h4> 
+</div> 
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for api..." title="Type in a name">
+
+<table id="apitable" class="w3-table-all"> 
+
+
+<tr>
+    <th onclick="w3.sortHTML('#apitable', '.item', 'td:nth-child(1)')" style="cursor:pointer">API path</th>
+    <th onclick="w3.sortHTML('#apitable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Team</th>
+    <th onclick="w3.sortHTML('#apitable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Response code</th>
+    <th onclick="w3.sortHTML('#apitable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Payload and Response</th>
+    <th onclick="w3.sortHTML('#apitable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Status</th>
+ </tr>
