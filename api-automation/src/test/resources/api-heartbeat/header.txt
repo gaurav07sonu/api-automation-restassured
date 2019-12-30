@@ -14,7 +14,7 @@ h1 {
 }
 
 #myInput {
-  background-image: url('/css/searchicon.png');
+  background-image: url('https://www.w3schools.com/css/searchicon.png');
   background-position: 10px 10px;
   background-repeat: no-repeat;
   width: 100%;
@@ -34,7 +34,7 @@ h1 {
 <body> 
 <div> 
 <h1 style="display: inline-block">  API Heartbeat  </h1> 
-<img src="src/test/resources/api-heartbeat/heartbeat.jpg" style="display: inline-block" width="200" height="42" /> 
+<img src="https://image.shutterstock.com/image-vector/red-heartbeat-icon-vector-illustration-260nw-611194349.jpg" style="display: inline-block" width="200" height="42" /> 
 <h4 style="display: inline-block><font color="#006699">(last executed: TIME_PLACEHOLDER)</h4> 
 </div> 
 
