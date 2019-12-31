@@ -585,7 +585,7 @@ public class HeartbeatMonitors extends APIDriver {
 				prettyPayload = payload;
 
 			return BREAK_LINE
-					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Payload (Click to Expand / Collapse)</a><xmp style=\"display:none\">"
+					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Payload <u> <font size=\"2\" color=\"blue\">(Click to Expand / Collapse)</font> </u></a><xmp style=\"display:none\">"
 					+ prettyPayload + "</xmp></>";
 		} catch (Exception e) {
 			return BREAK_LINE
@@ -608,7 +608,7 @@ public class HeartbeatMonitors extends APIDriver {
 				prettyPayload = payload;
 
 			return BREAK_LINE
-					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Response body (Click to Expand / Collapse)</a><xmp style=\"display:none\">"
+					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Response body <u> <font size=\"2\" color=\"blue\">(Click to Expand / Collapse) </font> </u> </a><xmp style=\"display:none\">"
 					+ prettyPayload + "</xmp></>";
 		} catch (Exception e) {
 			return BREAK_LINE
