@@ -43,7 +43,7 @@ public class StockPrice50650 extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -57,12 +57,12 @@ public class StockPrice50650 extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Plotter stock price Series")
+	@Test(description = "Plotter stock price Series")
 	public void stockPriceMissingValuesForGSPCTicker() throws CoreCommonException {
 		try {
 			getDateTime();

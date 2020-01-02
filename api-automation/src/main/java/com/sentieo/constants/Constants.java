@@ -70,6 +70,8 @@ public class Constants {
 	public static final String FETCH_VALUE_DATA= "/api/fetch_value_table/";
 	public static final String FETCH_NEW_MODEL_DATA="/api/fetch_new_model_data/";
 	public static final String FETCH_HOLDINGS_DATA= "/api/fetch_institutional_holdings_data3/";
+	public static final String FETCH_LIVE_PRICE="/api/fetch_live_price/";
+	public static final String FETCH_COMPANY_SUMMARY_TABLE="/api/fetch_company_summary_table/";
 	
 	
 	//market-summary

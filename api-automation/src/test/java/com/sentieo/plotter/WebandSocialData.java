@@ -35,7 +35,7 @@ public class WebandSocialData extends APIDriver {
 	List<String[]> tickers = obj.readTickerCSV();
 	String no_mapping = "";
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -49,12 +49,12 @@ public class WebandSocialData extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	 @Test(groups = "sanity", description = "Plotter Web and Social Data Series")
+	 @Test(description = "Plotter Web and Social Data Series")
 	public void googleTrends() throws CoreCommonException {
 		try {
 			Calendar calNewYork = Calendar.getInstance();
@@ -110,7 +110,7 @@ public class WebandSocialData extends APIDriver {
 
 	}
 
-	 @Test(groups = "sanity", description = "Plotter Web and Social Data Series")
+	 @Test( description = "Plotter Web and Social Data Series")
 	public void websiteTraffic() throws CoreCommonException {
 		try {
 			String URI = APP_URL + WEBSITETRAFFIC;

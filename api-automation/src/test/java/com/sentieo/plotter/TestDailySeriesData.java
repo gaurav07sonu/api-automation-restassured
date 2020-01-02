@@ -33,7 +33,7 @@ public class TestDailySeriesData extends APIDriver {
 //			Arrays.asList("wen", "blue", "eqt", "tcl:au", "wy", "gmg:au"));
 	String systemDate;
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -47,7 +47,7 @@ public class TestDailySeriesData extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
 		CommonUtil commUtil = new CommonUtil();
@@ -106,7 +106,7 @@ public class TestDailySeriesData extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
+	@Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
 	public void keyMultiplesNTM(String headName, String graphType) throws Exception {
 //		if (headName.contains("EV/GROSS PROFIT")) {
 //			for (int i = 0; i < tickers.size(); i++) {
@@ -127,7 +127,7 @@ public class TestDailySeriesData extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Check latest data points for Tangible Book Value per Share", priority = 1)
+	@Test(description = "Check latest data points for Tangible Book Value per Share", priority = 1)
 	public void keyMultiplesTangibleBookValueNTM() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -137,7 +137,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "Check latest data points for EV/GROSS PROFIT", priority = 2)
+	@Test(description = "Check latest data points for EV/GROSS PROFIT", priority = 2)
 	public void keyMultiplesEVGROSSPROFIT() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -147,7 +147,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "Check latest data points for EV/(EBITDA-CAPEX)", priority = 3)
+	@Test(description = "Check latest data points for EV/(EBITDA-CAPEX)", priority = 3)
 	public void keyMultiplesEVEBITDA_CAPEX() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -157,7 +157,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "Check latest data points for P/Book Value", priority = 4)
+	@Test(description = "Check latest data points for P/Book Value", priority = 4)
 	public void keyMultiplesP_BookValue() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
