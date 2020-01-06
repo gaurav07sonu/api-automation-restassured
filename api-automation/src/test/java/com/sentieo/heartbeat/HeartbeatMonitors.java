@@ -85,7 +85,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		} 
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch company status")
+	//@Test(groups = { "heart-beat" }, description = "Check fetch company status")
 	public void fetchCompamyStatus() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = APP_URL + FETCH_COMPANY_STATUS;
@@ -123,7 +123,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		} 
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch company header data")
+	//@Test(groups = { "heart-beat" }, description = "Check fetch company header data")
 	public void fetchCompamyHeaderData() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = APP_URL + FETCH_COMPANY_STATUS;
@@ -152,7 +152,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check company summary table")
+	//@Test(groups = { "heart-beat" }, description = "Check company summary table")
 	public void companySummaryTable() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = APP_URL + FETCH_COMPANY_SUMMARY_TABLE;
@@ -196,7 +196,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
+	//@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchLivePrice() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = APP_URL + FETCH_LIVE_PRICE;
@@ -221,7 +221,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "fetchscreenersearch")
+	//@Test(groups = { "heart-beat" }, description = "fetchscreenersearch")
 	public void fetchscreenersearch() throws Exception {
 		Team team = Team.FIN;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -255,7 +255,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
+	//@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchScreenerModels() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = USER_APP_URL + FETCH_SCREENER_MODELS;
@@ -280,7 +280,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
+	//@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchSearch() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_SEARCH;
@@ -304,7 +304,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
+	//@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchUnifiedStreamAllDocs() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_UNIFIED_STREAM;
@@ -369,7 +369,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "FETCH_NEW_MODEL_DATA")
+	//@Test(groups = { "heart-beat" }, description = "FETCH_NEW_MODEL_DATA")
 	public void fetchNewModelData() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = APP_URL + FETCH_NEW_MODEL_DATA;
@@ -397,7 +397,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	}
 	
 	
-	@Test(groups = { "heart-beat" }, description = "fetchmaingraph")
+	//@Test(groups = { "heart-beat" }, description = "fetchmaingraph")
 	public void fetchMainGraphComparables() throws CoreCommonException {
 		Team team = Team.FIN;
 		String URI = APP_URL + FETCH_MAIN_GRAPH;
@@ -419,7 +419,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	}
 	
 	
-	@Test(groups = { "heart-beat" }, description = "fetch_transform_doc_content")
+	//@Test(groups = { "heart-beat" }, description = "fetch_transform_doc_content")
 	public void fetch_transform_doc_content() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_TRANSFORM_DOC_CONTENT;
@@ -438,7 +438,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat" }, description = "fetch_snippets")
+	//@Test(groups = { "heart-beat" }, description = "fetch_snippets")
 	public void fetch_snippets() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_SNIPPETS;
@@ -461,7 +461,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	}
 	
 	
-	@Test(groups = { "heart-beat" }, description = "fetch_sections")
+	//@Test(groups = { "heart-beat" }, description = "fetch_sections")
 	public void fetch_sections() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_SECTIONS;
@@ -482,7 +482,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	}
 
 	
-	@Test(groups = { "heart-beat" }, description = "fetch_searchlibrary")
+	//@Test(groups = { "heart-beat" }, description = "fetch_searchlibrary")
 	public void fetch_searchlibrary() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_SEARCHLIBRARY;
@@ -502,7 +502,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat" }, description = "fetch_search_term_count")
+	//@Test(groups = { "heart-beat" }, description = "fetch_search_term_count")
 	public void fetch_search_term_count() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_SEARCH_TERM_COUNT;
@@ -524,7 +524,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat" }, description = "fetch_note_doc")
+	//@Test(groups = { "heart-beat" }, description = "fetch_note_doc")
 	public void fetch_note_doc() throws CoreCommonException {
 		Team team = Team.Search;
 		String URI = APP_URL + FETCH_NOTE_DOC;

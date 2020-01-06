@@ -59,6 +59,7 @@ h1 {
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for api..." title="Type in a name">
 <h4 style="display: inline-block">Filter by team</h4>
 <select style="display: inline-block" id="myListFunction" onchange="myListFunction()" class='form-control'>
+<option>--Select--</option>
 <option>FIN</option>
 <option>Search</option>
 <option>User</option>
@@ -67,6 +68,7 @@ h1 {
 <option>tableX</option>
 <option>Calendar</option>
 </select>
+<button style="display: inline-block" type="submit"  onClick="refreshPage()">Remove filter</button>
 </div>
 
 <table id="apitable" class="w3-table-all"> 
