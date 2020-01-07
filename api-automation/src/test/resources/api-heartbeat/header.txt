@@ -60,18 +60,21 @@ h1 {
 <h4 style="display: inline-block">Filter by team</h4>
 <select style="display: inline-block" id="myListFunction" onchange="myListFunction()" class='form-control'>
 <option>--Select--</option>
-<option>FIN</option>
-<option>Search</option>
-<option>User</option>
-<option>Notebook</option>
-<option>Graph</option>
-<option>tableX</option>
 <option>Calendar</option>
+<option>FIN</option>
+<option>General</option>
+<option>Graph</option>
+<option>Notebook</option>
+<option>Shareholders</option>
+<option>Search</option>
+<option>Stream</option>
+<option>tableX</option>
+<option>User</option>
 </select>
 <button style="display: inline-block" type="submit"  onClick="refreshPage()">Remove filter</button>
 </div>
 
-<table id="apitable" class="w3-table-all"> 
+<table id="apitable" class="w3-table-all w3-small"> 
 
 
 <tr>
