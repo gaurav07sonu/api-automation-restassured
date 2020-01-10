@@ -43,7 +43,7 @@ public class KeyMultiples extends APIDriver {
 	String fetchGraphPEValue;
 	String gethHeadName = null;
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -57,12 +57,12 @@ public class KeyMultiples extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Match stock price plotter series and stream call ", dataProvider = "fetch_data", dataProviderClass = DataProviderClass.class)
+	@Test(description = "Match stock price plotter series and stream call ", dataProvider = "fetch_data", dataProviderClass = DataProviderClass.class)
 	public void fetchGraph(String headName, String ratio, String dataSource) throws CoreCommonException {
 		try {
 			CommonUtil com = new CommonUtil();

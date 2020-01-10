@@ -30,12 +30,12 @@ public class TestWatchlistPriceChange extends APIDriver {
 	JSONObject portfolio = new JSONObject();
 	JSONObject watchlistPortfolio = new JSONObject();
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();

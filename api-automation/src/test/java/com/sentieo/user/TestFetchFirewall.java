@@ -18,12 +18,12 @@ public class TestFetchFirewall extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -36,7 +36,7 @@ public class TestFetchFirewall extends APIDriver {
 		RestAssured.baseURI = APP_URL;
 	}
 
-	@Test(groups = "sanity", description = "Fetch Firewall")
+	@Test(groups={ "sanity", "test" },description = "Fetch Firewall")
 	public void fetchFirewall() throws Exception {
 		String URI = USER_APP_URL + FETCH_FIREWALL_TEST;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -51,7 +51,7 @@ public class TestFetchFirewall extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "Fetch Firewall test for IOS")
+	@Test(description = "Fetch Firewall test for IOS")
 	public void fetchFirewallIOS() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("loc", "ios");

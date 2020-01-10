@@ -33,7 +33,7 @@ public class DocumentData extends APIDriver {
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -47,12 +47,12 @@ public class DocumentData extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Plotter Web and Social Data Series")
+	@Test(groups ="test-group", description = "Plotter Web and Social Data Series")
 	public void transcriptSentiment() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
