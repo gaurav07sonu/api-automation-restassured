@@ -112,6 +112,10 @@ public class Constants {
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
 	public static final String WEBSITETRAFFIC ="/api/alexaapi/";
 	public static final String MAPPING="/api/get_tracker_mappings/";
+	public static final String SCORES_TABLE="/api/fetch_si_scores_table/";
+	public static final String GNIP_SEARCH_ESTIMATE="/api/gnip_search_estimate/";
+	public static final String ALEXA="/api/alexaapi/";
+	public static final String GTRENDSAUTOCOMPLETE="/api/gtrends_autocomplete/";
 	
 	
 	//screener
@@ -133,6 +137,7 @@ public class Constants {
 	public static final String FETCH_TICKER_QUOTE="/api/fetch_ticker_quote/";
 	public static final String FETCH_FIREWALL_TEST="/api/fetch_firewall_test";
 	public static final String FETCH_USERS_WATCHLIST= "/api/fetch_users_watchlist_api/";	
+	public static final String CHECK_DOMAIN="/api/check_domain/";
 	
 	//private companies
 	public static final String FETCH_CB_EXIT_TABLE="/api/fetch_cb_exit_table/";

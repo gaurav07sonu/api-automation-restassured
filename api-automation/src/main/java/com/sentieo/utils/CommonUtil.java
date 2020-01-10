@@ -113,7 +113,7 @@ public class CommonUtil {
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
-					if (randomTickers.size() >= 10)
+					if (randomTickers.size() >=5)
 						break;
 				} else {
 					if (randomTickers.size() >= 100)
@@ -125,7 +125,7 @@ public class CommonUtil {
 					|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
 					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
 					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
-				if (randomTickers.size() >= 10)
+				if (randomTickers.size() >= 5)
 					break;
 			} else {
 				if (randomTickers.size() >= 100)
@@ -152,6 +152,7 @@ public class CommonUtil {
 
 			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
+				
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");

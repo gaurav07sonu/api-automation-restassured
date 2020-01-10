@@ -40,7 +40,7 @@ import com.sentieo.utils.CoreCommonException;
 
 public class HeartbeatMonitors extends APIDriver {
 	enum Team {
-		FIN, Search, Notebook, User;
+		FIN, Search, Notebook, User, Graph;
 	}
 
 	private static final String BREAK_LINE = "</br>";
@@ -125,7 +125,7 @@ public class HeartbeatMonitors extends APIDriver {
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch company status")
 	public void fetchCompamyStatus() throws CoreCommonException {
-		Team team = Team.Search;
+		Team team = Team.FIN;
 		APIResponse apiResp = null;
 		Response resp = null;
 		String URI = APP_URL + FETCH_COMPANY_STATUS;
@@ -176,7 +176,7 @@ public class HeartbeatMonitors extends APIDriver {
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch company header data")
 	public void fetchCompamyHeaderData() throws CoreCommonException {
-		Team team = Team.User;
+		Team team = Team.FIN;
 		APIResponse apiResp = null;
 		Response resp = null;
 		String URI = APP_URL + FETCH_COMPANY_STATUS;
@@ -217,7 +217,7 @@ public class HeartbeatMonitors extends APIDriver {
 
 	@Test(groups = { "heart-beat" }, description = "Check company summary table")
 	public void companySummaryTable() throws CoreCommonException {
-		Team team = Team.Notebook;
+		Team team = Team.FIN;
 		APIResponse apiResp = null;
 		Response resp = null;
 		String URI = APP_URL + "/api/testfailure/";
@@ -356,7 +356,7 @@ public class HeartbeatMonitors extends APIDriver {
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchScreenerModels() throws CoreCommonException {
-		Team team = Team.Search;
+		Team team = Team.FIN;
 		APIResponse apiResp = null;
 		Response resp = null;
 		String URI = USER_APP_URL + FETCH_SCREENER_MODELS;
@@ -393,7 +393,7 @@ public class HeartbeatMonitors extends APIDriver {
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchSearch() throws CoreCommonException {
-		Team team = Team.FIN;
+		Team team = Team.Search;
 		APIResponse apiResp = null;
 		Response resp = null;
 		String URI = APP_URL + FETCH_SEARCH;
@@ -405,8 +405,285 @@ public class HeartbeatMonitors extends APIDriver {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void fetchFirewall() throws Exception {
+		String URI = USER_APP_URL + FETCH_FIREWALL_TEST;
+		Team team = Team.User;
+		APIResponse apiResp = null;
+		Response resp = null;
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			RequestSpecification spec = formParamsSpec(parameters);
+			resp = RestOperationUtils.get(URI, spec, null);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void fetchTickerQuote() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.User;
+		String URI = APP_URL + FETCH_TICKER_QUOTE;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("tickers", "aapl");
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void checkDomain() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.User;
+		String URI = APP_URL + CHECK_DOMAIN;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("email", EMAIL);
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void getGtrends() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.Graph;
+		String URI = APP_URL + GET_GTRENDS;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("ticker", "aapl");
+			tickerData.put("termtype", "ticker");
+			tickerData.put("type", "normal");
+			tickerData.put("rts", "true");
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void siScoresTable() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.Graph;
+		String URI = APP_URL + SCORES_TABLE;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("ticker", "aapl");
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void gnipSearchEstimate() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.Graph;
+		String URI = APP_URL + GNIP_SEARCH_ESTIMATE;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("ticker", "aapl");
+			tickerData.put("query",
+					"ipad , Airpods , \"apple watch\" OR applewatch , \"apple tv\" OR appletv , \"Apple Music\" OR applemusic , iphone");
+			tickerData.put("pagetype", "mosaic");
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void gnipAlexa() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.Graph;
+		String URI = APP_URL + ALEXA;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("url", "apple.com");
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (AssertionError e) {
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONParseException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Fetch Firewall")
+	public void gtrendsAutocomplete() throws Exception {
+		APIResponse apiResp = null;
+		Response resp = null;
+		Team team = Team.Graph;
+		String URI = APP_URL + GTRENDSAUTOCOMPLETE;
+		try {
+			HashMap<String, String> tickerData = new HashMap<String, String>();
+			tickerData.put("word", "apple.com");
+			RequestSpecification spec = formParamsSpec(tickerData);
+			resp = RestOperationUtils.post(URI, null, spec, tickerData);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			assert respJson.getJSONObject("response").getBoolean("status") == true;
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (AssertionError e) {
@@ -458,19 +735,23 @@ public class HeartbeatMonitors extends APIDriver {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				assert apiResp.getStatusCode() == 200;
 				assert respJson.getJSONObject("response").getBoolean("status") == true;
-				updatePassResult(URI, "200", resp);
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			}
 		} catch (AssertionError e) {
-			updateFailResult(URI, String.valueOf(apiResp.getStatusCode()), resp);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
 		} catch (JSONParseException e) {
 			e.printStackTrace();
-			updateFailResult(URI, String.valueOf(apiResp.getStatusCode()), resp);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
 		} catch (JSONException e) {
 			e.printStackTrace();
-			updateFailResult(URI, String.valueOf(apiResp.getStatusCode()), resp);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, String.valueOf(apiResp.getStatusCode()), resp);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
 		}
 	}
 

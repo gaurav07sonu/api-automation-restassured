@@ -32,8 +32,8 @@ public class loginForMultipleUser extends APIDriver {
 		RequestSpecification spec = formParamsSpec(loginData);
 		Response resp = RestOperationUtils.get(URI, spec, null);
 		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
 		verify.verifyResponseTime(resp, 5000);
