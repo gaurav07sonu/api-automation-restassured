@@ -9,8 +9,23 @@
 <title>This is API health check</title><style> 
 <style> 
 
+* {
+  box-sizing: border-box;
+}
+
 h1 {
   text-shadow: 0 0 3px #FF0000;
+}
+
+#mylist {
+  
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
 }
 
 #myInput {
@@ -31,16 +46,35 @@ h1 {
 #apitable th { padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white; } 
 </style> 
 </head> 
+
 <body> 
 <div> 
 <h1 style="display: inline-block">  API Heartbeat  </h1> 
 <img src="https://image.shutterstock.com/image-vector/red-heartbeat-icon-vector-illustration-260nw-611194349.jpg" style="display: inline-block" width="200" height="42" /> 
-<h4 style="display: inline-block><font color="#006699">(last executed: TIME_PLACEHOLDER)</h4> 
+<label style="display: inline-block><font color="#006699">(last executed: TIME_PLACEHOLDER)</label> 
 </div> 
 
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for api..." title="Type in a name">
 
-<table id="apitable" class="w3-table-all"> 
+<div>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for api..." title="Type in a name">
+<h4 style="display: inline-block">Filter by team</h4>
+<select style="display: inline-block" id="myListFunction" onchange="myListFunction()" class='form-control'>
+<option>--Select--</option>
+<option>Calendar</option>
+<option>FIN</option>
+<option>General</option>
+<option>Graph</option>
+<option>Notebook</option>
+<option>Shareholders</option>
+<option>Search</option>
+<option>Stream</option>
+<option>tableX</option>
+<option>User</option>
+</select>
+<button style="display: inline-block" type="submit"  onClick="refreshPage()">Remove filter</button>
+</div>
+
+<table id="apitable" class="w3-table-all w3-small"> 
 
 
 <tr>
