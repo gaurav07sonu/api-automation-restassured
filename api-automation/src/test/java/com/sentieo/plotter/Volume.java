@@ -27,7 +27,7 @@ public class Volume extends APIDriver {
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -40,12 +40,12 @@ public class Volume extends APIDriver {
 		RestAssured.baseURI = APP_URL;
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Match stock price plotter series and stream call ")
+	@Test(description = "Match stock price plotter series and stream call ")
 	public void volume() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;

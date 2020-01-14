@@ -7,6 +7,7 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Constants {
+
 	
 	public static String EMAIL = "";
 	public static String PASSWORD = "";
@@ -43,10 +44,10 @@ public class Constants {
 		 }  
 	
 
+
 	public static final String LOGIN_URL = "/api/login_1/";
-	
-	
-	//comparable / Screener
+
+	// comparable / Screener
 	public static final String FETCH_SCREENER_MODELS = "/api/fetch_screener_models/";
 	public static final String COMPARABLE_SEARCH = "/api/comparable_search/";
 	public static final String MANAGEMENT_INFO = "/api/managementinfo/";
@@ -54,9 +55,8 @@ public class Constants {
 	public static final String FETCH_MAIN_GRAPH = "/api/fetch_main_graph/";
 	public static final String FETCH_COMPANY_EVENTS = "/api/fetch_company_events/";
 	public static final String MANAGEMENT_INFO_NEW = "/api/managementinfo_new/";
-	
-	
-	//doc-search
+
+	// doc-search
 	public static final String FETCH_SAVED_FILTERS = "/api/fetch_saved_filters/";
 	public static final String FETCH_NOTE_FILTERS = "/api/fetch_note_filters/";
 	public static final String FETCH_SEARCH_LIBRARY = "/api/fetch_searchlibrary/";
@@ -81,9 +81,8 @@ public class Constants {
 	public static final String GET_USER_DOWNLOADED_DOCS_STATUS = "/api/get_user_downloaded_docs_status/";
 	public static final String FETCH_SNIPPETS = "/api/fetch_snippets/";
 	public static final String FETCH_SEARCH_TERM_COUNT = "/api/fetch_search_term_count/";
-	
-	
-	//finance / plotter
+
+	// finance / plotter
 	public static final String FETCH_CURRENT_STOCK_DATA = "/api/fetch_current_stock_data/";
 	public static final String FETCH_CAPITAL_EVENTS = "/api/fetch_capital_events/";
 	public static final String GET_TRACKER_MAPPINGS = "/api/get_tracker_mappings/";
@@ -99,19 +98,19 @@ public class Constants {
 	public static final String EARNINGS_SURPRISES_DATA = "/api/earnings_surprises_data/";
 	public static final String FETCH_PAST_INTRADAY = "/api/fetch_past_intra/";
 	public static final String FETCH_GRAPH_DATA = "/api/fetch_graph_data/";
-	public static final String FETCH_VALUE_DATA= "/api/fetch_value_table/";
-	public static final String FETCH_NEW_MODEL_DATA="/api/fetch_new_model_data/";
-	public static final String FETCH_HOLDINGS_DATA= "/api/fetch_institutional_holdings_data3/";
-	
-	
-	//market-summary
+	public static final String FETCH_VALUE_DATA = "/api/fetch_value_table/";
+	public static final String FETCH_NEW_MODEL_DATA = "/api/fetch_new_model_data/";
+	public static final String FETCH_HOLDINGS_DATA = "/api/fetch_institutional_holdings_data3/";
+	public static final String FETCH_LIVE_PRICE = "/api/fetch_live_price/";
+	public static final String FETCH_COMPANY_SUMMARY_TABLE = "/api/fetch_company_summary_table/";
+
+	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
 	public static final String GET_SPOTFX_DATA = "/api/get_spotfx_data/";
 	public static final String GET_RATES_API = "/api/get_rates_api/";
 	public static final String INDEX_CHART_API = "/api/index_chart_api/";
-	
-	
-	//notebook
+
+	// notebook
 	public static final String SET_NOTE_HTML = "/api/set_note_html/";
 	public static final String DELETE_NOTE = "/api/delete_user_notebook/";
 	public static final String EMAIL_NOTE = "/api/email_from_note/";
@@ -127,8 +126,7 @@ public class Constants {
 	public static final String REMOVE_ATTACHMENT = "/api/remove_attachments/";
 	public static final String USER_COMMENTS = "/api/user_comments/";
 	public static final String SEND_NOTE_EMAIL = "notebookapitesting@gmail.com";
-	
-	
+
 	// notebook public apis
 	public static final String APPURL = "https://api.sentieo.com/v1";
 	public static final String X_USER_KEY = "5d3808857a782c6baaa6c00a";
@@ -138,48 +136,57 @@ public class Constants {
 	public static final String FILE_UPLOAD = "/files";
 	public static final String NOTES = "/notes";
 
-	//plotter
+	// plotter
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
-	public static final String WEBSITETRAFFIC ="/api/alexaapi/";
-	public static final String MAPPING="/api/get_tracker_mappings/";
-	
-	
-	//screener
+	public static final String WEBSITETRAFFIC = "/api/alexaapi/";
+	public static final String MAPPING = "/api/get_tracker_mappings/";
+	public static final String SCORES_TABLE = "/api/fetch_si_scores_table/";
+	public static final String GNIP_SEARCH_ESTIMATE = "/api/gnip_search_estimate/";
+	public static final String ALEXA = "/api/alexaapi/";
+	public static final String GTRENDSAUTOCOMPLETE = "/api/gtrends_autocomplete/";
+
+	// screener
 	public static final String FETCH_SCREENER_SEARCH = "/api/fetch_screener_search/";
 	public static final String FETCH_SCREEN_FILTERS = "/api/fetch_screen_filters/";
 	public static final String FETCH_FIELDS_INFO = "/api/fetch_fields_info/";
 	public static final String FETCH_SCREENER_PARAM_USAGE = "/api/fetch_screener_param_usage/";
-	
-	//statement
-	
+
+	// statement
+
 	public static final String FETCH_ALL_XBRL_TABLES = "/api/fetch_all_xbrl_tables/";
 	public static final String GET_XBRL_DATA_TABLE = "/api/get_xbrl_data_table/";
 	public static final String FETCH_UNIFIED_STREAM = "/api/fetch_unified_stream/";
-	
-	
-	
-	//user
-	public static final String FETCH_USER_PORTFOLIO= "/api/fetch_user_portfolio_data/";
-	public static final String FETCH_TICKER_QUOTE="/api/fetch_ticker_quote/";
-	public static final String FETCH_FIREWALL_TEST="/api/fetch_firewall_test";
-	public static final String FETCH_USERS_WATCHLIST= "/api/fetch_users_watchlist_api/";	
-	
-	//private companies
-	public static final String FETCH_CB_EXIT_TABLE="/api/fetch_cb_exit_table/";
-	//public static final String FETCH_NEW_COMPANY_HEADER_DATA  ="/api/fetch_new_company_header_data/";
-	public static final String FETCH_CB_FR_TABLE="/api/fetch_cb_fr_table/";
-	public static final String FETCH_CB_FR_HIGHLIGHTS="/api/fetch_cb_fr_highlights/";
-	public static final String FETCH_CB_FR_cumulative="/api/fetch_cb_fr_cumulative/";
-	public static final String FETCH_CB_INV_TABLE="/api/fetch_cb_inv_table/";
-	public static final String FETCH_CB_INV_QUARTERWISE="/api/fetch_cb_inv_quarterwise/";
-	public static final String FETCH_CB_INV_CATEGORY="/api/fetch_cb_inv_category/";
-	public static final String FETCH_CB_EXIT_CATEGORY="/api/fetch_cb_exit_category/";
-	public static final String FETCH_CB_ACQ_TABLE="/api/fetch_cb_acq_table/";
-	public static final String FETCH_CB_FUNDS_TABLE="/api/fetch_cb_funds_table/";
-	public static final String FETCH_CB_KEY_INVESTORS="/api/fetch_cb_key_investors/";
-	public static final String MSTAR_SET_MAPPING="/api/mstar_set_mapping/";
-	public static final String MSTAR_DEL_MAPPING="/api/mstar_del_mapping/";
-	public static final String MSTAR_GET_ALL_MAPPINGS="/api/mstar_get_all_mappings/";
-	public static final String MSTAR_GET_ALL_INSTRUMENTS="/api/mstar_get_all_instruments/";
+
+	// user
+	public static final String FETCH_USER_PORTFOLIO = "/api/fetch_user_portfolio_data/";
+	public static final String FETCH_TICKER_QUOTE = "/api/fetch_ticker_quote/";
+	public static final String FETCH_FIREWALL_TEST = "/api/fetch_firewall_test";
+	public static final String FETCH_USERS_WATCHLIST = "/api/fetch_users_watchlist_api/";
+	public static final String CHECK_DOMAIN = "/api/check_domain/";
+
+	// private companies
+	public static final String FETCH_CB_EXIT_TABLE = "/api/fetch_cb_exit_table/";
+	// public static final String FETCH_NEW_COMPANY_HEADER_DATA
+	// ="/api/fetch_new_company_header_data/";
+	public static final String FETCH_CB_FR_TABLE = "/api/fetch_cb_fr_table/";
+	public static final String FETCH_CB_FR_HIGHLIGHTS = "/api/fetch_cb_fr_highlights/";
+	public static final String FETCH_CB_FR_cumulative = "/api/fetch_cb_fr_cumulative/";
+	public static final String FETCH_CB_INV_TABLE = "/api/fetch_cb_inv_table/";
+	public static final String FETCH_CB_INV_QUARTERWISE = "/api/fetch_cb_inv_quarterwise/";
+	public static final String FETCH_CB_INV_CATEGORY = "/api/fetch_cb_inv_category/";
+	public static final String FETCH_CB_EXIT_CATEGORY = "/api/fetch_cb_exit_category/";
+	public static final String FETCH_CB_ACQ_TABLE = "/api/fetch_cb_acq_table/";
+	public static final String FETCH_CB_FUNDS_TABLE = "/api/fetch_cb_funds_table/";
+	public static final String FETCH_CB_KEY_INVESTORS = "/api/fetch_cb_key_investors/";
+	public static final String MSTAR_SET_MAPPING = "/api/mstar_set_mapping/";
+	public static final String MSTAR_DEL_MAPPING = "/api/mstar_del_mapping/";
+	public static final String MSTAR_GET_ALL_MAPPINGS = "/api/mstar_get_all_mappings/";
+	public static final String MSTAR_GET_ALL_INSTRUMENTS = "/api/mstar_get_all_instruments/";
+
+	public static final String FETCHANALYSTRECOMMEND = "/api/fetch_analyst_recommend/";
+	public static final String FETCHINSIDER = "/api/fetch_insider/";
+	public static final String FETCHETFHOLDINGS = "/api/fetch_etf_holdings/";
+	public static final String FETCHCALENDAR = "/api/fetch_calendar/";
+	public static final String FETCHSHAREHOLDERS = "/api/fetch_share_holders/";
 
 }

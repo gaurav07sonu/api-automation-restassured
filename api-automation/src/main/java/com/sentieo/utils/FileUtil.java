@@ -52,6 +52,9 @@ public class FileUtil {
 
 			String userName = args[2];
 			replaceUserValue(userName);
+			
+			String password = args[3];
+			replacePasswordValue(password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,6 +93,20 @@ public class FileUtil {
 			Path path = Paths.get("com/sentieo/constants/Constants.java");
 			Stream<String> lines = Files.lines(path);
 			List<String> replaced = lines.map(line -> line.replaceAll("alphagani35@gmail.com", uname))
+					.collect(Collectors.toList());
+			Files.write(path, replaced);
+			lines.close();
+			System.out.println("Find and Replace done!!!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void replacePasswordValue(String password) {
+		try {
+			Path path = Paths.get("com/sentieo/constants/Constants.java");
+			Stream<String> lines = Files.lines(path);
+			List<String> replaced = lines.map(line -> line.replaceAll("DGL=14412jg", password))
 					.collect(Collectors.toList());
 			Files.write(path, replaced);
 			lines.close();
