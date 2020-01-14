@@ -1,16 +1,50 @@
 package com.sentieo.constants;
 
-import java.io.File;
+import java.io.InputStream;
+
+import org.apache.commons.lang3.StringUtils;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Constants {
 
-	// general set of data
-	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-			+ "test" + File.separator + "resources";
-	public static final String EMAIL = "alphagani35@gmail.com";
-	public static final String PASSWORD = "DGL=14412jg";
-	public static final String APP_URL = "https://app.sentieo.com";
-	public static final String USER_APP_URL = "https://user-app.sentieo.com";
+	
+	public static String EMAIL = "";
+	public static String PASSWORD = "";
+	public static String APP_URL = "";
+	public static String USER_APP_URL = "";
+	
+	 static{
+		 String envArg = System.getProperty("env");
+		 String usernameArg = System.getProperty("username");
+		 String passwordArg = System.getProperty("password");
+		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
+		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
+		 
+		    for (Object object : yaml.loadAll(inputStream)) {
+		    	if(((Configuration)object).getEnvName().equals(envArg)) {
+		    		APP_URL = ((Configuration)object).getAppURL();
+		    		USER_APP_URL = ((Configuration)object).getUserAppUrl();
+		    		EMAIL = ((Configuration)object).getUserName();
+		    		PASSWORD = ((Configuration)object).getPassword();
+			        System.out.println(APP_URL);
+			        System.out.println(USER_APP_URL);
+			        System.out.println(EMAIL);
+			        System.out.println(PASSWORD);
+		    	}
+		    }
+		    if(!StringUtils.isBlank(usernameArg)) {
+		    	EMAIL = usernameArg;
+		    }
+		    if(!StringUtils.isBlank(passwordArg)) {
+		    	PASSWORD = passwordArg;
+		    }
+			System.out.println("static block is invoked");
+		 }  
+	
+
+
 	public static final String LOGIN_URL = "/api/login_1/";
 
 	// comparable / Screener

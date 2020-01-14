@@ -12,12 +12,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.sentieo.constants.*;
 
 public class FileUtil {
+	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+			+ "test" + File.separator + "resources";
 	public File getFileFromResources(String fileName) throws MalformedURLException {
 		// ClassLoader classLoader = getClass().getClassLoader();
-		URL resource = new File(Constants.RESOURCE_PATH + File.separator + fileName).toURI().toURL();
+		URL resource = new File(RESOURCE_PATH + File.separator + fileName).toURI().toURL();
 		// URL resource = classLoader.getResource(fileName);
 		if (resource == null) {
 			throw new IllegalArgumentException("file is not found!");
