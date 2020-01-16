@@ -35,7 +35,7 @@ userAppUrl: "https://user-psptest.sentieo.com"
 userName: "psp-sandbox"
 password: "Psp-Sentieo@965"
 ---
-envName: "schroders"
+envName: "schroderstest"
 appURL: "https://schroderstest.sentieo.com"
 userAppUrl: "https://user-schroderstest.sentieo.com"
 userName: "schroders.check@scroders-test.com"
