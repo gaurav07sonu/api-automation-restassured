@@ -129,8 +129,8 @@ public class Constants {
 
 	// notebook public apis
 	public static final String APPURL = "https://api.sentieo.com/v1";
-	public static final String X_USER_KEY = "5d3808857a782c6baaa6c00a";
-	public static final String X_API_KEY = "n6tzgSmCQe779XyjdgTaI1AyyjbMHLeE7KjSWmjF";
+	public static final String X_USER_KEY = "schroders.check@scroders-test.com";
+	public static final String X_API_KEY = "JSE0VlYu0JaVVtlHzaBWG6YVL4k7V9Nf6RhFmmqm";
 	public static final String XUSERKEY = "x-user-key";
 	public static final String XAPIKEY = "x-api-key";
 	public static final String FILE_UPLOAD = "/files";

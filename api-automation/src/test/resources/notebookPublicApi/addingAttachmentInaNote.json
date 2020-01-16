@@ -5,8 +5,7 @@
   "type": "object",
   "title": "The Root Schema",
   "required": [
-    "message",
-    "status"
+    "message"
   ],
   "properties": {
     "message": {
@@ -18,15 +17,6 @@
         "Attachments Added Successfully"
       ],
       "pattern": "^(.*)$"
-    },
-    "status": {
-      "$id": "#/properties/status",
-      "type": "integer",
-      "title": "The Status Schema",
-      "default": 0,
-      "examples": [
-        1
-      ]
     }
   }
 }
