@@ -17,11 +17,17 @@ userAppUrl: "https://user-citadel.sentieo.com"
 userName: "alphagani35@gmail.com"
 password: "DGL=14412jg"
 ---
-envName: "tiger"
+envName: "tigertest"
 appURL: "https://tigertest.sentieo.com"
 userAppUrl: "https://user-tigertest.sentieo.com"
 userName: "tiger.check@testing.sentieo.com"
 password: "Sentieo@321"
+---
+envName: "tigerprod"
+appURL: "https://tigerglobal.sentieo.com"
+userAppUrl: "https://user-tigerglobal.sentieo.com"
+userName: "tiger.test"
+password: "Sentieo@123"
 ---
 envName: "psp"
 appURL: "https://psptest.sentieo.com"
