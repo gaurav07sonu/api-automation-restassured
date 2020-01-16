@@ -26,7 +26,7 @@
       "title": "The Filename Schema",
       "default": "",
       "examples": [
-        "notebookPublicApi\\pptfile.pptx"
+        "mm.xlsx"
       ],
       "pattern": "^(.*)$"
     },
@@ -36,7 +36,7 @@
       "title": "The Content_type Schema",
       "default": "",
       "examples": [
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       ],
       "pattern": "^(.*)$"
     },
@@ -46,7 +46,7 @@
       "title": "The Id Schema",
       "default": "",
       "examples": [
-        "5d441280e0c6fa4ec24f3c88"
+        "5e1c144ce8f6c207dddde289"
       ],
       "pattern": "^(.*)$"
     }

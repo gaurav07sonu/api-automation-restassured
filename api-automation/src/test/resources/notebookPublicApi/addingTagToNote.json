@@ -5,28 +5,34 @@
   "type": "object",
   "title": "The Root Schema",
   "required": [
-    "message",
-    "status"
+    "parent_note_id",
+    "tags"
   ],
   "properties": {
-    "message": {
-      "$id": "#/properties/message",
+    "parent_note_id": {
+      "$id": "#/properties/parent_note_id",
       "type": "string",
-      "title": "The Message Schema",
+      "title": "The Parent_note_id Schema",
       "default": "",
       "examples": [
-        "Tags Added Successfully"
+        "5e202cf3e8f6c21b664386d1"
       ],
       "pattern": "^(.*)$"
     },
-    "status": {
-      "$id": "#/properties/status",
-      "type": "integer",
-      "title": "The Status Schema",
-      "default": 0,
-      "examples": [
-        1
-      ]
+    "tags": {
+      "$id": "#/properties/tags",
+      "type": "array",
+      "title": "The Tags Schema",
+      "items": {
+        "$id": "#/properties/tags/items",
+        "type": "string",
+        "title": "The Items Schema",
+        "default": "",
+        "examples": [
+          "mynote"
+        ],
+        "pattern": "^(.*)$"
+      }
     }
   }
 }
