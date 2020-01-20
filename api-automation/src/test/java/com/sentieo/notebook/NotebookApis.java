@@ -133,8 +133,6 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp1, 3000);
 			verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyEquals(respJson1.getJSONObject("result").getInt("status"), 1,
-					"Verify that Requested ticker Visible in the API");
 			verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deletePrivateNote.json");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());

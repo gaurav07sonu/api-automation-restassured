@@ -21,8 +21,12 @@
     },
     "result": {
       "$id": "#/properties/result",
-      "type": "array",
-      "title": "The Result Schema"
+      "type": "boolean",
+      "title": "The Result Schema",
+      "default": false,
+      "examples": [
+        true
+      ]
     },
     "response": {
       "$id": "#/properties/response",

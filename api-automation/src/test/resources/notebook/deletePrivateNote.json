@@ -21,19 +21,20 @@
     },
     "result": {
       "$id": "#/properties/result",
-      "type": "object",
+      "type": "array",
       "title": "The Result Schema",
-      "required": [
-        "status"
-      ],
-      "properties": {
-        "status": {
-          "$id": "#/properties/result/properties/status",
+      "items": {
+        "$id": "#/properties/result/items",
+        "type": "array",
+        "title": "The Items Schema",
+        "items": {
+          "$id": "#/properties/result/items/items",
           "type": "integer",
-          "title": "The Status Schema",
+          "title": "The Items Schema",
           "default": 0,
           "examples": [
-            1
+            1,
+            0
           ]
         }
       }
