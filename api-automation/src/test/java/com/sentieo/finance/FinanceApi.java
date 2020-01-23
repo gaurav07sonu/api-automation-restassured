@@ -492,7 +492,7 @@ public class FinanceApi extends APIDriver {
 						double timestamp = value.getDouble(0);
 						int digit = (int) (timestamp / 1000);
 						String date = convertTimestampIntoDate(digit);
-						systemDate = dateValidationForHistoricalChart("fetch_main_graph", cell);
+						systemDate = dateValidationForHistoricalChart("", cell);
 						verify.compareDates(date, systemDate, "Verify the Current Date Point");
 						break;
 					}
