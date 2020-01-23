@@ -33,7 +33,7 @@ public class TestDailySeriesData extends APIDriver {
 //			Arrays.asList("wen", "blue", "eqt", "tcl:au", "wy", "gmg:au"));
 	String systemDate;
 
-	@BeforeClass(alwaysRun=true)
+	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -47,7 +47,7 @@ public class TestDailySeriesData extends APIDriver {
 
 	}
 
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
 		CommonUtil commUtil = new CommonUtil();
@@ -58,19 +58,45 @@ public class TestDailySeriesData extends APIDriver {
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
-		ticker=ticker.toLowerCase();
+		ticker = ticker.toLowerCase();
 		parameters.put("head_name", headName);
 		parameters.put("graphtype_original", graphType);
 		parameters.put("ratio", graphType);
 		parameters.put("ticker", ticker);
-		if (headName.contains("Enterprise Value") || headName.contains("Market Cap")) {
+		
+		
+		if (headName.contains("Enterprise Value") || headName.contains("Market Cap"))
 			parameters.put("graphtype", "newratio");
+		
+		else if (headName.contains("P/Cash Flow")) {
+			parameters.put("ratio_name", "NTM Rolling");
+			parameters.put("shift", "blended");
+			parameters.put("ptype", "rolling");
+			parameters.put("ratio", graphType);
+			parameters.put("datasource", "rf");
+			parameters.put("graphtype", "newratioestimate");
 		}
-		if (headName.contains("P/Tangible Book Value")) {
-			parameters.put("shift", "backward");
+
+		else if (headName.contains("P/Tangible Book Value")) {
+			parameters.put("shift", "blended");
 			parameters.put("graphtype", "newratioestimate");
 			parameters.put("ptype", "rolling");
-		} else {
+			parameters.put("datasource", "rf");
+			parameters.put("graphtype_original", "tang_bookvalue");
+
+		}
+
+		else if (headName.contains("EV/(EBITDA-CAPEX)")) {
+			parameters.put("shift", "blended");
+			parameters.put("graphtype_original", "ev_ebitdacapex");
+			parameters.put("ptype", "rolling");
+			parameters.put("ratio", "ev_ebitdacapex");
+			parameters.put("ratio_name", "NTM Rolling");
+			parameters.put("datasource", "rf");
+			parameters.put("graphtype", graphType);
+		}
+
+		else {
 			parameters.put("shift", "backward");
 			parameters.put("ptype", "rolling");
 			parameters.put("ratio_name", "NTM");
@@ -95,10 +121,7 @@ public class TestDailySeriesData extends APIDriver {
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
 				FinanceApi fin = new FinanceApi();
-				if (ticker.contains("au") || ticker.contains(":jp"))
-					systemDate = fin.dateValidationForHistoricalChart("au");
-				else
-					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph");
+				systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
 				verify.compareDates(date, systemDate, "Verify the Current Date Point");
 			}
 		} else {
@@ -106,11 +129,8 @@ public class TestDailySeriesData extends APIDriver {
 		}
 	}
 
-	@Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
+	 @Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
 	public void keyMultiplesNTM(String headName, String graphType) throws Exception {
-//		if (headName.contains("EV/GROSS PROFIT")) {
-//			for (int i = 0; i < tickers.size(); i++) {
-//				String ticker = tickers.get(i);
 		Calendar calNewYork = Calendar.getInstance();
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
@@ -127,7 +147,7 @@ public class TestDailySeriesData extends APIDriver {
 		}
 	}
 
-	@Test(description = "Check latest data points for Tangible Book Value per Share", priority = 1)
+	 @Test(description = "Check latest data points for Tangible Book Value perShare", priority = 1)
 	public void keyMultiplesTangibleBookValueNTM() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -137,7 +157,8 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(description = "Check latest data points for EV/GROSS PROFIT", priority = 2)
+	 @Test(description = "Check latest data points for EV/GROSS PROFIT", priority=
+	 2)
 	public void keyMultiplesEVGROSSPROFIT() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -152,12 +173,12 @@ public class TestDailySeriesData extends APIDriver {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
 			ticker = ticker.toLowerCase();
-			keyMultiples("EV/(EBITDA-CAPEX)", "ev_ebitdacapex", ticker);
+			keyMultiples("EV/(EBITDA-CAPEX)", "newratioestimate", ticker);
 		}
 		verify.verifyAll();
 	}
 
-	@Test(description = "Check latest data points for P/Book Value", priority = 4)
+	 @Test(description = "Check latest data points for P/Book Value", priority = 4)
 	public void keyMultiplesP_BookValue() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();

@@ -100,7 +100,7 @@ public class StockPrice50650 extends APIDriver {
 						if (hour >= 9 && hour<24)
 							systemDate = comm.getCurrentDate();
 						else
-							systemDate = fin.dateValidationForHistoricalChart("");
+							systemDate = fin.dateValidationForHistoricalChart("",cell);
 						verify.compareDates(date, systemDate, "Verify the Current Date Point");
 						verify.verifyAll();
 					}

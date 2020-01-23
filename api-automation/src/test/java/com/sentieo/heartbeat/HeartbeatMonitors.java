@@ -1,4 +1,4 @@
-  
+
 package com.sentieo.heartbeat;
 
 import static com.sentieo.constants.Constants.*;
@@ -24,6 +24,7 @@ import java.nio.file.StandardOpenOption;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.sentieo.mosaic.MosaicSummaryData;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
@@ -84,7 +85,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			e.printStackTrace();
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
 		}
@@ -126,7 +127,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			e.printStackTrace();
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
 		}
@@ -812,6 +813,89 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
+	@Test(groups = { "heart-beat", "test" }, description = "verify mosaic summary data")
+	public void mosaicSummaryData() throws CoreCommonException {
+		Team team = Team.Graph;
+		JSONArray revenuSeries = null;
+		JSONArray kpiSeries = null;
+		APIResponse apiResp = null;
+		Response resp = null;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		String URI = APP_URL + NEW_FETCH_MOSAIC_SUMMARY_DATA;
+		try {
+			parameters.put("selection", "KPI_corrScore");
+			parameters.put("termtype", "ticker");
+			String ticker = "aapl";
+			parameters.put("ticker", ticker);
+			RequestSpecification spec = queryParamsSpec(parameters);
+			resp = RestOperationUtils.get(URI, spec, parameters);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String selection = respJson.getJSONObject("result").getString("selection").toString().trim();
+			if (selection.contains("Revenue_corrScore_all")) {
+				revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
+						.getJSONArray("series");
+				if (revenuSeries.length() == 0 || revenuSeries == null)
+					assertTrue(false);
+			} else {
+				kpiSeries = respJson.getJSONObject("result").getJSONArray("KPI").getJSONObject(0)
+						.getJSONArray("series");
+				if (kpiSeries.length() == 0 || kpiSeries == null)
+					assertTrue(false);
+			}
+			JSONArray sentieoIndex = respJson.getJSONObject("result").getJSONArray("sentieoIndex").getJSONObject(0)
+					.getJSONArray("series");
+			if (sentieoIndex.length() == 0 || sentieoIndex == null)
+				assertTrue(false);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
+	@Test(groups = { "heart-beat", "test" }, description = "Check unfied tracker table")
+	public void fetchUnifiedTable() throws CoreCommonException {
+		Team team = Team.Graph;
+		APIResponse apiResp = null;
+		Response resp = null;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		String URI = APP_URL + UNIFIEDTRACKERTABLE;
+		try {
+			parameters.put("termtype", "ticker");
+			String ticker = "aapl";
+			parameters.put("tickers", ticker);
+			RequestSpecification spec = queryParamsSpec(parameters);
+			resp = RestOperationUtils.get(URI, spec, parameters);
+			apiResp = new APIResponse(resp);
+			assert apiResp.getStatusCode() == 200;
+			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONArray main = respJson.getJSONObject("result").getJSONArray("data").getJSONObject(0)
+					.getJSONArray("main");
+			if (main.length() == 0 || main == null)
+				assertTrue(false);
+			JSONArray data = respJson.getJSONObject("result").getJSONArray("data").getJSONObject(0)
+					.getJSONArray("data");
+			if (data.length() == 0 || data == null)
+				assertTrue(false);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+
 	@Test(groups = { "heart-beat", "test" }, description = "fetch_institutional_holdings_data3")
 	public void fetchinstitutionalholdingsdata() throws Exception {
 
@@ -932,8 +1016,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			e.printStackTrace();
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
@@ -1103,4 +1186,3 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 }
-
