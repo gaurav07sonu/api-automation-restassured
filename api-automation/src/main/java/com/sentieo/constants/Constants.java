@@ -16,7 +16,7 @@ public class Constants {
 	
 	 static{
 		 String envArg = System.getProperty("env");
-		 //String envArg = "app";
+		// String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -56,6 +56,9 @@ public class Constants {
 	public static final String FETCH_MAIN_GRAPH = "/api/fetch_main_graph/";
 	public static final String FETCH_COMPANY_EVENTS = "/api/fetch_company_events/";
 	public static final String MANAGEMENT_INFO_NEW = "/api/managementinfo_new/";
+	public static final String FIN_SETTINGS="/api/fetch_fin_settings/";
+	public static final String METADATA="/api/fetch_metadata/";
+	
 
 	// doc-search
 	public static final String FETCH_SAVED_FILTERS = "/api/fetch_saved_filters/";
@@ -146,6 +149,7 @@ public class Constants {
 	public static final String ALEXA = "/api/alexaapi/";
 	public static final String GTRENDSAUTOCOMPLETE = "/api/gtrends_autocomplete/";
 	public static final String UNIFIEDTRACKERTABLE = "/api/fetch_unified_tracker_table/";
+	public static final String FETCHTRACKERTABLE = "/api/fetch_tracker_table/";
 
 	// screener
 	public static final String FETCH_SCREENER_SEARCH = "/api/fetch_screener_search/";
@@ -165,6 +169,8 @@ public class Constants {
 	public static final String FETCH_FIREWALL_TEST = "/api/fetch_firewall_test";
 	public static final String FETCH_USERS_WATCHLIST = "/api/fetch_users_watchlist_api/";
 	public static final String CHECK_DOMAIN = "/api/check_domain/";
+	public static final String CHECK_TICKER_SETTINGS="/alert/check_ticker_settings/";
+	public static final String GET_USER_WATCHLIST="/api/get_user_watchlist_data/";
 
 	// private companies
 	public static final String FETCH_CB_EXIT_TABLE = "/api/fetch_cb_exit_table/";
