@@ -130,6 +130,10 @@ public class Constants {
 	public static final String REMOVE_ATTACHMENT = "/api/remove_attachments/";
 	public static final String USER_COMMENTS = "/api/user_comments/";
 	public static final String SEND_NOTE_EMAIL = "notebookapitesting@gmail.com";
+	public static final String FETCH_NOTE_HISTORY = "/api/fetch_note_history/";
+	public static final String FETCH_NOTE_DATA="/api/notebook_data/";
+	public static final String FETCH_NOTE_HTML="/api/get_note_html/";
+	public static final String FETCH_NOTE_FACET_AND_HTML = "/api/fetch_note_facet_and_html/";
 
 	// notebook public apis
 	public static final String APPURL = "https://api.sentieo.com/v1";
