@@ -45,7 +45,11 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 
 	@Test(description = "Check latest data points for daily series", dataProvider = "s&pPE", dataProviderClass = DataProviderClass.class)
 	public void PEIsNotUpdated(String shift, String ticker) throws Exception {
-		// String ticker = "lulu,sp500";
+		double timestamp;
+		int digit;
+		FinanceApi fin = new FinanceApi();
+		CommonUtil util = new CommonUtil();
+		String date = "";
 		String expectedTitle = "";
 		String expectedTitleSP = "";
 		String systemDate;
@@ -69,6 +73,7 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 			parameters.put("ratio", "p_eps");
 			parameters.put("datasource", "rf");
 			parameters.put("ticker", ticker);
+			parameters.put("pagetype", "plotter");
 			RequestSpecification spec = queryParamsSpec(parameters);
 			Response resp = RestOperationUtils.get(URI, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
@@ -81,53 +86,36 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				JSONArray PENTM = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 						.getJSONArray("series");
-
 				String seriesTitle = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 						.getString("title");
-
 				String splitTicker[] = ticker.split(",");
+				SP500NTM = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
+						.getJSONArray("series");
+				seriesTitleSP = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
+						.getString("title");
 
 				if (shift.contains("blended")) {
 					expectedTitle = splitTicker[0].toUpperCase() + " NTM - TWA P/E";
-					SP500NTM = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(2)
-							.getJSONArray("series");
-
-					seriesTitleSP = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(2)
-							.getString("title");
+					expectedTitleSP = "SP500 NTM - TWA P/E";
 				}
 
 				else {
 					expectedTitle = splitTicker[0].toUpperCase() + " NTM P/E";
-					SP500NTM = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
-							.getJSONArray("series");
-
-					seriesTitleSP = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
-							.getString("title");
+					expectedTitleSP = "SP500 NTM P/E";
 				}
 
 				verify.assertEqualsActualContainsExpected(seriesTitle, expectedTitle, "verify added series title");
-
-				if (shift.contains("blended"))
-					expectedTitleSP = "S&P 500 NTM - TWA P/E";
-
-				else
-					expectedTitleSP = "S&P 500 NTM P/E";
-
 				verify.assertEqualsActualContainsExpected(seriesTitleSP, expectedTitleSP, "verify added series title");
-
-				if (PENTM.length() != 0 || SP500NTM.length() != 0 || SP500NTM != null || PENTM != null) {
+				if (PENTM.length() != 0 || PENTM != null) {
 					peNTMValue = PENTM.getJSONArray(PENTM.length() - 1);
-					SP500NTMValue = SP500NTM.getJSONArray(SP500NTM.length() - 1);
-					double timestamp = peNTMValue.getDouble(0);
-					int digit = (int) (timestamp / 1000);
-					CommonUtil util = new CommonUtil();
-					String date = util.convertTimestampIntoDate(digit);
-
-					FinanceApi fin = new FinanceApi();
-
+					timestamp = peNTMValue.getDouble(0);
+					digit = (int) (timestamp / 1000);
+					date = util.convertTimestampIntoDate(digit);
 					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
 					verify.compareDates(date, systemDate, "Verify the Current Date Point for P/E series");
-
+				}
+				if ((SP500NTM.length() != 0) && (SP500NTM != null)) {
+					SP500NTMValue = SP500NTM.getJSONArray(SP500NTM.length() - 1);
 					timestamp = SP500NTMValue.getDouble(0);
 					digit = (int) (timestamp / 1000);
 					util = new CommonUtil();
@@ -135,8 +123,8 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 
 					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
 					verify.compareDates(date, systemDate, "Verify the Current Date Point for PS&P 500 NTM - TWA P/E");
-
 				}
+
 			}
 		} else {
 			ExtentTestManager.getTest().log(LogStatus.INFO,
@@ -144,4 +132,5 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 		}
 		verify.verifyAll();
 	}
+
 }
