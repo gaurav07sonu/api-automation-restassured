@@ -377,5 +377,12 @@ public class DataProviderClass {
 		return groupArray;
 		}
 	
+	@DataProvider(name = "s&pPE")
+	public Object[][] PE() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"backward","lulu,sp500"},{"blended","lulu,sp500"},
+			{"backward","aapl,sp500"},{"blended","aapl,sp500"}};
+		return groupArray;
+		}
 
 }

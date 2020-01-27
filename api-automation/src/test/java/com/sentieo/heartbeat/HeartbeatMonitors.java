@@ -135,7 +135,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	@Test(groups = { "heart-beat" }, description = "Check fetch company header data")
 	public void fetchCompamyHeaderData() throws CoreCommonException {
 		Team team = Team.FIN;
-		String URI = APP_URL + FETCH_COMPANY_STATUS;
+		String URI = APP_URL + FETCH_NEW_COMPANY_HEADER_DATA;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			String ticker = "aapl";
