@@ -1558,8 +1558,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat", "devesh" }, description = "Fetch user note data",priority = 3)
-	public void fetchNoteData() throws Exception {
+	@Test(groups = { "heart-beat", "devesh" }, description = "Fetch user notebook data",priority = 3)
+	public void fetchNotebookData() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + FETCH_NOTE_DATA;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -1681,7 +1681,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			}
 		}	
 	
-		@Test(groups = { "heart-beat", "devesh" }, description = "Fetch user note history",priority = 6)
+		@Test(groups = { "heart-beat", "devesh" }, description = "This will load the L1(filter section)",priority = 6)
 		public void fetchNoteFacetHtml() throws Exception {
 			Team team = Team.Notebook;
 			String URI = USER_APP_URL + FETCH_NOTE_FACET_AND_HTML;
