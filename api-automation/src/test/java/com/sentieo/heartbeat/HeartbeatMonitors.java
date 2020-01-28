@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -27,12 +28,16 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
+import com.sentieo.utils.JSONUtils;
 
 public class HeartbeatMonitors extends APIDriverHeartbeat {
 
 	APIResponse apiResp = null;
 	Response resp = null;
-
+	static String note_id = "";
+	JSONUtils jsonUtils = null;
+	static String noteID_Thesis="";
+	
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
@@ -1432,7 +1437,277 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Assert.fail();
 		}
 	}
+	
+	@Test(groups = { "heart-beat"}, description = "used to save the note or create a note",priority = 0)
+	public void setNotehtml() throws Exception {
+		Team team = Team.Notebook;
+		String URI = USER_APP_URL + SET_NOTE_HTML;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			String tempId = "quill" + new Date().getTime();
+			parameters.put("ts", tempId);
+			parameters.put("title", "privateApiNote" + new Date());
+			parameters.put("private_note", "true");
+			parameters.put("version", "1");
+			parameters.put("note", "<p>Hello world!!</p>");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert apiResp.getStatusCode() == 200;
+			assert respJson.getJSONObject("response").getBoolean("status");
+			assert respJson.getJSONObject("result").getString("temp_id").equalsIgnoreCase(tempId);
+			assert respJson.getJSONObject("result").getString("id")!=null;
+			note_id=respJson.getJSONObject("result").getString("id");
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+	
+	@Test(groups = { "heart-beat"}, description = "Fetch user notes",priority = 1)
+	public void fetchNoteList() throws Exception {
+		Team team = Team.Notebook;
+		String URI = USER_APP_URL + FETCH_NOTE_LIST;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			parameters.put("filter", "all");
+			parameters.put("mode","all");
+			parameters.put("order", "note_updated_date:desc");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert apiResp.getStatusCode() == 200;
+			assert respJson.getJSONObject("response").getBoolean("status");
+			assert respJson.getJSONObject("result").getInt("total")>0;
+			JSONArray notesData = respJson.getJSONObject("result").getJSONArray("notes");
+			if(notesData.length() == 0 || notesData == null)
+				assertTrue(false);
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+	
+	@Test(groups = { "heart-beat"}, description = "Fetch user note history",priority = 2)
+	public void fetchNoteHistory() throws Exception {
+		Team team = Team.Notebook;
+		String URI = USER_APP_URL + FETCH_NOTE_HISTORY;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			parameters.put("id", note_id);
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.get(URI,spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert apiResp.getStatusCode() == 200;
+			assert respJson.getJSONObject("response").getBoolean("status");
+			assert respJson.getJSONObject("result").getInt("total_versions")>=1;
+			JSONArray historyData = respJson.getJSONObject("result").getJSONArray("history");
+			if(historyData.length() == 0 || historyData == null)
+				assertTrue(false);
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+		
+	@Test(groups = { "heart-beat"}, description = "delete a note",priority = 7)
+	public void deleteNote() throws Exception {
+		Team team = Team.Notebook;
+		String URI = USER_APP_URL + DELETE_NOTE;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			parameters.put("note_id", note_id);
+			RequestSpecification spec1 = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(URI, null, spec1, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert respJson.getJSONObject("response").getBoolean("status");
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
+	
+	@Test(groups = { "heart-beat"}, description = "Fetch user notebook data",priority = 3)
+	public void fetchNotebookData() throws Exception {
+		Team team = Team.Notebook;
+		String URI = USER_APP_URL + FETCH_NOTE_DATA;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try { 
+			parameters.put("note_type","true");
+			parameters.put("user_template","true");
+			parameters.put("user_groups", "true");
+			parameters.put("user_fields", "true");
+			parameters.put("user_email", "true");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.get(URI, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			assert apiResp.getStatusCode() == 200;
+			assert respJson.getJSONObject("response").getBoolean("status");
+			JSONArray noteType = respJson.getJSONObject("result").getJSONObject("note_type").getJSONArray("static_note_type_list");
+			if(noteType.length() == 0 || noteType == null)
+				assertTrue(false);
+			JSONArray user_template = respJson.getJSONObject("result").getJSONArray("user_template");
+			if(user_template.length() == 0 || user_template == null)
+				assertTrue(false);
+			JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
+			if(user_groups.length() == 0 || user_groups == null)
+				assertTrue(false);
+			JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
+			if(user_fields.length() == 0 || user_fields == null)
+				assertTrue(false);
+			JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
+			if(user_email.length() == 0 || user_email == null)
+				assertTrue(false);
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		} catch (Error e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		} catch (Exception e) {
+			e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			Assert.fail();
+		}
+	}
 
+		@Test(groups = { "heart-beat"}, description = "Fetch note data",priority = 4)
+		public void fetchNoteHtml() throws Exception {
+			Team team = Team.Notebook;
+			String URI = USER_APP_URL + FETCH_NOTE_HTML;
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			try {
+				parameters.put("id",note_id);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				assert apiResp.getStatusCode() == 200;
+				assert respJson.getJSONObject("response").getBoolean("status");
+				assert respJson.getJSONObject("result").getString("id").equalsIgnoreCase(note_id);
+				assert respJson.getJSONObject("result").getString("url")!=null;
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
+			} catch (Error e) {
+				e.printStackTrace();
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				Assert.fail();
+			} catch (Exception e) {
+				e.printStackTrace();
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				Assert.fail();
+			}
+		}
+		
+		@Test(groups = { "heart-beat"}, description = "used to create a thesis or update a thesis",priority = 5)
+		public void thesisEntity() throws Exception {
+			Team team = Team.Notebook;
+			String URI = USER_APP_URL + THESIS_ENTITY;
+			jsonUtils = new JSONUtils();
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			HashMap<String, String> thesisData = new HashMap<String, String>();
+			try {
+				thesisData.put("thesis_type", "thesis");
+				thesisData.put("tickers", "dfkcy");
+				thesisData.put("name", "DFKCY Thesis");
+				thesisData.put("tab_name", "Overview");
+
+				String dataJson = jsonUtils.toJson(thesisData);
+				parameters.put("action", "create_thesis_and_tab");
+				parameters.put("thesis_dictionary", dataJson);
+				parameters.put("create_default_children", Boolean.TRUE.toString());
+				
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				assert apiResp.getStatusCode() == 200;
+				assert respJson.getJSONObject("response").getBoolean("status");
+				assert respJson.getJSONObject("result").getInt("status")==1;
+				noteID_Thesis = respJson.getJSONObject("result").getJSONArray("res").getJSONObject(0).getString("note_id");
+				if(noteID_Thesis==null)
+					assertTrue(false);
+				assert respJson.getJSONObject("result").getJSONArray("res").getJSONObject(0).getString("thesis_type").equalsIgnoreCase("thesis");
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
+				
+				// delete note
+				HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
+				deleteNoteParams.put("note_id", noteID_Thesis);
+	
+				RequestSpecification spec1 = formParamsSpec(deleteNoteParams);
+				RestOperationUtils.post(USER_APP_URL + DELETE_NOTE, null, spec1, deleteNoteParams);				
+			} catch (Error e) {
+				e.printStackTrace();
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				Assert.fail();
+			} catch (Exception e) {
+				e.printStackTrace();
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				Assert.fail();
+			}
+		}	
+	
+		@Test(groups = { "heart-beat"}, description = "This will load the L1(filter section)",priority = 6)
+		public void fetchNoteFacetHtml() throws Exception {
+			Team team = Team.Notebook;
+			String URI = USER_APP_URL + FETCH_NOTE_FACET_AND_HTML;
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			try { 
+				parameters.put("notemode","all");
+				parameters.put("type","all");
+				parameters.put("all_contacts", "true");
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				assert apiResp.getStatusCode() == 200;
+				assert respJson.getJSONObject("response").getBoolean("status");
+				JSONArray ticker_term = respJson.getJSONObject("result").getJSONObject("facets").getJSONObject("tickers").getJSONArray("terms");
+				if(ticker_term.length() == 0 || ticker_term == null)
+					assertTrue(false);
+				JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("facets");
+				if(user_fields.length() == 0 || user_fields == null)
+					assertTrue(false);
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
+			} catch (Error e) {
+				e.printStackTrace();
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				Assert.fail();
+			} catch (Exception e) {
+				e.printStackTrace();
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				Assert.fail();
+			}
+		}
+	
+		
 	@AfterClass(alwaysRun = true)
 	public void generateHTML() {
 		String content = readHTMLHeader() + sbFail.toString() + sbPass.toString() + readHTMLFooter();
