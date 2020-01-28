@@ -123,7 +123,8 @@ public class APIDriverHeartbeat {
 		sbPass.append("</td>");
 		
 		sbPass.append("<td>");
-		sbPass.append(generateFormatedResponse(resp, parameters));
+		sbPass.append("Not showing response body for passed tests!");
+		//sbPass.append(generateFormatedResponse(resp, parameters));
 		sbPass.append("</td>");
 		
 		sbPass.append("<td>");
