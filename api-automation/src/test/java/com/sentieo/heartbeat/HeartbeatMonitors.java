@@ -49,6 +49,9 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
+		
+		users.put(Team.FIN.toString(), " @sanjay @bhaskar ");
+		users.put(Team.Search.toString(), " @devesh @atish ");
 	}
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch graph data")
@@ -1714,6 +1717,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		try {
 			FileUtils.deleteQuietly(new File("heartbeat.html"));
 			Files.write(Paths.get("heartbeat.html"), content.getBytes(), StandardOpenOption.CREATE);
+			
+			StringBuffer sb = new StringBuffer();
+			String[] arrayString = (String[]) taggedUsers.toArray(new String[taggedUsers.size()]);
+			for (String s : arrayString) {
+	 
+				sb.append(s);
+			}
+			FileUtils.deleteQuietly(new File("users.txt"));
+			Files.write(Paths.get("users.txt"), sb.toString().getBytes(), StandardOpenOption.CREATE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.json.JSONObject;
@@ -22,6 +24,9 @@ import com.jayway.restassured.specification.RequestSpecification;
 public class APIDriverHeartbeat {
 	protected String apid = "";
 	protected String usid = "";
+	
+	protected static HashMap<String, String> users = new HashMap<String, String>();
+	protected static Set<String> taggedUsers = new HashSet<String>();
 	
 
 	protected static final String BREAK_LINE = "</br>";
@@ -131,6 +136,7 @@ public class APIDriverHeartbeat {
 		sbPass.append("</td>");
 		
 		sbPass.append("</tr>");
+		taggedUsers.add(users.get(team));
 	}
 	
 	public void updateFailResult(String path, String team, String statusCode, Response resp, HashMap<String, String> parameters) {
@@ -157,6 +163,7 @@ public class APIDriverHeartbeat {
 		sbFail.append("</td>");
 		
 		sbFail.append("</tr>");
+		taggedUsers.add(users.get(team));
 	}
 		
 	public static String readHTMLHeader() {
