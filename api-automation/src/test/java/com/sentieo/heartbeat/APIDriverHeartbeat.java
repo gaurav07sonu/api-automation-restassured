@@ -123,8 +123,7 @@ public class APIDriverHeartbeat {
 		sbPass.append("</td>");
 		
 		sbPass.append("<td>");
-		sbPass.append("Not showing response body for passed tests!");
-		//sbPass.append(generateFormatedResponse(resp, parameters));
+		sbPass.append(generateFormatedResponse(resp, parameters, false));
 		sbPass.append("</td>");
 		
 		sbPass.append("<td>");
@@ -150,7 +149,7 @@ public class APIDriverHeartbeat {
 		sbFail.append("</td>");
 		
 		sbFail.append("<td>");
-		sbFail.append(generateFormatedResponse(resp, parameters));
+		sbFail.append(generateFormatedResponse(resp, parameters, true));
 		sbFail.append("</td>");
 		
 		sbFail.append("<td>");
@@ -201,10 +200,14 @@ public class APIDriverHeartbeat {
 	}
 	
 	
-	public static String generateFormatedResponse(Response res, HashMap<String, String> parameters) {
+	public static String generateFormatedResponse(Response res, HashMap<String, String> parameters, boolean flag) {
 		JSONObject json = new JSONObject(parameters);
-		return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse(res.asString());
-
+		if(flag) {
+			return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse(res.asString());
+		}
+		else {
+			return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse("Not showing response body for passed tests!");
+		}
 	}
 	
 
