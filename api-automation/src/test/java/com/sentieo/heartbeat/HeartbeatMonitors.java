@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -26,8 +25,6 @@ import java.nio.file.StandardOpenOption;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.relevantcodes.extentreports.LogStatus;
-import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
@@ -1441,7 +1438,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat", "devesh" }, description = "used to save the note or create a note",priority = 0)
+	@Test(groups = { "heart-beat"}, description = "used to save the note or create a note",priority = 0)
 	public void setNotehtml() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + SET_NOTE_HTML;
@@ -1474,7 +1471,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat", "devesh" }, description = "Fetch user notes",priority = 1)
+	@Test(groups = { "heart-beat"}, description = "Fetch user notes",priority = 1)
 	public void fetchNoteList() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + FETCH_NOTE_LIST;
@@ -1505,7 +1502,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat", "devesh" }, description = "Fetch user note history",priority = 2)
+	@Test(groups = { "heart-beat"}, description = "Fetch user note history",priority = 2)
 	public void fetchNoteHistory() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + FETCH_NOTE_HISTORY;
@@ -1534,7 +1531,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 		
-	@Test(groups = { "heart-beat", "devesh" }, description = "delete a note",priority = 7)
+	@Test(groups = { "heart-beat"}, description = "delete a note",priority = 7)
 	public void deleteNote() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + DELETE_NOTE;
@@ -1558,7 +1555,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 	
-	@Test(groups = { "heart-beat", "devesh" }, description = "Fetch user notebook data",priority = 3)
+	@Test(groups = { "heart-beat"}, description = "Fetch user notebook data",priority = 3)
 	public void fetchNotebookData() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + FETCH_NOTE_DATA;
@@ -1602,7 +1599,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-		@Test(groups = { "heart-beat", "devesh" }, description = "Fetch note data",priority = 4)
+		@Test(groups = { "heart-beat"}, description = "Fetch note data",priority = 4)
 		public void fetchNoteHtml() throws Exception {
 			Team team = Team.Notebook;
 			String URI = USER_APP_URL + FETCH_NOTE_HTML;
@@ -1629,7 +1626,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			}
 		}
 		
-		@Test(groups = { "heart-beat", "devesh" }, description = "used to create a thesis or update a thesis",priority = 5)
+		@Test(groups = { "heart-beat"}, description = "used to create a thesis or update a thesis",priority = 5)
 		public void thesisEntity() throws Exception {
 			Team team = Team.Notebook;
 			String URI = USER_APP_URL + THESIS_ENTITY;
@@ -1665,11 +1662,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				deleteNoteParams.put("note_id", noteID_Thesis);
 	
 				RequestSpecification spec1 = formParamsSpec(deleteNoteParams);
-				Response resp1 = RestOperationUtils.post(USER_APP_URL + DELETE_NOTE, null, spec1, deleteNoteParams);
-				APIResponse apiResp1 = new APIResponse(resp1);
-				JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-				assert respJson1.getJSONObject("response").getBoolean("status");
-				
+				RestOperationUtils.post(USER_APP_URL + DELETE_NOTE, null, spec1, deleteNoteParams);				
 			} catch (Error e) {
 				e.printStackTrace();
 				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
@@ -1681,7 +1674,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			}
 		}	
 	
-		@Test(groups = { "heart-beat", "devesh" }, description = "This will load the L1(filter section)",priority = 6)
+		@Test(groups = { "heart-beat"}, description = "This will load the L1(filter section)",priority = 6)
 		public void fetchNoteFacetHtml() throws Exception {
 			Team team = Team.Notebook;
 			String URI = USER_APP_URL + FETCH_NOTE_FACET_AND_HTML;
