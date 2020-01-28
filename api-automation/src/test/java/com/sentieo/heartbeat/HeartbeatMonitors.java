@@ -51,7 +51,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		RestAssured.baseURI = APP_URL;
 		
 		users.put(Team.FIN.toString(), " @sanjay @bhaskar ");
-		users.put(Team.Search.toString(), " @devesh @atish ");
+		//users.put(Team.Search.toString(), " @devesh @atish ");
 	}
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch graph data")
