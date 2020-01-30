@@ -63,11 +63,11 @@ public class MosaicSummaryData extends APIDriver {
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			heart.updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			//heart.updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			heart.updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			//heart.updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
 			Assert.fail();
 		}
 	}
