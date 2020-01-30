@@ -1587,7 +1587,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
 			if(user_fields.length() == 0 || user_fields == null)
 				assertTrue(false);
-			JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_demail");
+			JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
 			if(user_email.length() == 0 || user_email == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
