@@ -73,27 +73,27 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONArray getSeries = respJson.getJSONObject("result").getJSONArray("series");
 			if (getSeries.length() == 0 || getSeries == null)
-				assertTrue(false);
+				Assert.assertTrue(false, "Series array is empty");
 			for (int i = 0; i < getSeries.length(); i++) {
 				String path = "result." + "series" + "[" + i + "]." + "title";
 				String seriesTitle = String.valueOf(apiResp.getNodeValue(path));
 				if (seriesTitle.contains("Total Revenue-2021")) {
 					JSONArray revenue2021Estimates = getSeries.getJSONObject(i).getJSONArray("series");
 					if (revenue2021Estimates.length() == 0 || revenue2021Estimates == null)
-						assertTrue(false);
+						Assert.assertTrue(false, "revenue2021Estimates array is empty");
 				}
 			}
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -110,8 +110,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			String stock_flag = respJson.getJSONObject("result").getJSONObject(ticker).get("stock_flag").toString();
 			if (!stock_flag.contains("true"))
 				assertTrue(false);
@@ -128,14 +128,14 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				assertTrue(false);
 			String allowed_edt = respJson.getJSONObject("result").getJSONObject(ticker).get("allowed_edt").toString();
 			if (!allowed_edt.contains("true"))
-				assertTrue(false);
+				assertTrue(false, "");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -153,8 +153,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONArray intradaySeries = respJson.getJSONObject("result").getJSONArray("intraday");
 			JSONObject fin_summary = respJson.getJSONObject("result").getJSONObject("fin_summary");
 			if (intradaySeries.length() == 0 || intradaySeries == null)
@@ -164,11 +164,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -185,8 +185,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONObject result = respJson.getJSONObject("result").getJSONObject("data").getJSONObject("sales");
 			if (result.length() == 0 || result == null)
 				assertTrue(false);
@@ -212,11 +212,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -233,19 +233,19 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONObject result = respJson.getJSONObject("result").getJSONObject("result");
 			if (result.length() == 0 || result == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -262,19 +262,19 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONArray result = respJson.getJSONObject("result").getJSONArray("yearly");
 			if (result.length() == 0 || result == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -296,8 +296,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONObject values = respJson.getJSONObject("result");
 			if (values == null || values.length() == 0 || values.toString().equals("{}"))
 				assertTrue(false);
@@ -308,11 +308,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -329,19 +329,19 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONArray result = respJson.getJSONArray("result");
 			if (result.length() == 0 || result == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -356,19 +356,19 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONObject result = respJson.getJSONObject("result");
 			if (result.length() == 0 || result == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -383,19 +383,19 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			JSONObject result = respJson.getJSONObject("result").getJSONObject("result");
 			if (result.length() == 0 || result == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -414,16 +414,16 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -456,17 +456,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				resp = RestOperationUtils.post(URI, null, spec, parameters);
 				apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				assert apiResp.getStatusCode() == 200;
-				assert respJson.getJSONObject("response").getBoolean("status") == true;
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
+				Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			}
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -486,15 +486,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -516,16 +516,16 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(FETCH_NEW_MODEL_DATA, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -541,16 +541,16 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.get(FETCH_MAIN_GRAPH, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -565,15 +565,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -590,15 +590,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -613,15 +613,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(APP_URL + FETCH_SECTIONS, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -636,15 +636,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(APP_URL + FETCH_SEARCHLIBRARY, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -661,15 +661,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -684,15 +684,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -706,17 +706,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, null);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -731,17 +731,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -756,17 +756,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -782,20 +782,20 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject series = respJson.getJSONObject("result").getJSONObject("result").getJSONObject(ticker);
 			if (series.length() <= 2 || series == null)
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -809,9 +809,9 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200, "Incorrect response code");
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONArray individual_watchlist = respJson.getJSONObject("result").getJSONArray("individual_watchlist");
 			if (individual_watchlist.length() == 0 || individual_watchlist == null)
@@ -820,12 +820,12 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			if (all_tickers.length() == 0 || all_tickers == null)
 				assertTrue(false);
 		} catch (Error e) {
-			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			//e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.toString());
 			Assert.fail();
 		} catch (Exception e) {
-			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			//e.printStackTrace();
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -841,20 +841,20 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject watchlists = respJson.getJSONObject("result");
 			if (watchlists.length() == 0 || watchlists == null)
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -868,20 +868,20 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONArray watchlists = respJson.getJSONObject("result").getJSONArray("watchlists");
 			if (watchlists.length() == 0 || watchlists == null)
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -900,9 +900,9 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONArray series = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 					.getJSONArray("series");
@@ -910,11 +910,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -931,17 +931,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -956,17 +956,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -985,17 +985,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1010,17 +1010,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1035,17 +1035,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert respJson.getJSONObject("response").getBoolean("status") == true;
+			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1067,7 +1067,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String selection = respJson.getJSONObject("result").getString("selection").toString().trim();
@@ -1088,11 +1088,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1111,7 +1111,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray main = respJson.getJSONObject("result").getJSONArray("data").getJSONObject(0)
@@ -1124,11 +1124,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1145,7 +1145,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray main = respJson.getJSONObject("result").getJSONArray("data");
@@ -1153,11 +1153,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				assertTrue(false);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1174,15 +1174,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1199,15 +1199,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 
@@ -1226,15 +1226,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1252,15 +1252,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1276,15 +1276,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1300,15 +1300,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1324,15 +1324,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1351,15 +1351,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1376,15 +1376,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1403,15 +1403,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1428,15 +1428,15 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1457,7 +1457,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
 			assert respJson.getJSONObject("result").getString("temp_id").equalsIgnoreCase(tempId);
 			assert respJson.getJSONObject("result").getString("id")!=null;
@@ -1465,11 +1465,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1487,7 +1487,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
 			assert respJson.getJSONObject("result").getInt("total")>0;
 			JSONArray notesData = respJson.getJSONObject("result").getJSONArray("notes");
@@ -1496,11 +1496,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1516,7 +1516,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Response resp = RestOperationUtils.get(URI,spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
 			assert respJson.getJSONObject("result").getInt("total_versions")>=1;
 			JSONArray historyData = respJson.getJSONObject("result").getJSONArray("history");
@@ -1525,11 +1525,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1549,11 +1549,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1573,7 +1573,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Response resp = RestOperationUtils.get(URI, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			assert apiResp.getStatusCode() == 200;
+			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
 			JSONArray noteType = respJson.getJSONObject("result").getJSONObject("note_type").getJSONArray("static_note_type_list");
 			if(noteType.length() == 0 || noteType == null)
@@ -1587,17 +1587,17 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
 			if(user_fields.length() == 0 || user_fields == null)
 				assertTrue(false);
-			JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
+			JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_demail");
 			if(user_email.length() == 0 || user_email == null)
 				assertTrue(false);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			Assert.fail();
 		}
 	}
@@ -1613,18 +1613,18 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				assert apiResp.getStatusCode() == 200;
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				assert respJson.getJSONObject("response").getBoolean("status");
 				assert respJson.getJSONObject("result").getString("id").equalsIgnoreCase(note_id);
 				assert respJson.getJSONObject("result").getString("url")!=null;
 				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			} catch (Error e) {
 				e.printStackTrace();
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			} catch (Exception e) {
 				e.printStackTrace();
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			}
 		}
@@ -1651,7 +1651,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				assert apiResp.getStatusCode() == 200;
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				assert respJson.getJSONObject("response").getBoolean("status");
 				assert respJson.getJSONObject("result").getInt("status")==1;
 				noteID_Thesis = respJson.getJSONObject("result").getJSONArray("res").getJSONObject(0).getString("note_id");
@@ -1668,11 +1668,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				RestOperationUtils.post(USER_APP_URL + DELETE_NOTE, null, spec1, deleteNoteParams);				
 			} catch (Error e) {
 				e.printStackTrace();
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			} catch (Exception e) {
 				e.printStackTrace();
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			}
 		}	
@@ -1690,7 +1690,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				assert apiResp.getStatusCode() == 200;
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				assert respJson.getJSONObject("response").getBoolean("status");
 				JSONArray ticker_term = respJson.getJSONObject("result").getJSONObject("facets").getJSONObject("tickers").getJSONArray("terms");
 				if(ticker_term.length() == 0 || ticker_term == null)
@@ -1701,11 +1701,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			} catch (Error e) {
 				e.printStackTrace();
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			} catch (Exception e) {
 				e.printStackTrace();
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters);
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			}
 		}
