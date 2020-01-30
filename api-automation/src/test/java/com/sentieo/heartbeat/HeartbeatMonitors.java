@@ -430,7 +430,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 
 	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
 	public void fetchUnifiedStreamAllDocs() throws CoreCommonException {
-		Team team = Team.Search;
+		Team team = Team.Stream;
 		String URI = APP_URL + FETCH_UNIFIED_STREAM;
 		List<String> docType = new ArrayList<String>();
 		HashMap<String, String> parameters = new HashMap<String, String>();
