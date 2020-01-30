@@ -38,6 +38,7 @@
 				<exclude name="com.sentieo.privatecompanies"></exclude>
 				<exclude name="com.sentieo.EDT"></exclude>
 				<exclude name="com.sentieo.docsearch"></exclude>
+				<exclude name="com.sentieo.heartbeat"></exclude>
 			</package>
 		</packages>
 	</test>
