@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.json.JSONObject;
@@ -22,6 +24,9 @@ import com.jayway.restassured.specification.RequestSpecification;
 public class APIDriverHeartbeat {
 	protected String apid = "";
 	protected String usid = "";
+	
+	protected static HashMap<String, String> users = new HashMap<String, String>();
+	protected static Set<String> taggedUsers = new HashSet<String>();
 	
 
 	protected static final String BREAK_LINE = "</br>";
@@ -123,7 +128,7 @@ public class APIDriverHeartbeat {
 		sbPass.append("</td>");
 		
 		sbPass.append("<td>");
-		sbPass.append(generateFormatedResponse(resp, parameters));
+		sbPass.append(generateFormatedResponse(resp, parameters, false, ""));
 		sbPass.append("</td>");
 		
 		sbPass.append("<td>");
@@ -131,11 +136,12 @@ public class APIDriverHeartbeat {
 		sbPass.append("</td>");
 		
 		sbPass.append("</tr>");
+		taggedUsers.add(users.get(team));
 	}
 	
-	public void updateFailResult(String path, String team, String statusCode, Response resp, HashMap<String, String> parameters) {
+	public void updateFailResult(String path, String team, String statusCode, Response resp, HashMap<String, String> parameters, String error) {
 		sbFail.append("<tr class=\"item\">");
-		
+	
 		sbFail.append("<td>");
 		sbFail.append(path);
 		sbFail.append("</td>");
@@ -149,7 +155,7 @@ public class APIDriverHeartbeat {
 		sbFail.append("</td>");
 		
 		sbFail.append("<td>");
-		sbFail.append(generateFormatedResponse(resp, parameters));
+		sbFail.append(generateFormatedResponse(resp, parameters, true, error));
 		sbFail.append("</td>");
 		
 		sbFail.append("<td>");
@@ -157,6 +163,7 @@ public class APIDriverHeartbeat {
 		sbFail.append("</td>");
 		
 		sbFail.append("</tr>");
+		taggedUsers.add(users.get(team));
 	}
 		
 	public static String readHTMLHeader() {
@@ -200,10 +207,14 @@ public class APIDriverHeartbeat {
 	}
 	
 	
-	public static String generateFormatedResponse(Response res, HashMap<String, String> parameters) {
+	public static String generateFormatedResponse(Response res, HashMap<String, String> parameters, boolean flag, String exceptionMsg) {
 		JSONObject json = new JSONObject(parameters);
-		return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse(res.asString());
-
+		if(flag) {
+			return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse(res.asString()) + BREAK_LINE + generateFormatedException(exceptionMsg);
+		}
+		else {
+			return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse("Not showing response body for passed tests!");
+		}
 	}
 	
 
@@ -249,6 +260,28 @@ public class APIDriverHeartbeat {
 			return BREAK_LINE
 					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Invalid JSON/XML Response body (Click to Expand / Collapse)</a><xmp style=\"display:none\">"
 					+ payload + "</xmp></>";
+		}
+	}
+	
+	public static String generateFormatedException(String exceptionMsg) {
+		try {
+			String prettyPayload = "";
+			if (exceptionMsg == null)
+				prettyPayload = "No exception";
+			else if (exceptionMsg.trim().isEmpty())
+				prettyPayload = "No exception";
+			else if (exceptionMsg.trim().startsWith("{") || exceptionMsg.trim().startsWith("["))
+				prettyPayload = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(new ObjectMapper().readTree(exceptionMsg));	
+			else
+				prettyPayload = exceptionMsg;
+
+			return BREAK_LINE
+					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Exception stacktrace <u> <font size=\"2\" color=\"blue\">(Click to Expand / Collapse) </font> </u> </a><xmp style=\"display:none\">"
+					+ prettyPayload + "</xmp></>";
+		} catch (Exception e) {
+			return BREAK_LINE
+					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Invalid JSON/XML Response body (Click to Expand / Collapse)</a><xmp style=\"display:none\">"
+					+ exceptionMsg + "</xmp></>";
 		}
 	}
 

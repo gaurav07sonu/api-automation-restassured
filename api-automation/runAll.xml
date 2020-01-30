@@ -44,7 +44,6 @@
 
 	<test name="plotter test">
 		<classes>
-			<class name="com.sentieo.plotter.DocumentData" />
 			<class name="com.sentieo.plotter.IncomeStatement" />
 			<class name="com.sentieo.plotter.StockData" />
 			<class name="com.sentieo.plotter.StockPrice49929"/>
