@@ -1133,7 +1133,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		}
 	}
 
-	@Test(groups = { "Graph", "tracker" }, description = "Check  tracker table")
+	//@Test(groups = { "Graph", "tracker" }, description = "Check  tracker table")
 	public void fetchTrackerTable() throws CoreCommonException {
 		Team team = Team.Graph;
 		APIResponse apiResp = null;
