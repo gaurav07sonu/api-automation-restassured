@@ -1719,13 +1719,13 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Files.write(Paths.get("heartbeat.html"), content.getBytes(), StandardOpenOption.CREATE);
 			
 			StringBuffer sb = new StringBuffer();
-			String[] arrayString = (String[]) taggedUsers.toArray(new String[taggedUsers.size()]);
-			for (String s : arrayString) {
+			String[] failureData = (String[]) failedAPIData.toArray(new String[failedAPIData.size()]);
+			for (String s : failureData) {
 	 
 				sb.append(s);
 			}
-			FileUtils.deleteQuietly(new File("users.txt"));
-			Files.write(Paths.get("users.txt"), sb.toString().getBytes(), StandardOpenOption.CREATE);
+			FileUtils.deleteQuietly(new File("failuresummary.txt"));
+			Files.write(Paths.get("failuresummary.txt"), sb.toString().getBytes(), StandardOpenOption.CREATE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
