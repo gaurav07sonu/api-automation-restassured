@@ -340,7 +340,7 @@ public class DataProviderClass {
 		{"Diluted EPS-NTM","ALV:GR"},{"Diluted EPS-2014","BP.:LN"},{"Diluted EPS-2015","BP.:LN"}
 		,{"Diluted EPS-2016","BP.:LN"},{"Diluted EPS-2017","BP.:LN"}
 		,{"Diluted EPS-2018","BP.:LN"},{"Diluted EPS-2019","BP.:LN"},{"Diluted EPS-2020","BP.:LN"},
-		{"Diluted EPS-2021","BP.:LN"},
+		{"Diluted EPS-2021","BP.:LN"},{"Diluted EPS-2022","BP.:LN"},
 		{"Diluted EPS-NTM","BP.:LN"}};
 		return groupArray;
 		}
