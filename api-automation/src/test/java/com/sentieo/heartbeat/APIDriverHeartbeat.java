@@ -27,6 +27,7 @@ public class APIDriverHeartbeat {
 	
 	protected static HashMap<String, String> users = new HashMap<String, String>();
 	protected static Set<String> taggedUsers = new HashSet<String>();
+	protected static Set<String> failedAPIData = new HashSet<String>();
 	
 
 	protected static final String BREAK_LINE = "</br>";
@@ -164,6 +165,12 @@ public class APIDriverHeartbeat {
 		
 		sbFail.append("</tr>");
 		taggedUsers.add(users.get(team));
+		if(statusCode.equals("200")) {
+			failedAPIData.add(path + " --> API failed with data check : " + error + System.lineSeparator());
+		}
+		else {
+			failedAPIData.add(path + " --> API failed with response code: " + statusCode + System.lineSeparator());
+		}
 	}
 		
 	public static String readHTMLHeader() {
