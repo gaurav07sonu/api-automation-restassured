@@ -1584,9 +1584,9 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
 			if(user_groups.length() == 0 || user_groups == null)
 				assertTrue(false);
-			JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
-			if(user_fields.length() == 0 || user_fields == null)
-				assertTrue(false);
+//			JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
+//			if(user_fields.length() == 0 || user_fields == null)
+//				assertTrue(false);
 			JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
 			if(user_email.length() == 0 || user_email == null)
 				assertTrue(false);
