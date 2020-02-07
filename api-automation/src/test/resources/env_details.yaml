@@ -51,7 +51,7 @@ envName: "schroderstest"
 appURL: "https://schroderstest.sentieo.com"
 userAppUrl: "https://user-schroderstest.sentieo.com"
 userName: "schroders.check@scroders-test.com"
-password: "schroders.check258d87b83b"
+password: "check258d87b83b"
 ---
 envName: "schrodersprod"
 appURL: "https://schroders.sentieo.com/"
