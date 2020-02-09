@@ -349,7 +349,7 @@ public class DataProviderClass {
 	public Object[][] dilutedEPS19to21() {
 		Object[][] groupArray = null;
 		groupArray = new String[][] {{"Diluted EPS-2019","uber"},
-		{"Diluted EPS-2020","uber"},{"Diluted EPS-2021","uber"},
+		{"Diluted EPS-2020","uber"},{"Diluted EPS-2021","uber"},{"Diluted EPS-2022","uber"},
 		{"Diluted EPS-NTM","uber"}};
 		return groupArray;
 		}
