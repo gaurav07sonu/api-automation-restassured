@@ -50,7 +50,7 @@ password: "Psp-Sentieo@965"
 envName: "schroderstest"
 appURL: "https://schroderstest.sentieo.com"
 userAppUrl: "https://user-schroderstest.sentieo.com"
-userName: "schroderstest@schroders-test.com"
+userName: "schroders.check"
 password: "Sentieo@123"
 ---
 envName: "schrodersprod"

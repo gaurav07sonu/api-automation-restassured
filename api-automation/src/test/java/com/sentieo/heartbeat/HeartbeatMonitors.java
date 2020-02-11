@@ -682,7 +682,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		try {
 			parameters.put("doc_id", "5db6f8629ce7ad786e001a75");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
 			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
@@ -1056,8 +1056,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		Team team = Team.Graph;
 		JSONArray revenuSeries = null;
 		JSONArray kpiSeries = null;
-		APIResponse apiResp = null;
-		Response resp = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + NEW_FETCH_MOSAIC_SUMMARY_DATA;
 		try {
@@ -1101,8 +1099,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	@Test(groups = { "heart-beat", "test" }, description = "Check unfied tracker table")
 	public void fetchUnifiedTable() throws CoreCommonException {
 		Team team = Team.Graph;
-		APIResponse apiResp = null;
-		Response resp = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + UNIFIEDTRACKERTABLE;
 		try {
@@ -1137,8 +1133,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	//@Test(groups = { "Graph", "tracker" }, description = "Check  tracker table")
 	public void fetchTrackerTable() throws CoreCommonException {
 		Team team = Team.Graph;
-		APIResponse apiResp = null;
-		Response resp = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCHTRACKERTABLE;
 		try {
@@ -1455,8 +1449,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			parameters.put("version", "1");
 			parameters.put("note", "<p>Hello world!!</p>");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
+			resp = RestOperationUtils.post(URI, null, spec, parameters);
+			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
@@ -1485,8 +1479,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			parameters.put("mode","all");
 			parameters.put("order", "note_updated_date:desc");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
+			resp = RestOperationUtils.post(URI, null, spec, parameters);
+			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
@@ -1514,8 +1508,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		try {
 			parameters.put("id", note_id);
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get(URI,spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
+			resp = RestOperationUtils.get(URI,spec, parameters);
+			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
@@ -1543,8 +1537,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		try {
 			parameters.put("note_id", note_id);
 			RequestSpecification spec1 = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(URI, null, spec1, parameters);
-			APIResponse apiResp = new APIResponse(resp);
+			resp = RestOperationUtils.post(URI, null, spec1, parameters);
+			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			assert respJson.getJSONObject("response").getBoolean("status");
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
@@ -1571,8 +1565,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			parameters.put("user_fields", "true");
 			parameters.put("user_email", "true");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get(URI, spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
+			resp = RestOperationUtils.get(URI, spec, parameters);
+			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(apiResp.getStatusCode(), 200);
 			assert respJson.getJSONObject("response").getBoolean("status");
@@ -1611,8 +1605,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			try {
 				parameters.put("id",note_id);
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
-				APIResponse apiResp = new APIResponse(resp);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				assert respJson.getJSONObject("response").getBoolean("status");
@@ -1649,8 +1643,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				parameters.put("create_default_children", Boolean.TRUE.toString());
 				
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
-				APIResponse apiResp = new APIResponse(resp);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				assert respJson.getJSONObject("response").getBoolean("status");
@@ -1688,8 +1682,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				parameters.put("type","all");
 				parameters.put("all_contacts", "true");
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post(URI, null, spec, parameters);
-				APIResponse apiResp = new APIResponse(resp);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				assert respJson.getJSONObject("response").getBoolean("status");
