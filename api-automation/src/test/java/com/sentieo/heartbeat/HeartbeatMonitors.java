@@ -1340,8 +1340,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			parameters.put("watch", "All Watchlist Tickers");
-			parameters.put("startDate", "2020-01-05");
-			parameters.put("endDate", "2020-12-31");
+			parameters.put("startDate", "2020-02-01");
+			parameters.put("endDate", "2020-02-29");
 
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
@@ -1452,7 +1452,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			Assert.assertEquals(apiResp.getStatusCode(), 200);
+			Assert.assertEquals(apiResp.getStatusCode(), 200, "");
 			assert respJson.getJSONObject("response").getBoolean("status");
 			assert respJson.getJSONObject("result").getString("temp_id").equalsIgnoreCase(tempId);
 			assert respJson.getJSONObject("result").getString("id")!=null;
