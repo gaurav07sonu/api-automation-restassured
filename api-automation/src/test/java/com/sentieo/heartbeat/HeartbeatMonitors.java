@@ -1327,7 +1327,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			parameters.put("watch", "All Watchlist Tickers");
 			parameters.put("startDate",year+"-"+ current_month + "-1");
 			parameters.put("endDate",year+"-"+current_month+"-"+last_date);
-
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
