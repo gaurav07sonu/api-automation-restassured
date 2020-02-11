@@ -779,6 +779,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		try {
 			String ticker = "aapl";
 			parameters.put("tickers", ticker);
+			parameters.put("new_wl", "true");
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
