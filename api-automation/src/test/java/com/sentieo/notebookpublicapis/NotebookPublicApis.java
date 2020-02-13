@@ -92,7 +92,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyTrue(respJson.getJSONArray("entries").length()!=0, "Verify the API Response");
+			verify.verifyTrue(respJson.getJSONArray("entries").length() != 0, "Verify the API Response");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -289,8 +289,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(fetchResp, 5000);
-			verify.verifyEquals(fetchRespJson.get("type"), "highlight",
-					"Verify note type");
+			verify.verifyEquals(fetchRespJson.get("type"), "highlight", "Verify note type");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -300,7 +299,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a specific note")
+	@Test(description = "Update a specific note", enabled = false)
 	public void updatingASpecificNote() throws Exception {
 		try {
 
@@ -353,8 +352,8 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
-			verify.verifyEquals(updateRespJson.get("id"), noteId , "Verify the message");
-			verify.verifyEquals(updateRespJson.get("title"), updatedTitle , "Verify the message");
+			verify.verifyEquals(updateRespJson.get("id"), noteId, "Verify the message");
+			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the message");
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "updatingASpecificNote.json");
 		} catch (JSONException je) {
@@ -407,7 +406,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker in a note")
+	@Test(description = "Add and delete ticker in a note", enabled = false)
 	public void addingDeletingTickerInNote() throws Exception {
 		try {
 			// note Creation
@@ -459,7 +458,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in a note")
+	@Test(description = "Add and delete tag in a note", enabled = false)
 	public void addingDeletingTagInNote() throws Exception {
 		try {
 			// note Creation
@@ -491,7 +490,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
-			verify.verifyEquals(updateRespJson.get("parent_note_id"), noteId , "Verify the message");
+			verify.verifyEquals(updateRespJson.get("parent_note_id"), noteId, "Verify the message");
 			verify.jsonSchemaValidation(updateResp, "notebookPublicApi" + File.separator + "addingTagToNote.json");
 
 			// deleting Tag
