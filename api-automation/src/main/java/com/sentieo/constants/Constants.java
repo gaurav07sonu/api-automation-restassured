@@ -143,6 +143,12 @@ public class Constants {
 	public static final String XAPIKEY = "x-api-key";
 	public static final String FILE_UPLOAD = "/files";
 	public static final String NOTES = "/notes";
+	
+	//security master APIs
+	public static final String SM_BASE_URL = "https://api.sentieo.com/sm/user";
+	public static final String SM_X_USER_KEY = "schroders.check@scroders-test.com";
+	public static final String SM_X_API_KEY = "JSE0VlYu0JaVVtlHzaBWG6YVL4k7V9Nf6RhFmmqm";
+	public static final String CREATE_ENTITY = "/entities";
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
