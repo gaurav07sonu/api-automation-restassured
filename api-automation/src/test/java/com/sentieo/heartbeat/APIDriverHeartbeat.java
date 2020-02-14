@@ -165,12 +165,13 @@ public class APIDriverHeartbeat {
 		
 		sbFail.append("</tr>");
 		taggedUsers.add(users.get(team));
-		if(statusCode.equals("200")) {
-			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Data check failed: " + error + "\n");
-		}
-		else {
-			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Unexpected response code: " + statusCode + "\n");
-		}
+		failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " ==> " + statusCode + "  ,  ");
+//		if(statusCode.equals("200")) {
+//			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Data check failed: " + error + "\n");
+//		}
+//		else {
+//			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Unexpected response code: " + statusCode + "\n");
+//		}
 	}
 		
 	public static String readHTMLHeader() {
