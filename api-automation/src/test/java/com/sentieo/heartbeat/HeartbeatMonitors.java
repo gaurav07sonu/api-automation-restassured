@@ -1597,7 +1597,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			}
 		}
 		
-		@Test(groups = { "heart-beat"}, description = "used to create a thesis or update a thesis",priority = 5)
+		//@Test(groups = { "heart-beat"}, description = "used to create a thesis or update a thesis",priority = 5)
 		public void thesisEntity() throws Exception {
 			Team team = Team.Notebook;
 			String URI = USER_APP_URL + THESIS_ENTITY;
