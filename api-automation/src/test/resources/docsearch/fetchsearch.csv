@@ -1,8 +1,11 @@
-ticker, query , fillingtype ,filing_subtype,sensivity,facets_flag
-aapl,sales,ef#$,10-q#$10-q/a#$,6,false
-aapl,sales,tt#$,tth#$ttb#$,2,true
-fb,profit,ef#$,10-k#$10-k/a#$,4,false
-msft,sales,ef#$,8-k#$8-k/a#$8-k agreement#$8-k credit#$8-k earnings#$8-k mgmt#$8-k other#$8-k restruct#$8-k update#$8-k voting#$,6,true
-googl,maps,ef#$,def 14a#$,11,true
-tsla,cars,ef#$,10-q#$10-q/a#$,3,true
-amzn,sales,ppt#$,"",2,false
+ticker,query,facets_flag
+aapl,sales
+amzn,sales AND marketing
+tsla,china OR profit
+vod:ln,sales
+7203:jp,sales AND marketing
+ulvr:ln,china OR profit
+aapl,sales OR aaple BEFORE increased NEAR "2%"
+icpt,OR(30 Thirty) BEFORE1 day BEFORE1 OR(prescription prescriptions)
+msft,5g NEAR20 (base stations OR rollout OR network OR megahertz OR LTE)
+msft,(Board OR management OR executives) NEAR6 OR(entrenchment entrenched shielded)

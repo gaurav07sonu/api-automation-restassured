@@ -1,7 +1,2 @@
-ticker,query,filingtype,filing_subtype,tt_category,period,sensitivity,facets_flag,error
-aapl,sales,ef#$,10-q#$10-q/a#$,"",2y,6,true,""
-fb,profit,ef#$,10-k#$10-k/a#$,"",5y,4,true,""
-msft,sales,tt#$,"",analyst_shareholder_meeting_other#$conference#$earnings#$guidance#$m&a#$,6m,6,true,""
-googl,maps,rr#$,"","",1y,11,true,""
-aapl,sales,ef#$,10-q#$10-q/a#$,"","",6,true,""
-fb,profit,ef#$,10-k#$10-k/a#$,"",10y,4,true,""
+ticker,facets_flag,query,period
+aapl,false,in:10k,2y
