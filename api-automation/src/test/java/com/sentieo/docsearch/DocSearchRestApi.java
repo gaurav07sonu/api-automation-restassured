@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
@@ -601,27 +602,38 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-//
-//	@Test(groups = "sanity", description = "fetch_search_term_count", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-//	public void fetch_search_term_count(String size, String tickers, String query) throws CoreCommonException {
-//		try {
-//			String URI = APP_URL + FETCH_SEARCH_TERM_COUNT;
-//			HashMap<String, String> queryParams = new HashMap<String, String>();
-//			queryParams.put("size", size);
-//			queryParams.put("tickers", tickers);
-//			queryParams.put("query", query);
-//			RequestSpecification spec = formParamsSpec(queryParams);
-//			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-//			verify.verifyResponseTime(resp, 5000);
-//
-//		} catch (JSONException e) {
-//			throw new CoreCommonException(e);
-//		} finally {
-//			verify.verifyAll();
-//		}
-//	}
-//}
+	
+	
+	
+	@Test(groups = "sanity", description = "search with query and getting snippets count", dataProvider = "fetch_search_term_count", dataProviderClass = DataProviderClass.class)
+	public void fetch_search_term_count(String ticker, String filters, String size) throws CoreCommonException {
+
+		try {
+			String URI = APP_URL + FETCH_SEARCH_TERM_COUNT;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("tickers", ticker);
+			queryParams.put("applied_filter", "doctype");
+			queryParams.put("facets_flag", "false");
+			queryParams.put("filters", filters);
+			queryParams.put("size", size);
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 10000);
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+		
+			
+						
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
 }

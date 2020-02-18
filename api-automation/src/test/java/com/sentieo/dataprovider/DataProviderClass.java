@@ -134,6 +134,17 @@ public class DataProviderClass {
 		
 		return groupArray;
 	}
+	
+	
+	@DataProvider(name = "fetch_search_term_count")
+	public Object[][] fetch_search_term_count() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { { "msft", "{\"ticker\":{},\"doctype\":{\"ef\":{\"QA\":{\"param\":\"filing_subtype\",\"values\":[\"10-q\"]},\"ECM\":{\"param\":\"filing_subtype\",\"values\":[]},\"ADR\":{\"param\":\"filing_subtype\",\"values\":[]},\"prx\":{\"param\":\"filing_subtype\",\"values\":[]},\"OR\":{\"param\":\"filing_subtype\",\"values\":[]},\"hdr\":{\"param\":\"filing_subtype\",\"values\":[]},\"emben\":{\"param\":\"filing_subtype\",\"values\":[]},\"intran\":{\"param\":\"filing_subtype\",\"values\":[]},\"other_subtype\":{\"param\":\"filing_subtype\",\"values\":[]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}", "30" }
+
+			};
+		
+		return groupArray;
+	}
 
 	
 	@DataProvider(name = "test_newdoctype_Filter")
