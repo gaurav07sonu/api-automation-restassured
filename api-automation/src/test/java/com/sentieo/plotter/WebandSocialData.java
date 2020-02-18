@@ -113,7 +113,7 @@ public class WebandSocialData extends APIDriver {
 	 @Test( description = "Plotter Web and Social Data Series")
 	public void websiteTraffic() throws CoreCommonException {
 		try {
-			String URI = APP_URL + WEBSITETRAFFIC;
+			String URI = APP_URL + ALEXA;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {

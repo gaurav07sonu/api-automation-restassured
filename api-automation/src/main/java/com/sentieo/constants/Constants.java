@@ -15,8 +15,8 @@ public class Constants {
 	public static String USER_APP_URL = "";
 	
 	 static{
-		 String envArg = System.getProperty("env");
-		// String envArg = "app";
+		// String envArg = System.getProperty("env");
+	 String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -146,7 +146,6 @@ public class Constants {
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
-	public static final String WEBSITETRAFFIC = "/api/alexaapi/";
 	public static final String MAPPING = "/api/get_tracker_mappings/";
 	public static final String SCORES_TABLE = "/api/fetch_si_scores_table/";
 	public static final String GNIP_SEARCH_ESTIMATE = "/api/gnip_search_estimate/";
