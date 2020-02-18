@@ -128,7 +128,7 @@ public class DataProviderClass {
 	@DataProvider(name = "test_context_Filter")
 	public Object[][] test_context_Filter() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] { { "msft", "[\"tr.cfo\"]" },
+		groupArray = new String[][] { { "msft", "[\"tr.cfo\"]", "{\"ticker\":{},\"doctype\":{\"tt\":{\"events\":{\"param\":\"tt_category\",\"values\":[\"analyst_shareholder_meeting_other\",\"conference\",\"earnings\",\"guidance\",\"m&a\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{\"\":{\"10k\":{\"param\":\"sections_filter\",\"values\":[]},\"10q\":{\"param\":\"sections_filter\",\"values\":[]},\"tr\":{\"param\":\"sections_filter\",\"values\":[\"tr.cfo\"]}}}}" },
 
 			};
 		
