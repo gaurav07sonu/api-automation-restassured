@@ -167,10 +167,10 @@ public class APIDriverHeartbeat {
 		taggedUsers.add(users.get(team));
 //		failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " ==> " + statusCode + "  ,  ");
 		if(statusCode.equals("200")) {
-			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Data check failed: " + error);
+			failedAPIData.add("'" + path.substring(path.lastIndexOf("api"), path.length()-1) + "'" + " | Correct response code but data check failed: " + error);
 		}
 		else {
-			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Unexpected response code: " + statusCode);
+			failedAPIData.add("'" + path.substring(path.lastIndexOf("api"), path.length()-1) + "'" + " | Unexpected response code: " + statusCode);
 		}
 	}
 		
