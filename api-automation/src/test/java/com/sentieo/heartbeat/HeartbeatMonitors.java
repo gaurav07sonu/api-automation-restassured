@@ -1688,8 +1688,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			StringBuffer sb = new StringBuffer();
 			String[] failureData = (String[]) failedAPIData.toArray(new String[failedAPIData.size()]);
 			for (String s : failureData) {
-	 
 				sb.append(s);
+				sb.append(System.lineSeparator());
 			}
 			FileUtils.deleteQuietly(new File("failuresummary.txt"));
 			Files.write(Paths.get("failuresummary.txt"), sb.toString().getBytes(), StandardOpenOption.CREATE);
