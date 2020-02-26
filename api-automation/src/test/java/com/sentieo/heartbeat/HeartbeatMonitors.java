@@ -1054,7 +1054,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + NEW_FETCH_MOSAIC_SUMMARY_DATA;
 		try {
-			parameters.put("selection", "KPI_corrScore");
+			parameters.put("selection", "Revenue_corrScore");
 			parameters.put("termtype", "ticker");
 			String ticker = "aapl";
 			parameters.put("ticker", ticker);
