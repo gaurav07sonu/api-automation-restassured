@@ -6,8 +6,8 @@
    </listeners>
  
   <test name="sentieo-tests" preserve-order="true">
-    <packages>
-      <package name="com.sentieo.heartbeat.*" />
-    </packages>
+    <classes>
+      <class name="com.sentieo.heartbeat.HeartbeatMonitors" />
+    </classes>
   </test>
 </suite>
