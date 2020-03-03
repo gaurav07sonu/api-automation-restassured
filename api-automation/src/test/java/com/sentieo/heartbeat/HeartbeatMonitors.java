@@ -1227,7 +1227,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	public void fetchfieldsinfo() throws Exception {
 
 		Team team = Team.General;
-		String URI = APP_URL + FETCH_COMPANY_EVENTS;
+		String URI = APP_URL + FETCH_FIELDS_INFO;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			parameters.put("source_fields",
