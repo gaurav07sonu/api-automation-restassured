@@ -404,11 +404,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			parameters.put("tickers", "aapl");
-			parameters.put("query", "");
-			parameters.put("filing_type", "companys sales OR sales");
-			parameters.put("original_query", "companys sales OR sales");
-			RequestSpecification spec = queryParamsSpec(parameters);
-			resp = RestOperationUtils.get(URI, spec, parameters);
+			parameters.put("query", "sales");
+			parameters.put("filters", "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}");
+			parameters.put("facets_flag", "false");
+			RequestSpecification spec = formParamsSpec(parameters);
+			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
