@@ -1050,7 +1050,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	public void mosaicSummaryData() throws CoreCommonException {
 		Team team = Team.Graph;
 		JSONArray revenuSeries = null;
-		JSONArray kpiSeries = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + NEW_FETCH_MOSAIC_SUMMARY_DATA;
 		try {
@@ -1064,18 +1063,10 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String selection = respJson.getJSONObject("result").getString("selection").toString().trim();
-			if (selection.contains("Revenue_corrScore_all")) {
-				revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
-						.getJSONArray("series");
-				if (revenuSeries.length() == 0 || revenuSeries == null)
-					assertTrue(false,"Revenue_corrScore_all is empty : ");
-			} else {
-				kpiSeries = respJson.getJSONObject("result").getJSONArray("KPI").getJSONObject(0)
-						.getJSONArray("series");
-				if (kpiSeries.length() == 0 || kpiSeries == null)
-					assertTrue(false,"kpiSeries is empty : ");
-			}
+			revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
+					.getJSONArray("series");
+			if (revenuSeries.length() == 0 || revenuSeries == null)
+				assertTrue(false,"Revenue_corrScore_all is empty : ");
 			JSONArray sentieoIndex = respJson.getJSONObject("result").getJSONArray("sentieoIndex").getJSONObject(0)
 					.getJSONArray("series");
 			if (sentieoIndex.length() == 0 || sentieoIndex == null)
