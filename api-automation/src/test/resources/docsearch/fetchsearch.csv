@@ -1,9 +1,9 @@
-ticker,query,facets_flag
+ticker,query
 aapl,sales
 amzn,sales AND marketing
 tsla,china OR profit
 vod:ln,sales
-7203:jp,sales AND marketing
+a,sales AND marketing
 ulvr:ln,china OR profit
 aapl,sales OR aaple BEFORE increased NEAR "2%"
 icpt,OR(30 Thirty) BEFORE1 day BEFORE1 OR(prescription prescriptions)

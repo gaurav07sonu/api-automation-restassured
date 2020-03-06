@@ -119,7 +119,11 @@ public class DataProviderClass {
 									{"uber", "{\"ticker\":{},\"doctype\":{\"nw\":{\"media_news\":{\"param\":\"source\",\"values\":[\"lx_175892\",\"lx_3588\",\"lx_192511\",\"lx_se_6598\",\"lx_se_4828\",\"lx_5230\",\"lx_7484\",\"lx_190697\",\"lx_se_8057\",\"lx_9295\",\"lx_se_9571\",\"lx_se_9682\",\"lx_67811\",\"lx_se_109488\",\"lx_91272\",\"lx_76706\",\"lx_12827\",\"lx_13418\",\"lx_se_14584\",\"lx_se_15335\",\"lx_se_48509\",\"lx_se_78351\",\"lx_se_19013\",\"lx_se_74038\",\"lx_se_82122\",\"lx_se_23458\",\"lx_se_23459\",\"lx_26178\",\"lx_26180\",\"lx_30491\",\"lx_se_132321\",\"lx_se_32525\",\"lx_85876\",\"lx_33552\",\"lx_87763\",\"lx_91334\",\"lx_se_34662\",\"lx_se_35349\",\"lx_se_48775\",\"lx_103480\",\"lx_se_38938\",\"lx_39578\",\"lx_238545\",\"lx_se_43363\",\"lx_se_44030\",\"lx_se_7553\",\"lx_se_45630\",\"lx_90965\",\"lx_91071\",\"lx_48113\",\"lx_49703\",\"lx_se_51611\",\"lx_se_51638\",\"lx_se_52922\",\"lx_54812\"]},\"cons_disc\":{\"param\":\"source\",\"values\":[\"lx_se_1110\",\"lx_se_1154\",\"lx_se_4171\",\"lx_se_4237\",\"lx_se_4249\",\"lx_se_9227\",\"lx_73596\",\"lx_se_11080\",\"lx_76086\",\"lx_se_11530\",\"lx_se_118419\",\"lx_se_11595\",\"lx_85698\",\"lx_112942\",\"lx_se_23192\",\"lx_se_83778\",\"lx_se_31465\",\"lx_226571\",\"lx_226562\",\"lx_226567\",\"lx_207252\",\"lx_226606\",\"lx_226613\",\"lx_226608\",\"lx_226570\",\"lx_223836\",\"lx_228904\",\"lx_se_88233\"]},\"cons_stpl\":{\"param\":\"source\",\"values\":[\"lx_1306\",\"lx_104677\",\"lx_se_1449\",\"lx_113125\",\"lx_se_5763\",\"lx_se_8774\",\"lx_se_9226\",\"lx_se_11595\",\"lx_106069\",\"lx_se_13320\",\"lx_se_14709\",\"lx_se_17855\",\"lx_se_17864\",\"lx_80937\",\"lx_se_80254\",\"lx_se_18921\",\"lx_104820\",\"lx_se_80680\",\"lx_se_21621\",\"lx_se_21625\",\"lx_se_23334\",\"lx_se_83847\",\"lx_85572\",\"lx_se_34650\",\"lx_se_39114\",\"lx_118069\",\"lx_90036\",\"lx_se_45762\"]},\"energy_utils\":{\"param\":\"source\",\"values\":[\"lx_71636\",\"lx_se_114629\",\"lx_se_3063\",\"lx_75753\",\"lx_se_12712\",\"lx_79011\",\"lx_se_189850\",\"lx_104804\",\"lx_79307\",\"lx_80652\",\"lx_se_121906\",\"lx_22266\",\"lx_82850\",\"lx_104856\",\"lx_33301\",\"lx_se_85705\",\"lx_36067\",\"lx_se_56717\",\"lx_87791\",\"lx_88345\",\"lx_88348\",\"lx_107381\",\"lx_se_39180\",\"lx_se_39907\",\"lx_se_90009\",\"lx_90047\",\"lx_se_49941\",\"lx_106757\",\"lx_92959\",\"lx_92928\",\"lx_180036\",\"lx_se_101010\",\"lx_se_54470\"]},\"fin_reale\":{\"param\":\"source\",\"values\":[\"lx_se_124622\",\"lx_104677\",\"lx_se_2380\",\"lx_se_72246\",\"lx_se_108300\",\"lx_se_4032\",\"lx_se_4870\",\"lx_se_48362\",\"lx_se_5597\",\"lx_se_64349\",\"lx_se_6491\",\"lx_se_7290\",\"lx_se_8649\",\"lx_se_58171\",\"lx_73596\",\"lx_10574\",\"lx_se_12030\",\"lx_se_76405\",\"lx_se_76686\",\"lx_77578\",\"lx_80122\",\"lx_se_80432\",\"lx_18501\",\"lx_se_19013\",\"lx_se_63339\",\"lx_se_24808\",\"lx_se_25073\",\"lx_se_25071\",\"lx_se_25105\",\"lx_se_25556\",\"lx_se_25561\",\"lx_se_83596\",\"lx_85205\",\"lx_se_32322\",\"lx_33727\",\"lx_se_33414\",\"lx_se_87630\",\"lx_se_34693\",\"lx_se_57457\",\"lx_se_62506\",\"lx_104990\",\"lx_se_38617\",\"lx_se_39907\",\"lx_se_105002\",\"lx_se_40306\",\"lx_88861\",\"lx_100641\",\"lx_se_40431\",\"lx_se_89439\",\"lx_se_105014\",\"lx_se_90024\",\"lx_44150\",\"lx_91081\",\"lx_44795\",\"lx_223395\",\"lx_se_49091\",\"lx_se_82674\",\"lx_se_49865\",\"lx_se_53132\"]},\"health_care\":{\"param\":\"source\",\"values\":[\"lx_se_2455\",\"lx_se_72230\",\"lx_se_6009\",\"lx_se_5965\",\"lx_5972\",\"lx_se_9226\",\"lx_se_48442\",\"lx_75585\",\"lx_se_75754\",\"lx_se_11573\",\"lx_77822\",\"lx_77827\",\"lx_14713\",\"lx_se_79268\",\"lx_se_17999\",\"lx_se_18252\",\"lx_se_18249\",\"lx_se_61329\",\"lx_20447\",\"lx_22458\",\"lx_se_82238\",\"lx_se_22508\",\"lx_83276\",\"lx_83451\",\"lx_133239\",\"lx_se_24954\",\"lx_82874\",\"lx_85635\",\"lx_88965\",\"lx_se_27015\",\"lx_se_31758\",\"lx_se_31875\",\"lx_85599\",\"lx_se_32058\",\"lx_se_33290\",\"lx_se_70288\",\"lx_191344\",\"lx_140489\",\"lx_179298\",\"lx_se_38892\",\"lx_90016\",\"lx_134551\",\"lx_176499\",\"lx_191025\"]},\"indu\":{\"param\":\"source\",\"values\":[\"lx_se_71628\",\"lx_se_71453\",\"lx_se_1574\",\"lx_71791\",\"lx_se_1587\",\"lx_se_71798\",\"lx_se_93773\",\"lx_se_1599\",\"lx_72151\",\"lx_72430\",\"lx_se_3148\",\"lx_72342\",\"lx_98911\",\"lx_se_73643\",\"lx_60797\",\"lx_105978\",\"lx_210013\",\"lx_75023\",\"lx_118050\",\"lx_104767\",\"lx_se_11501\",\"lx_13240\",\"lx_se_16080\",\"lx_se_79231\",\"lx_se_18662\",\"lx_se_80562\",\"lx_116094\",\"lx_83248\",\"lx_se_24808\",\"lx_74887\",\"lx_se_24989\",\"lx_se_24945\",\"lx_84005\",\"lx_se_30828\",\"lx_197597\",\"lx_se_85311\",\"lx_85790\",\"lx_32727\",\"lx_34615\",\"lx_se_39675\",\"lx_89157\",\"lx_se_41415\",\"lx_se_43796\",\"lx_se_45814\",\"lx_91589\"]},\"macro\":{\"param\":\"source\",\"values\":[\"lx_se_124622\",\"lx_4854\",\"lx_4878\",\"lx_4883\",\"lx_4888\",\"lx_7356\",\"lx_7358\",\"lx_76334\",\"lx_se_48509\",\"lx_17228\",\"lx_18038\",\"lx_se_83559\",\"lx_se_36032\",\"lx_213718\",\"lx_50689\",\"lx_51124\"]},\"material\":{\"param\":\"source\",\"values\":[\"lx_se_988\",\"lx_71642\",\"lx_se_2472\",\"lx_5100\",\"lx_se_7288\",\"lx_se_9144\",\"lx_75447\",\"lx_75450\",\"lx_75443\",\"lx_104754\",\"lx_75454\",\"lx_76078\",\"lx_75449\",\"lx_85301\",\"lx_se_85919\",\"lx_se_39332\",\"lx_se_39335\",\"lx_se_42919\",\"lx_se_42920\",\"lx_86039\"]},\"tech_tele\":{\"param\":\"source\",\"values\":[\"lx_71785\",\"lx_1563\",\"lx_se_8261\",\"lx_76004\",\"lx_76046\",\"lx_120788\",\"lx_77860\",\"lx_14170\",\"lx_se_79041\",\"lx_80117\",\"lx_80198\",\"lx_81978\",\"lx_23976\",\"lx_82845\",\"lx_82853\",\"lx_104855\",\"lx_24806\",\"lx_se_100808\",\"lx_se_83730\",\"lx_85302\",\"lx_34520\",\"lx_se_35108\",\"lx_75002\",\"lx_88820\",\"lx_se_39675\",\"lx_106072\",\"lx_90279\",\"lx_45820\",\"lx_45817\",\"lx_se_43796\",\"lx_47769\",\"lx_se_54126\",\"lx_55233\"]},\"pr_rel\":{\"param\":\"source\",\"values\":[\"lx_87245\",\"lx_se_23246\",\"lx_90838\",\"lx_91113\",\"lx_105028\",\"lx_75882\",\"lx_87336\",\"lx_189571\"]},\"misc\":{\"param\":\"source\",\"values\":[\"lx_104701\",\"lx_99282\",\"lx_89990\",\"lx_99283\",\"lx_10505\",\"lx_67772\",\"lx_82763\",\"lx_83236\",\"lx_179238\",\"lx_se_24989\",\"lx_59700\",\"lx_31466\",\"lx_77865\",\"lx_33727\",\"lx_108076\",\"lx_45791\",\"lx_191100\",\"lx_49703\",\"lx_50297\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}"},
 									{"aapl", "{\"ticker\":{},\"doctype\":{\"ni\":{\"Tags\":{\"param\":\"tags\",\"values\":[\"#earningsrelease\",\"#management\",\"#earningsannounce\",\"#dividend\",\"#acquisition\",\"#partnership\",\"#drug\",\"#stock\",\"#ipo\",\"#stocksplit\",\"#spinoff\",\"#others\"]},\"Source\":{\"param\":\"rep_subjects\",\"values\":[\"gpr\",\"pr\",\"bw\",\"gnw\",\"mw\",\"uk_disc\",\"cnw\",\"nwca\",\"nw\",\"acw\",\"acn\",\"act\",\"abn\",\"fsc\",\"to\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}"},
 									{"aapl", "{\"ticker\":{},\"doctype\":{\"note\":{\"note-type\":{\"param\":\"note_subtype\",\"values\":[\"note\",\"email\",\"attachment\",\"clipper\",\"starred\",\"plotter\",\"sntclipper\",\"thesis\"]},\"username\":{\"param\":\"note_authors\",\"values\":[\"akash.aggarwal\",\"alap\",\"anurag\",\"arjun.kakkar\",\"ashish.garg\",\"atish.garg\",\"bhaskar\",\"bhuvnesh\",\"dhriti.nogia\",\"gaurav.anand\",\"ishant.mehta\",\"kapil.sardana\",\"malika.jain\",\"navreet\",\"neeti.bhatia\",\"ok.bye\",\"rajeev\",\"rakesh.sadu\",\"sangeeta.nandal\",\"shubham.walia\",\"sonia\",\"tejbir.singh\",\"test.armani\",\"test.dashboard77\",\"test.food\",\"test.march\",\"test.new00\",\"test.thesis01\",\"test.ttt\",\"test.usercheck105\",\"test.usercheck115\",\"test.usercheck119\",\"test.usercheck126\",\"test.zzz\",\"test0000\",\"test4098\",\"test809\",\"tsession\"]},\"note_origin\":{\"param\":\"note_origin\",\"values\":[\"clipper\",\"onenote\",\"sentieo\",\"Sentieo\"]},\"usertags\":{\"param\":\"usertags\",\"values\":[]},\"note_topic\":{\"param\":\"note_topic\",\"values\":[\"Earnings\",\"general\",\"General\",\"Meeting\",\"Sellside\",\"tejbir_test\",\"Transcript\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}"},
-								};
+									{ "aapl", "{\"ticker\":{},\"doctype\":{\"reg\":{\"reg\":{\"param\":\"filing_subtype\",\"values\":[\"fda\",\"epa\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}" },
+									{ "msft", "{\"ticker\":{},\"doctype\":{\"reg\":{\"reg\":{\"param\":\"filing_subtype\",\"values\":[\"fda\",\"epa\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}" },
+									{"", "{\"ticker\":{},\"doctype\":{\"jr\":{\"jr\":{\"param\":\"filing_subtype\",\"values\":[\"pmb\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}"},
+				
+		};
 		
 		return groupArray;
 	}	
@@ -147,17 +151,7 @@ public class DataProviderClass {
 	}
 
 	
-	@DataProvider(name = "test_newdoctype_Filter")
-	public Object[][] test_newdoctype_Filter() {
-		Object[][] groupArray = null;
-		groupArray = new String[][] { { "aapl", "{\"ticker\":{},\"doctype\":{\"reg\":{\"reg\":{\"param\":\"filing_subtype\",\"values\":[\"fda\",\"epa\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}" },
-									{ "msft", "{\"ticker\":{},\"doctype\":{\"reg\":{\"reg\":{\"param\":\"filing_subtype\",\"values\":[\"fda\",\"epa\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}" },
-									{"", "{\"ticker\":{},\"doctype\":{\"jr\":{\"jr\":{\"param\":\"filing_subtype\",\"values\":[\"pmb\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}"},
-			};
-		
-		return groupArray;
-	}	
-	
+
 	@DataProvider(name = "doctype_date_filters_combination")
 	public Object[][] test_doctype_date_Filter() {
 		Object[][] groupArray = null;
@@ -191,8 +185,8 @@ public class DataProviderClass {
 	@DataProvider(name = "doctype_language_filters_combination")
 	public Object[][] test_doctype_language_Filter() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] { { "aapl", "[\"language\"]", "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{\"\":{\"\":{\"param\":\"language\",\"values\":[1]}}},\"other\":{},\"section\":{}}" },
-									{ "vod:ln", "[\"language\"]", "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{\"\":{\"\":{\"param\":\"language\",\"values\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142]}}},\"other\":{},\"section\":{}}"},
+		groupArray = new String[][] { { "aapl",  "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{\"\":{\"\":{\"param\":\"language\",\"values\":[1]}}},\"other\":{},\"section\":{}}" },
+									{ "vod:ln", "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{\"\":{\"\":{\"param\":\"language\",\"values\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142]}}},\"other\":{},\"section\":{}}"},
 		};
 		
 		return groupArray;
@@ -220,6 +214,55 @@ public class DataProviderClass {
 			return groupArray;		
 	}
 	
+	
+	@DataProvider(name = "fetch_user_viewed_docs")
+	public Object[][] fetch_user_viewed_docs() {
+		Object[][] groupArray = null;
+			groupArray = new String[][] { { "5e4f09df5133ce1518e59676"},  {"null"},  { "12345"}};
+			return groupArray;		
+	}
+	
+	
+	@DataProvider(name = "index_user_viewed_doc")
+	public Object[][] index_user_viewed_doc() {
+		Object[][] groupArray = null;
+			groupArray = new String[][] { { "5e4f09df5133ce1518e59676"},  {"null"},  { "12345"}};
+			return groupArray;		
+	}
+	
+	
+	@DataProvider(name = "fetch_files_meta_data")
+	public Object[][] fetch_files_meta_data() {
+		Object[][] groupArray = null;
+			groupArray = new String[][] { { "[\"5e1596cdab1b861f647ffa37\"]"}, {"null"}, { "12345"}};
+			return groupArray;		
+	}
+	
+	
+	@DataProvider(name = "fetch_file_content")
+	public Object[][] fetch_file_content() {
+		Object[][] groupArray = null;
+			groupArray = new String[][] {{"5d1ddb1d92d3de0a2be4c732"}, {"5d17546d92d3de0a2a4377b7"}};
+			return groupArray;		
+	}
+	
+	
+	@DataProvider(name = "get_docnote_pdf")
+	public Object[][] get_docnote_pdf() {
+		Object[][] groupArray = null;
+			groupArray = new String[][] {{"5e566ebf8707d25bd739e308"}};
+			return groupArray;		
+	}
+	
+	
+	@DataProvider(name = "fetch_note_search")
+	public Object[][] fetch_note_search() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { {"note#$email#$attachment#$clipper#$starred#$plotter#$sntclipper#$thesis#$", "note#$", "{\"ticker\":{},\"doctype\":{\"note\":{\"note-type\":{\"param\":\"note_subtype\",\"values\":[\"note\",\"email\",\"attachment\",\"clipper\",\"starred\",\"plotter\",\"sntclipper\",\"thesis\"]},\"username\":{\"param\":\"note_authors\",\"values\":[\"test.mock\",\"test.thesis\"]},\"note_origin\":{\"param\":\"note_origin\",\"values\":[\"clipper\",\"evernote\",\"onenote\",\"sentieo\"]},\"usertags\":{\"param\":\"usertags\",\"values\":[]},\"note_topic\":{\"param\":\"note_topic\",\"values\":[\"dash\",\"Earnings\",\"General\",\"Meeting\",\"Sellside\",\"Transcript\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}" },
+		};
+		
+		return groupArray;
+	}
 
 	
 	@DataProvider(name = "fetch_yearly_data")
