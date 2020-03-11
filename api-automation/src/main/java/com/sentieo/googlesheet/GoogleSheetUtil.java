@@ -15,7 +15,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class GoogleSheetUtil extends GoogleSheetAuth {
 	static String spreadsheetId = "1jdLRMXRvBqJQfxN5aR2fk7f2yb49ZjwfYNhtxTicBeA";
@@ -34,75 +37,79 @@ public class GoogleSheetUtil extends GoogleSheetAuth {
 	    return String.valueOf(diff);
 	}
 
-	public static List<String> updateDowntimeData(String sheetTab, boolean testStatus, String currentTime) throws IOException, GeneralSecurityException, InterruptedException {
+	public static List<String> updateDowntimeData(String sheetTab, boolean testStatus, String currentTime, HashSet<String> failedAPIs) throws IOException, GeneralSecurityException, InterruptedException {
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 		Sheets service = getSheetsService();
 		Thread.sleep(5000);
 		ValueRange response = service.spreadsheets().values().get(spreadsheetId, sheetTab).execute();
-		List<List<Object>> values = response.getValues();
+		List<List<Object>> allRowsData = response.getValues();
 		List<List<Object>> list = new ArrayList<List<Object>>();
-		boolean isSheetEmpty = true;
-		for (int c = 0; c < values.size(); c++) {
-			// for (List<Object> row : values) {
-			if (c != values.size() - 1) {
-				list.add(values.get(c));
+		for (int individualRowIndex = 0; individualRowIndex < allRowsData.size(); individualRowIndex++) {
+			//In case sheet is Blank and this is first instance
+			//If test passed then do nothing Else add first time failure data
+			if(individualRowIndex == allRowsData.size() - 1 && allRowsData.get(individualRowIndex).toString().contains("failed")) {
+				list.add(allRowsData.get(individualRowIndex));
+				if(testStatus) {
+					//Do nothing
+				}
+				else {
+					List<Object> temp = Arrays.asList(currentTime, "", "", failedAPIs.toString());
+					list.add(temp);
+					updateSheetValues(list, sheetTab);
+				}
+				break;
+			}
+			// In case sheet already has few failed tests
+			// Add all existing failed tests data already in sheet till {LastRow-1}
+			else if (individualRowIndex != allRowsData.size() - 1) {
+				list.add(allRowsData.get(individualRowIndex));
 			} else {
-				// read last row
-				isSheetEmpty = false;
-				System.out.println("Last row values: " + values.get(values.size() - 1));
-				List<Object> lastRow = values.get(c);
-				if (lastRow.size()==1) {
-					if(testStatus) {
+				// Now read last row
+				System.out.println("Last row values: " + allRowsData.get(allRowsData.size() - 1));
+				List<Object> lastRow = allRowsData.get(individualRowIndex);
+				if (!StringUtils.isEmpty(lastRow.get(0).toString()) && StringUtils.isEmpty(lastRow.get(1).toString())) {  // Module not recovered previously, so edit same entry
+					if(testStatus) {  // If test passed
 						//enter value for 'recoveredAt' and 'downtime'
 						String downtime = getDownTime(lastRow.get(0).toString(), currentTime);
-						// If test failed
-						List<Object> temp = Arrays.asList(lastRow.get(0).toString(), currentTime, downtime);
+						List<Object> temp = Arrays.asList(lastRow.get(0).toString(), currentTime, downtime, "");
 						list.add(temp);
 						updateSheetValues(list, sheetTab);
 					}
-					else {
+					else { // If test failed again
+						List<Object> temp = Arrays.asList(lastRow.get(0).toString(), "", "", failedAPIs.toString());
+						list.add(temp);
+						updateSheetValues(list, sheetTab);
 						//do nothing
 					}
-					// if test case failed again
-					// do nothing
-
-					// if test case passed
-					// enter value for 'recoveredAt' and 'downtime'
-
-					// add downtime value
+					
 				} else {
 					// if test case failed
 					if(!testStatus) {
-						list.add(values.get(c));
-						List<Object> temp = Arrays.asList(currentTime, "", "");
+						list.add(allRowsData.get(individualRowIndex));
+						List<Object> temp = Arrays.asList(currentTime, "", "", failedAPIs.toString());
 						list.add(temp);
 						updateSheetValues(list, sheetTab);
 					}
-					
-					// if test case passed
-					// do nothing
 				}
 			}
 
-		}
-		if (isSheetEmpty) {
-			System.out.println("Sheet is empty");
-			// If test failed for the first time
-			List<Object> temp = Arrays.asList(currentTime, "", "");
-			list.add(temp);
-			updateSheetValues(list, sheetTab);
 		}
 		return null;
 	}
 
 	public static void updateSheetValues(List<List<Object>> data, String sheetTab)
 			throws IOException, GeneralSecurityException {
-		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-		Sheets service = getSheetsService();
-		ValueRange body = new ValueRange().setValues(data);
-		UpdateValuesResponse result = service.spreadsheets().values().update(spreadsheetId, sheetTab, body)
-				.setValueInputOption("RAW").execute();
-		System.out.printf("%d cells updated.", result.getUpdatedCells());
+		try {
+			final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+			Sheets service = getSheetsService();
+			ValueRange body = new ValueRange().setValues(data);
+			UpdateValuesResponse result = service.spreadsheets().values().update(spreadsheetId, sheetTab, body)
+					.setValueInputOption("RAW").execute();
+			System.out.printf("%d cells updated.", result.getUpdatedCells());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public static ValueRange getResponse(String SheetName, String RowStart, String RowEnd) throws IOException {
@@ -143,6 +150,6 @@ public class GoogleSheetUtil extends GoogleSheetAuth {
 	    ZonedDateTime currentISTime = currentTime.atZone(fromTimeZone);   
 	    System.out.println(formatter.format(currentISTime));
 
-		updateDowntimeData("user", false, formatter.format(currentISTime));
+		//updateDowntimeData("user", false, formatter.format(currentISTime));
 	}
 }

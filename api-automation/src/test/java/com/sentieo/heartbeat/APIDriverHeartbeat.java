@@ -179,8 +179,17 @@ public class APIDriverHeartbeat {
 		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm:ss z");
 		String time = f.format(new Date());
+		
+		String callerClassName = new Exception().getStackTrace()[1].getClassName();
+		String headerFilePath = "";
+		if(callerClassName.contains("DowntimeMonitors")) {
+			headerFilePath = "src/test/resources/api-heartbeat/header_downtime.txt";
+		}
+		else {
+			headerFilePath = "src/test/resources/api-heartbeat/header.txt";
+		}
 
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("src/test/resources/api-heartbeat/header.txt"))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(headerFilePath))) {
 
             // read line by line
             String line;
