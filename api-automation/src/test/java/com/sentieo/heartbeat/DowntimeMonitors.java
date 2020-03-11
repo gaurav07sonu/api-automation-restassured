@@ -80,6 +80,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -109,6 +110,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -140,6 +142,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -170,6 +173,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 				Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 				Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 				passedMap.put(team.toString(), getCurrentTime());
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			}
 			catch (Error e) {
 				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
@@ -227,6 +231,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -261,6 +266,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -288,6 +294,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -314,6 +321,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -343,6 +351,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			apiResp = new APIResponse(resp);
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -375,6 +384,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			apiResp = new APIResponse(resp);
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -405,6 +415,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 			apiResp = new APIResponse(resp);
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			passedMap.put(team.toString(), getCurrentTime());
+			updatePassResult(URI, team.toString(), "200", resp, parameters);
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 			addLastFailedAPIsForTeam(team.toString(), URI);
@@ -436,6 +447,7 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 				assertTrue(respJson.getJSONObject("result").getString("id").equalsIgnoreCase(noteId),"Note id should be equal to fetched note id : ");
 				assertTrue(respJson.getJSONObject("result").getString("url")!=null,"Url should not be blank : ");
 				passedMap.put(team.toString(), getCurrentTime());
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			}
 			
 		} catch (Error e) {
