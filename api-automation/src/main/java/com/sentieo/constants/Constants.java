@@ -134,6 +134,7 @@ public class Constants {
 	public static final String FETCH_NOTE_DATA="/api/notebook_data/";
 	public static final String FETCH_NOTE_HTML="/api/get_note_html/";
 	public static final String FETCH_NOTE_FACET_AND_HTML = "/api/fetch_note_facet_and_html/";
+	public static final String Fetch_NOTE_SETTING = "/api/notebook_settings/";
 
 	// notebook public apis
 	public static final String APPURL = "https://api.sentieo.com/v1";
