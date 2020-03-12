@@ -96,6 +96,23 @@ public class GoogleSheetUtil extends GoogleSheetAuth {
 		}
 		return null;
 	}
+	
+	
+	public static List<String> updateDowntimeHistoryData(String sheetTab, String currentTime, HashSet<String> failedAPIs) throws IOException, GeneralSecurityException, InterruptedException {
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		Sheets service = getSheetsService();
+		Thread.sleep(5000);
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, sheetTab).execute();
+		List<List<Object>> allRowsData = response.getValues();
+		List<List<Object>> list = new ArrayList<List<Object>>();
+		for (int individualRowIndex = 0; individualRowIndex < allRowsData.size(); individualRowIndex++) {
+			list.add(allRowsData.get(individualRowIndex));
+			}
+		List<Object> temp = Arrays.asList(currentTime, failedAPIs.toString());
+		list.add(temp);
+		updateSheetValues(list, sheetTab);
+		return null;
+	}
 
 	public static void updateSheetValues(List<List<Object>> data, String sheetTab)
 			throws IOException, GeneralSecurityException {

@@ -488,6 +488,11 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 	@AfterClass(alwaysRun = true)
 	public void updateGoogleSheet() {
 		generateHTML();
+		updateGoogleSheetsForDowntime();
+		updateGoogleSheetsForDowntimeHistory();
+	}
+	
+	public void updateGoogleSheetsForDowntime() {
 		try {
 			for (Entry<String, String> entry : failedMap.entrySet()) {
 				System.out.println("failed hmap");
@@ -504,7 +509,18 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 				}
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateGoogleSheetsForDowntimeHistory() {
+		try {
+			for (Entry<String, String> entry : failedMap.entrySet()) {
+				System.out.println("failed hmap");
+				GoogleSheetUtil.updateDowntimeHistoryData(entry.getKey() + "_HISTORY", entry.getValue(), failedMap_Team_APIS.get(entry.getKey()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -513,15 +529,6 @@ public class DowntimeMonitors extends APIDriverHeartbeat {
 		try {
 			FileUtils.deleteQuietly(new File("heartbeat.html"));
 			Files.write(Paths.get("heartbeat.html"), content.getBytes(), StandardOpenOption.CREATE);
-//			
-//			StringBuffer sb = new StringBuffer();
-//			String[] failureData = (String[]) failedAPIData.toArray(new String[failedAPIData.size()]);
-//			for (String s : failureData) {
-//				sb.append(s);
-//				sb.append(System.lineSeparator());
-//			}
-//			FileUtils.deleteQuietly(new File("failuresummary.txt"));
-//			Files.write(Paths.get("failuresummary.txt"), sb.toString().getBytes(), StandardOpenOption.CREATE);
 		} catch (IOException e) {
 			
 		}
