@@ -39,6 +39,7 @@
 				<exclude name="com.sentieo.EDT"></exclude>
 				<exclude name="com.sentieo.docsearch"></exclude>
 				<exclude name="com.sentieo.heartbeat"></exclude>
+				<exclude name="com.sentieo.marketsummary"></exclude>
 			</package>
 		</packages>
 	</test>
