@@ -1,63 +1,313 @@
 {
-	"counter": 1,
-	"result": {
-		"status": 1,
-		"res": [{
-			"updated_at": 1571463897000,
-			"id": "5daaa2d934c5842a94d9de33",
-			"temp_id": null,
-			"entity_type": "TabTemplate",
-			"children": [{
-				"updated_at": 1571463897000,
-				"id": "5daaa2d934c5842a94d9de36",
-				"temp_id": null,
-				"entity_type": "FieldSection",
-				"children": [],
-				"version": 1,
-				"username": "akash.aggarwal",
-				"keys": [],
-				"active": 1,
-				"name": "",
-				"created_at": 1571463897000,
-				"values": {},
-				"owner_type": null,
-				"comment_ids": [],
-				"order": [0, 0, 0],
-				"default_fields": {}
-			}, {
-				"updated_at": 1571463897000,
-				"owner": "akash.aggarwal",
-				"id": "5daaa2d934c5842a94d9de38",
-				"temp_id": null,
-				"entity_type": "NoteSection",
-				"children": [],
-				"content": "",
-				"username": "akash.aggarwal",
-				"active": 1,
-				"supporting_notes": [],
-				"name": "Untitled",
-				"created_at": 1571463897,
-				"owner_type": null,
-				"comment_ids": []
-			}],
-			"update_version": 3,
-			"username": "akash.aggarwal",
-			"users": ["akash.aggarwal"],
-			"tags": [],
-			"groups": ["Newthesis"],
-			"active": 1,
-			"tickers": [],
-			"name": "Tabsadn",
-			"type": "Tab",
-			"created_at": 1571463897000,
-			"owner_type": null,
-			"comment_ids": [],
-			"thesis_type": ""
-		}],
-		"message": "Success"
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"counter": {
+			"type": "integer"
+		},
+		"result": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "integer"
+				},
+				"res": {
+					"type": "array",
+					"items": [
+						{
+							"type": "object",
+							"properties": {
+								"updated_at": {
+									"type": "integer"
+								},
+								"id": {
+									"type": "string"
+								},
+								"temp_id": {
+									"type": "null"
+								},
+								"entity_type": {
+									"type": "string"
+								},
+								"children": {
+									"type": "array",
+									"items": [
+										{
+											"type": "object",
+											"properties": {
+												"updated_at": {
+													"type": "integer"
+												},
+												"id": {
+													"type": "string"
+												},
+												"temp_id": {
+													"type": "null"
+												},
+												"entity_type": {
+													"type": "string"
+												},
+												"children": {
+													"type": "array",
+													"items": {
+														
+													}
+												},
+												"version": {
+													"type": "integer"
+												},
+												"username": {
+													"type": "string"
+												},
+												"keys": {
+													"type": "array",
+													"items": {
+														
+													}
+												},
+												"active": {
+													"type": "integer"
+												},
+												"name": {
+													"type": "string"
+												},
+												"created_at": {
+													"type": "integer"
+												},
+												"values": {
+													"type": "object"
+												},
+												"owner_type": {
+													"type": "null"
+												},
+												"comment_ids": {
+													"type": "array",
+													"items": {
+														
+													}
+												},
+												"order": {
+													"type": "array",
+													"items": [
+														{
+															"type": "integer"
+														},
+														{
+															"type": "integer"
+														},
+														{
+															"type": "integer"
+														}
+													]
+												},
+												"default_fields": {
+													"type": "object"
+												}
+											},
+											"required": [
+												"updated_at",
+												"id",
+												"temp_id",
+												"entity_type",
+												"children",
+												"version",
+												"username",
+												"keys",
+												"active",
+												"name",
+												"created_at",
+												"values",
+												"owner_type",
+												"comment_ids",
+												"order",
+												"default_fields"
+											]
+										},
+										{
+											"type": "object",
+											"properties": {
+												"updated_at": {
+													"type": "integer"
+												},
+												"owner": {
+													"type": "string"
+												},
+												"id": {
+													"type": "string"
+												},
+												"temp_id": {
+													"type": "null"
+												},
+												"entity_type": {
+													"type": "string"
+												},
+												"children": {
+													"type": "array",
+													"items": {
+														
+													}
+												},
+												"content": {
+													"type": "string"
+												},
+												"username": {
+													"type": "string"
+												},
+												"active": {
+													"type": "integer"
+												},
+												"supporting_notes": {
+													"type": "array",
+													"items": {
+														
+													}
+												},
+												"name": {
+													"type": "string"
+												},
+												"created_at": {
+													"type": "integer"
+												},
+												"owner_type": {
+													"type": "null"
+												},
+												"comment_ids": {
+													"type": "array",
+													"items": {
+														
+													}
+												}
+											},
+											"required": [
+												"updated_at",
+												"owner",
+												"id",
+												"temp_id",
+												"entity_type",
+												"children",
+												"content",
+												"username",
+												"active",
+												"supporting_notes",
+												"name",
+												"created_at",
+												"owner_type",
+												"comment_ids"
+											]
+										}
+									]
+								},
+								"update_version": {
+									"type": "integer"
+								},
+								"username": {
+									"type": "string"
+								},
+								"users": {
+									"type": "array",
+									"items": [
+										{
+											"type": "string"
+										}
+									]
+								},
+								"tags": {
+									"type": "array",
+									"items": {
+										
+									}
+								},
+								"groups": {
+									"type": "array",
+									"items": [
+										{
+											"type": "string"
+										}
+									]
+								},
+								"active": {
+									"type": "integer"
+								},
+								"tickers": {
+									"type": "array",
+									"items": {
+										
+									}
+								},
+								"name": {
+									"type": "string"
+								},
+								"type": {
+									"type": "string"
+								},
+								"created_at": {
+									"type": "integer"
+								},
+								"owner_type": {
+									"type": "null"
+								},
+								"comment_ids": {
+									"type": "array",
+									"items": {
+										
+									}
+								},
+								"thesis_type": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"updated_at",
+								"id",
+								"temp_id",
+								"entity_type",
+								"children",
+								"update_version",
+								"username",
+								"users",
+								"tags",
+								"groups",
+								"active",
+								"tickers",
+								"name",
+								"type",
+								"created_at",
+								"owner_type",
+								"comment_ids",
+								"thesis_type"
+							]
+						}
+					]
+				},
+				"message": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"status",
+				"res",
+				"message"
+			]
+		},
+		"response": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "boolean"
+				},
+				"msg": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"status",
+				"msg"
+			]
+		}
 	},
-	"response": {
-		"status": true,
-		"msg": ""
-	}
+	"required": [
+		"counter",
+		"result",
+		"response"
+	]
 }
