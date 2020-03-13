@@ -1474,6 +1474,8 @@ public class NotebookApis extends APIDriver {
 							"Verify the API Response Status");
 					verify.verifyEquals(starRespJson.get("result"), "starred", "Verify the API result");
 					verify.jsonSchemaValidation(starResp, "notebook" + File.separator + "starNote.json");
+					if(starRespJson.get("result")=="starred")
+						starNoteID=note_id;
 				}
 			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
@@ -1493,7 +1495,7 @@ public class NotebookApis extends APIDriver {
 				starNote();
 			if (starNoteID != "") {
 				HashMap<String, String> params = new HashMap<String, String>();
-				params.put("noteid", note_id);
+				params.put("noteid", starNoteID);
 				RequestSpecification unstarSpec = formParamsSpec(params);
 				Response unstarResp = RestOperationUtils.post(UNSTAR_NOTE, null, unstarSpec, params);
 				APIResponse unstarApiResp = new APIResponse(unstarResp);
