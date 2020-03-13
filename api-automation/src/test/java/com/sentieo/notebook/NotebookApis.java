@@ -56,6 +56,7 @@ public class NotebookApis extends APIDriver {
 	static String ticker = "";
 	static String starNoteID = "";
 	static String file_id = "";
+	static String private_note_id="";
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -91,11 +92,9 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(SET_NOTE_HTML, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-
 			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
@@ -107,7 +106,7 @@ public class NotebookApis extends APIDriver {
 				verify.verifyTrue(respJson.getJSONObject("result").getString("id") != null,
 						"Note id should not be blank : ");
 				if (respJson.getJSONObject("result").getString("id") != null)
-					note_id = respJson.getJSONObject("result").getString("id");
+					private_note_id = respJson.getJSONObject("result").getString("id");
 				JSONObject noteData = getNoteDetail(note_id);
 				if (noteData != null)
 					verify.verifyTrue(noteData.length() > 0, "Validate note details present");
@@ -125,25 +124,26 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", description = "Delete private note",priority=1)
 	public void deletePrivateNote() throws Exception {
 		try {
-			if (note_id == "")
-				setNoteId();
-			if (note_id != "") {
+			if (private_note_id == "")
+				createPrivateNote();
+			if (private_note_id != "") {
 				// delete note
 				HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
-				deleteNoteParams.put("note_id", note_id);
+				deleteNoteParams.put("note_id", private_note_id);
 
 				RequestSpecification spec1 = formParamsSpec(deleteNoteParams);
 				Response resp1 = RestOperationUtils.post(DELETE_NOTE, null, spec1, deleteNoteParams);
 				APIResponse apiResp1 = new APIResponse(resp1);
-				JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
 				// validation
 				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 				if (apiResp1.getStatusCode() == 200) {
+					JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+
 					verify.verifyResponseTime(resp1, 3000);
 					verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
-				int active = getNoteDetail(note_id).getJSONObject("result").getInt("active");
+				int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
 				verify.verifyEquals(active,0,"Verify note active status code should be zero");
 					JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
@@ -188,10 +188,11 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification emailSpec = formParamsSpec(emailParams);
 				Response emailResp = RestOperationUtils.post(EMAIL_NOTE, null, emailSpec, emailParams);
 				APIResponse emailApiResp = new APIResponse(emailResp);
-				JSONObject emailRespJson = new JSONObject(emailApiResp.getResponseAsString());
 
 				verify.verifyStatusCode(emailApiResp.getStatusCode(), 200);
 				if (emailApiResp.getStatusCode() == 200) {
+					JSONObject emailRespJson = new JSONObject(emailApiResp.getResponseAsString());
+
 					verify.verifyResponseTime(emailResp, 5000);
 					verify.verifyEquals(emailRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
@@ -224,12 +225,13 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			int status = apiResp.getStatusCode();
 			if (status == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				JSONArray notelist = respJson.getJSONObject("result").getJSONArray("notes");
@@ -266,7 +268,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "devesh", description = "Upload Note", enabled = true)
+	@Test(groups = "sanity", description = "Upload Note", enabled = true)
 	public void uploadNote() throws Exception {
 		try {
 			String folderName = "notebook" + File.separator;
@@ -280,10 +282,11 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = multipartParamSpec(params, file);
 			Response resp = RestOperationUtils.post(UPLOAD_FILE, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			String id = respJson.get("id").toString();
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 
 			if (id != null && apiResp.getStatusCode() == 200) {
 				verify.verifyResponseTime(resp, 5000);
@@ -313,10 +316,11 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification spec1 = formParamsSpec(attachParams);
 				Response resp1 = RestOperationUtils.post(CREATE_ATTACHMENT_NOTE, null, spec1, attachParams);
 				APIResponse apiResp1 = new APIResponse(resp1);
-				JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
 				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 				if (apiResp1.getStatusCode() == 200) {
+					JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+
 					verify.verifyResponseTime(resp1, 3000);
 					verify.verifyEquals(respJson1.getJSONObject("response").get("status"), true,
 							"Verify the API Response Status");
@@ -365,10 +369,11 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				JSONArray notelist = respJson.getJSONObject("result").getJSONArray("notes");
@@ -424,10 +429,11 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				JSONArray notelist = respJson.getJSONObject("result").getJSONArray("notes");
@@ -490,10 +496,11 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				JSONArray notelist = respJson.getJSONObject("result").getJSONArray("notes");
@@ -555,9 +562,8 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -591,9 +597,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -627,9 +634,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -665,9 +673,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -701,9 +710,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -737,9 +747,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -773,9 +784,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -809,9 +821,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -845,9 +858,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -881,9 +895,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -917,9 +932,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -953,9 +969,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -989,9 +1006,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -1025,9 +1043,10 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -1065,11 +1084,11 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification spec = formParamsSpec(thesisParams);
 				Response resp = RestOperationUtils.post(THESIS_ENTITY, null, spec, thesisParams);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 5000);
 				if (apiResp.getStatusCode() == 200) {
+					verify.verifyResponseTime(resp, 5000);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(respJson.getJSONObject("result").getString("message"), "Success",
@@ -1123,11 +1142,12 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification tagSpec = formParamsSpec(params);
 				Response tagResp = RestOperationUtils.post(UPDATE_TAG_TICKER, null, tagSpec, params);
 				APIResponse tagApiResp = new APIResponse(tagResp);
-				JSONObject tagRespJson = new JSONObject(tagApiResp.getResponseAsString());
 
 				verify.verifyStatusCode(tagApiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(tagResp, 5000);
 				if (tagApiResp.getStatusCode() == 200) {
+					JSONObject tagRespJson = new JSONObject(tagApiResp.getResponseAsString());
+
 					verify.verifyEquals(tagRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(tagRespJson.getBoolean("result"), true, "Verify the Result Status");
@@ -1175,9 +1195,10 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification removeTagSpec = formParamsSpec(params);
 				Response tagResp = RestOperationUtils.post(UPDATE_TAG_TICKER, null, removeTagSpec, params);
 				APIResponse tagApiResp = new APIResponse(tagResp);
-				JSONObject tagRespJson = new JSONObject(tagApiResp.getResponseAsString());
 
 				verify.verifyStatusCode(tagApiResp.getStatusCode(), 200);
+				if(tagApiResp.getStatusCode()==200) {
+				JSONObject tagRespJson = new JSONObject(tagApiResp.getResponseAsString());
 				verify.verifyResponseTime(tagResp, 5000);
 
 				verify.verifyEquals(tagRespJson.getJSONObject("response").getBoolean("status"), true,
@@ -1195,7 +1216,8 @@ public class NotebookApis extends APIDriver {
 				if (tagadded) {
 					verify.verifyTrue(tagadded, "tag successfully removed from note");
 				}
-			} else {
+			} 
+		}else {
 				ExtentTestManager.getTest().log(LogStatus.FAIL, "Tag add api failed, tag name is blank " + tagName);
 			}
 		} catch (JSONException je) {
@@ -1224,11 +1246,12 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification tickerSpec = formParamsSpec(params);
 				Response tickerResp = RestOperationUtils.post(UPDATE_TAG_TICKER, null, tickerSpec, params);
 				APIResponse tickerApiResp = new APIResponse(tickerResp);
-				JSONObject tickerRespJson = new JSONObject(tickerApiResp.getResponseAsString());
 
 				verify.verifyStatusCode(tickerApiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(tickerResp, 5000);
 				if (tickerApiResp.getStatusCode() == 200) {
+					JSONObject tickerRespJson = new JSONObject(tickerApiResp.getResponseAsString());
+
 					verify.verifyEquals(tickerRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(tickerRespJson.getBoolean("result"), true, "Verify the Result Status");
@@ -1276,11 +1299,12 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification removeSpec = formParamsSpec(removeTickerParams);
 				Response removeResp = RestOperationUtils.post(UPDATE_TAG_TICKER, null, removeSpec, removeTickerParams);
 				APIResponse removeApiResp = new APIResponse(removeResp);
-				JSONObject removeRespJson = new JSONObject(removeApiResp.getResponseAsString());
 
 				verify.verifyStatusCode(removeApiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(removeResp, 5000);
 				if (removeApiResp.getStatusCode() == 200) {
+					JSONObject removeRespJson = new JSONObject(removeApiResp.getResponseAsString());
+
 					verify.verifyEquals(removeRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(removeRespJson.getBoolean("result"), true, "Verify the Result Status");
@@ -1325,11 +1349,12 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification spec = formParamsSpec(params);
 				Response resp = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec, params);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(resp, 5000);
 				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyTrue(
@@ -1340,18 +1365,22 @@ public class NotebookApis extends APIDriver {
 							templateName, "Verify template name");
 					verify.verifyEquals(respJson.getJSONObject("result").getString("message"), "Success",
 							"verify template message");
-				}
+				
 				// delete template
 				JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
 				String id = String.valueOf(res.get("id"));
-
+				if(!id.isEmpty()) {
 				HashMap<String, String> deleteParams = new HashMap<String, String>();
 				deleteParams.put("template_id", id);
 				deleteParams.put("action", "delete_template");
 
 				RequestSpecification spec1 = formParamsSpec(deleteParams);
 				RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
-			} else {
+				}else {
+					verify.verifyTrue(false, "Template is missing, can not perform delete");
+				}
+			} 
+			}else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP,
 						"We are not supporting thesis template on : " + USER_APP_URL);
 			}
@@ -1381,9 +1410,10 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification spec = formParamsSpec(params);
 				Response resp = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec, params);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
@@ -1437,9 +1467,10 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification spec1 = formParamsSpec(deleteParams);
 				Response resp1 = RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
 				APIResponse apiResp1 = new APIResponse(resp1);
-				JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
 				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
+				JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+
 				verify.verifyResponseTime(resp1, 5000);
 				verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
@@ -1465,16 +1496,18 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification starSpec = formParamsSpec(params);
 				Response starResp = RestOperationUtils.post(STAR_NOTE, null, starSpec, params);
 				APIResponse starApiResp = new APIResponse(starResp);
-				JSONObject starRespJson = new JSONObject(starApiResp.getResponseAsString());
-
 				verify.verifyStatusCode(starApiResp.getStatusCode(), 200);
+		
 				if (starApiResp.getStatusCode() == 200) {
+					JSONObject starRespJson = new JSONObject(starApiResp.getResponseAsString());
+
 					verify.verifyResponseTime(starResp, 5000);
 					verify.verifyEquals(starRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(starRespJson.get("result"), "starred", "Verify the API result");
 					verify.jsonSchemaValidation(starResp, "notebook" + File.separator + "starNote.json");
-					if(starRespJson.get("result")=="starred")
+					String notetemp = (String) starRespJson.get("result");
+					if(notetemp.equalsIgnoreCase("starred"))
 						starNoteID=note_id;
 				}
 			} else {
@@ -1499,9 +1532,9 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification unstarSpec = formParamsSpec(params);
 				Response unstarResp = RestOperationUtils.post(UNSTAR_NOTE, null, unstarSpec, params);
 				APIResponse unstarApiResp = new APIResponse(unstarResp);
-				JSONObject unstarRespJson = new JSONObject(unstarApiResp.getResponseAsString());
 				verify.verifyStatusCode(unstarApiResp.getStatusCode(), 200);
 				if (unstarApiResp.getStatusCode() == 200) {
+					JSONObject unstarRespJson = new JSONObject(unstarApiResp.getResponseAsString());
 					verify.verifyResponseTime(unstarResp, 5000);
 					verify.verifyEquals(unstarRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
@@ -1538,10 +1571,9 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification uploadspec = multipartParamSpec(params, file);
 				Response uploadResp = RestOperationUtils.post(UPLOAD_FILE, null, uploadspec, params);
 				APIResponse uploadApiResp = new APIResponse(uploadResp);
-				JSONObject uploadRespJson = new JSONObject(uploadApiResp.getResponseAsString());
-
-				String id = uploadRespJson.get("id").toString();
 				verify.verifyStatusCode(uploadApiResp.getStatusCode(), 200);
+				JSONObject uploadRespJson = new JSONObject(uploadApiResp.getResponseAsString());
+				String id = uploadRespJson.get("id").toString();
 				if (uploadApiResp.getStatusCode() == 200 && id != null) {
 					verify.verifyResponseTime(uploadResp, 5000);
 					verify.verifyEquals(uploadRespJson.get("success"), true, "Verify the API Response Status");
@@ -1566,10 +1598,11 @@ public class NotebookApis extends APIDriver {
 					RequestSpecification spec1 = formParamsSpec(attachParams);
 					Response resp1 = RestOperationUtils.post(SAVE_ATTACHMENT, null, spec1, attachParams);
 					APIResponse apiResp1 = new APIResponse(resp1);
-					JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
 					verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 					if (apiResp1.getStatusCode() == 200) {
+						JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+
 						verify.verifyResponseTime(resp1, 3000);
 						verify.verifyEquals(respJson1.getJSONObject("response").get("status"), true,
 								"Verify the API Response Status");
@@ -1621,10 +1654,10 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification spec2 = formParamsSpec(dataMapForRemove);
 				Response resp2 = RestOperationUtils.post(REMOVE_ATTACHMENT, null, spec2, dataMapForRemove);
 				APIResponse apiResp2 = new APIResponse(resp2);
-				JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
 
 				verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
 				if (apiResp2.getStatusCode() == 200) {
+					JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
 					verify.verifyResponseTime(resp2, 3000);
 					verify.verifyEquals(respJson2.getJSONObject("response").get("status"), true,
 							"Verify the API Response Status");
@@ -1674,11 +1707,12 @@ public class NotebookApis extends APIDriver {
 				RequestSpecification commentSpec = formParamsSpec(commentParams);
 				Response commentResp = RestOperationUtils.post(USER_COMMENTS, null, commentSpec, commentParams);
 				APIResponse commentApiResp = new APIResponse(commentResp);
-				JSONObject commentRespJson = new JSONObject(commentApiResp.getResponseAsString());
 
 				verify.verifyStatusCode(commentApiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(commentResp, 5000);
 				if (commentApiResp.getStatusCode() == 200) {
+					JSONObject commentRespJson = new JSONObject(commentApiResp.getResponseAsString());
+
 					verify.verifyEquals(commentRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(commentRespJson.getJSONObject("result").getString("message"),
@@ -1756,10 +1790,11 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec1 = formParamsSpec(params1);
 			Response resp1 = RestOperationUtils.post(USER_COMMENTS, null, spec1, params1);
 			APIResponse apiResp1 = new APIResponse(resp1);
-			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			verify.verifyResponseTime(resp1, 5000);
+			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+
 			verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deleteUserComment.json");
@@ -1831,10 +1866,11 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec2 = formParamsSpec(params2);
 			Response resp2 = RestOperationUtils.post(USER_COMMENTS, null, spec2, params2);
 			APIResponse apiResp2 = new APIResponse(resp2);
-			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
 			verify.verifyResponseTime(resp2, 5000);
+			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
+
 			verify.verifyEquals(respJson2.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(resp2, "notebook" + File.separator + "editUserComment.json");
@@ -2058,12 +2094,13 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			int status = apiResp.getStatusCode();
 			if (status == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				JSONArray notelist = respJson.getJSONObject("result").getJSONArray("notes");
