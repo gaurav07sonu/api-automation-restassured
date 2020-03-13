@@ -1,4 +1,4 @@
-package com.sentieo.notebook;
+package com.sentieo.kibana;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
 
-public class KibanaLogs extends APIDriver {
+public class KibanaLogsPOC extends APIDriver {
 	
 	@Test
 	public void getKibanaLogs() throws CoreCommonException {
