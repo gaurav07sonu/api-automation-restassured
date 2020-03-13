@@ -78,7 +78,7 @@ public class NotebookApis extends APIDriver {
 		RestAssured.baseURI = USER_APP_URL;
 	}
 
-	@Test(groups = "sanity", description = "Create private note")
+	@Test(groups = "sanity", description = "Create private note",priority=0)
 	public void createPrivateNote() throws Exception {
 		try {
 			String tempId = "quill" + new Date().getTime();
@@ -100,7 +100,7 @@ public class NotebookApis extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"), tempId,
-						"Verify that Requested ticker Visible in the API");
+						"Verify temp id");
 				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createPrivateNote.json");
 				verify.verifyTrue(respJson.getJSONObject("result").getString("temp_id").equalsIgnoreCase(tempId),
 						"Temp id should not be blank : ");
@@ -122,7 +122,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Delete private note")
+	@Test(groups = "sanity", description = "Delete private note",priority=1)
 	public void deletePrivateNote() throws Exception {
 		try {
 			if (note_id == "")
@@ -143,6 +143,8 @@ public class NotebookApis extends APIDriver {
 					verify.verifyResponseTime(resp1, 3000);
 					verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
+				int active = getNoteDetail(note_id).getJSONObject("result").getInt("active");
+				verify.verifyEquals(active,0,"Verify note active status code should be zero");
 					JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
 					if (noteList != null) {
@@ -150,6 +152,10 @@ public class NotebookApis extends APIDriver {
 							if (noteList.getJSONObject(i).getString("note_id").equalsIgnoreCase(note_id)) {
 								noteDeleted = false;
 								verify.verifyTrue(noteDeleted, "Note present in note list");
+								if(active==0)
+								{
+									verify.verifyTrue(false, "Note indexing not working");
+								}
 								break;
 							}
 						}
@@ -190,7 +196,7 @@ public class NotebookApis extends APIDriver {
 					verify.verifyEquals(emailRespJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(emailRespJson.getJSONObject("result").getJSONArray("allowed_addresses").get(0),
-							emailId, "Verify that Requested ticker Visible in the API");
+							emailId, "Verify email id");
 					// verify.jsonSchemaValidation(emailResp, "notebook" + File.separator +
 					// "emailNote.json");
 				}
@@ -260,7 +266,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "desave_attachmentvesh", description = "Upload Note", enabled = true)
+	@Test(groups = "devesh", description = "Upload Note", enabled = true)
 	public void uploadNote() throws Exception {
 		try {
 			String folderName = "notebook" + File.separator;
@@ -556,7 +562,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -592,7 +598,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -628,7 +634,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// verify.verifyEquals(respJson.getJSONObject("response").getString("msg"),
 			// "success", "Verify the API Message");
 			// TODO: schema validation to be added
@@ -666,7 +672,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -702,7 +708,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -738,7 +744,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -774,7 +780,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -810,7 +816,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -846,7 +852,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -882,7 +888,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -918,7 +924,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -954,7 +960,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -990,7 +996,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -1026,7 +1032,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify that Requested ticker Visible in the API");
+					"Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -1845,7 +1851,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Fetch note data", priority = 4)
+	@Test(groups = { "sanity" }, description = "Fetch note data")
 	public void fetchNoteHtml() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1879,7 +1885,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "This will load the L1(filter section)", priority = 6)
+	@Test(groups = { "sanity" }, description = "This will load the L1(filter section)")
 	public void fetchNoteFacetHtml() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1910,7 +1916,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "heart-beat" }, description = "Fetch user notebook data", priority = 3)
+	@Test(groups = { "heart-beat" }, description = "Fetch user notebook data")
 	public void fetchNotebookData() throws Exception {
 		Team team = Team.Notebook;
 		String URI = USER_APP_URL + FETCH_NOTE_DATA;
@@ -2072,29 +2078,141 @@ public class NotebookApis extends APIDriver {
 		return null;
 	}
 
-//	@Test(groups = { "devesh" }, description = "This will fetch notebook settings", priority = 6)
-//	public void fetchNoteSettings() throws Exception {
-//		HashMap<String, String> parameters = new HashMap<String, String>();
-//		try {
-//			parameters.put("counter", "1");
-//			RequestSpecification spec = formParamsSpec(parameters);
-//			Response resp = RestOperationUtils.post(Fetch_NOTE_SETTING, null, spec, parameters);
-//			APIResponse apiResp = new APIResponse(resp);
-//			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-//			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response : ");
-//			if (apiResp.getStatusCode() == 200) {
-//				verify.verifyTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status : ");
-//				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "notebookSetting.json");
-//			}
-//		} catch (JSONException je) {
-//			je.printStackTrace();
-//			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
-//			verify.verificationFailures.add(je);
-//		} finally {
-//			verify.verifyAll();
-//		}
-//	}
-	
+	@Test(groups = { "sanity" }, description = "This will fetch notebook settings")
+	public void fetchNoteSettings() throws Exception {
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.get(FETCH_NOTE_SETTING, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response : ");
+			if (apiResp.getStatusCode() == 200) {
+				verify.verifyTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status : ");
+
+				if (respJson.getJSONObject("result") == null || respJson.getJSONObject("result").length() == 0) {
+					verify.verifyTrue(false, "Result coming blank");
+				}
+
+				JSONObject evernote = respJson.getJSONObject("result").getJSONObject("evernote_sync_data");
+				if (evernote == null || evernote.length() == 0) {
+					verify.verifyTrue(false, "Verify evernote data present");
+				}
+
+				JSONObject onenote = respJson.getJSONObject("result").getJSONObject("onenote_sync_data");
+				if (onenote == null || onenote.length() == 0) {
+					verify.verifyTrue(false, "Verify onenote data present");
+				}
+				verify.verifyTrue(respJson.getJSONObject("result").get("note_publishing") != null,
+						"verify note_publishing key present");
+
+				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "notebookSetting.json");
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = { "sanity" }, description = "Verify fetch note version api")
+	public void fetch_note_version() throws CoreCommonException {
+		try {
+			if (note_id == "")
+				setNoteId();
+			if (note_id != "") {
+				int version = getNoteDetail(note_id).getJSONObject("result").getInt("version");
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("id", note_id);
+				parameters.put("version", Integer.toString(version));
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(FETCH_NOTE_VERSION, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response : ");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					verify.verifyTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status : ");
+					verify.verifyTrue(respJson.getJSONObject("result").get("conflict") != null,
+							"verify conflict key present");
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = { "sanity" }, description = "Verify fetch note lock status")
+	public void fetch_note_lock_status() throws CoreCommonException {
+		try {
+			if (note_id == "")
+				setNoteId();
+			if (note_id != "") {
+				// int version =
+				// getNoteDetail(note_id).getJSONObject("result").getInt("version");
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("noteid", note_id);
+				parameters.put("set_lock", "1");
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(FETCH_NOTE_LOCK_STATUS, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response : ");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					verify.verifyTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status : ");
+					verify.verifyTrue(respJson.getJSONObject("result").get("locked_by") != null,
+							"verify locked_by key present");
+					verify.verifyTrue(respJson.getJSONObject("result").get("locked") != null,
+							"verify locked key present");
+					verify.verifyEquals(respJson.getJSONObject("result").get("noteid"), note_id, "verify note id");
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = { "sanity" }, description = "Verify highight present or not")
+	public void fetch_note() throws CoreCommonException {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("docid", "5e68de142e808522f1a39820");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.get(FETCH_NOTE, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response : ");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				verify.verifyTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status : ");
+				if (respJson.getJSONArray("result").getJSONObject(0).getBoolean("note_highlight") == false) {
+					verify.verifyTrue(respJson.getJSONArray("result").getJSONObject(0).getJSONArray("highlight_list")
+							.length() == 0, "Verify Highlight list should be blank");
+				} else {
+					verify.verifyTrue(respJson.getJSONArray("result").getJSONObject(0).getJSONArray("highlight_list")
+							.length() > 0, "Verify Highlight list should not be blank");
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
 //	@AfterSuite(alwaysRun = true)
 //	public void deletePrivateNote1(){
 //		try {
