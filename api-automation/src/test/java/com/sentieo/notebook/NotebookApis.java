@@ -1530,6 +1530,7 @@ public class NotebookApis extends APIDriver {
 			if (starNoteID == "")
 				starNote();
 			if (starNoteID != "") {
+				Thread.sleep(5000);
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("noteid", starNoteID);
 				RequestSpecification unstarSpec = formParamsSpec(params);
