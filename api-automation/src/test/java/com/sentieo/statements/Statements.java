@@ -1,16 +1,14 @@
 package com.sentieo.statements;
 
 import static com.sentieo.constants.Constants.*;
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.HashMap;
-import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
@@ -118,59 +116,5 @@ public class Statements extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "fetch screener models", dataProvider = "fetchUnifiedStream")
-	public void fetchUnifiedStream(String client_type, String doc_type, String tickers, String social_reach)
-			throws Exception {
-		List<String> tickerList = new ArrayList<>();
-		tickerList.add("goog");
-		HashMap<String, String> tickerData = new HashMap<String, String>();
-		tickerData.put("social_reach", social_reach);
-		tickerData.put("doc_type", doc_type);
-		tickerData.put("tickers", tickers);
-		tickerData.put("dashboard", "news_stream");
-		tickerData.put("client_type_status", client_type);
-		RequestSpecification spec = formParamsSpec(tickerData);
-		Response resp = RestOperationUtils.post(FETCH_UNIFIED_STREAM, null, spec, tickerData);
-		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
-		verify.verifyResponseTime(resp, 3000);
-		String[] words = tickers.split(",");
-		for (String w : words) {
-			tickerList.add(w);
-		}
-		try {
-			JSONArray value = respJson.getJSONObject("result").getJSONArray("data");
-			if (value.length() != 0) {
-				for (int i = 0; i < value.length(); i++) {
-					JSONObject interate = value.getJSONObject(i);
-					List<String> getTickerFromDoc = new ArrayList<>();
-					JSONArray getTicker = interate.getJSONArray("tickers");
-					for (int j = 0; j < getTicker.length(); j++) {
-						String ticker = getTicker.getString(j);
-						getTickerFromDoc.add(ticker);
-					}
-					boolean noElementsInCommon = Collections.disjoint(tickerList, getTickerFromDoc);
-					if (noElementsInCommon) {
-						verify.verificationFailures.add(new Exception());
-						ExtentTestManager.getTest().log(LogStatus.FAIL,
-								"Ticker not Present in Main TickersList" + "\n" + tickerList + "\n" + getTickerFromDoc);
-					}
-				}
-			}
-			verify.verifyAll();
-		} catch (JSONException e) {
-			verify.verificationFailures.add(e);
-			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
-		}
-	}
-
-	@DataProvider(name = "fetchUnifiedStream")
-	public Object[][] fetchUnifiedStream() {
-		return new Object[][] { { "low", "articles", "aapl,msft,googl", "sentieo" },
-				{ "low", "fi", "aapl", "whitelist" }, { "low", "tweets", "aapl,msft,googl", "all" }, };
-	}
-
+	
 }

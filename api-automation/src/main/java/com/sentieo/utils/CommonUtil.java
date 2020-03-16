@@ -11,8 +11,10 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -222,5 +224,32 @@ public class CommonUtil {
 		return year;
 		
 	}
+	public String getRandomString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() <5) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = "Automation"+salt.toString();
+        return saltStr;
 
+    }
+	public  List<String> pickNRandomItems(List<String> lst, int n) {
+	    List<String> copy = new LinkedList<String>(lst);
+	    Collections.shuffle(copy);
+	    return copy.subList(0, n);
+	}
+	
+	public String getCurrentTimeStamp()
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Instant instant = timestamp.toInstant();
+        Timestamp tsFromInstant = Timestamp.from(instant);
+        long stamp=tsFromInstant.getTime();
+        String timeStamp=Long.toString(stamp);
+        return timeStamp;
+	}
 }
+
