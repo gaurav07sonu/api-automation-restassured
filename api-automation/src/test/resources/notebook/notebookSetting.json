@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "counter": {
+      "type": "integer"
+    },
+    "result": {
+      "type": "object",
+      "properties": {
+        "note_publishing": {
+          "type": "boolean"
+        },
+        "email_group_share_email_notification": {
+          "type": "boolean"
+        },
+        "receive_note_share_mail_copy": {
+          "type": "null"
+        },
+        "ner_auto_tagging": {
+          "type": "integer"
+        },
+        "default_line_height": {
+          "type": "string"
+        },
+        "evernote_sync_data": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "last_sync_date": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "last_sync_date"
+          ]
+        },
+        "onenote_sync_data": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "last_sync_date": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "last_sync_date"
+          ]
+        },
+        "default_font_family": {
+          "type": "string"
+        },
+        "autoshare_mobile_notification": {
+          "type": "boolean"
+        },
+        "notes_default_view": {
+          "type": "string"
+        },
+        "team_editing": {
+          "type": "null"
+        },
+        "group_share_email_notification": {
+          "type": "boolean"
+        },
+        "group_share_mobile_notification": {
+          "type": "boolean"
+        },
+        "email_group_share_mobile_notification": {
+          "type": "boolean"
+        },
+        "highlight_auto_share": {
+          "type": "array",
+          "items": {}
+        },
+        "autoshare_email_notification": {
+          "type": "boolean"
+        },
+        "default_font_size": {
+          "type": "string"
+        },
+        "personal_share_email_notification": {
+          "type": "boolean"
+        },
+        "receive_comment_mail": {
+          "type": "boolean"
+        },
+        "pin_filter_menu": {
+          "type": "null"
+        },
+        "note_categories": {
+          "type": "array",
+          "items": {}
+        },
+        "note_auto_share": {
+          "type": "array",
+          "items": {}
+        },
+        "personal_share_mobile_notification": {
+          "type": "boolean"
+        },
+        "implicit_share_notification": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "note_publishing",
+        "email_group_share_email_notification",
+        "receive_note_share_mail_copy",
+        "ner_auto_tagging",
+        "default_line_height",
+        "evernote_sync_data",
+        "onenote_sync_data",
+        "default_font_family",
+        "autoshare_mobile_notification",
+        "notes_default_view",
+        "team_editing",
+        "group_share_email_notification",
+        "group_share_mobile_notification",
+        "email_group_share_mobile_notification",
+        "highlight_auto_share",
+        "autoshare_email_notification",
+        "default_font_size",
+        "personal_share_email_notification",
+        "receive_comment_mail",
+        "pin_filter_menu",
+        "note_categories",
+        "note_auto_share",
+        "personal_share_mobile_notification",
+        "implicit_share_notification"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "msg"
+      ]
+    }
+  },
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ]
+}

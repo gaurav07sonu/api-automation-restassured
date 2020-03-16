@@ -1,0 +1,368 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "counter": {
+      "type": "integer"
+    },
+    "result": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "string"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {}
+        },
+        "attachments": {
+          "type": "array",
+          "items": {}
+        },
+        "read_by": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "status_code": {
+          "type": "integer"
+        },
+        "page_count": {
+          "type": "integer"
+        },
+        "last_updated_at": {
+          "type": "integer"
+        },
+        "convert_status": {
+          "type": "integer"
+        },
+        "created_by": {
+          "type": "null"
+        },
+        "allowed": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "allowed_groups": {
+          "type": "array",
+          "items": {}
+        },
+        "access_date": {
+          "type": "integer"
+        },
+        "child_highlight_id": {
+          "type": "array",
+          "items": {}
+        },
+        "id": {
+          "type": "string"
+        },
+        "user_comments": {
+          "type": "object",
+          "properties": {
+            "user_comment_list": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "user_comment_list"
+          ]
+        },
+        "highlight_note_id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "locked_at": {
+          "type": "integer"
+        },
+        "userTickers": {
+          "type": "array",
+          "items": {}
+        },
+        "suggestedTickers": {
+          "type": "array",
+          "items": {}
+        },
+        "title": {
+          "type": "string"
+        },
+        "finalTickers": {
+          "type": "array",
+          "items": {}
+        },
+        "userTags": {
+          "type": "array",
+          "items": {}
+        },
+        "last_access_time": {
+          "type": "integer"
+        },
+        "ts": {
+          "type": "integer"
+        },
+        "comments": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "id",
+            "comments"
+          ]
+        },
+        "note_title": {
+          "type": "string"
+        },
+        "snippet": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "null"
+        },
+        "finalTags": {
+          "type": "array",
+          "items": {}
+        },
+        "version": {
+          "type": "integer"
+        },
+        "suggestedTags": {
+          "type": "array",
+          "items": {}
+        },
+        "stars": {
+          "type": "array",
+          "items": {}
+        },
+        "create_source": {
+          "type": "string"
+        },
+        "author_groups": {
+          "type": "array",
+          "items": {}
+        },
+        "attachment_status": {
+          "type": "null"
+        },
+        "type": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "note_creation_date": {
+          "type": "integer"
+        },
+        "thesis_update_version": {
+          "type": "integer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {}
+        },
+        "new_note": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "integer"
+        },
+        "locked_by": {
+          "type": "string"
+        },
+        "collab": {
+          "type": "integer"
+        },
+        "source_url": {
+          "type": "string"
+        },
+        "last_updated_by": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "content_type": {
+          "type": "null"
+        },
+        "authors": {
+          "type": "array",
+          "items": {}
+        },
+        "date": {
+          "type": "integer"
+        },
+        "public_note": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "integer"
+        },
+        "temp_id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "locked": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        },
+        "collab_request": {
+          "type": "integer"
+        },
+        "delTickers": {
+          "type": "array",
+          "items": {}
+        },
+        "delTags": {
+          "type": "array",
+          "items": {}
+        },
+        "userContact": {
+          "type": "array",
+          "items": {}
+        },
+        "original_file_s3_id": {
+          "type": "string"
+        },
+        "thesis_id": {
+          "type": "string"
+        },
+        "tickers": {
+          "type": "array",
+          "items": {}
+        },
+        "temporary_new_note": {
+          "type": "boolean"
+        },
+        "doc_id": {
+          "type": "string"
+        },
+        "category_tags": {
+          "type": "object"
+        },
+        "ticker_details": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "origin",
+        "tasks",
+        "attachments",
+        "read_by",
+        "status_code",
+        "page_count",
+        "last_updated_at",
+        "convert_status",
+        "created_by",
+        "allowed",
+        "owner",
+        "allowed_groups",
+        "access_date",
+        "child_highlight_id",
+        "id",
+        "user_comments",
+        "highlight_note_id",
+        "content",
+        "locked_at",
+        "userTickers",
+        "suggestedTickers",
+        "title",
+        "finalTickers",
+        "userTags",
+        "last_access_time",
+        "ts",
+        "comments",
+        "note_title",
+        "snippet",
+        "parent_id",
+        "finalTags",
+        "version",
+        "suggestedTags",
+        "stars",
+        "create_source",
+        "author_groups",
+        "attachment_status",
+        "type",
+        "status",
+        "note_creation_date",
+        "thesis_update_version",
+        "tags",
+        "new_note",
+        "timestamp",
+        "locked_by",
+        "collab",
+        "source_url",
+        "last_updated_by",
+        "user",
+        "content_type",
+        "authors",
+        "date",
+        "public_note",
+        "active",
+        "temp_id",
+        "kind",
+        "locked",
+        "url",
+        "collab_request",
+        "delTickers",
+        "delTags",
+        "userContact",
+        "original_file_s3_id",
+        "thesis_id",
+        "tickers",
+        "temporary_new_note",
+        "doc_id",
+        "category_tags",
+        "ticker_details"
+      ]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "msg"
+      ]
+    }
+  },
+  "required": [
+    "counter",
+    "result",
+    "response"
+  ]
+}

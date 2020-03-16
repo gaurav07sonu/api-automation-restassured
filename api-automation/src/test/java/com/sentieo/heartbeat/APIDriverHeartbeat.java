@@ -165,13 +165,13 @@ public class APIDriverHeartbeat {
 		
 		sbFail.append("</tr>");
 		taggedUsers.add(users.get(team));
-		failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " ==> " + statusCode + "  ,  ");
-//		if(statusCode.equals("200")) {
-//			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Data check failed: " + error + "\n");
-//		}
-//		else {
-//			failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " | Unexpected response code: " + statusCode + "\n");
-//		}
+//		failedAPIData.add(path.substring(path.lastIndexOf("api"), path.length()-1) + " ==> " + statusCode + "  ,  ");
+		if(statusCode.equals("200")) {
+			failedAPIData.add("'" + path.substring(path.lastIndexOf("api"), path.length()-1) + "'" + " | Correct response code but data check failed: " + error);
+		}
+		else {
+			failedAPIData.add("'" + path.substring(path.lastIndexOf("api"), path.length()-1) + "'" + " | Unexpected response code: " + statusCode);
+		}
 	}
 		
 	public static String readHTMLHeader() {
@@ -179,8 +179,17 @@ public class APIDriverHeartbeat {
 		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm:ss z");
 		String time = f.format(new Date());
+		
+		String callerClassName = new Exception().getStackTrace()[1].getClassName();
+		String headerFilePath = "";
+		if(callerClassName.contains("DowntimeMonitors")) {
+			headerFilePath = "src/test/resources/api-heartbeat/header_downtime.txt";
+		}
+		else {
+			headerFilePath = "src/test/resources/api-heartbeat/header.txt";
+		}
 
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("src/test/resources/api-heartbeat/header.txt"))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(headerFilePath))) {
 
             // read line by line
             String line;

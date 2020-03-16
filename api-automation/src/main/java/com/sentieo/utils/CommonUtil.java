@@ -251,5 +251,16 @@ public class CommonUtil {
         String timeStamp=Long.toString(stamp);
         return timeStamp;
 	}
+	
+	public boolean validateTimeStampIsTodaysDate(double timestamp) {
+		int digit = (int) (timestamp / 1000);
+		String commentDate = convertTimestampIntoDate(digit);
+		DateFormat dateformat = new SimpleDateFormat("M/dd/yy");
+		String currentDate = dateformat.format(new Date().getTime());
+		if (commentDate.contains(currentDate))
+			return true;
+		return false;
+	}
+
 }
 

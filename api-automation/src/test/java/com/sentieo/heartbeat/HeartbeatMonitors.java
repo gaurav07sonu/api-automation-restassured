@@ -404,11 +404,11 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			parameters.put("tickers", "aapl");
-			parameters.put("query", "");
-			parameters.put("filing_type", "companys sales OR sales");
-			parameters.put("original_query", "companys sales OR sales");
-			RequestSpecification spec = queryParamsSpec(parameters);
-			resp = RestOperationUtils.get(URI, spec, parameters);
+			parameters.put("query", "sales");
+			parameters.put("filters", "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}");
+			parameters.put("facets_flag", "false");
+			RequestSpecification spec = formParamsSpec(parameters);
+			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
@@ -1050,11 +1050,10 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	public void mosaicSummaryData() throws CoreCommonException {
 		Team team = Team.Graph;
 		JSONArray revenuSeries = null;
-		JSONArray kpiSeries = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + NEW_FETCH_MOSAIC_SUMMARY_DATA;
 		try {
-			parameters.put("selection", "KPI_corrScore");
+			parameters.put("selection", "Revenue_corrScore");
 			parameters.put("termtype", "ticker");
 			String ticker = "aapl";
 			parameters.put("ticker", ticker);
@@ -1064,18 +1063,10 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
 			HeartbeatMonitors.updatePassResult(URI, team.toString(), "200", resp, parameters);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String selection = respJson.getJSONObject("result").getString("selection").toString().trim();
-			if (selection.contains("Revenue_corrScore_all")) {
-				revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
-						.getJSONArray("series");
-				if (revenuSeries.length() == 0 || revenuSeries == null)
-					assertTrue(false,"Revenue_corrScore_all is empty : ");
-			} else {
-				kpiSeries = respJson.getJSONObject("result").getJSONArray("KPI").getJSONObject(0)
-						.getJSONArray("series");
-				if (kpiSeries.length() == 0 || kpiSeries == null)
-					assertTrue(false,"kpiSeries is empty : ");
-			}
+			revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
+					.getJSONArray("series");
+			if (revenuSeries.length() == 0 || revenuSeries == null)
+				assertTrue(false,"Revenue_corrScore_all is empty : ");
 			JSONArray sentieoIndex = respJson.getJSONObject("result").getJSONArray("sentieoIndex").getJSONObject(0)
 					.getJSONArray("series");
 			if (sentieoIndex.length() == 0 || sentieoIndex == null)
@@ -1227,7 +1218,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	public void fetchfieldsinfo() throws Exception {
 
 		Team team = Team.General;
-		String URI = APP_URL + FETCH_COMPANY_EVENTS;
+		String URI = APP_URL + FETCH_FIELDS_INFO;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			parameters.put("source_fields",
@@ -1688,8 +1679,8 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			StringBuffer sb = new StringBuffer();
 			String[] failureData = (String[]) failedAPIData.toArray(new String[failedAPIData.size()]);
 			for (String s : failureData) {
-	 
 				sb.append(s);
+				sb.append(System.lineSeparator());
 			}
 			FileUtils.deleteQuietly(new File("failuresummary.txt"));
 			Files.write(Paths.get("failuresummary.txt"), sb.toString().getBytes(), StandardOpenOption.CREATE);
