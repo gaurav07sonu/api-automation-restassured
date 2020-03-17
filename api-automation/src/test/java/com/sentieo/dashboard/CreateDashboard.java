@@ -169,6 +169,8 @@ public class CreateDashboard extends APIDriver {
 					for (int i = 0; i < db_list.length(); i++) {
 						String dashboard_name = db_list.getJSONObject(i).getString("dashboard_name").toLowerCase();
 						if (dashboard_name.equalsIgnoreCase(viewName.toLowerCase())) {
+							ExtentTestManager.getTest().log(LogStatus.INFO,
+									"db_id is : " + db_list.getJSONObject(i).getString("db_id").toString());
 							verify.assertTrue(false, viewName + " not delete from dashboard");
 							deleteView = false;
 						}
