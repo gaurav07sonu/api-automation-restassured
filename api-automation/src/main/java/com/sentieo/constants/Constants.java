@@ -138,6 +138,8 @@ public class Constants {
 	public static final String FETCH_NOTE_VERSION = "/api/note_version/";
 	public static final String FETCH_NOTE_LOCK_STATUS = "/api/note_lock_status/";
 	public static final String FETCH_NOTE = "/api/fetch_note/";
+	public static final String FETCH_THESIS_FIELDS = "/api/fetch_thesis_fields/";
+	public static final String FETCH_INITIAL_LOADING ="/api/initial_loading/";
 
 
 	
