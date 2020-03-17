@@ -170,7 +170,7 @@ public class CreateDashboard extends APIDriver {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			verify.assertTrue(false, "in deleteDashboard catch "+e.toString());
 		} finally {
 			verify.verifyAll();
 		}
