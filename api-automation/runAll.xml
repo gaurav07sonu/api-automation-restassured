@@ -15,11 +15,11 @@
 	</test>
 
 
-<!-- 	<test name="finance" preserve-order="true"> -->
-<!-- 		<packages> -->
-<!-- 			<package name="com.sentieo.finance" /> -->
-<!-- 		</packages> -->
-<!-- 	</test> -->
+	<!-- <test name="finance" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.finance" />
+		</packages>
+	</test> -->
 
 	<test name="login" preserve-order="true">
 		<classes>
@@ -40,6 +40,7 @@
 				<exclude name="com.sentieo.docsearch"></exclude>
 				<exclude name="com.sentieo.heartbeat"></exclude>
 				<exclude name="com.sentieo.marketsummary"></exclude>
+				<exclude name="com.sentieo.kibana"></exclude>
 			</package>
 		</packages>
 	</test>
