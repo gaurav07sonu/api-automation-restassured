@@ -19,7 +19,9 @@ import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
+import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -75,6 +77,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 					"verify presenation settings");
 
 		} catch (Error e) {
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in verifyFollowTicker_GetWatchlistData ticker catch "+e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -99,7 +102,8 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 				verify.assertTrue(unfollow_ticker, "verify ticker unfollow status : ");
 			}
 		} catch (Exception e) {
-			verify.assertTrue(false, "in catch " + e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in unfollow ticker catch "+e.toString());
+			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
 		}
@@ -124,10 +128,10 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 				verify.assertTrue(unfollow_ticker, "verify ticker follow status : ");
 				JSONObject settings = respJson.getJSONObject("result").getJSONObject("ticker_settings");
 				verify.assertTrue(alertSettings.toString(), settings.toString(), "verify ticker settings : ");
-
 			}
 		} catch (Exception e) {
-			verify.assertTrue(false, "in catch " + e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in follow ticker catch "+e.toString());
+			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
 		}
@@ -152,6 +156,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 				verify.assertTrue(true, "verify tickershould not visible in alerts secton after unfollow : ");
 
 		} catch (Error e) {
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in verify unfollow ticker catch "+e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -194,6 +199,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 
 			}
 		} catch (Error e) {
+			ExtentTestManager.getTest().log(LogStatus.INFO,"in verifyCheckTickerSettings catch "+e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -224,6 +230,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 			}
 
 		} catch (Error e) {
+			ExtentTestManager.getTest().log(LogStatus.INFO,"in alertNotificationClick catch "+e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -257,7 +264,8 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 					verify.assertTrue(false, "All tickers size is zero ");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			ExtentTestManager.getTest().log(LogStatus.INFO,"in getUserWatchlistsData catch "+e.toString());
+			throw new CoreCommonException(e.getMessage());
 		}
 		return respJson;
 	}
