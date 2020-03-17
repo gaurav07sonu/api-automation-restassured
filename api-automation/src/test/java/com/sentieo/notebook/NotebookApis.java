@@ -114,7 +114,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "devesh", description = "Delete private note",priority=1)
+	@Test(groups = "sanity", description = "Delete private note",priority=1)
 	public void deletePrivateNote() throws Exception {
 		try {
 			if (private_note_id == "")
@@ -138,7 +138,8 @@ public class NotebookApis extends APIDriver {
 							"Verify the API Response Status");
 				int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
 				verify.verifyEquals(active,0,"Verify note active status code should be zero");
-					JSONArray noteList = getNoteList();
+				Thread.sleep(5000);	
+				JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
 					if (noteList != null) {
 						for (int i = 0; i < noteList.length(); i++) {
