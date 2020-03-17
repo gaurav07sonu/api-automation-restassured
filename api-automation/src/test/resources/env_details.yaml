@@ -17,6 +17,12 @@ userAppUrl: "https://user-testing.sentieo.com"
 userName: "alphagani35@gmail.com"
 password: "DGL=14412jg"
 ---
+envName: "staging"
+appURL: "https://staging.sentieo.com"
+userAppUrl: "https://user-staging.sentieo.com"
+userName: "alphagani35@gmail.com"
+password: "DGL=14412jg"
+---
 envName: "balyasny"
 appURL: "https://balyasny.sentieo.com"
 userAppUrl: "https://user-balyasny.sentieo.com"

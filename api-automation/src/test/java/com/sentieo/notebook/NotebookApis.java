@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.json.JSONArray;
@@ -1507,7 +1508,9 @@ public class NotebookApis extends APIDriver {
 					verify.verifyEquals(starRespJson.get("result"), "starred", "Verify the API result");
 					verify.jsonSchemaValidation(starResp, "notebook" + File.separator + "starNote.json");
 					String notetemp = (String) starRespJson.get("result");
-					if(notetemp.equalsIgnoreCase("starred"))
+					JSONArray noteData = getNoteDetail(note_id).getJSONObject("result").getJSONArray("stars");
+					verify.verifyTrue(noteData.length()!=0 && noteData != null, "Star data present in note details : " + note_id);
+					if(notetemp.equalsIgnoreCase("starred") && noteData!=null && noteData.length()!=0)
 						starNoteID=note_id;
 				}
 			} else {
@@ -1527,6 +1530,7 @@ public class NotebookApis extends APIDriver {
 			if (starNoteID == "")
 				starNote();
 			if (starNoteID != "") {
+				Thread.sleep(5000);
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("noteid", starNoteID);
 				RequestSpecification unstarSpec = formParamsSpec(params);
@@ -2058,7 +2062,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("filter", "all");
 			params.put("start", "0");
-			params.put("size", "5");
+			params.put("size", "15");
 			params.put("order", "note_updated_date:desc");
 			params.put("mode", "all");
 
@@ -2068,9 +2072,17 @@ public class NotebookApis extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			if (apiResp.getStatusCode() == 200) {
 				JSONArray notelist = respJson.getJSONObject("result").getJSONArray("notes");
+				Random random = new Random();
+				int index;
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
+					do {
+						index = random.nextInt(notelist.length());
+						if (respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(index)
+								.getString("thesis_id").isEmpty()) {
+							note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(index)
+									.getString("note_id");
+						}
+					} while (note_id.isEmpty());
 				}
 			}
 		} catch (JSONException je) {
