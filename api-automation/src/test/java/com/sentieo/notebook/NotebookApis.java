@@ -138,7 +138,7 @@ public class NotebookApis extends APIDriver {
 							"Verify the API Response Status");
 				int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
 				verify.verifyEquals(active,0,"Verify note active status code should be zero");
-				Thread.sleep(5000);	
+				Thread.sleep(10000);	
 				JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
 					if (noteList != null) {
