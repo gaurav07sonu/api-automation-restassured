@@ -32,7 +32,8 @@ public class TestTradingMultiples extends APIDriver {
 	JSONArray appSeries;
 	JSONArray app2Series;
 	String errorMsgAPP = "";
-	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("vod:ln", "baba", "ads:gr", "aapl", "700:hk","7203:jp"));
+	public ArrayList<String> tickers = new ArrayList<String>(
+			Arrays.asList("baba", "aapl", "700:hk", "7203:jp"));
 
 	@BeforeClass
 	public void setup() throws Exception {
@@ -55,7 +56,8 @@ public class TestTradingMultiples extends APIDriver {
 	}
 
 	public void fetchGraphdataMultiplesapp(String ratio, String shift, String ticker) throws Exception {
-		CommonUtil com=new CommonUtil();
+		String financialPeriod = "";
+		CommonUtil com = new CommonUtil();
 		tickerData.put("ticker", ticker);
 		tickerData.put("graphtype", "TradingMultiples");
 		tickerData.put("ratio", ratio);
@@ -74,39 +76,49 @@ public class TestTradingMultiples extends APIDriver {
 			JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1)
 					.getJSONArray("series");
 			for (int i = 0; i < values.length(); i++) {
-				if(values.length()-1!=i)
-				{
-					
-				Double firstValue = (Double) values.getJSONArray(i).get(1);
-				Double secondValue = (Double) values.getJSONArray(i + 1).get(1);
-				if (firstValue >= secondValue) {
-					if (firstValue == -999999.0 || secondValue == -999999.0)
-						verify.assertTrue(false,
-								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
-										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
-										+ " for ticker : " + ticker);
-					Double postivePerChnage = com.getpostivePercentageChange(firstValue,secondValue);
-					if (postivePerChnage > 25) {
-						verify.assertTrue(false,
-								"<b>" + "verify increment of value percentage : " + "<b>" + postivePerChnage + "<br/>"
-										+ "<b>" + " for ticker : " + ticker + "<br/>" + " first value is : "
-										+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue);
-					}
-				} else {
-					if (firstValue == -999999.0 || secondValue == -999999.0)
-						verify.assertTrue(false,
-								"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: " + firstValue
-										+ "<br/>" + "<b>" + " second value is : " + secondValue + "<b>" + "<br/>"
-										+ " for ticker : " + ticker);
-					Double negativePerChnage = com.getnegativePercentageChange(firstValue,secondValue);
-					if (negativePerChnage > 25) {
-						verify.assertTrue(false,
-								"<b>" + "verify decrement of value percentage : " + "<b>" + negativePerChnage + "<br/>"
-										+ "<b>" + " for ticker : " + ticker + "<br/>" + " first value is : "
-										+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue);
+				if (values.length() - 1 != i) {
+
+					Double firstValue = (Double) values.getJSONArray(i).get(1);
+					Double secondValue = (Double) values.getJSONArray(i + 1).get(1);
+					if (firstValue >= secondValue) {
+						if (shift.contains("backward"))
+							financialPeriod = "Next 12 Months";
+						if (shift.contains("blended"))
+							financialPeriod = "ntm-time weighted annual";
+						if (firstValue == -999999.0 || secondValue == -999999.0)
+							verify.assertTrue(false,
+									"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: "
+											+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue + "<b>"
+											+ "<br/>" + " for ticker : " + ticker + "<b>" + " Financial Period is : "
+											+ financialPeriod + "<br/>");
+
+						Double postivePerChnage = com.getpostivePercentageChange(firstValue, secondValue);
+						if (postivePerChnage > 25) {
+							verify.assertTrue(false,
+									"<b>" + "verify increment of value percentage : " + "<b>" + postivePerChnage
+											+ "<br/>" + "<b>" + " for ticker : " + ticker + "<br/>"
+											+ " first value is : " + firstValue + "<br/>" + "<b>"
+											+ " second value is : " + secondValue+ "<b>" + " Financial Period is : "
+											+ financialPeriod + "<br/>");
+						}
+					} else {
+						if (firstValue == -999999.0 || secondValue == -999999.0)
+							verify.assertTrue(false,
+									"<b>" + "verify negative value : " + "<br/>" + "<b>" + " first value is: "
+											+ firstValue + "<br/>" + "<b>" + " second value is : " + secondValue + "<b>"
+											+ "<br/>" + " for ticker : " + ticker+ "<b>" + " Financial Period is : "
+											+ financialPeriod + "<br/>");
+						Double negativePerChnage = com.getnegativePercentageChange(firstValue, secondValue);
+						if (negativePerChnage > 25) {
+							verify.assertTrue(false,
+									"<b>" + "verify decrement of value percentage : " + "<b>" + negativePerChnage
+											+ "<br/>" + "<b>" + " for ticker : " + ticker + "<br/>"
+											+ " first value is : " + firstValue + "<br/>" + "<b>"
+											+ " second value is : " + secondValue+ "<b>" + " Financial Period is : "
+											+ financialPeriod + "<br/>");
+						}
 					}
 				}
-			}
 			}
 		}
 

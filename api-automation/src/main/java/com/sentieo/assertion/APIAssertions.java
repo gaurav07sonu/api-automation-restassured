@@ -1,6 +1,8 @@
 package com.sentieo.assertion;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.testng.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -9,6 +11,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flipkart.zjsonpatch.JsonDiff;
+
+
 import org.json.JSONException;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -226,6 +234,46 @@ public class APIAssertions extends SentieoSoftAssertion {
 		return result;
 	}
 
+	public boolean assertFalse(boolean value, String stepDetail) {
+		boolean result = true;
+		try {
+			Assert.assertFalse(value);
+			ExtentTestManager.getTest().log(LogStatus.PASS, stepDetail);
+			result = true;
+		} catch (JSONException je) {
+			verificationFailures.add(je);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail);
+		} catch (AssertionError e) {
+			verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail);
+		}
+		return result;
+	}
+
+
+	public boolean assertTrue(String alertSettings,String settings,String stepDetail) throws  IOException
+	{
+		boolean result =false;
+		JsonNode patch =null;
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+            JsonNode json1= mapper.readTree(alertSettings);
+            JsonNode json2= mapper.readTree(settings);
+            patch = JsonDiff.asJson(json1, json2);
+            Assert.assertTrue(patch.size()==0);
+            ExtentTestManager.getTest().log(LogStatus.PASS, stepDetail);
+			result = true;
+		} catch (JSONException je) {
+			verificationFailures.add(je);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail+" "+patch);
+		} catch (AssertionError e) {
+			verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, stepDetail+" "+patch);
+		}
+		return result;
+
+	}
+	
 	public boolean compareDates(String actual, String expected, final String stepDetail) throws ParseException {
 		boolean result = false;
 		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO

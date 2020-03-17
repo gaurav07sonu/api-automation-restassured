@@ -15,8 +15,8 @@ public class Constants {
 	public static String USER_APP_URL = "";
 	
 	 static{
-		 String envArg = System.getProperty("env");
-		// String envArg = "app";
+		// String envArg = System.getProperty("env");
+	 String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -70,7 +70,6 @@ public class Constants {
 	public static final String FETCH_CUSTOM_DOC_DIFF = "/api/fetch_custom_doc_diff/";
 	public static final String FETCH_IMPACT_SCORE = "/api/fetch_impact_score/";
 	public static final String LOAD_SAVED_SEARCH_DATA = "/api/load_saved_search_data/";
-	public static final String FETCH_COMPANY_DOCS1 = "/api/fetch_company_docs/";
 	public static final String FETCH_SECTIONS = "/api/fetch_sections/";
 	public static final String FETCH_PDF_FLAG = "/api/fetch_pdf_flag/";
 	public static final String FETCH_SEARCHLIBRARY = "/api/fetch_searchlibrary/";
@@ -107,7 +106,14 @@ public class Constants {
 	public static final String FETCH_HOLDINGS_DATA = "/api/fetch_institutional_holdings_data3/";
 	public static final String FETCH_LIVE_PRICE = "/api/fetch_live_price/";
 	public static final String FETCH_COMPANY_SUMMARY_TABLE = "/api/fetch_company_summary_table/";
-
+	public static final String FETCH_USER_TICKER_VALUES="/api/fetch_user_ticker_values/";
+	public static final String FETCH_EARNING_HEADER_DATA="/api/fetch_earning_header_data/";
+	public static final String FETCH_DOCS="/api/fetch_docs/";
+	public static final String GET_COMPANY_AUTOCOMPLETE="/api/get_company_autocomplete/";
+	public static final String FETCH_COMPANY_LIST="/api/fetch_company_list/";
+	public static final String FETCH_STOCK_META="/api/stock_meta/";
+	public static final String FETCH_INTRA_HEADER_DATA="/api/fetch_intra_header_data/";
+	
 	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
 	public static final String GET_SPOTFX_DATA = "/api/get_spotfx_data/";
@@ -160,7 +166,6 @@ public class Constants {
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
-	public static final String WEBSITETRAFFIC = "/api/alexaapi/";
 	public static final String MAPPING = "/api/get_tracker_mappings/";
 	public static final String SCORES_TABLE = "/api/fetch_si_scores_table/";
 	public static final String GNIP_SEARCH_ESTIMATE = "/api/gnip_search_estimate/";
@@ -168,6 +173,9 @@ public class Constants {
 	public static final String GTRENDSAUTOCOMPLETE = "/api/gtrends_autocomplete/";
 	public static final String UNIFIEDTRACKERTABLE = "/api/fetch_unified_tracker_table/";
 	public static final String FETCHTRACKERTABLE = "/api/fetch_tracker_table/";
+	public static final String LOADGRAPH_NEW="/api/loadgraph_new/";
+	public static final String LOADTEMPLATE_SENTIEO="/api/loadtemplate_sentieo/";
+	
 
 	// screener
 	public static final String FETCH_SCREENER_SEARCH = "/api/fetch_screener_search/";
@@ -189,6 +197,18 @@ public class Constants {
 	public static final String CHECK_DOMAIN = "/api/check_domain/";
 	public static final String CHECK_TICKER_SETTINGS="/alert/check_ticker_settings/";
 	public static final String GET_USER_WATCHLIST="/api/get_user_watchlist_data/";
+	public static final String INITIAL_LOADING="/api/initial_loading/";
+	public static final String ADD_WATCHLIST="/api/add_watchlist/";
+	public static final String DELETE_WATCHLIST="/api/delete_watchlist/";
+	public static final String FETCH_ALL_USERS="/api/fetch_all_users/";
+	public static final String SET_RECENT_TICKERS="/api/set_recent_tickers/";
+	public static final String REMOVE_TICKERS_WATCHLIST="/api/remove_tickers_watchlist/";
+	public static final String EDIT_WATCHLIST="/api/edit_watchlist/";
+	public static final String UNFOLLOW_TICKER="/alert/unfollow_ticker/";
+	public static final String FOLLOW="/alert/follow_ticker/";
+	public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
+	public static final String 	ALERT_NOTIFICATION_CLICK="/alert/notification_click/";
+	
 
 	// private companies
 	public static final String FETCH_CB_EXIT_TABLE = "/api/fetch_cb_exit_table/";
@@ -214,5 +234,17 @@ public class Constants {
 	public static final String FETCHETFHOLDINGS = "/api/fetch_etf_holdings/";
 	public static final String FETCHCALENDAR = "/api/fetch_calendar/";
 	public static final String FETCHSHAREHOLDERS = "/api/fetch_share_holders/";
+	
+	// Dashboard
+	
+	public static final String CREATE_DASHBOARD="/api/create_dashboard/";
+	public static final String DELETE_DASHBOARD="/api/delete_dashboard/";
+	public static final String GET_DASHBOARD_LIST="/api/get_dashboard_list/";
+	public static final String UPDATE_DASHBOARD_WIDGET="/api/update_dashboard_widget/";
+	
+	//Table x
+	
+	public static final String CHAIN_USER_DATA="/api/tablex_fetch_chain_user_data/";
+	
 
 }

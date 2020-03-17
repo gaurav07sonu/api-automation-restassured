@@ -15,7 +15,8 @@ public class InputTicker {
 		FileReader filereader;
 		try {
 
-			if (!APP_URL.contains("app2") && !APP_URL.contains("app") && !APP_URL.contains("balyasny") && !APP_URL.contains("citadel")&&!APP_URL.contains("tiger") && !APP_URL.contains("sb.sentieo.com")) {
+			if (!APP_URL.contains("app2") && !APP_URL.contains("app") && !APP_URL.contains("balyasny") && !APP_URL.contains("citadel")&&!APP_URL.contains("tiger") 
+					&& !APP_URL.contains("sb.sentieo.com")&&!APP_URL.contains("staging")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "regression.csv");
 			} else {
