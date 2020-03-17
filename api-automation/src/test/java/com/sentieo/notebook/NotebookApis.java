@@ -72,7 +72,7 @@ public class NotebookApis extends APIDriver {
 		RestAssured.baseURI = USER_APP_URL;
 	}
 
-	@Test(groups = "sanity", description = "Create private note",priority=0)
+	@Test(groups = "sanity", description = "Create private note")
 	public void createPrivateNote() throws Exception {
 		try {
 			String tempId = "quill" + new Date().getTime();
@@ -114,7 +114,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Delete private note",priority=1)
+	@Test(groups = "sanity", description = "Delete private note")
 	public void deletePrivateNote() throws Exception {
 		try {
 			if (private_note_id == "")
