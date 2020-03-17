@@ -82,25 +82,31 @@ public class DataProviderClass {
 			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch" + File.separator + "fetch_search_term_count.csv");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter1")) {
-			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_date_filter.json");
+			groupArray = CSVReaderUtil
+					.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_date_filter.json");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter2")) {
-			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_region_filter.json");
+			groupArray = CSVReaderUtil
+					.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_region_filter.json");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter3")) {
-			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_sector_filter.json");
+			groupArray = CSVReaderUtil
+					.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_sector_filter.json");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter4")) {
-			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_date_sector_filter.json");
+			groupArray = CSVReaderUtil
+					.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_date_sector_filter.json");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter5")) {
-			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_period_region_filter.json");
+			groupArray = CSVReaderUtil
+					.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_period_region_filter.json");
 
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchsearchfilter6")) {
-			groupArray = CSVReaderUtil.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_sector_region_filter.json");
-			
+			groupArray = CSVReaderUtil
+					.readAllDataAtOnce("docsearch_filters" + File.separator + "doctype_sector_region_filter.json");
+
 		}
-		
+
 		return groupArray;
 
 	}
@@ -311,78 +317,105 @@ public class DataProviderClass {
 	@DataProvider(name = "plotterDailySeries")
 	public Object[][] dailySeries() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"P/E","p_eps"},{"EV/EBITDA","ev_ebitda"},{"EV/EBIT","ev_ebit"},{"EV/Sales","ev_sales"},{"P/Sales","p_sales"},{"P/Cash Flow","price_cashflow"},
-		{"Enterprise Value","ev_daily"},{"Market Cap","mkt_cap_daily"}};
+		groupArray = new String[][] { { "P/E", "p_eps" }, { "EV/EBITDA", "ev_ebitda" }, { "EV/EBIT", "ev_ebit" },
+				{ "EV/Sales", "ev_sales" }, { "P/Sales", "p_sales" }, { "P/Cash Flow", "price_cashflow" },
+				{ "Enterprise Value", "ev_daily" }, { "Market Cap", "mkt_cap_daily" } };
 		return groupArray;
-		}
+	}
 
 	@DataProvider(name = "EDTEstimates14-22")
 	public Object[][] dilutedEPS() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"Diluted EPS-2014","aapl"},{"Diluted EPS-2015","aapl"},
-			{"Diluted EPS-2016","aapl"},{"Diluted EPS-2017","aapl"}
-		,{"Diluted EPS-2018","aapl"},{"Diluted EPS-2019","aapl"},
-		{"Diluted EPS-2020","aapl"},{"Diluted EPS-2021","aapl"},{"Diluted EPS-2022","aapl"},{"Diluted EPS-NTM","aapl"},
-		{"Diluted EPS-2014","7203:JP"},{"Diluted EPS-2015","7203:JP"},{"Diluted EPS-2016","7203:JP"},{"Diluted EPS-2017","7203:JP"}
-		,{"Diluted EPS-2018","7203:JP"},{"Diluted EPS-2019","7203:JP"},
-		{"Diluted EPS-2020","7203:JP"},{"Diluted EPS-2021","7203:JP"},{"Diluted EPS-2022","7203:JP"},{"Diluted EPS-NTM","7203:jp"}};
+		groupArray = new String[][] { { "Diluted EPS-2014", "aapl" }, { "Diluted EPS-2015", "aapl" },
+				{ "Diluted EPS-2016", "aapl" }, { "Diluted EPS-2017", "aapl" }, { "Diluted EPS-2018", "aapl" },
+				{ "Diluted EPS-2019", "aapl" }, { "Diluted EPS-2020", "aapl" }, { "Diluted EPS-2021", "aapl" },
+				{ "Diluted EPS-2022", "aapl" }, { "Diluted EPS-NTM", "aapl" }, { "Diluted EPS-2014", "7203:JP" },
+				{ "Diluted EPS-2015", "7203:JP" }, { "Diluted EPS-2016", "7203:JP" }, { "Diluted EPS-2017", "7203:JP" },
+				{ "Diluted EPS-2018", "7203:JP" }, { "Diluted EPS-2019", "7203:JP" }, { "Diluted EPS-2020", "7203:JP" },
+				{ "Diluted EPS-2021", "7203:JP" }, { "Diluted EPS-2022", "7203:JP" },
+				{ "Diluted EPS-NTM", "7203:jp" } };
 		return groupArray;
-		}
-	
+	}
 
 	@DataProvider(name = "EDTEstimates14-21")
 	public Object[][] dilutedEPS21() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"Diluted EPS-2014","ALV:GR "},{"Diluted EPS-2015","ALV:GR "},{"Diluted EPS-2016","ALV:GR "}
-		,{"Diluted EPS-2017","ALV:GR"}
-		,{"Diluted EPS-2018","ALV:GR"},{"Diluted EPS-2019","ALV:GR"},
-		{"Diluted EPS-2020","ALV:GR"},{"Diluted EPS-2021","ALV:GR"},
-		{"Diluted EPS-NTM","ALV:GR"},{"Diluted EPS-2014","BP.:LN"},{"Diluted EPS-2015","BP.:LN"}
-		,{"Diluted EPS-2016","BP.:LN"},{"Diluted EPS-2017","BP.:LN"}
-		,{"Diluted EPS-2018","BP.:LN"},{"Diluted EPS-2019","BP.:LN"},{"Diluted EPS-2020","BP.:LN"},
-		{"Diluted EPS-2021","BP.:LN"},{"Diluted EPS-2022","BP.:LN"},
-		{"Diluted EPS-NTM","BP.:LN"}};
+		groupArray = new String[][] { { "Diluted EPS-2014", "ALV:GR " }, { "Diluted EPS-2015", "ALV:GR " },
+				{ "Diluted EPS-2016", "ALV:GR " }, { "Diluted EPS-2017", "ALV:GR" }, { "Diluted EPS-2018", "ALV:GR" },
+				{ "Diluted EPS-2019", "ALV:GR" }, { "Diluted EPS-2020", "ALV:GR" }, { "Diluted EPS-2021", "ALV:GR" },
+				{ "Diluted EPS-2022", "ALV:GR" }, { "Diluted EPS-NTM", "ALV:GR" }, { "Diluted EPS-2014", "BP.:LN" },
+				{ "Diluted EPS-2015", "BP.:LN" }, { "Diluted EPS-2016", "BP.:LN" }, { "Diluted EPS-2017", "BP.:LN" },
+				{ "Diluted EPS-2018", "BP.:LN" }, { "Diluted EPS-2019", "BP.:LN" }, { "Diluted EPS-2020", "BP.:LN" },
+				{ "Diluted EPS-2021", "BP.:LN" }, { "Diluted EPS-2022", "BP.:LN" }, { "Diluted EPS-NTM", "BP.:LN" } };
 		return groupArray;
-		}
-	
+	}
+
 	@DataProvider(name = "EDTEstimates19-21")
 	public Object[][] dilutedEPS19to21() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"Diluted EPS-2019","uber"},
-		{"Diluted EPS-2020","uber"},{"Diluted EPS-2021","uber"},{"Diluted EPS-2022","uber"},
-		{"Diluted EPS-NTM","uber"}};
+		groupArray = new String[][] { { "Diluted EPS-2019", "uber" }, { "Diluted EPS-2020", "uber" },
+				{ "Diluted EPS-2021", "uber" }, { "Diluted EPS-2022", "uber" }, { "Diluted EPS-NTM", "uber" } };
 		return groupArray;
-		}
-	
+	}
 
 	@DataProvider(name = "EDTEstimates16-21")
 	public Object[][] dilutedEPS16to21() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"Diluted EPS-2016","ola:cn "}
-		,{"Diluted EPS-2017","ola:cn"}
-		,{"Diluted EPS-2018","ola:cn"},{"Diluted EPS-2019","ola:cn"},
-		{"Diluted EPS-2020","ola:cn"},{"Diluted EPS-2021","ola:cn"},
-		{"Diluted EPS-NTM","ola:cn"}};
+		groupArray = new String[][] { { "Diluted EPS-2016", "ola:cn " }, { "Diluted EPS-2017", "ola:cn" },
+				{ "Diluted EPS-2018", "ola:cn" }, { "Diluted EPS-2019", "ola:cn" }, { "Diluted EPS-2020", "ola:cn" },
+				{ "Diluted EPS-2021", "ola:cn" }, { "Diluted EPS-NTM", "ola:cn" } };
 		return groupArray;
-		}
-	
+	}
+
 	@DataProvider(name = "EDTEstimates14-20")
 	public Object[][] dilutedEPS14to20() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"Diluted EPS-2014","loxo"},{"Diluted EPS-2015","loxo"},{"Diluted EPS-2016","loxo"}
-		,{"Diluted EPS-2017","loxo"}
-		,{"Diluted EPS-2018","loxo"},{"Diluted EPS-2019","loxo"},
-		{"Diluted EPS-2020","loxo"},
-		{"Diluted EPS-NTM","loxo"}};
+		groupArray = new String[][] { { "Diluted EPS-2014", "loxo" }, { "Diluted EPS-2015", "loxo" },
+				{ "Diluted EPS-2016", "loxo" }, { "Diluted EPS-2017", "loxo" }, { "Diluted EPS-2018", "loxo" },
+				{ "Diluted EPS-2019", "loxo" }, { "Diluted EPS-2020", "loxo" }, { "Diluted EPS-NTM", "loxo" } };
 		return groupArray;
-		}
-	
+	}
+
 	@DataProvider(name = "s&pPE")
 	public Object[][] PE() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"backward","lulu,sp500"},{"blended","lulu,sp500"},
-			{"backward","aapl,sp500"},{"blended","aapl,sp500"}};
+		groupArray = new String[][] { { "backward", "lulu,sp500" }, { "blended", "lulu,sp500" },
+				{ "backward", "aapl,sp500" }, { "blended", "aapl,sp500" } };
 		return groupArray;
-		}
+	}
+
+	@DataProvider(name = "fetchUnifiedStream")
+	public Object[][] fetchUnifiedStream() {
+		return new Object[][] { { "low", "articles", "aapl,msft,lb", "sentieo" }, { "low", "fi", "aapl", "whitelist" },
+				{ "low", "tweets", "aapl,msft,tsla", "all" }, };
+	}
+
+	@DataProvider(name = "searchEstimates")
+	public Object[][] gnipSearchEstimate() {
+		return new Object[][] { {
+				" \"la senza\" , vspink , \"henri bendel\" , \"bath and body works\" OR bathandbodyworks , \"victoria's secret\" OR \"victorias secret\" OR "
+						+ "victoriassecret",
+				"lb" },
+				{ "ipad , Airpods , \"apple watch\" OR applewatch , \"apple tv\" OR appletv , \"Apple Music\" OR applemusic , iphone",
+						"aapl" },
+				{ "\"bahama breeze\" OR bahamabreeze , \"olive garden\" OR olivegarden , \"capital grille\" OR capitalgrille , \"longhorn steakhouse\" OR longhornsteakhouse\r\n"
+						+ "", "dri" } };
+	}
+
+	@DataProvider(name = "searchAutocomplete")
+	public Object[][] gnipAutocomplete() {
+		return new Object[][] { { "ipad+iphone" } };
+	}
+
+	@DataProvider(name = "chainUser")
+	public Object[][] chainUserData() {
+		return new Object[][] { { "10-k", "aapl" }, { "8-k", "aapl" }, { "10-q", "aapl" }, { "10-k", "asna" },
+				{ "8-k", "asna" }, { "10-q", "asna" } };
+	}
+
+	@DataProvider(name = "loadGraph")
+	public Object[][] loadGraph() {
+		return new Object[][] { { "templates"}, { "recent" }, { "tagged_series" }, { "saved_series" }};
+	}
 
 }

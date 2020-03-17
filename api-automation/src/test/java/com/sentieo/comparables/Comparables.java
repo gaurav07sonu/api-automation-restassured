@@ -1,6 +1,8 @@
 package com.sentieo.comparables;
 
 import static com.sentieo.constants.Constants.*;
+import static org.testng.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CoreCommonException;
 
 public class Comparables extends APIDriver {
 
@@ -29,7 +32,7 @@ public class Comparables extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -59,6 +62,39 @@ public class Comparables extends APIDriver {
 				"Verify the API Response Status");
 		verify.verifyAll();
 	}
+	
+
+	@Test(groups = { "comp"}, description = "Check fetch live price")
+	public void fetchFINSettings() throws CoreCommonException {
+		String URI = USER_APP_URL + FIN_SETTINGS;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			RequestSpecification spec = queryParamsSpec(parameters);
+			Response resp = RestOperationUtils.get(URI, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			JSONObject result = respJson.getJSONObject("result");
+			if (result.length() == 0 || result == null)
+				assertTrue(false);
+			else
+			{
+				JSONArray plotter_features = result.getJSONArray("plotter_features");
+				JSONObject options = result.getJSONObject("options");
+				verify.assertTrue(plotter_features.length()!=0||plotter_features!=null, "verify plotter features");
+				verify.assertTrue(options.length()!=0||options!=null, "verify options");
+			}
+		} catch (Error e) {
+			
+		}
+		finally {
+			verify.verifyAll();
+		}
+	}
+
 
 	@Test(groups = "sanity", description = "comparable_search")
 	public void comparablesearch() throws Exception {

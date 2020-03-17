@@ -1,0 +1,37 @@
+{
+   "on_off": true,
+   "filings_alert": [
+      "firehose"
+   ],
+   "press_release": [
+      "all"
+   ],
+   "transcript": [
+      "all"
+   ],
+   "presentation": [
+      "all"
+   ],
+   "news": [],
+   "price_alerts": [],
+   "crypto_alerts": [],
+   "price_setting_updated": false,
+   "crypto_setting_updated": false,
+   "broker_alert": [
+      "all"
+   ],
+   "broker_alert_custom": "-",
+   "stock_movements": false,
+   "realtime_alerts": [
+      "desktop"
+   ],
+   "new_wl": true,
+   "pre_post_news": true,
+   "sub_types": [
+      "filing",
+      "broker_alert",
+      "blog_whitelist",
+      "pr_alert"
+   ],
+   "auto_implement_Setting": false
+}
