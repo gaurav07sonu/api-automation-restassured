@@ -145,7 +145,7 @@ public class EstimateDataBug extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "on-22", dataProviderClass = DataProviderClass.class, priority = 0)
+	@Test(groups = "sanity", description = "fetch yearly estimates", dataProvider = "EDTEstimates14-22", dataProviderClass = DataProviderClass.class, priority = 0)
 	public void startAndEntDate(String seriesName, String cell) throws Exception {
 		if (seriesTitleIndex == 0)
 			ticker = cell;
