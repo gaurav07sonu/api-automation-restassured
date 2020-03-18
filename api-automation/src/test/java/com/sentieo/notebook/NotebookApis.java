@@ -138,7 +138,7 @@ public class NotebookApis extends APIDriver {
 							"Verify the API Response Status");
 				int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
 				verify.verifyEquals(active,0,"Verify note active status code should be zero");
-				Thread.sleep(10000);	
+				Thread.sleep(15000);	
 				JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
 					if (noteList != null) {
@@ -1519,13 +1519,20 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
+	@SuppressWarnings("null")
 	@Test(groups = "sanity", description = "un-Star note")
 	public void unstarNote() throws Exception {
 		try {
-			if (starNoteID == "")
+			if(!starNoteID.isEmpty()) {
+				JSONArray noteData = getNoteDetail(starNoteID).getJSONObject("result").getJSONArray("stars");
+				if(noteData==null && noteData.length()==0)
+					starNoteID="";
+			}
+			if (starNoteID.isEmpty())
 				starNote();
-			if (starNoteID != "") {
-				Thread.sleep(5000);
+			
+			if (!starNoteID.isEmpty()) {
+				Thread.sleep(10000);
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("noteid", starNoteID);
 				RequestSpecification unstarSpec = formParamsSpec(params);
