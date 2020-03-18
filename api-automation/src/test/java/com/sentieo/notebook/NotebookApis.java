@@ -72,7 +72,7 @@ public class NotebookApis extends APIDriver {
 		RestAssured.baseURI = USER_APP_URL;
 	}
 
-	@Test(groups = "sanity", description = "Create private note")
+	@Test(groups = "sanity",priority=0, description = "Create private note")
 	public void createPrivateNote() throws Exception {
 		try {
 			String tempId = "quill" + new Date().getTime();
@@ -93,11 +93,12 @@ public class NotebookApis extends APIDriver {
 						"Verify the API Response Status");
 				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"), tempId, "Verify temp id");
 				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createPrivateNote.json");
-				verify.assertTrue(respJson.getJSONObject("result").getString("temp_id").equalsIgnoreCase(tempId),
-						"Temp id should not be blank : ");
+				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"),tempId,
+						"Temp id should not be blank");
 				verify.assertTrue(respJson.getJSONObject("result").getString("id") != null,
-						"Note id should not be blank : ");
+						"Note id should not be blank");
 				if (respJson.getJSONObject("result").getString("id") != null) {
+					note_id = respJson.getJSONObject("result").getString("id");
 					private_note_id = respJson.getJSONObject("result").getString("id");
 					JSONObject noteData = getNoteDetail(private_note_id);
 					if (noteData != null)
@@ -114,7 +115,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Delete private note")
+	@Test(groups = "sanity",priority=45, description = "Delete private note")
 	public void deletePrivateNote() throws Exception {
 		try {
 			if (private_note_id == "")
@@ -168,7 +169,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Email note")
+	@Test(groups = "sanity",priority=1, description = "Email note")
 	public void emailNote() throws Exception {
 		try {
 			if (note_id == "")
@@ -206,7 +207,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Fetch all notes")
+	@Test(groups = "sanity",priority=2, description = "Fetch all notes")
 	public void fetchNoteAllList() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -262,7 +263,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Upload Note", enabled = true)
+	@Test(groups = "sanity",priority=3, description = "Upload Note", enabled = true)
 	public void uploadNote() throws Exception {
 		try {
 			String folderName = "notebook" + File.separator;
@@ -351,7 +352,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with text")
+	@Test(groups = "sanity",priority=4, description = "Search with text")
 	public void searchWithText() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -405,7 +406,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with ticker")
+	@Test(groups = "sanity",priority=5, description = "Search with ticker")
 	public void searchWithTicker() throws Exception {
 
 		try {
@@ -473,7 +474,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with tag")
+	@Test(groups = "sanity",priority=6, description = "Search with tag")
 	public void searchWithTag() throws Exception {
 		try {
 			List<String> tags = new ArrayList<String>();
@@ -540,7 +541,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with author")
+	@Test(groups = "sanity",priority=7, description = "Search with author")
 	public void searchWithAuthor() throws Exception {
 		try {
 			List<String> users = new ArrayList<String>();
@@ -575,7 +576,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with label")
+	@Test(groups = "sanity",priority=8, description = "Search with label")
 	public void searchWithLabel() throws Exception {
 		try {
 			List<String> labels = new ArrayList<String>();
@@ -612,7 +613,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with sectors")
+	@Test(groups = "sanity",priority=9, description = "Search with sectors")
 	public void searchWithSectors() throws Exception {
 		try {
 			List<String> sectors = new ArrayList<String>();
@@ -651,7 +652,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with region", enabled = true)
+	@Test(groups = "sanity",priority=10, description = "Search with region", enabled = true)
 	public void searchWithRegion() throws Exception {
 		try {
 			List<String> countryCode = new ArrayList<String>();
@@ -688,7 +689,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with note category")
+	@Test(groups = "sanity",priority=11, description = "Search with note category")
 	public void searchWithNoteCategory() throws Exception {
 		try {
 			List<String> category = new ArrayList<String>();
@@ -725,7 +726,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : email", enabled = true)
+	@Test(groups = "sanity",priority=12, description = "Search with noteType : email", enabled = true)
 	public void searchWithNoteTypeAsEmail() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -762,7 +763,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : bookmark")
+	@Test(groups = "sanity",priority=13, description = "Search with noteType : bookmark")
 	public void searchWithNoteTypeAsBookmark() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -799,7 +800,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : clipped")
+	@Test(groups = "sanity",priority=14, description = "Search with noteType : clipped")
 	public void searchWithNoteTypeAsClipped() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -836,7 +837,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : attachment")
+	@Test(groups = "sanity",priority=15, description = "Search with noteType : attachment")
 	public void searchWithNoteTypeAsAttachment() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -873,7 +874,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : plotter")
+	@Test(groups = "sanity",priority=16, description = "Search with noteType : plotter")
 	public void searchWithNoteTypeAsPlotter() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -910,7 +911,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : highlight")
+	@Test(groups = "sanity",priority=17, description = "Search with noteType : highlight")
 	public void searchWithNoteTypeAsHighlight() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -947,7 +948,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : thesis")
+	@Test(groups = "sanity",priority=18, description = "Search with noteType : thesis")
 	public void searchWithNoteTypeAsThesis() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -984,7 +985,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : typed")
+	@Test(groups = "sanity",priority=19, description = "Search with noteType : typed")
 	public void searchWithNoteTypeAsTyped() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -1021,7 +1022,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Search with noteType : charts and tables")
+	@Test(groups = "sanity",priority=20, description = "Search with noteType : charts and tables")
 	public void searchWithNoteTypeAsChartsAndTables() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -1058,7 +1059,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Create Thesis and verify")
+	@Test(groups = "sanity",priority=21, description = "Create Thesis and verify")
 	public void createThesis() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1121,7 +1122,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Add Note Tag")
+	@Test(groups = "sanity",priority=22, description = "Add Note Tag")
 	public void addNoteTag() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
@@ -1173,7 +1174,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Remove Note Tag")
+	@Test(groups = "sanity",priority=23, description = "Remove Note Tag")
 	public void removeNoteTag() throws Exception {
 		try {
 			// add tag
@@ -1224,7 +1225,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Add Note Ticker")
+	@Test(groups = "sanity",priority=24, description = "Add Note Ticker")
 	public void addNoteTicker() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
@@ -1277,7 +1278,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Remove Note Ticker")
+	@Test(groups = "sanity",priority=25, description = "Remove Note Ticker")
 	public void removeNoteTicker() throws Exception {
 		try {
 			if (note_id.isEmpty() && ticker == "") {
@@ -1311,12 +1312,12 @@ public class NotebookApis extends APIDriver {
 					for (int i = 0; i < tickers.length(); i++) {
 						if (tickers.getString(i).equalsIgnoreCase(ticker)) {
 							tickeradded = false;
-							verify.assertTrue(tickeradded, "ticker added in note successfully");
+							verify.assertTrue(tickeradded, "ticker note remove from note");
 							break;
 						}
 					}
 					if (tickeradded) {
-						verify.assertTrue(tickeradded, "ticker not added in note");
+						verify.assertTrue(tickeradded, "ticker removed from note");
 					}
 				}
 			}
@@ -1328,7 +1329,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "create Thesis template")
+	@Test(groups = "sanity",priority=26, description = "create Thesis template")
 	public void createThesisTemplate() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1388,7 +1389,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "create tab template")
+	@Test(groups = "sanity",priority=27, description = "create tab template")
 	public void createTabTemplate() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1434,7 +1435,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Delete thesis template")
+	@Test(groups = "sanity",priority=28, description = "Delete thesis template")
 	public void deleteThesisTemplate() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1480,7 +1481,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Star note")
+	@Test(groups = "sanity",priority=29, description = "Star note")
 	public void starNote() throws Exception {
 		try {
 			if (note_id == "")
@@ -1520,7 +1521,7 @@ public class NotebookApis extends APIDriver {
 	}
 
 	@SuppressWarnings("null")
-	@Test(groups = "sanity", description = "un-Star note")
+	@Test(groups = "sanity",priority=30, description = "un-Star note")
 	public void unstarNote() throws Exception {
 		try {
 			if(!starNoteID.isEmpty()) {
@@ -1559,7 +1560,7 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity", description = "Add attachment to a note")
+	@Test(groups = "sanity",priority=31, description = "Add attachment to a note")
 	public void addAttachmentToANote() throws Exception {
 		try {
 
@@ -1646,7 +1647,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Remove attachment from a note")
+	@Test(groups = "sanity",priority=32, description = "Remove attachment from a note")
 	public void removeAttachmentFromANote() throws Exception {
 		try {
 
@@ -1691,7 +1692,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "add users")
+	@Test(groups = "sanity",priority=33, description = "add users")
 	public void addUserComments() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
@@ -1746,7 +1747,7 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity", description = "delete user comments")
+	@Test(groups = "sanity",priority=34, description = "delete user comments")
 	public void deleteUserComments() throws Exception {
 		try {
 
@@ -1821,7 +1822,7 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity", description = "Edit user comments")
+	@Test(groups = "sanity",priority=35, description = "Edit user comments")
 	public void editUserComments() throws Exception {
 		try {
 			// note creation
@@ -1896,7 +1897,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Fetch note data")
+	@Test(groups = "sanity",priority=36, description = "Fetch note data")
 	public void fetchNoteHtml() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1930,7 +1931,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "This will load the L1(filter section)")
+	@Test(groups = "sanity",priority=37, description = "This will load the L1(filter section)")
 	public void fetchNoteFacetHtml() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1961,7 +1962,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Fetch user notebook data")
+	@Test(groups = "sanity",priority=38, description = "Fetch user notebook data")
 	public void fetchNotebookData() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -2003,7 +2004,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Fetch user note history")
+	@Test(groups = "sanity",priority=39, description = "Fetch user note history")
 	public void fetchNoteHistory() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -2037,7 +2038,7 @@ public class NotebookApis extends APIDriver {
 
 	
 
-	@Test(groups = { "sanity" }, description = "This will fetch notebook settings")
+	@Test(groups = "sanity",priority=40, description = "This will fetch notebook settings")
 	public void fetchNoteSettings() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -2076,7 +2077,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Verify fetch note version api")
+	@Test(groups = "sanity",priority=41, description = "Verify fetch note version api")
 	public void fetch_note_version() throws CoreCommonException {
 		try {
 			if (note_id == "")
@@ -2107,7 +2108,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Verify fetch note lock status")
+	@Test(groups = "sanity",priority=42, description = "Verify fetch note lock status")
 	public void fetch_note_lock_status() throws CoreCommonException {
 		try {
 			if (note_id == "")
@@ -2142,7 +2143,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity" }, description = "Verify highight present or not")
+	@Test(groups = "sanity",priority=43, description = "Verify highight present or not")
 	public void fetch_note() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2172,7 +2173,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 	
-	@Test(groups = { "sanity" }, description = "Verify thesis fields")
+	@Test(groups = "sanity",priority=44, description = "Verify thesis fields")
 	public void fetch_thesis_fields() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
