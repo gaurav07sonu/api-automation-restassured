@@ -13,10 +13,13 @@ import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
+import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CoreCommonException;
 
 public class CreateDashboard extends APIDriver {
 
@@ -77,6 +80,7 @@ public class CreateDashboard extends APIDriver {
 					verify.assertEqualsActualContainsExpected(viewName.toLowerCase(), dashboard_name.toLowerCase(),
 							"verify view name");
 					db_id = respJson.getJSONObject("result").getJSONObject("embed").getString("db_id");
+					ExtentTestManager.getTest().log(LogStatus.INFO, " Dashboard id is : " + db_id);
 				}
 
 				JSONObject config = respJson.getJSONObject("result").getJSONObject("config");
@@ -89,7 +93,8 @@ public class CreateDashboard extends APIDriver {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in createNewDashboard catch " + e.toString());
+			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
 		}
@@ -128,7 +133,8 @@ public class CreateDashboard extends APIDriver {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in getDashboardList catch " + e.toString());
+			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
 		}
@@ -146,6 +152,7 @@ public class CreateDashboard extends APIDriver {
 			Response resp = RestOperationUtils.get(URI, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			Thread.sleep(1000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
@@ -153,6 +160,7 @@ public class CreateDashboard extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
 					"Verify the API Message");
 			if (apiResp.getStatusCode() == 200) {
+
 				JSONObject result = respJson.getJSONObject("result");
 				if (result.length() == 0 || result == null)
 					verify.assertTrue(false, "Delete dashboard API shows blank data");
@@ -161,6 +169,8 @@ public class CreateDashboard extends APIDriver {
 					for (int i = 0; i < db_list.length(); i++) {
 						String dashboard_name = db_list.getJSONObject(i).getString("dashboard_name").toLowerCase();
 						if (dashboard_name.equalsIgnoreCase(viewName.toLowerCase())) {
+							ExtentTestManager.getTest().log(LogStatus.INFO,
+									"db_id is : " + db_list.getJSONObject(i).getString("db_id").toString());
 							verify.assertTrue(false, viewName + " not delete from dashboard");
 							deleteView = false;
 						}
@@ -170,7 +180,8 @@ public class CreateDashboard extends APIDriver {
 				}
 			}
 		} catch (Exception e) {
-			verify.assertTrue(false, "in deleteDashboard catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in getDashboardList catch " + e.toString());
+			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
 		}
