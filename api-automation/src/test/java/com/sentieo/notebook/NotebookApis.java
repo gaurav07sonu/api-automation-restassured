@@ -1985,12 +1985,14 @@ public class NotebookApis extends APIDriver {
 				JSONArray user_template = respJson.getJSONObject("result").getJSONArray("user_template");
 				if (user_template.length() == 0 || user_template == null)
 					verify.assertTrue(false, "user template array is empty : ");
+				if(USER_APP_URL.contains("app")) {
 				JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
 				if (user_groups.length() == 0 || user_groups == null)
 					verify.assertTrue(false, "user group array is empty : ");
 				JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
 				if (user_fields.length() == 0 || user_fields == null)
 					verify.assertTrue(false, "user fields array is empty");
+				}
 				JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
 				if (user_email.length() == 0 || user_email == null)
 					verify.assertTrue(false, "user email array is empty : ");
