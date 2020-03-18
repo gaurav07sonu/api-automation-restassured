@@ -91,20 +91,20 @@ public class NotebookApis extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"), tempId,
-						"Verify temp id");
+				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"), tempId, "Verify temp id");
 				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createPrivateNote.json");
 				verify.assertTrue(respJson.getJSONObject("result").getString("temp_id").equalsIgnoreCase(tempId),
 						"Temp id should not be blank : ");
 				verify.assertTrue(respJson.getJSONObject("result").getString("id") != null,
 						"Note id should not be blank : ");
-				if (respJson.getJSONObject("result").getString("id") != null)
+				if (respJson.getJSONObject("result").getString("id") != null) {
 					private_note_id = respJson.getJSONObject("result").getString("id");
-				JSONObject noteData = getNoteDetail(note_id);
-				if (noteData != null)
-					verify.assertTrue(noteData.length() > 0, "Validate note details present");
-				else
-					verify.assertTrue(false, "Fetch note details failed");
+					JSONObject noteData = getNoteDetail(private_note_id);
+					if (noteData != null)
+						verify.assertTrue(noteData.length() > 0, "Validate note details present");
+					else
+						verify.assertTrue(false, "Fetch note details failed");
+				}
 			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -138,12 +138,12 @@ public class NotebookApis extends APIDriver {
 							"Verify the API Response Status");
 				int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
 				verify.verifyEquals(active,0,"Verify note active status code should be zero");
-				Thread.sleep(15000);	
+				Thread.sleep(10000);	
 				JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
 					if (noteList != null) {
 						for (int i = 0; i < noteList.length(); i++) {
-							if (noteList.getJSONObject(i).getString("note_id").equalsIgnoreCase(note_id)) {
+							if (noteList.getJSONObject(i).getString("note_id").equalsIgnoreCase(private_note_id)) {
 								noteDeleted = false;
 								verify.assertTrue(noteDeleted, "Note still present in list");
 								if(active==0)
@@ -155,7 +155,7 @@ public class NotebookApis extends APIDriver {
 						}
 					}
 					if (noteDeleted && noteList != null)
-						verify.assertTrue(noteDeleted, "Note deleted : " + note_id);
+						verify.assertTrue(noteDeleted, "Note deleted : " + private_note_id);
 				}
 			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "Note id is blank");
