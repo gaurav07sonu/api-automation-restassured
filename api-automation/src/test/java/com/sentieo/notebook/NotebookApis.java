@@ -976,11 +976,10 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
-			if(respJson.getJSONObject("result").getJSONArray("notes").length()>0)
-			{
-				thesis_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0).getString(thesis_id);
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
+			if (respJson.getJSONObject("result").getJSONArray("notes").length() > 0) {
+				thesis_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
+						.getString("thesis_id");
 			}
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
@@ -2351,6 +2350,8 @@ public class NotebookApis extends APIDriver {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
 				}
+			}else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, thesis id not present");
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
