@@ -377,5 +377,3 @@ public class DataProviderClass {
 		return groupArray;
 		}
 	}
-
-}

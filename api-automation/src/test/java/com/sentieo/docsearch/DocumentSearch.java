@@ -20,7 +20,7 @@ import com.sentieo.utils.CoreCommonException;
 
 public class DocumentSearch extends APIDriver {
 
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setup() throws CoreCommonException {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -40,7 +40,7 @@ public class DocumentSearch extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Fetch search", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "devesh", description = "Fetch search", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetchsearch(String ticker, String query, String fillingtype, String filing_subtype, String sensivity,
 			String facets_flag) throws CoreCommonException {
 		try {
@@ -62,7 +62,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -100,7 +100,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -130,7 +130,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
 
@@ -170,7 +170,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -204,7 +204,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -237,7 +237,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -269,7 +269,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -301,7 +301,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -331,7 +331,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -361,7 +361,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -402,7 +402,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
@@ -454,7 +454,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
@@ -507,7 +507,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
@@ -562,7 +562,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
@@ -616,7 +616,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
@@ -671,7 +671,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
+			//System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
