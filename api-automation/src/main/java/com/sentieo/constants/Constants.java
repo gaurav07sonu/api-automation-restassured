@@ -16,7 +16,7 @@ public class Constants {
 	
 	 static{
 		 String envArg = System.getProperty("env");
-	// String envArg = "app";
+		// String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -144,6 +144,13 @@ public class Constants {
 	public static final String FETCH_NOTE_VERSION = "/api/note_version/";
 	public static final String FETCH_NOTE_LOCK_STATUS = "/api/note_lock_status/";
 	public static final String FETCH_NOTE = "/api/fetch_note/";
+	public static final String FETCH_THESIS_FIELDS = "/api/fetch_thesis_fields/";
+	public static final String FETCH_INITIAL_LOADING ="/api/initial_loading/";
+	public static final String FETCH_RECENT_NOTES="/api/fetch_recent_notes/";
+	public static final String GET_HIERARCHY ="/api/get_hierarchy/";
+	public static final String GET_THESIS_LIST ="/api/get_thesis_list/";
+	public static final String SHARE_NEW_USER_NOTE ="/api/share_new_user_note/";
+	public static final String NEW_BOOKMARK_NOTE="/api/new_bookmark_note/";
 
 
 	

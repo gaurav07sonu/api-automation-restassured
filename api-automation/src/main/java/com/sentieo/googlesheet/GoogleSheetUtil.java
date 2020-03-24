@@ -21,12 +21,13 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 public class GoogleSheetUtil extends GoogleSheetAuth {
-	static String spreadsheetId = "1jdLRMXRvBqJQfxN5aR2fk7f2yb49ZjwfYNhtxTicBeA";
-
+	//static String spreadsheetId = "1jdLRMXRvBqJQfxN5aR2fk7f2yb49ZjwfYNhtxTicBeA";
+	public static String spreadsheetId = "";
 	public static ValueRange response;
 	public static UpdateValuesResponse request;
 	public static List<String> alreadyLogged = new ArrayList<String>();
 	public static List<String> notLogged = new ArrayList<String>();
+	public static Sheets service = null;
 	
 	
 	public static String getDownTime(String previousFailedTime, String recoveredAtTime) {
@@ -156,6 +157,66 @@ public class GoogleSheetUtil extends GoogleSheetAuth {
 		System.out.printf("%d replacements made.", findReplaceResponse.getOccurrencesChanged());
 		// [END sheets_batch_update]
 		return response;
+	}
+	
+	
+	public static void setValue(String RowStart, String RowEnd, int value) throws IOException{
+		//Sheets service = getSheetsService();
+		String range = RowStart+":"+RowEnd;
+
+		List<List<Object>> arrData = getData(value);
+
+		ValueRange oRange = new ValueRange();
+		oRange.setRange(range); // I NEED THE NUMBER OF THE LAST ROW
+		oRange.setValues(arrData);
+
+		List<ValueRange> oList = new ArrayList<>();
+		oList.add(oRange);
+
+		BatchUpdateValuesRequest oRequest = new BatchUpdateValuesRequest();
+		oRequest.setValueInputOption("RAW");
+		oRequest.setData(oList);
+
+		BatchUpdateValuesResponse oResp1 = service.spreadsheets().values().batchUpdate(spreadsheetId, oRequest).execute();
+
+	}
+	
+    public static List<String> getData() throws IOException, GeneralSecurityException {
+    	if(service==null) {
+    		 service = getSheetsService();
+    	}
+    	List<String> list = new ArrayList<String>();
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        String[] range = {"Sheet1!A2:B"};
+        
+        for (String tab : range) {
+             Sheets service = getSheetsService();
+             ValueRange response = service.spreadsheets().values()
+                     .get(spreadsheetId, tab)
+                     .execute();
+             List<List<Object>> values = response.getValues();
+             if (values == null || values.isEmpty()) {
+                 System.out.println("No data found.");
+             } 
+             else {
+                 for (List row : values) {
+                	 list.add(row.toString());
+                 	System.out.println(row);
+                 }
+             }
+		}
+        return list;
+    }
+    
+	public static List<List<Object>> getData (int value)  {
+
+		List<Object> data1 = new ArrayList<Object>();
+		data1.add (value);
+
+		List<List<Object>> data = new ArrayList<List<Object>>();
+		data.add (data1);
+
+		return data;
 	}
 
 	public static void main(String[] args) throws IOException, GeneralSecurityException, InterruptedException {

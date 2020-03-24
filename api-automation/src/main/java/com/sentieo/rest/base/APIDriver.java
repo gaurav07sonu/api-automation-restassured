@@ -106,7 +106,10 @@ public class APIDriver {
 					
 	}
 	
-	
+	protected RequestSpecification targetProcess() {
+		return given().auth()
+				  .basic("sanjay.saini@sentieo.com", "Iniaskyajnas97").contentType(ContentType.JSON);
+	}
 	
 	
 }
