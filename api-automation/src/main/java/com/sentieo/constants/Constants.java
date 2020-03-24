@@ -9,8 +9,8 @@ public class Constants {
 			+ "test" + File.separator + "resources";
 	public static final String EMAIL = "alphagani35@gmail.com";
 	public static final String PASSWORD = "DGL=14412jg";
-	public static final String APP_URL = "https://app.sentieo.com";
-	public static final String USER_APP_URL = "https://user-app.sentieo.com";
+	public static final String APP_URL = "https://app2.sentieo.com";
+	public static final String USER_APP_URL = "https://user-app2.sentieo.com";
 	public static final String LOGIN_URL = "/api/login_1/";
 	
 	

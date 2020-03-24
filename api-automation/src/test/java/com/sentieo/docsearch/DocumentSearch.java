@@ -188,7 +188,7 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
-	public void docsearch_date_filter(String ticker, String period, String filters) throws CoreCommonException {
+	public void docsearch_date_filter(String ticker, String filters) throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
@@ -197,7 +197,6 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("applied_filter", "doctype");
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
-			queryParams.put("period", period);
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
@@ -258,7 +257,7 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "doc type and custom date as filter combinations", dataProvider = "doctype_customdate_filters_combination", dataProviderClass = DataProviderClass.class)
-	public void docsearch_customdate_filter(String ticker, String date_range_from, String date_range_to, String filters)
+	public void docsearch_customdate_filter(String ticker, String filters)
 			throws CoreCommonException {
 
 		try {
@@ -268,8 +267,6 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("applied_filter", "doctype");
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
-			queryParams.put("date_range_from", date_range_from);
-			queryParams.put("date_range_to", date_range_to);
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
@@ -397,13 +394,12 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "doc type and sector as filter combinations", dataProvider = "doctype_sector_filters_combination", dataProviderClass = DataProviderClass.class)
-	public void docsearch_sector_filter(String ticker, String sector, String filters) throws CoreCommonException {
+	public void docsearch_sector_filter(String ticker, String filters) throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
-			queryParams.put("applied_filter", sector);
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
 
@@ -465,13 +461,12 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "doc type and region as filter combinations", dataProvider = "test_doctype_region_Filter", dataProviderClass = DataProviderClass.class)
-	public void docsearch_region_filter(String ticker, String geog_filter, String filters) throws CoreCommonException {
+	public void docsearch_region_filter(String ticker, String filters) throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
-			queryParams.put("applied_filter", geog_filter);
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
 
