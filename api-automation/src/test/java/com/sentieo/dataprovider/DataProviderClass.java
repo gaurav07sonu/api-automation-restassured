@@ -363,7 +363,7 @@ public class DataProviderClass {
 		Object[][] groupArray = null;
 		groupArray = new String[][] { { "Diluted EPS-2016", "ola:cn " }, { "Diluted EPS-2017", "ola:cn" },
 				{ "Diluted EPS-2018", "ola:cn" }, { "Diluted EPS-2019", "ola:cn" }, { "Diluted EPS-2020", "ola:cn" },
-				{ "Diluted EPS-2021", "ola:cn" }, { "Diluted EPS-NTM", "ola:cn" } };
+				{ "Diluted EPS-2021", "ola:cn" },{ "Diluted EPS-2022", "ola:cn" }, { "Diluted EPS-NTM", "ola:cn" } };
 		return groupArray;
 	}
 
