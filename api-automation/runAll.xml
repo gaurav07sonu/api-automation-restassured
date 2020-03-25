@@ -41,6 +41,7 @@
 				<exclude name="com.sentieo.heartbeat"></exclude>
 				<exclude name="com.sentieo.marketsummary"></exclude>
 				<exclude name="com.sentieo.kibana"></exclude>
+				<exclude name="com.sentieo.tp"></exclude>
 			</package>
 		</packages>
 	</test>
