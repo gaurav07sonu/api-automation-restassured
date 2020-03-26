@@ -1,7 +1,5 @@
 package com.sentieo.utils;
 
-import static com.sentieo.constants.Constants.RESOURCE_PATH;
-
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
@@ -13,14 +11,17 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import static com.sentieo.utils.FileUtil.*;
 
 public class CommonUtil {
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
@@ -113,7 +114,7 @@ public class CommonUtil {
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
-					if (randomTickers.size() >= 10)
+					if (randomTickers.size() >=5)
 						break;
 				} else {
 					if (randomTickers.size() >= 100)
@@ -125,7 +126,7 @@ public class CommonUtil {
 					|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
 					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
 					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
-				if (randomTickers.size() >= 10)
+				if (randomTickers.size() >= 5)
 					break;
 			} else {
 				if (randomTickers.size() >= 100)
@@ -152,6 +153,7 @@ public class CommonUtil {
 
 			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
+				
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
@@ -222,5 +224,43 @@ public class CommonUtil {
 		return year;
 		
 	}
+	public String getRandomString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() <5) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = "Automation"+salt.toString();
+        return saltStr;
+
+    }
+	public  List<String> pickNRandomItems(List<String> lst, int n) {
+	    List<String> copy = new LinkedList<String>(lst);
+	    Collections.shuffle(copy);
+	    return copy.subList(0, n);
+	}
+	
+	public String getCurrentTimeStamp()
+	{
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Instant instant = timestamp.toInstant();
+        Timestamp tsFromInstant = Timestamp.from(instant);
+        long stamp=tsFromInstant.getTime();
+        String timeStamp=Long.toString(stamp);
+        return timeStamp;
+	}
+	
+	public boolean validateTimeStampIsTodaysDate(double timestamp) {
+		int digit = (int) (timestamp / 1000);
+		String commentDate = convertTimestampIntoDate(digit);
+		DateFormat dateformat = new SimpleDateFormat("M/dd/yy");
+		String currentDate = dateformat.format(new Date().getTime());
+		if (commentDate.contains(currentDate))
+			return true;
+		return false;
+	}
 
 }
+

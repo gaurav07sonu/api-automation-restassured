@@ -15,6 +15,7 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
+import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.finance.InputTicker;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
@@ -35,7 +36,7 @@ public class WebandSocialData extends APIDriver {
 	List<String[]> tickers = obj.readTickerCSV();
 	String no_mapping = "";
 
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -49,12 +50,12 @@ public class WebandSocialData extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	 @Test(groups = "sanity", description = "Plotter Web and Social Data Series")
+	@Test(description = "Plotter Web and Social Data Series")
 	public void googleTrends() throws CoreCommonException {
 		try {
 			Calendar calNewYork = Calendar.getInstance();
@@ -110,10 +111,10 @@ public class WebandSocialData extends APIDriver {
 
 	}
 
-	 @Test(groups = "sanity", description = "Plotter Web and Social Data Series")
+	@Test(description = "Plotter Web and Social Data Series")
 	public void websiteTraffic() throws CoreCommonException {
 		try {
-			String URI = APP_URL + WEBSITETRAFFIC;
+			String URI = APP_URL + ALEXA;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {
@@ -171,5 +172,41 @@ public class WebandSocialData extends APIDriver {
 			// System.out.println(e.toString());
 		}
 		return no_mapping;
+	}
+
+	@Test(groups = { "gtrends-autocomplete",
+			"test" }, description = "gtrends autocomplete check", dataProvider = "searchAutocomplete", dataProviderClass = DataProviderClass.class)
+	public void gtrendsAutocomplete(String query) throws Exception {
+		String URI = APP_URL + GTRENDSAUTOCOMPLETE;
+		boolean status = true;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		try {
+			parameters.put("word", query);
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			verify.verifyResponseTime(resp, 5000);
+			JSONArray result = respJson.getJSONArray("result");
+			if (result.length() == 0 || result == null)
+				verify.assertTrue(false, "Autocomplete shows blank data");
+			else {
+				for (int i = 0; i < result.length(); i++) {
+					JSONObject resultAutocomplete = result.getJSONObject(i);
+					if (resultAutocomplete.length() == 0 || resultAutocomplete == null) {
+						verify.assertTrue(false, "Autocomplete is blank : ");
+						status = false;
+					}
+				}
+				if (status)
+					verify.assertTrue(status, "Verify Autocomplete: ");
+			}
+
+		} catch (Error e) {
+
+		}
 	}
 }

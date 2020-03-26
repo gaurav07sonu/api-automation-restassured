@@ -13,7 +13,7 @@ repositories {
 dependencies {
 // https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator
 compile group: 'io.rest-assured', name: 'json-schema-validator', version: '3.0.0'
-
+compile group: 'org.yaml', name: 'snakeyaml', version:'1.21'
     compile group: 'com.github.fge', name: 'json-schema-validator', version:'2.2.6'
     compile group: 'com.github.fge', name: 'json-schema-core', version:'1.2.5'
 	compile group: 'com.jayway.restassured', name: 'rest-assured', version:'2.9.0'
@@ -54,6 +54,8 @@ compile group: 'io.rest-assured', name: 'json-schema-validator', version: '3.0.0
     compile group: 'com.epam.reportportal', name: 'agent-java-testng', version:'4.2.0'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.3'
     compile group: 'org.codehaus.jackson', name:'jackson-mapper-asl', version:'1.9.9'
+ 	 compile group: 'com.flipkart.zjsonpatch', name: 'zjsonpatch', version: '0.4.9'
+  
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -64,7 +66,11 @@ repositories {
 }
 
 test { 
+
     useTestNG() {
+    	systemProperty "env", System.getProperty("env")
+    	systemProperty "username", System.getProperty("username")
+    	systemProperty "password", System.getProperty("password")
         suites "testNG.xml"
     }
 }

@@ -15,11 +15,11 @@
 	</test>
 
 
-<!-- 	<test name="finance" preserve-order="true"> -->
-<!-- 		<packages> -->
-<!-- 			<package name="com.sentieo.finance" /> -->
-<!-- 		</packages> -->
-<!-- 	</test> -->
+	<!-- <test name="finance" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.finance" />
+		</packages>
+	</test> -->
 
 	<test name="login" preserve-order="true">
 		<classes>
@@ -37,15 +37,18 @@
 				<exclude name="com.sentieo.plotter"></exclude>
 				<exclude name="com.sentieo.privatecompanies"></exclude>
 				<exclude name="com.sentieo.EDT"></exclude>
+				<exclude name="com.sentieo.docsearch"></exclude>
+				<exclude name="com.sentieo.heartbeat"></exclude>
+				<exclude name="com.sentieo.marketsummary"></exclude>
+				<exclude name="com.sentieo.kibana"></exclude>
+				<exclude name="com.sentieo.tp"></exclude>
 			</package>
 		</packages>
 	</test>
 
 	<test name="plotter test">
 		<classes>
-			<class name="com.sentieo.plotter.DocumentData" />
 			<class name="com.sentieo.plotter.IncomeStatement" />
-			<class name="com.sentieo.plotter.KeyMultiples" />
 			<class name="com.sentieo.plotter.StockData" />
 			<class name="com.sentieo.plotter.StockPrice49929"/>
 			<class name="com.sentieo.plotter.StockPrice50650"/>

@@ -22,12 +22,12 @@ public class TestUserWatchlistData extends APIDriver {
 	JSONObject portfolio = new JSONObject();
 	JSONObject watchlistPortfolio = new JSONObject();
 	
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void setUp() {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -41,7 +41,7 @@ public class TestUserWatchlistData extends APIDriver {
 		RestAssured.baseURI = APP_URL;
 	}
 
-	@Test(groups = "sanity", description = "fetch login 1")
+	@Test(groups = { "sanity", "test" }, description = "fetch login 1")
 	public void userPortfolio() throws Exception {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		tickerData.put("recur", "0");
