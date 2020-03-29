@@ -57,6 +57,7 @@ public class NotebookApis extends APIDriver {
 	static String private_note_id="";
 	static String thesis_id="";
 	static String shareUser = "devesh.arora";
+	static String comment_id="";
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -391,8 +392,6 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
 							.getString("note_id") != null, "Verify note id present");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
@@ -458,8 +457,6 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
 							.getString("note_id") != null, "Verify note id present");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
@@ -525,8 +522,6 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
 							.getString("note_id") != null, "Verify note id present");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
@@ -1702,7 +1697,7 @@ public class NotebookApis extends APIDriver {
 	public void addUserComments() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
-				fetchNoteAllList();
+				setNoteId();
 			}
 			if (!note_id.isEmpty()) {
 
@@ -1733,7 +1728,10 @@ public class NotebookApis extends APIDriver {
 							"Comment successfully added!");
 					verify.assertTrue(!commentRespJson.getJSONObject("result").getString("comment_id").isEmpty(),
 							"Verify comment id should not be null");
-
+					if(!commentRespJson.getJSONObject("result").getString("comment_id").isEmpty())
+					{
+						comment_id = commentRespJson.getJSONObject("result").getString("comment_id");
+					}
 					double timestamp = commentRespJson.getJSONObject("result").getDouble("last_updated_at");
 					CommonUtil utils = new CommonUtil();
 					verify.assertTrue(utils.validateTimeStampIsTodaysDate(timestamp),
@@ -1753,46 +1751,17 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity",priority=34, description = "delete user comments")
+	@Test(groups = "sanity",priority=35, description = "delete user comments")
 	public void deleteUserComments() throws Exception {
 		try {
-
-			// note creation
-			String tempId = "quill" + new Date().getTime();
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("ts", tempId);
-			params.put("title", "privateApiNote" + new Date());
-			params.put("verion", "1");
-			params.put("private_note", "true");
-			params.put("version", "1");
-			params.put("note", "<p>Hello world!!</p>");
-			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post(SET_NOTE_HTML, null, spec, params);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String note_id = respJson.getJSONObject("result").getString("id");
-
-			HashMap<String, String> commentDictParams = new HashMap<String, String>();
-			commentDictParams.put("source", "note");
-			commentDictParams.put("reference_id", note_id);
-			commentDictParams.put("comment", "Comment added");
-
-			String json = jsonUtils.toJson(commentDictParams);
-
-			HashMap<String, String> commentParams = new HashMap<String, String>();
-			commentParams.put("action", "add");
-			commentParams.put("comment_dict", json);
-
-			RequestSpecification commentSpec = formParamsSpec(commentParams);
-			Response commentResp = RestOperationUtils.post(USER_COMMENTS, null, commentSpec, commentParams);
-			APIResponse commentApiResp = new APIResponse(commentResp);
-			JSONObject commentRespJson = new JSONObject(commentApiResp.getResponseAsString());
-
-			String commentId = commentRespJson.getJSONObject("result").getString("comment_id");
+			if (comment_id.isEmpty()) {
+				addUserComments();
+			}
+			if (!comment_id.isEmpty()) {
 
 			HashMap<String, String> commentDictParams1 = new HashMap<String, String>();
 			commentDictParams1.put("source", "note");
-			commentDictParams1.put("comment_id", commentId);
+			commentDictParams1.put("comment_id", comment_id);
 
 			// delete comment
 			String json1 = jsonUtils.toJson(commentDictParams1);
@@ -1804,22 +1773,18 @@ public class NotebookApis extends APIDriver {
 			RequestSpecification spec1 = formParamsSpec(params1);
 			Response resp1 = RestOperationUtils.post(USER_COMMENTS, null, spec1, params1);
 			APIResponse apiResp1 = new APIResponse(resp1);
-
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
+			if(apiResp1.getStatusCode()==200) {
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
 			verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deleteUserComment.json");
-
-			// delete note
-			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
-			deleteNoteParams.put("note_id", note_id);
-
-			RequestSpecification deleteSpec = formParamsSpec(deleteNoteParams);
-			RestOperationUtils.post(DELETE_NOTE, null, deleteSpec, deleteNoteParams);
-		} catch (JSONException je) {
+			}
+		}else {
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
+		} }catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
 		} finally {
@@ -1828,47 +1793,18 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity",priority=35, description = "Edit user comments")
+	@Test(groups = "sanity",priority=34, description = "Edit user comments")
 	public void editUserComments() throws Exception {
 		try {
-			// note creation
-			String tempId = "quill" + new Date().getTime();
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("ts", tempId);
-			params.put("title", "privateApiNote" + new Date());
-			params.put("verion", "1");
-			params.put("private_note", "true");
-			params.put("version", "1");
-			params.put("note", "<p>Hello world!!</p>");
-			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post(SET_NOTE_HTML, null, spec, params);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String note_id = respJson.getJSONObject("result").getString("id");
-
-			HashMap<String, String> commentDictParams = new HashMap<String, String>();
-			commentDictParams.put("source", "note");
-			commentDictParams.put("reference_id", note_id);
-			commentDictParams.put("comment", "Comment added");
-
-			String json = jsonUtils.toJson(commentDictParams);
-
-			HashMap<String, String> commentParams = new HashMap<String, String>();
-			commentParams.put("action", "add");
-			commentParams.put("comment_dict", json);
-
-			RequestSpecification commentSpec = formParamsSpec(commentParams);
-			Response commentResp = RestOperationUtils.post(USER_COMMENTS, null, commentSpec, commentParams);
-			APIResponse commentApiResp = new APIResponse(commentResp);
-			JSONObject commentRespJson = new JSONObject(commentApiResp.getResponseAsString());
-
-			String commentId = commentRespJson.getJSONObject("result").getString("comment_id");
+			if (comment_id.isEmpty()) {
+				setNoteId();
+			}
+			if (!comment_id.isEmpty()) {
 
 			// Edit comment
-
 			HashMap<String, String> editcommentDictParams = new HashMap<String, String>();
 			editcommentDictParams.put("source", "note");
-			editcommentDictParams.put("comment_id", commentId);
+			editcommentDictParams.put("comment_id", comment_id);
 			editcommentDictParams.put("new_comment", "Comment Edited");
 
 			String editJson = jsonUtils.toJson(editcommentDictParams);
@@ -1882,20 +1818,17 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp2 = new APIResponse(resp2);
 
 			verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
+			if(apiResp2.getStatusCode()==200) {
 			verify.verifyResponseTime(resp2, 5000);
 			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
-
 			verify.verifyEquals(respJson2.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.jsonSchemaValidation(resp2, "notebook" + File.separator + "editUserComment.json");
-
-			// delete Note
-			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
-			deleteNoteParams.put("note_id", note_id);
-
-			RequestSpecification deleteSpec = formParamsSpec(deleteNoteParams);
-			RestOperationUtils.post(DELETE_NOTE, null, deleteSpec, deleteNoteParams);
-		} catch (JSONException je) {
+			}
+			}else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
+			} 
+			}catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
 		} finally {
