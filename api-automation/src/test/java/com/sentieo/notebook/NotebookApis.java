@@ -2392,7 +2392,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "devesh", priority = 52, description = "Update user field")
+	//@Test(groups = "sanity", priority = 52, description = "Update user field")
 	public void update_field_value() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("app2")) {
