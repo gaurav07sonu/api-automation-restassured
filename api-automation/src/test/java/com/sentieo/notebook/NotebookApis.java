@@ -2392,7 +2392,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	//@Test(groups = "sanity", priority = 52, description = "Update user field")
+	@Test(groups = "sanity", priority = 52, description = "Update user field")
 	public void update_field_value() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("app2")) {
@@ -2405,21 +2405,25 @@ public class NotebookApis extends APIDriver {
 					for (int i = 0; i < noteList_Typed.length(); i++) {
 						String noteID = noteList_Typed.getJSONObject(i).getString("note_id");
 						JSONObject noteData = getNoteDetail(noteID);
+						try {
+							noteData.getJSONObject("result").getJSONArray("field_section");			
+						}catch(Exception e) {
+						 continue;
+						 }
 						if (noteData.getJSONObject("result").getJSONArray("field_section") != null
 								&& noteData.getJSONObject("result").getJSONArray("field_section").length() > 0) {
 							JSONArray keys = noteData.getJSONObject("result").getJSONArray("field_section")
-									.getJSONObject(i).getJSONArray("keys");
+									.getJSONObject(0).getJSONArray("keys");
 							if (keys.length() > 0 && keys != null) {
 								int index = random.nextInt(keys.length());
 								key_id = keys.getJSONObject(index).getString("id");
 								section_id = noteData.getJSONObject("result").getJSONArray("field_section")
-										.getJSONObject(i).getString("id");
+										.getJSONObject(0).getString("id");
 								break;
 							}
 						}
 					}
 					if (!key_id.isEmpty() && !section_id.isEmpty()) {
-
 						HashMap<String, String> key_data = new HashMap<String, String>();
 						key_data.put(key_id, Integer.toString(random.nextInt(100)));
 						String dataJson = jsonUtils.toJson(key_data);
@@ -2440,10 +2444,12 @@ public class NotebookApis extends APIDriver {
 							verify.verifyEquals(respJson.getJSONObject("result").getString("msg"), "Success",
 									"verify result status");
 						}
+					}else {
+						ExtentTestManager.getTest().log(LogStatus.SKIP, "Field section not present");
 					}
 				}
 			} else {
-				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting :	 " + USER_APP_URL);
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting : " + USER_APP_URL);
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
