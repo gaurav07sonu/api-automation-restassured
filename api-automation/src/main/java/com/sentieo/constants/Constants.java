@@ -151,8 +151,16 @@ public class Constants {
 	public static final String GET_THESIS_LIST ="/api/get_thesis_list/";
 	public static final String SHARE_NEW_USER_NOTE ="/api/share_new_user_note/";
 	public static final String NEW_BOOKMARK_NOTE="/api/new_bookmark_note/";
-
-
+	public static final String INDEX_USER_BOOKMARK_DOC= "/api/index_user_bookmark_doc/";
+	public static final String UPDATE_FIELD_VALUE = "/api/update_field_value/";
+	public static final String NEW_CLIPPER_NOTE =  "/api/new_clipper_note/";
+	public static final String UPDATE_FIELD ="/api/update_field/";
+	public static final String NEW_SECTION ="/api/new_section/";
+	public static final String DELETE_HIGHLIGHT = "/api/delete_highlight/";
+	public static final String DELETE_USER_BOOKMARK="/api/delete_user_bookmark/";
+	public static final String UPDATE_SECTION = "/api/update_section/";
+	public static final String GET_NOTE_CONTENT_FOR_IFRAME = "/api/get_note_content_for_iframe/";
+	
 	
 	// notebook public apis
 	public static final String APPURL = "https://api.sentieo.com/v1";
