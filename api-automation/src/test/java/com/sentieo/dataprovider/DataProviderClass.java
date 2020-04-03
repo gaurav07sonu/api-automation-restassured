@@ -425,7 +425,7 @@ public class DataProviderClass {
 	
 	@DataProvider(name = "mosaicsetting")
 	public Object[][] mosaicsetting() {
-		return new Object[][] { { "Revenue","Q"}, { "Stock","Q" }, { "KPI","Q" }
-		,{ "Revenue","M"}, { "Stock","M" }, { "KPI","M" }};
+		return new Object[][] { { "Revenue","Q"}, { "Stock","Q" }
+		,{ "Revenue","M"}, { "Stock","M" }};
 	}
 }
