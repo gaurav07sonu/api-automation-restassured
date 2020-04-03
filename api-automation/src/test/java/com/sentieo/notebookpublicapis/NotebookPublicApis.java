@@ -518,20 +518,8 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
-			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("ref", new Date().toString().trim());
-			formParams.put("type", "typed");
-			formParams.put("title", "PrivateNote" + new Date().getTime());
-			formParams.put("content", "<p>THIS IS a typed note</p>");
-			formParams.put("category", "meeting");
-
-			String json = jsonUtils.toJson(formParams);
-
-			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
-			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String noteId = (String) respJson.get("id");
+		
+			String noteId = "5e86d2fde8f6c2082c9869eb";
 
 			// Adding attachment
 			String folderName = "notebookPublicApi" + File.separator;
