@@ -120,9 +120,9 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					digit = (int) (timestamp / 1000);
 					util = new CommonUtil();
 					date = util.convertTimestampIntoDate(digit);
-
 					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
 					verify.compareDates(date, systemDate, "Verify the Current Date Point for PS&P 500 NTM - TWA P/E");
+
 				}
 
 			}

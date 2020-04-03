@@ -418,4 +418,14 @@ public class DataProviderClass {
 		return new Object[][] { { "templates"}, { "recent" }, { "tagged_series" }, { "saved_series" }};
 	}
 
+	@DataProvider(name = "alertType")
+	public Object[][] alertType() {
+		return new Object[][] { { "filing"}, { "pr_alert" }, { "news" }, { "presentation" },{ "transcript" }};
+	}
+	
+	@DataProvider(name = "mosaicsetting")
+	public Object[][] mosaicsetting() {
+		return new Object[][] { { "Revenue","Q"}, { "Stock","Q" }, { "KPI","Q" }
+		,{ "Revenue","M"}, { "Stock","M" }, { "KPI","M" }};
+	}
 }

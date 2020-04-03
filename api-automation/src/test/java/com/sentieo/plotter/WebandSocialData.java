@@ -119,31 +119,35 @@ public class WebandSocialData extends APIDriver {
 			for (String[] row : tickers) {
 				for (String cell : row) {
 					cell = cell.toLowerCase();
-					parameters.put("url", "");
-					parameters.put("ticker", cell);
-					parameters.put("pagetype", "plotter");
-					parameters.put("datatype", "page_views");
-					RequestSpecification spec = queryParamsSpec(parameters);
-					Response resp = RestOperationUtils.get(URI, spec, parameters);
-					APIResponse apiResp = new APIResponse(resp);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					String msg = respJson.getJSONObject("response").get("msg").toString().replaceAll("\\[", "")
-							.replaceAll("\\]", "").replace("\"", " ");
-					verify.assertEqualsActualContainsExpected(msg, actualMSG, "match response msg");
-					verify.verifyResponseTime(resp, 5000);
-					JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
-					String yAxis = getSeries.getString("yaxis");
-					verify.assertEqualsActualContainsExpected(yAxisActual, yAxis, "match series name");
+					String isMapping = getMapping(cell);
+					if (!isMapping.contains("true")) {
+						parameters.put("url", "");
+						parameters.put("ticker", "cvx");
+						parameters.put("pagetype", "plotter");
+						parameters.put("datatype", "page_views");
+						RequestSpecification spec = queryParamsSpec(parameters);
+						Response resp = RestOperationUtils.get(URI, spec, parameters);
+						APIResponse apiResp = new APIResponse(resp);
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+						verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+								"Verify the API Response Status");
+						String msg = respJson.getJSONObject("response").get("msg").toString().replaceAll("\\[", "")
+								.replaceAll("\\]", "").replace("\"", " ");
+						verify.assertEqualsActualContainsExpected(msg, actualMSG, "match response msg");
+						verify.verifyResponseTime(resp, 5000);
+						JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
+						String yAxis = getSeries.getString("yaxis");
+						verify.assertEqualsActualContainsExpected(yAxisActual, yAxis, "match series name");
+					} else
+						ExtentTestManager.getTest().log(LogStatus.INFO, cell + " not mapped in Mosaic");
+
 				}
 			}
 			verify.verifyAll();
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
-
 	}
 
 	public String getMapping(String cell) throws CoreCommonException {

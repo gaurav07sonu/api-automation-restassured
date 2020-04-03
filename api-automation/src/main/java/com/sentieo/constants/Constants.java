@@ -15,8 +15,8 @@ public class Constants {
 	public static String USER_APP_URL = "";
 	
 	 static{
-		 String envArg = System.getProperty("env");
-		// String envArg = "app";
+		// String envArg = System.getProperty("env");
+		 String envArg = "citadel";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -58,6 +58,9 @@ public class Constants {
 	public static final String MANAGEMENT_INFO_NEW = "/api/managementinfo_new/";
 	public static final String FIN_SETTINGS="/api/fetch_fin_settings/";
 	public static final String METADATA="/api/fetch_metadata/";
+	public static final String SAVE_RISK_REWARD_VIEWS="/api/save_risk_reward_views/";
+	public static final String UPDATE_SCREENER_VIEWS="/api/update_screener_views/";
+	public static final String DELETE_RISK_REWARD_VIEWS="/api/delete_risk_reward_views/";
 	
 
 	// doc-search
@@ -113,6 +116,7 @@ public class Constants {
 	public static final String FETCH_COMPANY_LIST="/api/fetch_company_list/";
 	public static final String FETCH_STOCK_META="/api/stock_meta/";
 	public static final String FETCH_INTRA_HEADER_DATA="/api/fetch_intra_header_data/";
+	public static final String GET_YEARLY_TABLE="/api/get_yearly_table/";
 	
 	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
@@ -188,6 +192,8 @@ public class Constants {
 	public static final String FETCHTRACKERTABLE = "/api/fetch_tracker_table/";
 	public static final String LOADGRAPH_NEW="/api/loadgraph_new/";
 	public static final String LOADTEMPLATE_SENTIEO="/api/loadtemplate_sentieo/";
+	public static final String SET_MOSAIC_DEFAULT_SETTINGS="/api/get_or_set_mosaic_default_settings/";
+	public static final String FETCH_SAVED_SERIES="/api/fetch_saved_series/";
 	
 
 	// screener
@@ -219,8 +225,9 @@ public class Constants {
 	public static final String EDIT_WATCHLIST="/api/edit_watchlist/";
 	public static final String UNFOLLOW_TICKER="/alert/unfollow_ticker/";
 	public static final String FOLLOW="/alert/follow_ticker/";
-	public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
+	//public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
 	public static final String 	ALERT_NOTIFICATION_CLICK="/alert/notification_click/";
+	public static final String NEW_ALERT_NOTIFICATION="/alert/new_alert_notification/";
 	
 
 	// private companies
