@@ -54,9 +54,12 @@ public class NotebookApis extends APIDriver {
 	static String ticker = "";
 	static String starNoteID = "";
 	static String file_id = "";
-	static String private_note_id="";
-	static String thesis_id="";
+	static String private_note_id = "";
+	static String thesis_id = "";
 	static String shareUser = "devesh.arora";
+	static String comment_id = "";
+	static JSONArray noteList_Typed = null;
+	static String HighlightNoteID = "";
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -79,7 +82,7 @@ public class NotebookApis extends APIDriver {
 		RestAssured.baseURI = USER_APP_URL;
 	}
 
-	@Test(groups = "sanity",priority=0, description = "Create private note")
+	@Test(groups = "sanity", priority = 0, description = "Create private note")
 	public void createPrivateNote() throws Exception {
 		try {
 			String tempId = "quill" + new Date().getTime();
@@ -100,7 +103,7 @@ public class NotebookApis extends APIDriver {
 						"Verify the API Response Status");
 				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"), tempId, "Verify temp id");
 				verify.jsonSchemaValidation(resp, "notebook" + File.separator + "createPrivateNote.json");
-				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"),tempId,
+				verify.verifyEquals(respJson.getJSONObject("result").getString("temp_id"), tempId,
 						"Temp id should not be blank");
 				verify.assertTrue(respJson.getJSONObject("result").getString("id") != null,
 						"Note id should not be blank");
@@ -122,7 +125,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=45, description = "Delete private note")
+	@Test(groups = "sanity", priority = 60, description = "Delete private note")
 	public void deletePrivateNote() throws Exception {
 		try {
 			if (private_note_id == "")
@@ -144,18 +147,17 @@ public class NotebookApis extends APIDriver {
 					verify.verifyResponseTime(resp1, 3000);
 					verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
-				int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
-				verify.verifyEquals(active,0,"Verify note active status code should be zero");
-				Thread.sleep(10000);	
-				JSONArray noteList = getNoteList();
+					int active = getNoteDetail(private_note_id).getJSONObject("result").getInt("active");
+					verify.verifyEquals(active, 0, "Verify note active status code should be zero");
+					Thread.sleep(10000);
+					JSONArray noteList = getNoteList();
 					boolean noteDeleted = true;
 					if (noteList != null) {
 						for (int i = 0; i < noteList.length(); i++) {
 							if (noteList.getJSONObject(i).getString("note_id").equalsIgnoreCase(private_note_id)) {
 								noteDeleted = false;
 								verify.assertTrue(noteDeleted, "Note still present in list");
-								if(active==0)
-								{
+								if (active == 0) {
 									verify.assertTrue(false, "Note indexing not working");
 								}
 								break;
@@ -176,7 +178,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=1, description = "Email note")
+	@Test(groups = "sanity", priority = 1, description = "Email note")
 	public void emailNote() throws Exception {
 		try {
 			if (note_id == "")
@@ -214,7 +216,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=2, description = "Fetch all notes")
+	@Test(groups = "sanity", priority = 2, description = "Fetch all notes")
 	public void fetchNoteAllList() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -266,7 +268,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=3, description = "Upload Note", enabled = true)
+	@Test(groups = "sanity", priority = 3, description = "Upload Note", enabled = true)
 	public void uploadNote() throws Exception {
 		try {
 			String folderName = "notebook" + File.separator;
@@ -329,9 +331,9 @@ public class NotebookApis extends APIDriver {
 //					double timestamp = respJson1.getJSONArray("result").getJSONObject(0).getDouble("timestamp");
 //					CommonUtil util = new CommonUtil();
 //					verify.assertTrue(util.validateTimeStampIsTodaysDate(timestamp), "Verify attachment updation date");
-				//	verify.assertTrue(!respJson1.getJSONArray("result").getJSONObject(0).getString("access_token").isEmpty(), "Verify access token present");
+					// verify.assertTrue(!respJson1.getJSONArray("result").getJSONObject(0).getString("access_token").isEmpty(),
+					// "Verify access token present");
 
-					
 					// Delete note created
 					String noteIdToBeDeleted = respJson1.getJSONObject("response").getJSONArray("note_id_arr").get(0)
 							.toString();
@@ -355,7 +357,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=4, description = "Search with text")
+	@Test(groups = "sanity", priority = 4, description = "Search with text")
 	public void searchWithText() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -391,8 +393,6 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
 							.getString("note_id") != null, "Verify note id present");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
@@ -409,7 +409,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=5, description = "Search with ticker")
+	@Test(groups = "sanity", priority = 5, description = "Search with ticker")
 	public void searchWithTicker() throws Exception {
 
 		try {
@@ -458,8 +458,6 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
 							.getString("note_id") != null, "Verify note id present");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
@@ -477,7 +475,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=6, description = "Search with tag")
+	@Test(groups = "sanity", priority = 6, description = "Search with tag")
 	public void searchWithTag() throws Exception {
 		try {
 			List<String> tags = new ArrayList<String>();
@@ -525,8 +523,6 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					note_id = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
-							.getString("note_id");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
 							.getString("note_id") != null, "Verify note id present");
 					verify.assertTrue(respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
@@ -544,7 +540,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=7, description = "Search with author")
+	@Test(groups = "sanity", priority = 7, description = "Search with author")
 	public void searchWithAuthor() throws Exception {
 		try {
 			List<String> users = new ArrayList<String>();
@@ -567,8 +563,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -579,7 +574,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=8, description = "Search with label")
+	@Test(groups = "sanity", priority = 8, description = "Search with label")
 	public void searchWithLabel() throws Exception {
 		try {
 			List<String> labels = new ArrayList<String>();
@@ -604,8 +599,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -616,7 +610,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=9, description = "Search with sectors")
+	@Test(groups = "sanity", priority = 9, description = "Search with sectors")
 	public void searchWithSectors() throws Exception {
 		try {
 			List<String> sectors = new ArrayList<String>();
@@ -641,8 +635,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// verify.verifyEquals(respJson.getJSONObject("response").getString("msg"),
 			// "success", "Verify the API Message");
 			// TODO: schema validation to be added
@@ -655,7 +648,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=10, description = "Search with region", enabled = true)
+	@Test(groups = "sanity", priority = 10, description = "Search with region", enabled = true)
 	public void searchWithRegion() throws Exception {
 		try {
 			List<String> countryCode = new ArrayList<String>();
@@ -680,8 +673,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -692,7 +684,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=11, description = "Search with note category")
+	@Test(groups = "sanity", priority = 11, description = "Search with note category")
 	public void searchWithNoteCategory() throws Exception {
 		try {
 			List<String> category = new ArrayList<String>();
@@ -717,8 +709,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -729,7 +720,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=12, description = "Search with noteType : email", enabled = true)
+	@Test(groups = "sanity", priority = 12, description = "Search with noteType : email", enabled = true)
 	public void searchWithNoteTypeAsEmail() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -754,8 +745,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -766,7 +756,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=13, description = "Search with noteType : bookmark")
+	@Test(groups = "sanity", priority = 13, description = "Search with noteType : bookmark")
 	public void searchWithNoteTypeAsBookmark() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -791,8 +781,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -803,7 +792,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=14, description = "Search with noteType : clipped")
+	@Test(groups = "sanity", priority = 14, description = "Search with noteType : clipped")
 	public void searchWithNoteTypeAsClipped() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -828,8 +817,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -840,7 +828,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=15, description = "Search with noteType : attachment")
+	@Test(groups = "sanity", priority = 15, description = "Search with noteType : attachment")
 	public void searchWithNoteTypeAsAttachment() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -865,8 +853,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -877,7 +864,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=16, description = "Search with noteType : plotter")
+	@Test(groups = "sanity", priority = 16, description = "Search with noteType : plotter")
 	public void searchWithNoteTypeAsPlotter() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -902,8 +889,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -914,7 +900,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=17, description = "Search with noteType : highlight")
+	@Test(groups = "sanity", priority = 17, description = "Search with noteType : highlight")
 	public void searchWithNoteTypeAsHighlight() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -939,8 +925,12 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
+			if (respJson.getJSONObject("result").getJSONArray("notes").length() > 0
+					&& respJson.getJSONObject("result").getJSONArray("notes") != null)
+				HighlightNoteID = respJson.getJSONObject("result").getJSONArray("notes").getJSONObject(0)
+						.getString("id");
+
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -951,7 +941,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=18, description = "Search with noteType : thesis")
+	@Test(groups = "sanity", priority = 18, description = "Search with noteType : thesis")
 	public void searchWithNoteTypeAsThesis() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -991,7 +981,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=19, description = "Search with noteType : typed")
+	@Test(groups = "sanity", priority = 19, description = "Search with noteType : typed")
 	public void searchWithNoteTypeAsTyped() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -1001,7 +991,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("filter", "all");
 			params.put("start", "0");
-			params.put("size", "15");
+			params.put("size", "50");
 			params.put("order", "note_updated_date:desc");
 			params.put("mode", "all");
 			params.put("typ", typeJson);
@@ -1011,15 +1001,17 @@ public class NotebookApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
-			// TODO: schema validation to be added
-			// verify.jsonSchemaValidation(resp);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
+						"Verify notes present");
+				noteList_Typed = respJson.getJSONObject("result").getJSONArray("notes");
+				// TODO: schema validation to be added
+				// verify.jsonSchemaValidation(resp);
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1028,7 +1020,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=20, description = "Search with noteType : charts and tables")
+	@Test(groups = "sanity", priority = 20, description = "Search with noteType : charts and tables")
 	public void searchWithNoteTypeAsChartsAndTables() throws Exception {
 		try {
 			List<String> type = new ArrayList<String>();
@@ -1053,8 +1045,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(),
-					"Verify notes present");
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("notes").length(), "Verify notes present");
 			// TODO: schema validation to be added
 			// verify.jsonSchemaValidation(resp);
 		} catch (JSONException je) {
@@ -1065,7 +1056,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=21, description = "Create Thesis and verify")
+	@Test(groups = "sanity", priority = 21, description = "Create Thesis and verify")
 	public void createThesis() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1128,7 +1119,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=22, description = "Add Note Tag")
+	@Test(groups = "sanity", priority = 22, description = "Add Note Tag")
 	public void addNoteTag() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
@@ -1180,7 +1171,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=23, description = "Remove Note Tag")
+	@Test(groups = "sanity", priority = 23, description = "Remove Note Tag")
 	public void removeNoteTag() throws Exception {
 		try {
 			// add tag
@@ -1200,27 +1191,27 @@ public class NotebookApis extends APIDriver {
 				APIResponse tagApiResp = new APIResponse(tagResp);
 
 				verify.verifyStatusCode(tagApiResp.getStatusCode(), 200);
-				if(tagApiResp.getStatusCode()==200) {
-				JSONObject tagRespJson = new JSONObject(tagApiResp.getResponseAsString());
-				verify.verifyResponseTime(tagResp, 5000);
+				if (tagApiResp.getStatusCode() == 200) {
+					JSONObject tagRespJson = new JSONObject(tagApiResp.getResponseAsString());
+					verify.verifyResponseTime(tagResp, 5000);
 
-				verify.verifyEquals(tagRespJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.jsonSchemaValidation(tagResp, "notebook" + File.separator + "removeNoteTag.json");
-				JSONArray tags = getNoteDetail(note_id).getJSONObject("result").getJSONArray("userTags");
-				boolean tagadded = true;
-				for (int i = 0; i < tags.length(); i++) {
-					if (tags.getString(i).equalsIgnoreCase(tagName)) {
-						tagadded = false;
-						verify.assertTrue(tagadded, "tag still present in note");
-						break;
+					verify.verifyEquals(tagRespJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.jsonSchemaValidation(tagResp, "notebook" + File.separator + "removeNoteTag.json");
+					JSONArray tags = getNoteDetail(note_id).getJSONObject("result").getJSONArray("userTags");
+					boolean tagadded = true;
+					for (int i = 0; i < tags.length(); i++) {
+						if (tags.getString(i).equalsIgnoreCase(tagName)) {
+							tagadded = false;
+							verify.assertTrue(tagadded, "tag still present in note");
+							break;
+						}
+					}
+					if (tagadded) {
+						verify.assertTrue(tagadded, "tag successfully removed from note");
 					}
 				}
-				if (tagadded) {
-					verify.assertTrue(tagadded, "tag successfully removed from note");
-				}
-			} 
-		}else {
+			} else {
 				ExtentTestManager.getTest().log(LogStatus.FAIL, "Tag add api failed, tag name is blank " + tagName);
 			}
 		} catch (JSONException je) {
@@ -1231,7 +1222,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=24, description = "Add Note Ticker")
+	@Test(groups = "sanity", priority = 24, description = "Add Note Ticker")
 	public void addNoteTicker() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
@@ -1284,7 +1275,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=25, description = "Remove Note Ticker")
+	@Test(groups = "sanity", priority = 25, description = "Remove Note Ticker")
 	public void removeNoteTicker() throws Exception {
 		try {
 			if (note_id.isEmpty() && ticker == "") {
@@ -1335,7 +1326,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=26, description = "create Thesis template")
+	@Test(groups = "sanity", priority = 26, description = "create Thesis template")
 	public void createThesisTemplate() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1368,22 +1359,22 @@ public class NotebookApis extends APIDriver {
 							templateName, "Verify template name");
 					verify.verifyEquals(respJson.getJSONObject("result").getString("message"), "Success",
 							"verify template message");
-				
-				// delete template
-				JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
-				String id = String.valueOf(res.get("id"));
-				if(!id.isEmpty()) {
-				HashMap<String, String> deleteParams = new HashMap<String, String>();
-				deleteParams.put("template_id", id);
-				deleteParams.put("action", "delete_template");
 
-				RequestSpecification spec1 = formParamsSpec(deleteParams);
-				RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
-				}else {
-					verify.assertTrue(false, "Template is missing, can not perform delete");
+					// delete template
+					JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
+					String id = String.valueOf(res.get("id"));
+					if (!id.isEmpty()) {
+						HashMap<String, String> deleteParams = new HashMap<String, String>();
+						deleteParams.put("template_id", id);
+						deleteParams.put("action", "delete_template");
+
+						RequestSpecification spec1 = formParamsSpec(deleteParams);
+						RestOperationUtils.post(TEMPLATE_ENTITY, null, spec1, deleteParams);
+					} else {
+						verify.assertTrue(false, "Template is missing, can not perform delete");
+					}
 				}
-			} 
-			}else {
+			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP,
 						"We are not supporting thesis template on : " + USER_APP_URL);
 			}
@@ -1395,7 +1386,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=27, description = "create tab template")
+	@Test(groups = "sanity", priority = 27, description = "create tab template")
 	public void createTabTemplate() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1441,7 +1432,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=28, description = "Delete thesis template")
+	@Test(groups = "sanity", priority = 28, description = "Delete thesis template")
 	public void deleteThesisTemplate() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
@@ -1487,7 +1478,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=29, description = "Star note")
+	@Test(groups = "sanity", priority = 29, description = "Star note")
 	public void starNote() throws Exception {
 		try {
 			if (note_id == "")
@@ -1500,7 +1491,7 @@ public class NotebookApis extends APIDriver {
 				Response starResp = RestOperationUtils.post(STAR_NOTE, null, starSpec, params);
 				APIResponse starApiResp = new APIResponse(starResp);
 				verify.verifyStatusCode(starApiResp.getStatusCode(), 200);
-		
+
 				if (starApiResp.getStatusCode() == 200) {
 					JSONObject starRespJson = new JSONObject(starApiResp.getResponseAsString());
 
@@ -1511,9 +1502,10 @@ public class NotebookApis extends APIDriver {
 					verify.jsonSchemaValidation(starResp, "notebook" + File.separator + "starNote.json");
 					String notetemp = (String) starRespJson.get("result");
 					JSONArray noteData = getNoteDetail(note_id).getJSONObject("result").getJSONArray("stars");
-					verify.assertTrue(noteData.length()!=0 && noteData != null, "Star data present in note details : " + note_id);
-					if(notetemp.equalsIgnoreCase("starred") && noteData!=null && noteData.length()!=0)
-						starNoteID=note_id;
+					verify.assertTrue(noteData.length() != 0 && noteData != null,
+							"Star data present in note details : " + note_id);
+					if (notetemp.equalsIgnoreCase("starred") && noteData != null && noteData.length() != 0)
+						starNoteID = note_id;
 				}
 			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
@@ -1527,17 +1519,17 @@ public class NotebookApis extends APIDriver {
 	}
 
 	@SuppressWarnings("null")
-	@Test(groups = "sanity",priority=30, description = "un-Star note")
+	@Test(groups = "sanity", priority = 30, description = "un-Star note")
 	public void unstarNote() throws Exception {
 		try {
-			if(!starNoteID.isEmpty()) {
+			if (!starNoteID.isEmpty()) {
 				JSONArray noteData = getNoteDetail(starNoteID).getJSONObject("result").getJSONArray("stars");
-				if(noteData==null && noteData.length()==0)
-					starNoteID="";
+				if (noteData == null && noteData.length() == 0)
+					starNoteID = "";
 			}
 			if (starNoteID.isEmpty())
 				starNote();
-			
+
 			if (!starNoteID.isEmpty()) {
 				Thread.sleep(10000);
 				HashMap<String, String> params = new HashMap<String, String>();
@@ -1566,7 +1558,7 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity",priority=31, description = "Add attachment to a note")
+	@Test(groups = "sanity", priority = 31, description = "Add attachment to a note")
 	public void addAttachmentToANote() throws Exception {
 		try {
 
@@ -1625,9 +1617,11 @@ public class NotebookApis extends APIDriver {
 //								.getDouble("access_token_ttl");
 //						CommonUtil util = new CommonUtil();
 //						verify.assertTrue(util.validateTimeStampIsTodaysDate(timestamp), "Verify updation date");
-						verify.assertTrue(!respJson1.getJSONArray("result").getJSONObject(0).getString("access_token").isEmpty(), "Verify access token present");
+						verify.assertTrue(
+								!respJson1.getJSONArray("result").getJSONObject(0).getString("access_token").isEmpty(),
+								"Verify access token present");
 						verify.verifyEquals(respJson1.getJSONArray("result").getJSONObject(0).getString("note_id"),
-								note_id,"verify note id");
+								note_id, "verify note id");
 						JSONArray attachment = getNoteDetail(note_id).getJSONObject("result")
 								.getJSONArray("attachments");
 						boolean isAttachmentPresent = false;
@@ -1653,7 +1647,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=32, description = "Remove attachment from a note")
+	@Test(groups = "sanity", priority = 32, description = "Remove attachment from a note")
 	public void removeAttachmentFromANote() throws Exception {
 		try {
 
@@ -1698,11 +1692,11 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=33, description = "add users")
+	@Test(groups = "sanity", priority = 33, description = "add users")
 	public void addUserComments() throws Exception {
 		try {
 			if (note_id.isEmpty()) {
-				fetchNoteAllList();
+				setNoteId();
 			}
 			if (!note_id.isEmpty()) {
 
@@ -1733,7 +1727,9 @@ public class NotebookApis extends APIDriver {
 							"Comment successfully added!");
 					verify.assertTrue(!commentRespJson.getJSONObject("result").getString("comment_id").isEmpty(),
 							"Verify comment id should not be null");
-
+					if (!commentRespJson.getJSONObject("result").getString("comment_id").isEmpty()) {
+						comment_id = commentRespJson.getJSONObject("result").getString("comment_id");
+					}
 					double timestamp = commentRespJson.getJSONObject("result").getDouble("last_updated_at");
 					CommonUtil utils = new CommonUtil();
 					verify.assertTrue(utils.validateTimeStampIsTodaysDate(timestamp),
@@ -1753,72 +1749,40 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity",priority=34, description = "delete user comments")
+	@Test(groups = "sanity", priority = 35, description = "delete user comments")
 	public void deleteUserComments() throws Exception {
 		try {
+			if (comment_id.isEmpty()) {
+				addUserComments();
+			}
+			if (!comment_id.isEmpty()) {
 
-			// note creation
-			String tempId = "quill" + new Date().getTime();
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("ts", tempId);
-			params.put("title", "privateApiNote" + new Date());
-			params.put("verion", "1");
-			params.put("private_note", "true");
-			params.put("version", "1");
-			params.put("note", "<p>Hello world!!</p>");
-			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post(SET_NOTE_HTML, null, spec, params);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String note_id = respJson.getJSONObject("result").getString("id");
+				HashMap<String, String> commentDictParams1 = new HashMap<String, String>();
+				commentDictParams1.put("source", "note");
+				commentDictParams1.put("comment_id", comment_id);
 
-			HashMap<String, String> commentDictParams = new HashMap<String, String>();
-			commentDictParams.put("source", "note");
-			commentDictParams.put("reference_id", note_id);
-			commentDictParams.put("comment", "Comment added");
+				// delete comment
+				String json1 = jsonUtils.toJson(commentDictParams1);
 
-			String json = jsonUtils.toJson(commentDictParams);
+				HashMap<String, String> params1 = new HashMap<String, String>();
+				params1.put("action", "delete");
+				params1.put("comment_dict", json1);
 
-			HashMap<String, String> commentParams = new HashMap<String, String>();
-			commentParams.put("action", "add");
-			commentParams.put("comment_dict", json);
+				RequestSpecification spec1 = formParamsSpec(params1);
+				Response resp1 = RestOperationUtils.post(USER_COMMENTS, null, spec1, params1);
+				APIResponse apiResp1 = new APIResponse(resp1);
+				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
+				if (apiResp1.getStatusCode() == 200) {
+					verify.verifyResponseTime(resp1, 5000);
+					JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 
-			RequestSpecification commentSpec = formParamsSpec(commentParams);
-			Response commentResp = RestOperationUtils.post(USER_COMMENTS, null, commentSpec, commentParams);
-			APIResponse commentApiResp = new APIResponse(commentResp);
-			JSONObject commentRespJson = new JSONObject(commentApiResp.getResponseAsString());
-
-			String commentId = commentRespJson.getJSONObject("result").getString("comment_id");
-
-			HashMap<String, String> commentDictParams1 = new HashMap<String, String>();
-			commentDictParams1.put("source", "note");
-			commentDictParams1.put("comment_id", commentId);
-
-			// delete comment
-			String json1 = jsonUtils.toJson(commentDictParams1);
-
-			HashMap<String, String> params1 = new HashMap<String, String>();
-			params1.put("action", "delete");
-			params1.put("comment_dict", json1);
-
-			RequestSpecification spec1 = formParamsSpec(params1);
-			Response resp1 = RestOperationUtils.post(USER_COMMENTS, null, spec1, params1);
-			APIResponse apiResp1 = new APIResponse(resp1);
-
-			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
-			verify.verifyResponseTime(resp1, 5000);
-			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-
-			verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deleteUserComment.json");
-
-			// delete note
-			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
-			deleteNoteParams.put("note_id", note_id);
-
-			RequestSpecification deleteSpec = formParamsSpec(deleteNoteParams);
-			RestOperationUtils.post(DELETE_NOTE, null, deleteSpec, deleteNoteParams);
+					verify.verifyEquals(respJson1.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.jsonSchemaValidation(resp1, "notebook" + File.separator + "deleteUserComment.json");
+				}
+			} else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1828,73 +1792,41 @@ public class NotebookApis extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity",priority=35, description = "Edit user comments")
+	@Test(groups = "sanity", priority = 34, description = "Edit user comments")
 	public void editUserComments() throws Exception {
 		try {
-			// note creation
-			String tempId = "quill" + new Date().getTime();
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("ts", tempId);
-			params.put("title", "privateApiNote" + new Date());
-			params.put("verion", "1");
-			params.put("private_note", "true");
-			params.put("version", "1");
-			params.put("note", "<p>Hello world!!</p>");
-			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post(SET_NOTE_HTML, null, spec, params);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			String note_id = respJson.getJSONObject("result").getString("id");
+			if (comment_id.isEmpty()) {
+				setNoteId();
+			}
+			if (!comment_id.isEmpty()) {
 
-			HashMap<String, String> commentDictParams = new HashMap<String, String>();
-			commentDictParams.put("source", "note");
-			commentDictParams.put("reference_id", note_id);
-			commentDictParams.put("comment", "Comment added");
+				// Edit comment
+				HashMap<String, String> editcommentDictParams = new HashMap<String, String>();
+				editcommentDictParams.put("source", "note");
+				editcommentDictParams.put("comment_id", comment_id);
+				editcommentDictParams.put("new_comment", "Comment Edited");
 
-			String json = jsonUtils.toJson(commentDictParams);
+				String editJson = jsonUtils.toJson(editcommentDictParams);
 
-			HashMap<String, String> commentParams = new HashMap<String, String>();
-			commentParams.put("action", "add");
-			commentParams.put("comment_dict", json);
+				HashMap<String, String> params2 = new HashMap<String, String>();
+				params2.put("action", "edit");
+				params2.put("comment_dict", editJson);
 
-			RequestSpecification commentSpec = formParamsSpec(commentParams);
-			Response commentResp = RestOperationUtils.post(USER_COMMENTS, null, commentSpec, commentParams);
-			APIResponse commentApiResp = new APIResponse(commentResp);
-			JSONObject commentRespJson = new JSONObject(commentApiResp.getResponseAsString());
+				RequestSpecification spec2 = formParamsSpec(params2);
+				Response resp2 = RestOperationUtils.post(USER_COMMENTS, null, spec2, params2);
+				APIResponse apiResp2 = new APIResponse(resp2);
 
-			String commentId = commentRespJson.getJSONObject("result").getString("comment_id");
-
-			// Edit comment
-
-			HashMap<String, String> editcommentDictParams = new HashMap<String, String>();
-			editcommentDictParams.put("source", "note");
-			editcommentDictParams.put("comment_id", commentId);
-			editcommentDictParams.put("new_comment", "Comment Edited");
-
-			String editJson = jsonUtils.toJson(editcommentDictParams);
-
-			HashMap<String, String> params2 = new HashMap<String, String>();
-			params2.put("action", "edit");
-			params2.put("comment_dict", editJson);
-
-			RequestSpecification spec2 = formParamsSpec(params2);
-			Response resp2 = RestOperationUtils.post(USER_COMMENTS, null, spec2, params2);
-			APIResponse apiResp2 = new APIResponse(resp2);
-
-			verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
-			verify.verifyResponseTime(resp2, 5000);
-			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
-
-			verify.verifyEquals(respJson2.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.jsonSchemaValidation(resp2, "notebook" + File.separator + "editUserComment.json");
-
-			// delete Note
-			HashMap<String, String> deleteNoteParams = new HashMap<String, String>();
-			deleteNoteParams.put("note_id", note_id);
-
-			RequestSpecification deleteSpec = formParamsSpec(deleteNoteParams);
-			RestOperationUtils.post(DELETE_NOTE, null, deleteSpec, deleteNoteParams);
+				verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
+				if (apiResp2.getStatusCode() == 200) {
+					verify.verifyResponseTime(resp2, 5000);
+					JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
+					verify.verifyEquals(respJson2.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.jsonSchemaValidation(resp2, "notebook" + File.separator + "editUserComment.json");
+				}
+			} else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
+			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1903,7 +1835,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=36, description = "Fetch note data")
+	@Test(groups = "sanity", priority = 36, description = "Fetch note data")
 	public void fetchNoteHtml() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1937,7 +1869,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=37, description = "This will load the L1(filter section)")
+	@Test(groups = "sanity", priority = 37, description = "This will load the L1(filter section)")
 	public void fetchNoteFacetHtml() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1968,7 +1900,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=38, description = "Fetch user notebook data")
+	@Test(groups = "sanity", priority = 38, description = "Fetch user notebook data")
 	public void fetchNotebookData() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -1991,13 +1923,13 @@ public class NotebookApis extends APIDriver {
 				JSONArray user_template = respJson.getJSONObject("result").getJSONArray("user_template");
 				if (user_template.length() == 0 || user_template == null)
 					verify.assertTrue(false, "user template array is empty : ");
-				if(USER_APP_URL.contains("app")) {
-				JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
-				if (user_groups.length() == 0 || user_groups == null)
-					verify.assertTrue(false, "user group array is empty : ");
-				JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
-				if (user_fields.length() == 0 || user_fields == null)
-					verify.assertTrue(false, "user fields array is empty");
+				if (USER_APP_URL.contains("app")) {
+					JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
+					if (user_groups.length() == 0 || user_groups == null)
+						verify.assertTrue(false, "user group array is empty : ");
+					JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
+					if (user_fields.length() == 0 || user_fields == null)
+						verify.assertTrue(false, "user fields array is empty");
 				}
 				JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
 				if (user_email.length() == 0 || user_email == null)
@@ -2012,7 +1944,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=39, description = "Fetch user note history")
+	@Test(groups = "sanity", priority = 39, description = "Fetch user note history")
 	public void fetchNoteHistory() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -2044,9 +1976,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	
-
-	@Test(groups = "sanity",priority=40, description = "This will fetch notebook settings")
+	@Test(groups = "sanity", priority = 40, description = "This will fetch notebook settings")
 	public void fetchNoteSettings() throws Exception {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
@@ -2074,7 +2004,8 @@ public class NotebookApis extends APIDriver {
 				verify.assertTrue(respJson.getJSONObject("result").get("note_publishing") != null,
 						"verify note_publishing key present");
 
-				//verify.jsonSchemaValidation(resp, "notebook" + File.separator + "notebookSetting.json");
+				// verify.jsonSchemaValidation(resp, "notebook" + File.separator +
+				// "notebookSetting.json");
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
@@ -2085,7 +2016,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=41, description = "Verify fetch note version api")
+	@Test(groups = "sanity", priority = 41, description = "Verify fetch note version api")
 	public void fetch_note_version() throws CoreCommonException {
 		try {
 			if (note_id == "")
@@ -2116,7 +2047,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=42, description = "Verify fetch note lock status")
+	@Test(groups = "sanity", priority = 42, description = "Verify fetch note lock status")
 	public void fetch_note_lock_status() throws CoreCommonException {
 		try {
 			if (note_id == "")
@@ -2151,7 +2082,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity",priority=43, description = "Verify highight present or not")
+	@Test(groups = "sanity", priority = 43, description = "Verify highight present or not")
 	public void fetch_note() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2180,8 +2111,8 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	@Test(groups = "sanity",priority=44, description = "Verify thesis fields")
+
+	@Test(groups = "sanity", priority = 44, description = "Verify thesis fields")
 	public void fetch_thesis_fields() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2193,18 +2124,19 @@ public class NotebookApis extends APIDriver {
 			if (apiResp.getStatusCode() == 200) {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
-				String thesisFlag="";
+				String thesisFlag = "";
 				try {
-					thesisFlag = getUserPortFolio().getJSONObject("result").getJSONObject("other_flags").getString("notebook_thesis");
+					thesisFlag = getUserPortFolio().getJSONObject("result").getJSONObject("other_flags")
+							.getString("notebook_thesis");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if(!thesisFlag.isEmpty()) {
-				JSONArray fields = respJson.getJSONObject("result").getJSONArray("fields");
-				if(fields == null || fields.length()==0)
-					verify.assertTrue(false, "Verify fields should be present ");
-				else 
-					verify.assertTrue(true, "Verify fields present ");
+				if (!thesisFlag.isEmpty()) {
+					JSONArray fields = respJson.getJSONObject("result").getJSONArray("fields");
+					if (fields == null || fields.length() == 0)
+						verify.assertTrue(false, "Verify fields should be present ");
+					else
+						verify.assertTrue(true, "Verify fields present ");
 				}
 			}
 		} catch (JSONException je) {
@@ -2215,14 +2147,14 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	@Test(groups = "sanity",priority=45, description = "Fetch recent notes")
+
+	@Test(groups = "sanity", priority = 45, description = "Fetch recent notes")
 	public void fetch_recent_notes() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("size", "15");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(FETCH_RECENT_NOTES,null,spec, parameters);
+			Response resp = RestOperationUtils.post(FETCH_RECENT_NOTES, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2244,12 +2176,12 @@ public class NotebookApis extends APIDriver {
 					verify.assertTrue(notedata, "Data present for all notes");
 				}
 				if (notelist.length() > 0) {
-					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0)
-							.getString("note_id") != null, "Verify note id present");
-					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0)
-							.getString("url") != null, "Verify note url present");
+					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0).getString("note_id") != null,
+							"Verify note id present");
+					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0).getString("url") != null,
+							"Verify note url present");
 				}
-			
+
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
@@ -2260,15 +2192,14 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	
-	@Test(groups = "sanity",priority=46, description = "fetch group")
+	@Test(groups = "sanity", priority = 46, description = "fetch group")
 	public void get_hierarchy() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("only_folder_names", "true");
-		//	parameters.put("owner_type", "group");
+			// parameters.put("owner_type", "group");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get(GET_HIERARCHY,spec, parameters);
+			Response resp = RestOperationUtils.get(GET_HIERARCHY, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2278,24 +2209,24 @@ public class NotebookApis extends APIDriver {
 				JSONArray grouplist = respJson.getJSONArray("result");
 				verify.verifyTrue(grouplist.length(), "Verify group list present");
 				if (grouplist.length() > 0) {
-				JSONObject group;
-				boolean groupdata = true;
-				for (int i = 0; i < grouplist.length(); i++) {
-					group = respJson.getJSONArray("result").getJSONObject(i);
-					if (group == null || group.length() == 0) {
-						verify.assertTrue(false, "Note data not present");
-						groupdata = false;
+					JSONObject group;
+					boolean groupdata = true;
+					for (int i = 0; i < grouplist.length(); i++) {
+						group = respJson.getJSONArray("result").getJSONObject(i);
+						if (group == null || group.length() == 0) {
+							verify.assertTrue(false, "Note data not present");
+							groupdata = false;
+						}
 					}
+					if (groupdata) {
+						verify.assertTrue(groupdata, "Data present for all notes");
+					}
+					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0).getString("unique_id") != null,
+							"Verify note id present");
+					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0).getString("owner") != null,
+							"Verify note url present");
 				}
-				if (groupdata) {
-					verify.assertTrue(groupdata, "Data present for all notes");
-				}
-					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0)
-							.getString("unique_id") != null, "Verify note id present");
-					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0)
-							.getString("owner") != null, "Verify note url present");
-				}
-			
+
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
@@ -2305,25 +2236,26 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
+
 	APIResponse apiResp = null;
 	Response resp = null;
-	
-	@Test(groups ="sanity",priority=47, description = "fetch Calendar")
+
+	@Test(groups = "sanity", priority = 47, description = "fetch Calendar")
 	public void fetchCalendar() throws Exception {
 		String URI = USER_APP_URL + FETCHCALENDAR;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		Calendar cal = Calendar.getInstance();
-		int current_month = cal.get(Calendar.MONTH)+1;
+		int current_month = cal.get(Calendar.MONTH) + 1;
 		int last_date = cal.getActualMaximum(Calendar.DATE);
-		int year = Calendar.getInstance().get(Calendar.YEAR); 
+		int year = Calendar.getInstance().get(Calendar.YEAR);
 		try {
 			parameters.put("watch", "All Watchlist Tickers");
-			parameters.put("startDate",year+"-"+ current_month + "-1");
-			parameters.put("endDate",year+"-"+current_month+"-"+last_date);
+			parameters.put("startDate", year + "-" + current_month + "-1");
+			parameters.put("endDate", year + "-" + current_month + "-" + last_date);
 			RequestSpecification spec = formParamsSpec(parameters);
 			resp = RestOperationUtils.post(URI, null, spec, parameters);
 			apiResp = new APIResponse(resp);
-			verify.verifyEquals(apiResp.getStatusCode(), 200 , "Api response");
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 		} catch (Error je) {
 			je.printStackTrace();
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2332,25 +2264,25 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
-	@Test(groups = "sanity",priority=48, description = "Get thesis list")
+
+	@Test(groups = "sanity", priority = 48, description = "Get thesis list")
 	public void get_thesis_list() throws Exception {
 		try {
-			if(thesis_id.isEmpty())
+			if (thesis_id.isEmpty())
 				searchWithNoteTypeAsThesis();
-			if(!thesis_id.isEmpty()) {
-			HashMap<String, String> parameters = new HashMap<String, String>();
-			parameters.put("thesis_id", thesis_id);
-			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(GET_THESIS_LIST,null,spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
-			verify.verifyResponseTime(resp, 5000);
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+			if (!thesis_id.isEmpty()) {
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("thesis_id", thesis_id);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(GET_THESIS_LIST, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
 				}
-			}else {
+			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, thesis id not present");
 			}
 		} catch (JSONException je) {
@@ -2361,7 +2293,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", priority = 49, description = "Share note with user")
 	public void share_new_user_note() throws Exception {
 		try {
@@ -2390,7 +2322,7 @@ public class NotebookApis extends APIDriver {
 								break;
 							}
 						}
-					verify.assertTrue(userPresent, "verify user present in share list");
+						verify.assertTrue(userPresent, "verify user present in share list");
 					} else
 						verify.assertTrue(false, "user not added in sharelist");
 				}
@@ -2403,7 +2335,7 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", priority = 50, description = "Create new bookmark note")
 	public void new_bookmark_note() throws CoreCommonException {
 		try {
@@ -2434,18 +2366,334 @@ public class NotebookApis extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
+
+	@Test(groups = "sanity", priority = 51, description = "Index user bookmard doc")
+	public void index_user_bookmark_doc() throws CoreCommonException {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("doc_id", "5e789829f8bad52e4c6de0ad");
+			parameters.put("bookmark", "true");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(INDEX_USER_BOOKMARK_DOC, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+				verify.assertTrue(respJson.getBoolean("result"), "verify result status");
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	//@Test(groups = "sanity", priority = 52, description = "Update user field")
+	public void update_field_value() throws Exception {
+		try {
+			if (URI.contains("app") || URI.contains("app2")) {
+				String key_id = "";
+				String section_id = "";
+				if (noteList_Typed == null)
+					searchWithNoteTypeAsTyped();
+				if (noteList_Typed != null) {
+					Random random = new Random();
+					for (int i = 0; i < noteList_Typed.length(); i++) {
+						String noteID = noteList_Typed.getJSONObject(i).getString("note_id");
+						JSONObject noteData = getNoteDetail(noteID);
+						if (noteData.getJSONObject("result").getJSONArray("field_section") != null
+								&& noteData.getJSONObject("result").getJSONArray("field_section").length() > 0) {
+							JSONArray keys = noteData.getJSONObject("result").getJSONArray("field_section")
+									.getJSONObject(i).getJSONArray("keys");
+							if (keys.length() > 0 && keys != null) {
+								int index = random.nextInt(keys.length());
+								key_id = keys.getJSONObject(index).getString("id");
+								section_id = noteData.getJSONObject("result").getJSONArray("field_section")
+										.getJSONObject(i).getString("id");
+								break;
+							}
+						}
+					}
+					if (!key_id.isEmpty() && !section_id.isEmpty()) {
+
+						HashMap<String, String> key_data = new HashMap<String, String>();
+						key_data.put(key_id, Integer.toString(random.nextInt(100)));
+						String dataJson = jsonUtils.toJson(key_data);
+						HashMap<String, String> parameters = new HashMap<String, String>();
+						parameters.put("data_dict", dataJson);
+						parameters.put("section_id", section_id);
+						RequestSpecification spec = formParamsSpec(parameters);
+						Response resp = RestOperationUtils.post(UPDATE_FIELD_VALUE, null, spec, parameters);
+						APIResponse apiResp = new APIResponse(resp);
+						verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+						verify.verifyResponseTime(resp, 5000);
+						if (apiResp.getStatusCode() == 200) {
+							JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+							verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"),
+									"verify api status");
+							verify.assertTrue(respJson.getJSONObject("result").getBoolean("status"),
+									"verify result status");
+							verify.verifyEquals(respJson.getJSONObject("result").getString("msg"), "Success",
+									"verify result status");
+						}
+					}
+				}
+			} else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting :	 " + USER_APP_URL);
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 53, description = "test clipper note creation")
+	public void new_clipper_note() throws CoreCommonException {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("source", "https://www.facebook.com/");
+			parameters.put("update", "true");
+			parameters.put("version", "1.0.6");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(NEW_CLIPPER_NOTE, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+				verify.verifyEquals(respJson.getJSONObject("result").getString("type"), "clipper",
+						"verify result status");
+				verify.assertTrue(respJson.getJSONObject("result").getString("note_title").contains("Facebook"),
+						"verify result status");
+				verify.assertTrue(respJson.getJSONObject("result").getString("id") != null, "verify result status");
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 54, description = "Update field")
+	public void update_field() throws CoreCommonException {
+		try {
+			if (URI.contains("app") || URI.contains("app2")) {
+				HashMap<String, String> other_flags = new HashMap<String, String>();
+				other_flags.put("required", "false");
+				other_flags.put("currency", "false");
+				other_flags.put("percentage", "false");
+				other_flags.put("multiple", "false");
+
+				String dataJson = jsonUtils.toJson(other_flags);
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("name", "devesh test" + new Date().getTime());
+				parameters.put("key", "devesh_test");
+				parameters.put("type", "number");
+				parameters.put("action", "update");
+				parameters.put("id", "5e830d24a931f326a8edb263");
+				parameters.put("other_flags", dataJson);
+
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(UPDATE_FIELD, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+					verify.verifyEquals(respJson.getJSONObject("result").getString("msg"), "Success",
+							"verify result status");
+					verify.assertTrue(respJson.getJSONObject("result").getString("id") != null, "verify result status");
+				}
+			} else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting  on : " + USER_APP_URL);
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 55, description = "add new section in note")
+	public void new_section() throws CoreCommonException {
+		try {
+			if (note_id.isEmpty())
+				setNoteId();
+			if (!note_id.isEmpty()) {
+				String[] data = new String[0];
+				int[] dataInt = new int[] { 0, 0, 0 };
+				HashMap<String, Object> section_data = new HashMap<String, Object>();
+				section_data.put("keys", data);
+				section_data.put("order", dataInt);
+				section_data.put("id", "temp_" + new Date().getTime());
+				String dataJson = jsonUtils.toJson(section_data);
+
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("note_id", note_id);
+				parameters.put("sections_data", "[" + dataJson + "]");
+
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(NEW_SECTION, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 56, description = "Delete highlight note")
+	public void delete_highlight() throws Exception {
+		try {
+			if (HighlightNoteID.isEmpty())
+				searchWithNoteTypeAsHighlight();
+			if (!HighlightNoteID.isEmpty()) {
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("id", HighlightNoteID);
+				parameters.put("forever_delete", "false");
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(DELETE_HIGHLIGHT, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+					verify.assertTrue(respJson.getJSONObject("result").getBoolean("status"), "verify api status");
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 57, description = "Delete a bookmark note")
+	public void delete_user_bookmark() throws CoreCommonException {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("doc_id", "5e789829f8bad52e4c6de0ad");
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(DELETE_USER_BOOKMARK, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+				verify.assertTrue(respJson.getJSONObject("result").getBoolean("status"), "verify api status");
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 58, description = "Update note section")
+	public void update_section() throws CoreCommonException {
+		try {
+			if (URI.contains("app") || URI.contains("app2")) {
+				String[] data = new String[] { "5e8486c0f7322a4a3c768544" };
+				int[] dataInt = new int[] { 1, 0, 0 };
+				HashMap<String, Object> section_data = new HashMap<String, Object>();
+				section_data.put("keys", data);
+				section_data.put("order", dataInt);
+				section_data.put("section_id", "5e8486b1a931f31d510117df");
+				section_data.put("action", "update");
+
+				String dataJson = jsonUtils.toJson(section_data);
+
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("action_list", "[" + dataJson + "]");
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.post(UPDATE_SECTION, null, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+					verify.assertTrue(respJson.getJSONObject("result").getBoolean("status"), "verify api status");
+				}
+			} else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting  on : " + USER_APP_URL);
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 59, description = "Print note content")
+	public void get_note_content_for_iframe() throws CoreCommonException {
+		try {
+			if (note_id.isEmpty())
+				setNoteId();
+			if (!note_id.isEmpty()) {
+				HashMap<String, String> parameters = new HashMap<String, String>();
+				parameters.put("id", note_id);
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(GET_NOTE_CONTENT_FOR_IFRAME, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+				verify.verifyResponseTime(resp, 5000);
+				if (apiResp.getStatusCode() == 200) {
+					String responseHtml = apiResp.getResponseAsString();
+					verify.assertTrue(!responseHtml.isEmpty(), "verify response is not blank");
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
 	public String getCurrentTime() {
 		String DATE_FORMAT = "dd-M-yyyy hh:mm:ss a z";
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
-	    ZoneId fromTimeZone = ZoneId.of("Asia/Kolkata");
-	    
-	    LocalDateTime currentTime = LocalDateTime.now(); 
-	    ZonedDateTime currentISTime = currentTime.atZone(fromTimeZone);   
-	    System.out.println(formatter.format(currentISTime));
-	    return formatter.format(currentISTime);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+		ZoneId fromTimeZone = ZoneId.of("Asia/Kolkata");
+
+		LocalDateTime currentTime = LocalDateTime.now();
+		ZonedDateTime currentISTime = currentTime.atZone(fromTimeZone);
+		System.out.println(formatter.format(currentISTime));
+		return formatter.format(currentISTime);
 	}
-	
+
 	public JSONObject getNoteDetail(String noteID) throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2540,7 +2788,7 @@ public class NotebookApis extends APIDriver {
 		}
 		return null;
 	}
-	
+
 	public JSONObject getUserPortFolio() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
