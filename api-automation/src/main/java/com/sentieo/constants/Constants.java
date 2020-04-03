@@ -15,8 +15,8 @@ public class Constants {
 	public static String USER_APP_URL = "";
 	
 	 static{
-		// String envArg = System.getProperty("env");
-		 String envArg = "citadel";
+		 String envArg = System.getProperty("env");
+		// String envArg = "citadel";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
