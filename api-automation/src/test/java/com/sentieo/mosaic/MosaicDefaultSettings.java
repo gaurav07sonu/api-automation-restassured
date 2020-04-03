@@ -52,37 +52,40 @@ public class MosaicDefaultSettings extends APIDriver {
 			parameters.put("default_ma_settings", period);
 			parameters.put("default_index_weight_metric", "corrScore");
 			parameters.put("default_alignment_mode", "ma");
-			JSONObject resp=defaultSetting(parameters);
-			
-			 resp=defaultSetting(blank);
-			
-			String default_index_weight_metric=resp.getJSONObject("result").getString("default_index_weight_metric");
-			String default_si_metric=resp.getJSONObject("result").getString("default_si_metric");
-			String default_ma_settings=resp.getJSONObject("result").getString("default_ma_settings");
-			String default_alignment_mode=resp.getJSONObject("result").getString("default_alignment_mode");
-			
-			
-			String actualWeightMetrci=parameters.get("default_index_weight_metric");
-			String actualSI=parameters.get("default_si_metric");
+			JSONObject resp = defaultSetting(parameters);
 
-			String actualMA=parameters.get("default_ma_settings");
+			resp = defaultSetting(blank);
 
-			String actualAlignmentMode=parameters.get("default_alignment_mode");
+			String default_index_weight_metric = resp.getJSONObject("result").getString("default_index_weight_metric");
+			String default_si_metric = resp.getJSONObject("result").getString("default_si_metric");
+			String default_ma_settings = resp.getJSONObject("result").getString("default_ma_settings");
+			String default_alignment_mode = resp.getJSONObject("result").getString("default_alignment_mode");
 
-			verify.assertEqualsActualContainsExpected(actualWeightMetrci, default_index_weight_metric, "verify default index setting");
+			String actualWeightMetrci = parameters.get("default_index_weight_metric");
+			String actualSI = parameters.get("default_si_metric");
+
+			String actualMA = parameters.get("default_ma_settings");
+
+			String actualAlignmentMode = parameters.get("default_alignment_mode");
+
+			verify.assertEqualsActualContainsExpected(actualWeightMetrci, default_index_weight_metric,
+					"verify default index setting");
 			verify.assertEqualsActualContainsExpected(actualSI, default_si_metric, "verify SI Metric");
 
 			verify.assertEqualsActualContainsExpected(actualMA, default_ma_settings, "verify MA period");
 
-			verify.assertEqualsActualContainsExpected(actualAlignmentMode, default_alignment_mode, "verify alignment mode");
+			verify.assertEqualsActualContainsExpected(actualAlignmentMode, default_alignment_mode,
+					"verify alignment mode");
 
 		} catch (Exception e) {
 			// TODO: handle exception
+		} finally {
+			verify.verifyAll();
 		}
 	}
 
 	public JSONObject defaultSetting(HashMap<String, String> parameters) throws CoreCommonException {
-		JSONObject respJson=null;
+		JSONObject respJson = null;
 		try {
 			String URI = USER_APP_URL + SET_MOSAIC_DEFAULT_SETTINGS;
 			RequestSpecification spec = formParamsSpec(parameters);
@@ -97,7 +100,7 @@ public class MosaicDefaultSettings extends APIDriver {
 		} catch (Exception e) {
 			ExtentTestManager.getTest().log(LogStatus.INFO, "in mosaic default settings  catch " + e.toString());
 		}
-		
+
 		return respJson;
 
 	}
