@@ -122,7 +122,7 @@ public class WebandSocialData extends APIDriver {
 					String isMapping = getMapping(cell);
 					if (!isMapping.contains("true")) {
 						parameters.put("url", "");
-						parameters.put("ticker", "cvx");
+						parameters.put("ticker", cell);
 						parameters.put("pagetype", "plotter");
 						parameters.put("datatype", "page_views");
 						RequestSpecification spec = queryParamsSpec(parameters);
