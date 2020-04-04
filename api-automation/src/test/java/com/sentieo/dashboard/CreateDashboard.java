@@ -24,7 +24,7 @@ import com.sentieo.utils.CoreCommonException;
 public class CreateDashboard extends APIDriver {
 
 	String viewName = "Automation-View";
-	String widget_order = "[\"PriceMonitorWidget_2\",\"DocumentWidget_1\"]";
+	String widget_order = "[\"PriceMonitorWidget\",\"DocumentWidget\"]";
 	static String db_id = "";
 
 	@BeforeMethod(alwaysRun = true)
@@ -128,7 +128,7 @@ public class CreateDashboard extends APIDriver {
 					}
 					JSONObject first_object = result.getJSONObject("first_object");
 					String order = first_object.getJSONArray("order").toString().trim().toLowerCase();
-					verify.assertEqualsActualContainsExpected(widget_order.trim().toLowerCase(), order,
+					verify.assertEqualsActualContainsExpected(order,widget_order.trim().toLowerCase(),
 							"verify widget order");
 				}
 			}

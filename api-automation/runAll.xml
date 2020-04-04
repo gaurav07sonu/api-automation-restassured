@@ -42,6 +42,7 @@
 				<exclude name="com.sentieo.marketsummary"></exclude>
 				<exclude name="com.sentieo.kibana"></exclude>
 				<exclude name="com.sentieo.tp"></exclude>
+				<exclude name="com.sentieo.mosaic"></exclude>
 			</package>
 		</packages>
 	</test>
