@@ -117,6 +117,7 @@ public class NotebookApis extends APIDriver {
 						verify.assertTrue(false, "Fetch note details failed");
 
 					// Validate indexing
+					Thread.sleep(10000);
 					boolean isNotePresent = false;
 					JSONArray notelist_new = getNoteList();
 					for (int i = 0; i < notelist_new.length(); i++) {
