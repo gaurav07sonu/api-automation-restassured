@@ -160,7 +160,8 @@ public class Constants {
 	public static final String DELETE_USER_BOOKMARK="/api/delete_user_bookmark/";
 	public static final String UPDATE_SECTION = "/api/update_section/";
 	public static final String GET_NOTE_CONTENT_FOR_IFRAME = "/api/get_note_content_for_iframe/";
-	
+	public static final String CONSUME_CITATION_LINK = "/api/consume_citation_link/";
+	public static final String GET_NEW_FREE_CITATION_LINK = "/api/get_new_free_citation_link/";
 	
 	// notebook public apis
 	public static final String APPURL = "https://api.sentieo.com/v1";
