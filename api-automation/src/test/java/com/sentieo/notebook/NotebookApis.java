@@ -115,6 +115,19 @@ public class NotebookApis extends APIDriver {
 						verify.assertTrue(noteData.length() > 0, "Validate note details present");
 					else
 						verify.assertTrue(false, "Fetch note details failed");
+
+					// Validate indexing
+					Thread.sleep(10000);
+					boolean isNotePresent = false;
+					JSONArray notelist_new = getNoteList();
+					for (int i = 0; i < notelist_new.length(); i++) {
+						if (notelist_new.getJSONObject(i).getString("id")
+								.equalsIgnoreCase(private_note_id)) {
+							isNotePresent = true;
+							break;
+						}
+					}
+					verify.assertTrue(isNotePresent, "Verify note present/Check indexing");
 				}
 			}
 		} catch (JSONException je) {
@@ -125,7 +138,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", priority = 60, description = "Delete private note")
+	@Test(groups = "sanity", priority = 62, description = "Delete private note")
 	public void deletePrivateNote() throws Exception {
 		try {
 			if (private_note_id == "")
@@ -1885,6 +1898,7 @@ public class NotebookApis extends APIDriver {
 				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
 				JSONArray ticker_term = respJson.getJSONObject("result").getJSONObject("facets")
 						.getJSONObject("tickers").getJSONArray("terms");
+				ExtentTestManager.getTest().log(LogStatus.INFO, ticker_term.toString());
 				if (ticker_term.length() == 0 || ticker_term == null)
 					verify.assertTrue(false, "ticker_term array is empty");
 				JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("facets");
@@ -2392,7 +2406,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	//@Test(groups = "sanity", priority = 52, description = "Update user field")
+	@Test(groups = "sanity", priority = 52, description = "Update user field")
 	public void update_field_value() throws Exception {
 		try {
 			if (URI.contains("app") || URI.contains("app2")) {
@@ -2405,21 +2419,25 @@ public class NotebookApis extends APIDriver {
 					for (int i = 0; i < noteList_Typed.length(); i++) {
 						String noteID = noteList_Typed.getJSONObject(i).getString("note_id");
 						JSONObject noteData = getNoteDetail(noteID);
+						try {
+							noteData.getJSONObject("result").getJSONArray("field_section");
+						} catch (Exception e) {
+							continue;
+						}
 						if (noteData.getJSONObject("result").getJSONArray("field_section") != null
 								&& noteData.getJSONObject("result").getJSONArray("field_section").length() > 0) {
 							JSONArray keys = noteData.getJSONObject("result").getJSONArray("field_section")
-									.getJSONObject(i).getJSONArray("keys");
+									.getJSONObject(0).getJSONArray("keys");
 							if (keys.length() > 0 && keys != null) {
 								int index = random.nextInt(keys.length());
 								key_id = keys.getJSONObject(index).getString("id");
 								section_id = noteData.getJSONObject("result").getJSONArray("field_section")
-										.getJSONObject(i).getString("id");
+										.getJSONObject(0).getString("id");
 								break;
 							}
 						}
 					}
 					if (!key_id.isEmpty() && !section_id.isEmpty()) {
-
 						HashMap<String, String> key_data = new HashMap<String, String>();
 						key_data.put(key_id, Integer.toString(random.nextInt(100)));
 						String dataJson = jsonUtils.toJson(key_data);
@@ -2440,10 +2458,12 @@ public class NotebookApis extends APIDriver {
 							verify.verifyEquals(respJson.getJSONObject("result").getString("msg"), "Success",
 									"verify result status");
 						}
+					} else {
+						ExtentTestManager.getTest().log(LogStatus.SKIP, "Field section not present");
 					}
 				}
 			} else {
-				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting :	 " + USER_APP_URL);
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting : " + USER_APP_URL);
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
@@ -2673,6 +2693,58 @@ public class NotebookApis extends APIDriver {
 					String responseHtml = apiResp.getResponseAsString();
 					verify.assertTrue(!responseHtml.isEmpty(), "verify response is not blank");
 				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 60, description = "Consume citation link")
+	public void consume_citation_link() throws CoreCommonException {
+
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("main_link", APP_URL
+				+ "/#doc?backtab=true&title=JEFFERIES%3A%20Key%20takeaways%20from%20conference%20call&ticker=sime%3Amk&stamp=1585846200000&date=undefined&doc_id=5e85aaaff8bad5201be1a798&citation_id=1585824171929&scrollToid=3.14.0%231&owner=autotester&doc_type=rr&scroll_source=highlight");
+		parameters.put("short_link", "http://snt.io/TeFHHEvyR\r\n");
+		parameters.put("highlight_id", "5e85c1aef7322a753dafa603");
+		RequestSpecification spec = formParamsSpec(parameters);
+		try {
+			Response resp = RestOperationUtils.post(CONSUME_CITATION_LINK, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
+	@Test(groups = "sanity", priority = 61, description = "Get new free citation link")
+	public void get_new_free_citation_link() throws CoreCommonException {
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		RequestSpecification spec = formParamsSpec(parameters);
+		Response resp = RestOperationUtils.post(GET_NEW_FREE_CITATION_LINK, null, spec, parameters);
+		try {
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+				verify.assertTrue(respJson.getJSONObject("result").getBoolean("status"), "verify result status");
+				verify.assertTrue(!respJson.getJSONObject("result").getString("new_link").isEmpty(),
+						"verify new_link url is not blank");
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
