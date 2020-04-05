@@ -87,11 +87,11 @@ public class NotebookApis extends APIDriver {
 		try {
 			String tempId = "quill" + new Date().getTime();
 			HashMap<String, String> params = new HashMap<String, String>();
-			//params.put("ts", tempId);
-			//params.put("title", "privateApiNote" + new Date());
-			//params.put("private_note", "true");
-			//params.put("version", "1");
-			//params.put("note", "<p>Hello world!!</p>");
+			params.put("ts", tempId);
+			params.put("title", "privateApiNote" + new Date());
+			params.put("private_note", "true");
+			params.put("version", "1");
+			params.put("note", "<p>Hello world!!</p>");
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(SET_NOTE_HTML, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
