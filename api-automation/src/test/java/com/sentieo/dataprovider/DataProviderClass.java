@@ -213,7 +213,7 @@ public class DataProviderClass {
 			groupArray = new String[][] { { "mkt_cap" }, { "cogs" }, { "da" }, { "ebit" }, { "ebit-per" }, { "ebitda" },
 					{ "ebitda-per" }, { "eps" }, { "sales" }, { "p_eps" }, { "gross_profit" }, { "p_sales" } };
 		} else if (testmethodname.getName().equalsIgnoreCase("fetchvaluetable")) {
-			groupArray = new String[][] { { "GrossProfit", "usd" }, { "DilutedEPSTotal", "cad" }, { "Ebitda", "euro" },
+			groupArray = new String[][] { { "GrossProfit", "usd" }, { "DilutedEPSTotal", "cad" }, { "Ebitda", "eur" },
 					{ "Ebit", "usd" }, { "NetIncome", "usd" } };
 		} else if (testmethodname.getName().equalsIgnoreCase("earningssurprisesdata")) {
 			groupArray = new String[][] { { "TotalRevenue", "QuarterlyRestated" }, { "TotalRevenue", "AnnualRestated" },
