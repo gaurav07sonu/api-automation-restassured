@@ -60,9 +60,9 @@ userName: "schroders.check"
 password: "Sentieo@123"
 ---
 envName: "schrodersprod"
-appURL: "https://schroders.sentieo.com/"
-userAppUrl: "https://user-schroders.sentieo.com/"
-userName: "test.schroders"
+appURL: "https://schroders.sentieo.com"
+userAppUrl: "https://user-schroders.sentieo.com"
+userName: "test.schroders9"
 password: "Sentieo@123"
 ---
 envName: "canyon"
