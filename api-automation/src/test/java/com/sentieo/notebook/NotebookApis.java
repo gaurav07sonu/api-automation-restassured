@@ -1930,22 +1930,20 @@ public class NotebookApis extends APIDriver {
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			if (apiResp.getStatusCode() == 200) {
 				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
-				if(USER_APP_URL.contains("app")) {
 				JSONArray noteType = respJson.getJSONObject("result").getJSONObject("note_type")
 						.getJSONArray("static_note_type_list");
 				if (noteType.length() == 0 || noteType == null)
 					verify.assertTrue(false, "note type array is empty : ");
+				if(USER_APP_URL.contains("app")) {
 				JSONArray user_template = respJson.getJSONObject("result").getJSONArray("user_template");
 				if (user_template.length() == 0 || user_template == null)
 					verify.assertTrue(false, "user template array is empty : ");
-				if (USER_APP_URL.contains("app")) {
 					JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
 					if (user_groups.length() == 0 || user_groups == null)
 						verify.assertTrue(false, "user group array is empty : ");
 					JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
 					if (user_fields.length() == 0 || user_fields == null)
 						verify.assertTrue(false, "user fields array is empty");
-				}
 				JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
 				if (user_email.length() == 0 || user_email == null)
 					verify.assertTrue(false, "user email array is empty : ");
