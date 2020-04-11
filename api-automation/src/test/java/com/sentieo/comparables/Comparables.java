@@ -239,8 +239,8 @@ public class Comparables extends APIDriver {
 
 		Response resp = RestOperationUtils.post(APP_URL + FETCH_SCREENER_SEARCH, null, spec, queryParams);
 		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyResponseTime(resp, 5000);
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
