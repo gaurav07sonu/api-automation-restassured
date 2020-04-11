@@ -1520,7 +1520,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	@Test(groups = { "heart-beat"}, description = "Fetch user notebook data",priority = 3)
 	public void fetchNotebookData() throws Exception {
 		Team team = Team.Notebook;
-		String URI = USER_APP_URL + FETCH_NOTE_DATA;
+		String URI = USER_APP_URL + FETCH_NOTEBOOK_DATA;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try { 
 			parameters.put("note_type","true");
