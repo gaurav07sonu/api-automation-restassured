@@ -1,6 +1,12 @@
 package com.sentieo.notebookpublicapis;
 
-import static com.sentieo.constants.Constants.*;
+import static com.sentieo.constants.Constants.FILE_UPLOAD;
+import static com.sentieo.constants.Constants.NOTES;
+import static com.sentieo.constants.Constants.PUBLIC_API_URL;
+import static com.sentieo.constants.Constants.XAPIKEY;
+import static com.sentieo.constants.Constants.XUSERKEY;
+import static com.sentieo.constants.Constants.X_API_KEY;
+import static com.sentieo.constants.Constants.X_USER_KEY;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -42,9 +49,13 @@ public class NotebookPublicApis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
-		RestAssured.baseURI = APPURL;
+		RestAssured.baseURI = PUBLIC_API_URL;
 	}
 
+	/*
+	 * 
+	 * This upload has /files as a URL
+	 */
 	@Test(description = "Upload File")
 	public void uploadAFile() throws Exception {
 		try {
@@ -78,6 +89,42 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
+	@Test(description = "Upload File without xapikey")
+	public void uploadAFileWithoutXApikey() throws Exception {
+		try {
+
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "pptfile.pptx";
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, "");
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
 	@Test(description = "Fetch all notes in notebook")
 	public void fetchAllNotes() throws Exception {
 		try {
@@ -93,6 +140,31 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyTrue(respJson.getJSONArray("entries").length() != 0, "Verify the API Response");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Fetch all notes without xapikey")
+	public void fetchAllNotesWithoutXapiKey() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
+			Response resp = RestOperationUtils.get(NOTES, spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -157,6 +229,393 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note without refId")
+	public void createANoteWithoutXapikey() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note without refId")
+	public void createANoteWithOutRefID() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note with already used refId")
+	public void createANoteWithAlreadyUsedRefId() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", "usedRef");
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(message, "Note with given ref already exist. try update");
+			verify.verifyEquals(code, "CONFLICT ALREADY EXIST");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note without Type")
+	public void createANoteWithoutType() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", "usedRef");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
+			verify.verifyEquals(msg.get(1).toString(), "[object has missing required properties ([\"type\"])]");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note with type as blank")
+	public void createANoteWithTypeAsBlank() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", "usedRef");
+			formParams.put("type", "");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
+			verify.verifyEquals(msg.get(1).toString(),
+					"[instance value (\"\") not found in enum (possible values: [\"typed\",\"attachment\"])]");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note with type has incorrect value")
+	public void createANoteWithTypeIncorrectValue() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", "usedRef");
+			formParams.put("type", "abc");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
+			verify.verifyEquals(msg.get(1).toString(),
+					"[instance value (\"abc\") not found in enum (possible values: [\"typed\",\"attachment\"])]");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note with type in Capital case")
+	public void createANoteWithTypeInCapitalCase() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", "usedRef");
+			formParams.put("type", "TYPED");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJson.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
+			verify.verifyEquals(msg.get(1).toString(),
+					"[instance value (\"TYPED\") not found in enum (possible values: [\"typed\",\"attachment\"])]");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note without title")
+	public void createANoteWithoutTitle() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.verifyEquals(respJson.get("title"), "", "Verify title of the note");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note with non ascii char in title")
+	public void createANoteWithNonAsciiCharacterinTitle() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "ÄÂ¿Ð");
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.verifyEquals(respJson.get("title"), "ÄÂ¿Ð", "Verify title of the note");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note without content Param")
+	public void createANoteWithoutContentParam() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Create a note with created_at as old date")
+	public void createANoteWithcreatedAtAsOldDate() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "Hello");
+			formParams.put("category", "meeting");
+			formParams.put("created_at", "2010-04-14T07:55:41");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.verifyEquals(respJson.get("created_at"), "2010-04-14T07:55:41", "Verify created_at");
+			verify.verifyEquals(respJson.get("updated_at"), "2010-04-14T07:55:41", "Verify created_at");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -265,6 +724,93 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(fetchResp, 5000);
 			verify.jsonSchemaValidation(fetchResp, "notebookPublicApi" + File.separator + "fetchSingleNote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Fetch a note without xuserkey")
+	public void fetchSingleNoteWithoutXapiKey() throws Exception {
+		try {
+			// note creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "", fetchSpec, null);
+			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJsonForNote.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 401);
+			verify.verifyResponseTime(fetchResp, 5000);
+			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Fetch a note with invalid noteID")
+	public void fetchSingleNoteWithInvalidNoteID() throws Exception {
+		try {
+			// note creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XAPIKEY, X_API_KEY);
+
+			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "112312321", fetchSpec, null);
+			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJsonForNote.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(fetchResp, 5000);
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Fetch a note with valid noteID but of different account")
+	public void fetchSingleNoteWithValidNoteIDOfAnotherAccount() throws Exception {
+		try {
+			// note creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XAPIKEY, X_API_KEY);
+
+			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704deb", fetchSpec, null);
+			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
+			JSONObject response = (JSONObject) respJsonForNote.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
+			verify.verifyResponseTime(fetchResp, 5000);
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -518,8 +1064,20 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
-		
-			String noteId = "5e86d2fde8f6c2082c9869eb";
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(4));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
 
 			// Adding attachment
 			String folderName = "notebookPublicApi" + File.separator;
@@ -580,16 +1138,26 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
-			String bookmarkNoteId = "5e1c0f6be8f6c262915e7c78";
+			HashMap<String, String> filters = new HashMap<String, String>();
+			filters.put("limit", "1");
+			filters.put("term", "Coldplay");
+
+			RequestSpecification spe = queryParamsSpecForPublicApis(filters, headerParams);
+			Response res = RestOperationUtils.get(NOTES, spe, null);
+			APIResponse apiRes = new APIResponse(res);
+			JSONObject resJson = new JSONObject(apiRes.getResponseAsString());
+			JSONArray arr = resJson.getJSONArray("entries");
+			JSONObject objId = (JSONObject) arr.get(0);
+			String noteId = (String) objId.get("id");
 
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
-			Response resp = RestOperationUtils.get(NOTES + "/" + bookmarkNoteId + "/" + "comments", spec, null);
+			Response resp = RestOperationUtils.get(NOTES + "/" + noteId + "/" + "comments", spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONArray("entries").length(), 1, "Verify Comments length");
+			verify.verifyEquals(respJson.getJSONArray("entries").length(), 2, "Verify Comments length");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "fetchCommentAddedInANote.json");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
