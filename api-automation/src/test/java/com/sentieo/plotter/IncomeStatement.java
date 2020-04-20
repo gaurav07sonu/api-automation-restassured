@@ -29,7 +29,7 @@ public class IncomeStatement extends APIDriver {
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -43,12 +43,12 @@ public class IncomeStatement extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Plotter Income Statement Series", dataProvider = "fetch_graph_data", dataProviderClass = DataProviderClass.class)
+	@Test(groups ="test-group", description = "Plotter Income Statement Series", dataProvider = "fetch_graph_data", dataProviderClass = DataProviderClass.class)
 	public void incomeStatement(String headName, String subType, String dataSource) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;

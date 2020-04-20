@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import static com.sentieo.constants.Constants.*;
+import static com.sentieo.utils.FileUtil.*;
 
 public class CSVReaderUtil {
 	

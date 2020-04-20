@@ -1,15 +1,9 @@
 package com.sentieo.EDT;
 
-import static com.sentieo.constants.Constants.APP_URL;
-import static com.sentieo.constants.Constants.EMAIL;
-import static com.sentieo.constants.Constants.FETCH_GRAPH_DATA;
-import static com.sentieo.constants.Constants.LOGIN_URL;
-import static com.sentieo.constants.Constants.PASSWORD;
-import static com.sentieo.constants.Constants.USER_APP_URL;
+import static com.sentieo.constants.Constants.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,8 +25,6 @@ import com.sentieo.utils.CoreCommonException;
 public class EstimateDataBug extends APIDriver {
 	HashMap<String, String> tickerData = new HashMap<String, String>();
 	HashMap<String, String> parameters = new HashMap<String, String>();
-	CommonUtil commUtil = new CommonUtil();
-	List<String[]> tickers = commUtil.readTickerCSV("Estimate.csv");
 	int EstimateDateInInteger;
 	String estimateDate;
 	String date;

@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sentieo tests" parallel="classes" thread-count="1" >
+   <listeners>
+        <listener class-name="com.sentieo.listener.TestListener"/>
+        <listener class-name="com.sentieo.listener.AnnotationTransformer"/>
+   </listeners>
+ 
+  <test name="sentieo-tests" preserve-order="true">
+    <classes>
+      <class name="com.sentieo.heartbeat.DowntimeMonitors" />
+    </classes>
+  </test>
+</suite>

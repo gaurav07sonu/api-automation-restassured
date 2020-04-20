@@ -1,0 +1,383 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "entries",
+    "offset",
+    "limit"
+  ],
+  "properties": {
+    "entries": {
+      "$id": "#/properties/entries",
+      "type": "array",
+      "title": "The Entries Schema",
+      "items": {
+        "$id": "#/properties/entries/items",
+        "type": "object",
+        "title": "The Items Schema",
+        "required": [
+          "end_node_path",
+          "end_node_offset",
+          "citation_link",
+          "start_node",
+          "annotate",
+          "tickers",
+          "content",
+          "start_node_path",
+          "background-color",
+          "content_type",
+          "updated_at",
+          "html_text",
+          "background-label",
+          "text",
+          "table",
+          "timestamp",
+          "owner",
+          "comments",
+          "image_title",
+          "doc_id",
+          "highlight_type",
+          "url",
+          "labels",
+          "tags",
+          "label_info",
+          "highlightsource",
+          "end_node",
+          "annotation_text",
+          "highlight_id",
+          "start_node_offset"
+        ],
+        "properties": {
+          "end_node_path": {
+            "$id": "#/properties/entries/items/properties/end_node_path",
+            "type": "object",
+            "title": "The End_node_path Schema",
+            "required": [
+              "offset",
+              "ocen_path"
+            ],
+            "properties": {
+              "offset": {
+                "$id": "#/properties/entries/items/properties/end_node_path/properties/offset",
+                "type": "integer",
+                "title": "The Offset Schema",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "ocen_path": {
+                "$id": "#/properties/entries/items/properties/end_node_path/properties/ocen_path",
+                "type": "string",
+                "title": "The Ocen_path Schema",
+                "default": "",
+                "examples": [
+                  "1.10!.2.1"
+                ],
+                "pattern": "^(.*)$"
+              }
+            }
+          },
+          "end_node_offset": {
+            "$id": "#/properties/entries/items/properties/end_node_offset",
+            "type": "integer",
+            "title": "The End_node_offset Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          },
+          "citation_link": {
+            "$id": "#/properties/entries/items/properties/citation_link",
+            "type": "string",
+            "title": "The Citation_link Schema",
+            "default": "",
+            "examples": [
+              ""
+            ],
+            "pattern": "^(.*)$"
+          },
+          "start_node": {
+            "$id": "#/properties/entries/items/properties/start_node",
+            "type": "integer",
+            "title": "The Start_node Schema",
+            "default": 0,
+            "examples": [
+              1574168538526
+            ]
+          },
+          "annotate": {
+            "$id": "#/properties/entries/items/properties/annotate",
+            "type": "boolean",
+            "title": "The Annotate Schema",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "tickers": {
+            "$id": "#/properties/entries/items/properties/tickers",
+            "type": "array",
+            "title": "The Tickers Schema"
+          },
+          "content": {
+            "$id": "#/properties/entries/items/properties/content",
+            "type": "string",
+            "title": "The Content Schema",
+            "default": "",
+            "examples": [
+              "https://user-schroderstest.sentieo.com/api/showAttachment/?note_id=5dd3e7dce8f6c23c6632cf60&key=5dd3e7dce8f6c23c6632cf61.jpeg"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "start_node_path": {
+            "$id": "#/properties/entries/items/properties/start_node_path",
+            "type": "object",
+            "title": "The Start_node_path Schema",
+            "required": [
+              "offset",
+              "ocen_path"
+            ],
+            "properties": {
+              "offset": {
+                "$id": "#/properties/entries/items/properties/start_node_path/properties/offset",
+                "type": "integer",
+                "title": "The Offset Schema",
+                "default": 0,
+                "examples": [
+                  0
+                ]
+              },
+              "ocen_path": {
+                "$id": "#/properties/entries/items/properties/start_node_path/properties/ocen_path",
+                "type": "string",
+                "title": "The Ocen_path Schema",
+                "default": "",
+                "examples": [
+                  "1.10!.2.1"
+                ],
+                "pattern": "^(.*)$"
+              }
+            }
+          },
+          "background-color": {
+            "$id": "#/properties/entries/items/properties/background-color",
+            "type": "string",
+            "title": "The Background-color Schema",
+            "default": "",
+            "examples": [
+              "#b1d7ff"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "content_type": {
+            "$id": "#/properties/entries/items/properties/content_type",
+            "type": "string",
+            "title": "The Content_type Schema",
+            "default": "",
+            "examples": [
+              "image"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "updated_at": {
+            "$id": "#/properties/entries/items/properties/updated_at",
+            "type": "integer",
+            "title": "The Updated_at Schema",
+            "default": 0,
+            "examples": [
+              1574168540000
+            ]
+          },
+          "html_text": {
+            "$id": "#/properties/entries/items/properties/html_text",
+            "type": "string",
+            "title": "The Html_text Schema",
+            "default": "",
+            "examples": [
+              ""
+            ],
+            "pattern": "^(.*)$"
+          },
+          "background-label": {
+            "$id": "#/properties/entries/items/properties/background-label",
+            "type": "string",
+            "title": "The Background-label Schema",
+            "default": "",
+            "examples": [
+              ""
+            ],
+            "pattern": "^(.*)$"
+          },
+          "text": {
+            "$id": "#/properties/entries/items/properties/text",
+            "type": "string",
+            "title": "The Text Schema",
+            "default": "",
+            "examples": [
+              ""
+            ],
+            "pattern": "^(.*)$"
+          },
+          "table": {
+            "$id": "#/properties/entries/items/properties/table",
+            "type": "boolean",
+            "title": "The Table Schema",
+            "default": false,
+            "examples": [
+              false
+            ]
+          },
+          "timestamp": {
+            "$id": "#/properties/entries/items/properties/timestamp",
+            "type": "integer",
+            "title": "The Timestamp Schema",
+            "default": 0,
+            "examples": [
+              1574168538526
+            ]
+          },
+          "owner": {
+            "$id": "#/properties/entries/items/properties/owner",
+            "type": "string",
+            "title": "The Owner Schema",
+            "default": "",
+            "examples": [
+              "schroders.check"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "comments": {
+            "$id": "#/properties/entries/items/properties/comments",
+            "type": "array",
+            "title": "The Comments Schema"
+          },
+          "image_title": {
+            "$id": "#/properties/entries/items/properties/image_title",
+            "type": "string",
+            "title": "The Image_title Schema",
+            "default": "",
+            "examples": [
+              "note_19.11.2019 | 6:32 PM"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "doc_id": {
+            "$id": "#/properties/entries/items/properties/doc_id",
+            "type": "string",
+            "title": "The Doc_id Schema",
+            "default": "",
+            "examples": [
+              "5dd3e7afe8f6c23c6632cf5b"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "highlight_type": {
+            "$id": "#/properties/entries/items/properties/highlight_type",
+            "type": "string",
+            "title": "The Highlight_type Schema",
+            "default": "",
+            "examples": [
+              ""
+            ],
+            "pattern": "^(.*)$"
+          },
+          "url": {
+            "$id": "#/properties/entries/items/properties/url",
+            "type": "string",
+            "title": "The Url Schema",
+            "default": "",
+            "examples": [
+              "http://snt.io/EhF9j5QBf"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "labels": {
+            "$id": "#/properties/entries/items/properties/labels",
+            "type": "array",
+            "title": "The Labels Schema"
+          },
+          "tags": {
+            "$id": "#/properties/entries/items/properties/tags",
+            "type": "array",
+            "title": "The Tags Schema"
+          },
+          "label_info": {
+            "$id": "#/properties/entries/items/properties/label_info",
+            "type": "object",
+            "title": "The Label_info Schema"
+          },
+          "highlightsource": {
+            "$id": "#/properties/entries/items/properties/highlightsource",
+            "type": "string",
+            "title": "The Highlightsource Schema",
+            "default": "",
+            "examples": [
+              "docsearch"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "end_node": {
+            "$id": "#/properties/entries/items/properties/end_node",
+            "type": "integer",
+            "title": "The End_node Schema",
+            "default": 0,
+            "examples": [
+              1574168538526
+            ]
+          },
+          "annotation_text": {
+            "$id": "#/properties/entries/items/properties/annotation_text",
+            "type": "string",
+            "title": "The Annotation_text Schema",
+            "default": "",
+            "examples": [
+              ""
+            ],
+            "pattern": "^(.*)$"
+          },
+          "highlight_id": {
+            "$id": "#/properties/entries/items/properties/highlight_id",
+            "type": "string",
+            "title": "The Highlight_id Schema",
+            "default": "",
+            "examples": [
+              "5dd3e7dce8f6c23c6632cf62"
+            ],
+            "pattern": "^(.*)$"
+          },
+          "start_node_offset": {
+            "$id": "#/properties/entries/items/properties/start_node_offset",
+            "type": "integer",
+            "title": "The Start_node_offset Schema",
+            "default": 0,
+            "examples": [
+              0
+            ]
+          }
+        }
+      }
+    },
+    "offset": {
+      "$id": "#/properties/offset",
+      "type": "integer",
+      "title": "The Offset Schema",
+      "default": 0,
+      "examples": [
+        0
+      ]
+    },
+    "limit": {
+      "$id": "#/properties/limit",
+      "type": "integer",
+      "title": "The Limit Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    }
+  }
+}

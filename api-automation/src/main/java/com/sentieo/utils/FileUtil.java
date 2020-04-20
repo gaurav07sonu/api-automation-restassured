@@ -12,12 +12,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.sentieo.constants.*;
 
 public class FileUtil {
+	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+			+ "test" + File.separator + "resources";
 	public File getFileFromResources(String fileName) throws MalformedURLException {
 		// ClassLoader classLoader = getClass().getClassLoader();
-		URL resource = new File(Constants.RESOURCE_PATH + File.separator + fileName).toURI().toURL();
+		URL resource = new File(RESOURCE_PATH + File.separator + fileName).toURI().toURL();
 		// URL resource = classLoader.getResource(fileName);
 		if (resource == null) {
 			throw new IllegalArgumentException("file is not found!");
@@ -51,6 +52,9 @@ public class FileUtil {
 
 			String userName = args[2];
 			replaceUserValue(userName);
+			
+			String password = args[3];
+			replacePasswordValue(password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,6 +93,20 @@ public class FileUtil {
 			Path path = Paths.get("com/sentieo/constants/Constants.java");
 			Stream<String> lines = Files.lines(path);
 			List<String> replaced = lines.map(line -> line.replaceAll("alphagani35@gmail.com", uname))
+					.collect(Collectors.toList());
+			Files.write(path, replaced);
+			lines.close();
+			System.out.println("Find and Replace done!!!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void replacePasswordValue(String password) {
+		try {
+			Path path = Paths.get("com/sentieo/constants/Constants.java");
+			Stream<String> lines = Files.lines(path);
+			List<String> replaced = lines.map(line -> line.replaceAll("DGL=14412jg", password))
 					.collect(Collectors.toList());
 			Files.write(path, replaced);
 			lines.close();

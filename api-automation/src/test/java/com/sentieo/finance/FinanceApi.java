@@ -35,13 +35,16 @@ import com.sentieo.rest.base.RestOperationUtils;
 
 public class FinanceApi extends APIDriver {
 
+	String watchName = "";
+	Object ticker = "";
+
 	APIAssertions verify = new APIAssertions();
 	public static HashMap<String, String> fetchcompanysummarytable = new HashMap<String, String>();
 	public static HashMap<String, String> fetchnewcompanyheaderdata = new HashMap<String, String>();
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeClass
+	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -66,7 +69,7 @@ public class FinanceApi extends APIDriver {
 	public void fetchCurrentStockData() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
@@ -93,7 +96,7 @@ public class FinanceApi extends APIDriver {
 	public void fetchCapitalEventsData() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				tickerData.put("sort_key", "announceddate");
@@ -116,7 +119,7 @@ public class FinanceApi extends APIDriver {
 	public void getTrackerMappings() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				tickerData.put("termtype", "ticker");
@@ -139,7 +142,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(GET_COMPANY_RETURN, spec, tickerData);
@@ -159,7 +162,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("sort_key", "AnnouncedDate");
 				tickerData.put("sort_state", "desc");
@@ -181,7 +184,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("sections", "research");
 				tickerData.put("ticker", "aapl");
@@ -203,7 +206,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("selection", "Revenue_corrScore");
 				tickerData.put("termtype", "ticker");
@@ -229,7 +232,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("summary", "true");
 				RequestSpecification spec = formParamsSpec(tickerData);
@@ -276,7 +279,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_ANALYST_RECOMMEND, null, spec, tickerData);
@@ -291,45 +294,43 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-
 	@Test(groups = "sanity", description = "fetch_yearly_data", dataProvider = "fetch_yearly_data1", dataProviderClass = DataProviderClass.class)
 	public void fetchyearlydata(String ticker, String model, String historical_periods, String forecast_periods,
 			String report_currency) throws Exception {
-		String url=USER_APP_URL;
-		if(url.equals("user-app2.sentieo.com")&& (!url.contains("user-dev.sentieo.com"))) {
-		for (String[] row : tickers) {
-			for (String cell : row) {
-				cell=cell.toLowerCase();
-				HashMap<String, String> tickerData = new HashMap<String, String>();
-				tickerData.put("ticker", cell);
-				tickerData.put("model", model);
-				tickerData.put("historical_periods", historical_periods);
-				tickerData.put("forecast_periods", forecast_periods);
-				tickerData.put("report_currency", report_currency);
-				RequestSpecification spec = formParamsSpec(tickerData);
-				Response resp = RestOperationUtils.post(FETCH_YEARLY_DATA, null, spec, tickerData);
-				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 5000);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyEquals(respJson.getJSONObject("response").getString("msg"), "success",
-						"Verify the API Message");
+		String url = USER_APP_URL;
+		if (url.equals("user-app2.sentieo.com") && (!url.contains("user-dev.sentieo.com"))) {
+			for (String[] row : tickers) {
+				for (String cell : row) {
+					cell = cell.toLowerCase();
+					HashMap<String, String> tickerData = new HashMap<String, String>();
+					tickerData.put("ticker", cell);
+					tickerData.put("model", model);
+					tickerData.put("historical_periods", historical_periods);
+					tickerData.put("forecast_periods", forecast_periods);
+					tickerData.put("report_currency", report_currency);
+					RequestSpecification spec = formParamsSpec(tickerData);
+					Response resp = RestOperationUtils.post(FETCH_YEARLY_DATA, null, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyEquals(respJson.getJSONObject("response").getString("msg"), "success",
+							"Verify the API Message");
 
+				}
 			}
-		}
 		}
 		verify.verifyAll();
 	}
-
 
 	@Test(groups = "sanity", description = "fetch_trading_ratios")
 	public void fetchtradingratios() throws Exception {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_TRADING_RATIO, null, spec, tickerData);
@@ -349,7 +350,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_COMPANY_STATUS, null, spec, tickerData);
@@ -370,7 +371,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("new_wl", "true");
 				RequestSpecification spec = formParamsSpec(tickerData);
@@ -411,7 +412,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("datatype", datatype);
 				tickerData.put("periodtype", periodtype);
@@ -428,12 +429,13 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "fetch_past_intra")
+	@Test(groups = "fetch", description = "fetch_past_intra")
 	public void fetchpastintra() throws Exception {
+		String systemDate = "";
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_PAST_INTRADAY, spec, tickerData);
@@ -444,7 +446,7 @@ public class FinanceApi extends APIDriver {
 				try {
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
-					String systemDate = dateValidationForHistoricalChart("fetchpastintra");
+					systemDate = dateValidationForHistoricalChart("fetchpastintra", cell);
 					systemDate = systemDate.replaceAll("/", "");
 					JSONArray values = respJson.getJSONObject("result").getJSONObject("past_intra")
 							.getJSONArray(systemDate);
@@ -454,7 +456,7 @@ public class FinanceApi extends APIDriver {
 							double timestamp = value.getDouble(0);
 							int digit = (int) (timestamp / 1000);
 							String date = convertTimestampIntoDate(digit);
-							String systemDate1 = dateValidationForHistoricalChart("");
+							String systemDate1 = dateValidationForHistoricalChart("", cell);
 							verify.compareDates(date, systemDate1, "Verify the Current Date Point");
 							break;
 						}
@@ -469,18 +471,19 @@ public class FinanceApi extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity", description = "fetch_main_graph")
+	@Test(groups = "fetch2", description = "fetch_main_graph")
 	public void fetchmaingraph() throws Exception {
+		String systemDate = "";
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_MAIN_GRAPH, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
 				try {
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -491,7 +494,7 @@ public class FinanceApi extends APIDriver {
 						double timestamp = value.getDouble(0);
 						int digit = (int) (timestamp / 1000);
 						String date = convertTimestampIntoDate(digit);
-						String systemDate = dateValidationForHistoricalChart("fetch_main_graph");
+						systemDate = dateValidationForHistoricalChart("", cell);
 						verify.compareDates(date, systemDate, "Verify the Current Date Point");
 						break;
 					}
@@ -513,7 +516,7 @@ public class FinanceApi extends APIDriver {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {
-					cell=cell.toLowerCase();
+					cell = cell.toLowerCase();
 					tickerData.put("ticker", cell);
 					tickerData.put("graphtype", "TradingMultiples");
 					tickerData.put("ratio", ratio);
@@ -620,7 +623,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("graphtype", "financialData");
 				tickerData.put("subtype", subtype);
@@ -644,7 +647,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("type", subtype);
 				tickerData.put("report_currency", currency);
@@ -661,57 +664,314 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-
-	@Test(groups = "sanity", description = "FETCH_NEW_MODEL_DATA")
+	@Test(groups = "new_model_data", description = "FETCH_NEW_MODEL_DATA")
 	public void fetchNewModelData() throws Exception {
-		String url=USER_APP_URL;
-		if(url.equals("https://user-app2.sentieo.com")&& (url.equals("https://user-dev.sentieo.com"))) {
-			HashMap<String, String> tickerData = new HashMap<String, String>();
-			for (String[] row : tickers) {
-				for (String cell : row) {
-					cell=cell.toLowerCase();
-					tickerData.put("model_source", "vpt");
-					tickerData.put("ticker", cell);
-					tickerData.put("ptype", "fq");
-					tickerData.put("report_currency", "usd");
-					tickerData.put("units", "T");
-					tickerData.put("historical_periods", "3year");
-					tickerData.put("forecast_periods", "3year");
+
+		String url = APP_URL + FETCH_NEW_MODEL_DATA;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				cell = cell.toLowerCase();
+				tickerData.put("model_source", "vpt");
+				tickerData.put("ticker", cell);
+				tickerData.put("ptype", "fq");
+				tickerData.put("report_currency", "usd");
+				tickerData.put("units", "M");
+				try {
 					RequestSpecification spec = queryParamsSpec(tickerData);
-					Response resp = RestOperationUtils.get(FETCH_NEW_MODEL_DATA, spec, tickerData);
+					Response resp = RestOperationUtils.get(url, spec, tickerData);
 					APIResponse apiResp = new APIResponse(resp);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyResponseTime(resp, 5000);
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
+					JSONObject result = respJson.getJSONObject("result");
+					if (result.length() == 0 || result == null)
+						verify.assertTrue(false, "API shows blank data");
+					else
+						verify.assertTrue(true, "verify new model data");
+				} catch (Exception e) {
+					verify.assertTrue(false, e.toString() + " for ticker " + cell);
 				}
 			}
 			verify.verifyAll();
 		}
-
 	}
-
 
 	@Test(groups = "sanity", description = "fetch_institutional_holdings_data3")
 	public void fetchinstitutionalholdingsdata() throws Exception {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("period", "2018-12-31");
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_HOLDINGS_DATA, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
 		}
 		verify.verifyAll();
+	}
+
+	@Test(groups = "sanity2", description = "fetch_institutional_holdings_data3")
+	public void fetchTickerValues() throws Exception {
+		String URI = APP_URL + FETCH_USER_TICKER_VALUES;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				cell = cell.toLowerCase();
+				tickerData.put("seriesTicker", cell);
+				try {
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(URI, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+
+					String seriesTicker = respJson.getJSONObject("result").get("seriesTicker").toString();
+					verify.assertEqualsActualContainsExpected(cell.toLowerCase(), seriesTicker, "verify series ticker");
+					JSONArray intradayData = respJson.getJSONObject("result").getJSONArray("intradayData");
+					if (intradayData.length() == 0 || intradayData == null)
+						verify.assertTrue(false, "Intraday data is blank : ");
+					else
+						verify.assertTrue(true, "Verify Intraday data : ");
+					if (!cell.contains(":")) {
+						JSONArray rel_sp = respJson.getJSONObject("result").getJSONArray("rel_sp");
+						if (rel_sp.length() == 0 || rel_sp == null)
+							verify.assertTrue(false, "rel_sp data is blank : ");
+						else
+							verify.assertTrue(true, "Verify rel_sp data : ");
+					}
+				} catch (Exception e) {
+					verify.verificationFailures.add(e);
+					ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+				}
+			}
+		}
+		verify.verifyAll();
+	}
+
+	@Test(groups = "sanity22", description = "fetch_institutional_holdings_data3")
+	public void fetchEarningHeaderData() throws Exception {
+		String URI = APP_URL + FETCH_EARNING_HEADER_DATA;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				cell = cell.toLowerCase();
+				tickerData.put("ticker", cell);
+				tickerData.put("summary", "true");
+				try {
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(URI, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					JSONArray earning_date = respJson.getJSONObject("result").getJSONArray("earning_date");
+					if (earning_date.length() == 0 || earning_date == null)
+						verify.assertTrue(false, "earning_date data is blank : ");
+					else
+						verify.assertTrue(true, "Verify earning_date data : ");
+
+				} catch (Exception e) {
+					verify.verificationFailures.add(e);
+					ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+				}
+			}
+		}
+		verify.verifyAll();
+	}
+
+	@Test(groups = "docs", description = "fetch_institutional_holdings_data3")
+	public void fetchDocs() throws Exception {
+		String URI = APP_URL + FETCH_DOCS;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				cell = cell.toLowerCase();
+				tickerData.put("tickers", cell);
+				tickerData.put("doc_type", "all_docs");
+				tickerData.put("size_docs", "6");
+				tickerData.put("size_tweets", "15");
+				tickerData.put("split", "true");
+				try {
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(URI, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					JSONArray result = respJson.getJSONObject("result").getJSONObject("all_docs")
+							.getJSONArray("result");
+					if (result.length() == 0 || result == null)
+						verify.assertTrue(false, "docs data is blank for : " + cell);
+					else
+						verify.assertTrue(true, "Verify all docs data for : " + cell);
+
+				} catch (Exception e) {
+					verify.verificationFailures.add(e);
+					ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+				}
+			}
+		}
+		verify.verifyAll();
+	}
+
+	@Test(groups = "autocomplete", description = "fetch_institutional_holdings_data3")
+	public void fetchCompanyAutocomplete() throws Exception {
+		String URI = APP_URL + GET_COMPANY_AUTOCOMPLETE;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		for (String[] row : tickers) {
+			for (String cell : row) {
+				cell = cell.toLowerCase();
+				tickerData.put("tickers", cell);
+				tickerData.put("doc_type", "all_docs");
+				tickerData.put("size_docs", "6");
+				tickerData.put("size_tweets", "15");
+				tickerData.put("split", "true");
+				try {
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(URI, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					JSONArray result = respJson.getJSONArray("result");
+					if (result.length() == 0 || result == null)
+						verify.assertTrue(false, "Autocomplete is blank for ticker : " + cell);
+					else
+						verify.assertTrue(true, "verify Autocomplete data for ticker: " + cell);
+
+				} catch (Exception e) {
+					verify.verificationFailures.add(e);
+					ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+				}
+			}
+		}
+		verify.verifyAll();
+	}
+
+	@Test(groups = "company", description = "fetch_institutional_holdings_data3")
+	public void fetchCompanyList() throws Exception {
+		String URI = APP_URL + FETCH_COMPANY_LIST;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		try {
+			RequestSpecification spec = queryParamsSpec(tickerData);
+			Response resp = RestOperationUtils.get(URI, spec, tickerData);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			JSONArray result = respJson.getJSONArray("result");
+			if (result.length() == 0 || result == null)
+				verify.assertTrue(false, "Result shows blank data : ");
+			else
+				verify.assertTrue(true, "verify company list result : ");
+
+		} catch (Exception e) {
+			verify.verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+		}
+
+		verify.verifyAll();
+	}
+
+	@Test(groups = "company3", description = "fetch_institutional_holdings_data3")
+	public void fetchStockMeta() throws Exception {
+		String URI = APP_URL + FETCH_STOCK_META;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		try {
+			tickerData.put("ticker_groups",
+					"[{\"priceMonitor_watchlistGroup_followed_tickers\":[\"med\",\"ma\",\"el\",\"dri\",\"fb\",\"qcom\",\"lb\",\"asna\"]}]");
+			tickerData.put("source_fields",
+					"[\"current_price\",\"day_change\",\"ytd_change\",\"week_change\",\"month_change\",\"trade_time\"]");
+			RequestSpecification spec = queryParamsSpec(tickerData);
+			Response resp = RestOperationUtils.get(URI, spec, tickerData);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			JSONObject result = respJson.getJSONObject("result").getJSONObject("stock_meta")
+					.getJSONObject("priceMonitor_watchlistGroup_followed_tickers");
+			if (result.length() == 0 || result == null)
+				verify.assertTrue(false, "Result shows blank data : ");
+			else
+				verify.assertTrue(true, "verify stock_meta : ");
+
+		} catch (Exception e) {
+			verify.verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+		}
+
+		verify.verifyAll();
+	}
+
+	@Test(groups = "fetchintra", description = "fetch_institutional_holdings_data3")
+	public void fetchIntraHeader() throws Exception {
+		String URI = APP_URL + FETCH_INTRA_HEADER_DATA;
+		boolean intradayFlag = true;
+		boolean rel_spFlag = true;
+
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		try {
+			for (String[] row : tickers) {
+				for (String cell : row) {
+					cell = cell.toLowerCase();
+					tickerData.put("tickers", cell);
+					tickerData.put("source", "summary");
+					RequestSpecification spec = queryParamsSpec(tickerData);
+					Response resp = RestOperationUtils.get(URI, spec, tickerData);
+					APIResponse apiResp = new APIResponse(resp);
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					JSONArray rel_sp = respJson.getJSONObject("result").getJSONArray("rel_sp");
+					if (!cell.contains(":")) {
+					if (rel_sp.length() == 0 || rel_sp == null) {
+						verify.assertTrue(false, "rel_sp shows blank data for: "+cell);
+						rel_spFlag = false;
+					}
+					}
+					JSONArray intraday = respJson.getJSONObject("result").getJSONArray("intraday");
+					if (intraday.length() == 0 || intraday == null) {
+						verify.assertTrue(false, "intraday shows blank data for : "+cell);
+						intradayFlag = false;
+					}
+				}
+			}
+			if (intradayFlag)
+				verify.assertTrue(intradayFlag, "verify intraday data is not blank : ");
+
+			if (rel_spFlag)
+				verify.assertTrue(intradayFlag, "verify rel_sp data is not blank : ");
+		} catch (Exception e) {
+			verify.verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+		}
+		verify.verifyAll();
+
 	}
 
 	public String convertTimestampIntoDate(int time) {
@@ -761,8 +1021,8 @@ public class FinanceApi extends APIDriver {
 		return false;
 	}
 
-	public String dateValidationForHistoricalChart(String testName) {
-
+	public String dateValidationForHistoricalChart(String testName, String ticker) {
+		String str = "";
 		Calendar calNewYork = Calendar.getInstance();
 		DateFormat dateformat;
 		if (testName.contains("fetchpastintra")) {
@@ -770,31 +1030,71 @@ public class FinanceApi extends APIDriver {
 		} else {
 			dateformat = new SimpleDateFormat("M/dd/yy");
 		}
-		if(testName.equalsIgnoreCase("au"))
-		{	calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
-			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-			if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
-				calNewYork.add(Calendar.DAY_OF_MONTH,0);
-				String str = dateformat.format(calNewYork.getTime());
-				return str;
-			} else {
-				calNewYork.add(Calendar.DAY_OF_MONTH,0);
-				String str = dateformat.format(calNewYork.getTime());
-				return str;
+
+		if (testName.contains("fetchpastintra")) {
+			if (ticker.contains(":au") || ticker.contains(":jp") || ticker.contains(":na") || ticker.contains(":gr")) {
+				calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
+				int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+				if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+					calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+					str = dateformat.format(calNewYork.getTime());
+					return str;
+				} else {
+					calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+					str = dateformat.format(calNewYork.getTime());
+					return str;
+				}
 			}
 		}
-		else {
-		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-		if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
-			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
-			String str = dateformat.format(calNewYork.getTime());
-			return str;
+		if (testName.isEmpty()) {
+			if (ticker.contains(":au") || ticker.contains(":jp") || ticker.contains(":na") || ticker.contains(":gr")) {
+				calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
+				int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+				if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+					calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+					str = dateformat.format(calNewYork.getTime());
+					return str;
+				} else {
+					calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+					str = dateformat.format(calNewYork.getTime());
+					return str;
+				}
+			}
+			calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+			if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+				calNewYork.add(Calendar.DAY_OF_MONTH, -3);
+				str = dateformat.format(calNewYork.getTime());
+				return str;
+			} else {
+				calNewYork.add(Calendar.DAY_OF_MONTH, -1);
+				str = dateformat.format(calNewYork.getTime());
+				return str;
+			}
+		} else if (ticker.contains(":au") || ticker.contains(":jp")) {
+			calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
+			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+			if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+				calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+				str = dateformat.format(calNewYork.getTime());
+				return str;
+			} else {
+				calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+				str = dateformat.format(calNewYork.getTime());
+				return str;
+			}
 		} else {
-			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
-			String str = dateformat.format(calNewYork.getTime());
-			return str;
-		}
+			calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+			if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+				calNewYork.add(Calendar.DAY_OF_MONTH, -3);
+				str = dateformat.format(calNewYork.getTime());
+				return str;
+			} else {
+				calNewYork.add(Calendar.DAY_OF_MONTH, -1);
+				str = dateformat.format(calNewYork.getTime());
+				return str;
+			}
 		}
 	}
 
@@ -813,7 +1113,5 @@ public class FinanceApi extends APIDriver {
 			}
 		}
 	}
-
-	
 
 }

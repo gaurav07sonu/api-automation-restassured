@@ -100,4 +100,16 @@ public class APIDriver {
 					
 	}
 	
+	protected RequestSpecification kibanaAPISpec(HashMap<String, String> headers) {
+		return given().auth().basic("watcher", "@p!M0n!nt0r!ng@S3nt!3o").contentType(ContentType.JSON)
+					.accept(ContentType.JSON).headers(headers);
+					
+	}
+	
+	protected RequestSpecification targetProcess() {
+		return given().auth()
+				  .basic("sanjay.saini@sentieo.com", "Iniaskyajnas97").contentType(ContentType.JSON);
+	}
+	
+	
 }

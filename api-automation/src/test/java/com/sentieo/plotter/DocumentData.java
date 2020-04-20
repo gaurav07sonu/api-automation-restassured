@@ -24,16 +24,13 @@ import com.sentieo.utils.CoreCommonException;
 public class DocumentData extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
-	HashMap<String, String> parameters = new HashMap<String, String>();
-	// public ArrayList<String> tickers = new
-	// ArrayList<String>(Arrays.asList("aapl", "lb", "amzn"));
 	String documentDate;
 	String plotterDate;
 	double EXPECTEDDAYS = 1;
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeClass
+	@BeforeClass(alwaysRun=true)
 	public void setup() throws Exception {
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
@@ -47,13 +44,14 @@ public class DocumentData extends APIDriver {
 
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "Plotter Web and Social Data Series")
+	@Test(groups ="test-group", description = "Plotter Web and Social Data Series")
 	public void transcriptSentiment() throws CoreCommonException {
+		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			for (String[] row : tickers) {
@@ -91,6 +89,7 @@ public class DocumentData extends APIDriver {
 	}
 
 	public void fetchCompanyDocs(String cell) throws CoreCommonException {
+		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			String URI = APP_URL + FETCH_COMPANY_DOCS;
 			cell=cell.toLowerCase();
@@ -104,8 +103,6 @@ public class DocumentData extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyResponseTime(resp, 5000);
-			// JSONObject values =
-			// respJson.getJSONObject("result").getJSONArray("transcripts").getJSONObject(0);
 			JSONArray values = respJson.getJSONObject("result").getJSONArray("transcripts");
 			for (int j = 0; j < values.length(); j++) {
 				JSONObject object = values.getJSONObject(j);
