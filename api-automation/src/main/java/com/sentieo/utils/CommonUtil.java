@@ -5,6 +5,7 @@ import static com.sentieo.constants.Constants.RESOURCE_PATH;
 import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -90,25 +92,39 @@ public class CommonUtil {
 
 	public void generateRandomTickers(Method testMethod) {
 		List<String[]> tickers = randomTickerCSV(testMethod);
-		randomTickers.put(1001, "AAPL");
-		randomTickers.put(1002, "AMZN");
-		randomTickers.put(1003, "TSLA");
-		randomTickers.put(1004, "ASNA");
+		randomTickers.clear();
+		if (!testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM"))
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue"))
+				&&(!testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX"))
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT"))) {
+			randomTickers.put(1001, "AAPL");
+			randomTickers.put(1002, "AMZN");
+			randomTickers.put(1003, "TSLA");
+			randomTickers.put(1004, "ASNA");
+
+		}
 		for (String[] row : tickers) {
 			int highlightLabelRandom = new Random().nextInt(tickers.size());
 			String[] cell = tickers.get(highlightLabelRandom);
 			for (String tickerName : cell) {
 				randomTickers.put(highlightLabelRandom, tickerName);
-				if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+				if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
+						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
 					if (randomTickers.size() >= 10)
 						break;
 				} else {
 					if (randomTickers.size() >= 100)
 						break;
 				}
-
 			}
-			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
+					|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
 				if (randomTickers.size() >= 10)
 					break;
 			} else {
@@ -121,9 +137,24 @@ public class CommonUtil {
 	public List<String[]> randomTickerCSV(Method testMethod) {
 		FileReader filereader;
 		try {
-			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")) {
+			if (testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+					|| (testMethod.getName().equalsIgnoreCase("keyMultiplesP_CashFlow"))) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "dailyseries.csv");
+			}
+
+			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "Tangible.csv");
+			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
+				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "gross.csv");
+			}
+
+			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
+				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
+			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
 			} else {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
@@ -140,10 +171,10 @@ public class CommonUtil {
 
 	}
 
-	public List<String[]> readTickerCSV() {
+	public List<String[]> readTickerCSV(String csv) {
 		FileReader filereader;
 		try {
-			filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "EDTTicker.csv");
+			filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + csv);
 			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
 			List<String[]> allData = csvReader.readAll();
 			return allData;
@@ -154,6 +185,7 @@ public class CommonUtil {
 		return null;
 
 	}
+
 	public Double getpostivePercentageChange(Double firstValue, Double secondValue) {
 		Double difference = firstValue - secondValue;
 		Double average = (firstValue + secondValue) / 2;
@@ -168,6 +200,27 @@ public class CommonUtil {
 		Double divideDIfference = difference / average;
 		Double perChange = divideDIfference * 100;
 		return perChange;
+	}
+	
+	public String getCurrentDate()
+	{
+		Calendar calNewYork = Calendar.getInstance();
+		DateFormat dateformat;
+		dateformat = new SimpleDateFormat("M/dd/yy");
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		calNewYork.add(Calendar.DAY_OF_MONTH, 0);
+		String str = dateformat.format(calNewYork.getTime());
+		return str;		
+	}
+	
+	public Integer getYearFromTimeStamp(double timestamp)
+	{	
+		 Timestamp ts=new Timestamp((long) timestamp);  
+		 Calendar cal = Calendar.getInstance();
+		 cal.setTime(new Date(ts.getTime()));
+		 int year = cal.get(Calendar.YEAR);
+		return year;
+		
 	}
 
 }

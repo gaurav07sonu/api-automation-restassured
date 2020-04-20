@@ -56,6 +56,8 @@ public class TestListener implements ITestListener {
     		}
 		}
     	String paramsList = sb.toString();
+    	if(paramsList.length()>100)
+    	paramsList = paramsList.substring(0, Math.min(paramsList.length(), 100));
     	String methodDesc = getMethodLabel(iTestResult.getMethod().getMethodName(), paramsList);
     	String classDesc = getClassLabel(iTestResult.getTestClass().getName());
     	

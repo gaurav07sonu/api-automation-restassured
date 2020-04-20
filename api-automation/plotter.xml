@@ -5,10 +5,25 @@
         <listener class-name="com.sentieo.listener.AnnotationTransformer"/>
         <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
    </listeners>
- 
-  <test name="sentieo-tests" preserve-order="true">
-    <packages>
-      <package name="com.sentieo.plotter.*" />
-    </packages>
-  </test>
+ <test name="others" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.plotter">
+				<exclude name="com.sentieo.plotter.*"></exclude>
+			</package>
+		</packages>
+	</test>
+  
+	<test name="plotter test">
+		<classes>
+			<class name="com.sentieo.plotter.DocumentData" />
+			<class name="com.sentieo.plotter.IncomeStatement" />
+			<class name="com.sentieo.plotter.KeyMultiples" />
+			<class name="com.sentieo.plotter.StockData" />
+			<class name="com.sentieo.plotter.StockPrice49929"/>
+			<class name="com.sentieo.plotter.StockPrice50650"/>
+			<class name="com.sentieo.plotter.TestDailySeriesData" />
+			<class name="com.sentieo.plotter.WebandSocialData" />
+		</classes>
+	</test>
+
 </suite>

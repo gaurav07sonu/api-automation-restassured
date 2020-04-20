@@ -50,6 +50,7 @@ public class StockData extends APIDriver {
 			String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;
 			for (String[] row : tickers) {
 				for (String cell : row) {
+					cell=cell.toLowerCase();
 					parameters.put("summary", "true");
 					parameters.put("yearly", "1");
 					parameters.put("new_wl", "true");

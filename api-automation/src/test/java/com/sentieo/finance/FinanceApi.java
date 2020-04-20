@@ -66,6 +66,7 @@ public class FinanceApi extends APIDriver {
 	public void fetchCurrentStockData() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
@@ -92,6 +93,7 @@ public class FinanceApi extends APIDriver {
 	public void fetchCapitalEventsData() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				tickerData.put("sort_key", "announceddate");
@@ -114,6 +116,7 @@ public class FinanceApi extends APIDriver {
 	public void getTrackerMappings() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				tickerData.put("termtype", "ticker");
@@ -136,6 +139,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(GET_COMPANY_RETURN, spec, tickerData);
@@ -155,6 +159,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("sort_key", "AnnouncedDate");
 				tickerData.put("sort_state", "desc");
@@ -176,6 +181,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("sections", "research");
 				tickerData.put("ticker", "aapl");
@@ -197,6 +203,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("selection", "Revenue_corrScore");
 				tickerData.put("termtype", "ticker");
@@ -222,6 +229,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("summary", "true");
 				RequestSpecification spec = formParamsSpec(tickerData);
@@ -268,6 +276,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_ANALYST_RECOMMEND, null, spec, tickerData);
@@ -290,6 +299,7 @@ public class FinanceApi extends APIDriver {
 		if(url.equals("user-app2.sentieo.com")&& (!url.contains("user-dev.sentieo.com"))) {
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				HashMap<String, String> tickerData = new HashMap<String, String>();
 				tickerData.put("ticker", cell);
 				tickerData.put("model", model);
@@ -319,6 +329,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_TRADING_RATIO, null, spec, tickerData);
@@ -338,6 +349,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_COMPANY_STATUS, null, spec, tickerData);
@@ -358,6 +370,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("new_wl", "true");
 				RequestSpecification spec = formParamsSpec(tickerData);
@@ -398,6 +411,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("datatype", datatype);
 				tickerData.put("periodtype", periodtype);
@@ -419,6 +433,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_PAST_INTRADAY, spec, tickerData);
@@ -459,6 +474,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_MAIN_GRAPH, null, spec, tickerData);
@@ -497,6 +513,7 @@ public class FinanceApi extends APIDriver {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {
+					cell=cell.toLowerCase();
 					tickerData.put("ticker", cell);
 					tickerData.put("graphtype", "TradingMultiples");
 					tickerData.put("ratio", ratio);
@@ -603,6 +620,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("graphtype", "financialData");
 				tickerData.put("subtype", subtype);
@@ -626,6 +644,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("type", subtype);
 				tickerData.put("report_currency", currency);
@@ -650,6 +669,7 @@ public class FinanceApi extends APIDriver {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			for (String[] row : tickers) {
 				for (String cell : row) {
+					cell=cell.toLowerCase();
 					tickerData.put("model_source", "vpt");
 					tickerData.put("ticker", cell);
 					tickerData.put("ptype", "fq");
@@ -678,6 +698,7 @@ public class FinanceApi extends APIDriver {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
+				cell=cell.toLowerCase();
 				tickerData.put("ticker", cell);
 				tickerData.put("period", "2018-12-31");
 				RequestSpecification spec = queryParamsSpec(tickerData);
@@ -749,6 +770,20 @@ public class FinanceApi extends APIDriver {
 		} else {
 			dateformat = new SimpleDateFormat("M/dd/yy");
 		}
+		if(testName.equalsIgnoreCase("au"))
+		{	calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
+			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
+			if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
+				calNewYork.add(Calendar.DAY_OF_MONTH,0);
+				String str = dateformat.format(calNewYork.getTime());
+				return str;
+			} else {
+				calNewYork.add(Calendar.DAY_OF_MONTH,0);
+				String str = dateformat.format(calNewYork.getTime());
+				return str;
+			}
+		}
+		else {
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
 		if (dayofweek == 2 && (dayofweek != 1 || dayofweek != 7)) {
@@ -759,6 +794,7 @@ public class FinanceApi extends APIDriver {
 			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
 			String str = dateformat.format(calNewYork.getTime());
 			return str;
+		}
 		}
 	}
 
@@ -777,5 +813,7 @@ public class FinanceApi extends APIDriver {
 			}
 		}
 	}
+
+	
 
 }
