@@ -226,7 +226,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
@@ -293,7 +293,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
@@ -509,7 +509,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("title"), "", "Verify title of the note");
@@ -544,7 +544,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("title"), "ÄÂ¿Ð", "Verify title of the note");
@@ -577,7 +577,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
@@ -611,7 +611,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("created_at"), "2010-04-14T07:55:41", "Verify created_at");
@@ -681,7 +681,7 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse apiRespForNote = new APIResponse(respForNote);
 			JSONObject respJsonForNote = new JSONObject(apiRespForNote.getResponseAsString());
 
-			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 200);
+			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 201);
 			verify.verifyResponseTime(respForNote, 5000);
 			verify.verifyEquals(respJsonForNote.get("type"), "attachment", "Verify the API note type");
 			verify.jsonSchemaValidation(respForNote, "notebookPublicApi" + File.separator + "createAnAttachment.json");
@@ -1193,5 +1193,7 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
+	
+
 
 }

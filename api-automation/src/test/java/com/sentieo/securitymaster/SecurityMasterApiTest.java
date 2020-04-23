@@ -69,9 +69,9 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getString("short_name"), shortName);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -101,12 +101,12 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 			verify.verifyEquals(response.get("status"), true);
 			verify.verifyEquals(msg.get(0), "Unauthorized");
-			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -127,10 +127,10 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(ENTITY, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyTrue(respJson != null, "Checking if response is null or not");
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -178,9 +178,9 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getString("short_name"), shortName);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 
 		} catch (JSONException je) {
@@ -207,12 +207,12 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			System.out.println(respJson.toString());
 			JSONArray jArray = respJson.getJSONObject("response").getJSONArray("msg");
 			verify.verifyEquals(jArray.get(0), "Bad Request Body");
 			verify.verifyEquals(jArray.get(1), "[string \"\" is too short (length: 0, required minimum: 1)]");
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -238,12 +238,12 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			System.out.println(respJson.toString());
 			JSONArray jArray = respJson.getJSONObject("response").getJSONArray("msg");
 			verify.verifyEquals(jArray.get(0), "Bad Request Body");
 			verify.verifyEquals(jArray.get(1), "[string \"\" is too short (length: 0, required minimum: 1)]");
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -268,12 +268,12 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			System.out.println(respJson.toString());
 			JSONArray jArray = respJson.getJSONObject("response").getJSONArray("msg");
 			verify.verifyEquals(jArray.get(0), "Bad Request Body");
 			verify.verifyEquals(jArray.get(1), "[object has missing required properties ([\"name\"])]");
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -298,12 +298,12 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			System.out.println(respJson.toString());
 			JSONArray jArray = respJson.getJSONObject("response").getJSONArray("msg");
 			verify.verifyEquals(jArray.get(0), "Bad Request Body");
 			verify.verifyEquals(jArray.get(1), "[object has missing required properties ([\"short_name\"])]");
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -333,8 +333,8 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec1 = requestHeadersSpecForPublicApis(headerParams);
 			Response resp1 = RestOperationUtils.get(ENTITY + "/" + entityId, spec1, null);
 			APIResponse apiResp1 = new APIResponse(resp1);
-			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
+			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
 			verify.verifyEquals(respJson1.get("id"), entityId);
@@ -360,12 +360,12 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(ENTITY + "/" + invalidId, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject errorObject = (JSONObject) respJson.get("error");
 
 			verify.verifyEquals(errorObject.get("message"), MESSAGE);
 			verify.verifyEquals(errorObject.get("code"), CODE);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyTrue(respJson != null, "Checking if response is null or not");
 
@@ -381,15 +381,48 @@ public class SecurityMasterApiTest extends APIDriver {
 	@Test(description = "Create Child Entity and verify")
 	public void testForChildEntiy() throws Exception {
 		try {
+			UUID uuid = UUID.randomUUID();
+			String[] split = uuid.toString().split("-", 10);
+			String shortName = "ShortName" + split[0].toString();
+			
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("name", "name123");
-			formParams.put("short_name", "parentEntity");
+			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
+			formParams.put("short_name", shortName);
 			String json = jsonUtils.toJson(formParams);
-
+			
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String parentEntityId = (String) respJson.get("id");
+			
+			String shortnameForChildEntity = "C" + shortName;
+			HashMap<String, Object> formParamForChildEntity = new HashMap<String, Object>();
+			formParamForChildEntity.put("name", "API-ChildEntity" + String.valueOf(new Date().getTime()));
+			formParamForChildEntity.put("short_name", shortnameForChildEntity);
+			formParamForChildEntity.put("parent_entity_id", parentEntityId);
+			String jsonForChildEntity = jsonUtils.toJson(formParamForChildEntity);
+			
+			RequestSpecification specForChildEntity = requestHeadersFormSpecForPublicApis(jsonForChildEntity, headerParams);
+			Response respForChildEntity = RestOperationUtils.post(ENTITY, null, specForChildEntity, formParams);
+			APIResponse apiRespForChildEntity = new APIResponse(respForChildEntity);
+			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 200);
+			JSONObject respJsonForChildEntity = new JSONObject(apiRespForChildEntity.getResponseAsString());
+			String childEntityId = (String) respJsonForChildEntity.get("id");
+			verify.verifyEquals(respJsonForChildEntity.getString("short_name"), shortnameForChildEntity);
+			verify.verifyResponseTime(respForChildEntity, 5000);
+			
+			RequestSpecification spec1 = requestHeadersSpecForPublicApis(headerParams);
+			Response resp1 = RestOperationUtils.get(ENTITY + "/" + childEntityId, spec1, null);
+			APIResponse apiResp1 = new APIResponse(resp1);
+			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 200);
+			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+			verify.verifyEquals(respJson1.getString("parent_entity_id"), parentEntityId);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
