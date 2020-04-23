@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sentieo tests" parallel="methods" thread-count="1">
+	<listeners>
+		<listener class-name="com.sentieo.listener.TestListener" />
+		<listener
+			class-name="com.sentieo.listener.AnnotationTransformer" />
+		<listener
+			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
+	</listeners>
+
+	<test name="securityMaster" preserve-order="true">
+		<packages>
+			<package name="com.sentieo.securitymaster" />
+		</packages>
+	</test>
+</suite>

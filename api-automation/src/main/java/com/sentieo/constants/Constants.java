@@ -194,7 +194,10 @@ public class Constants {
 	public static final String NOTES = "/notes";
 	
 	//security master APIs
-	public static final String ENTITY = "/entities";
+	public static final String ENTITY = "/sm/user/entities";
+	public static final String MESSAGE = "No object matches the given query";
+	public static final String CODE = "Not Found";
+	
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
