@@ -48,6 +48,9 @@ public class DocumentSearch extends APIDriver {
 		verify = new APIAssertions();
 	}
 
+	
+	
+	
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
@@ -118,6 +121,73 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_watchlist", dataProviderClass = DataProviderClass.class)
+	public void test_doctype_watchlist(String watchlist_tickers, String filters) throws CoreCommonException {
+		try {
+			String URI = APP_URL + FETCH_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("watchlist_tickers", watchlist_tickers);
+			queryParams.put("filters", filters);
+			queryParams.put("facets_flag", "false");
+
+			JSONObject json = new JSONObject(filters);
+			System.out.println(json.getJSONObject("doctype"));
+			String docType = "";
+			Iterator<String> keys = json.getJSONObject("doctype").keys();
+			while (keys.hasNext()) {
+				docType = keys.next();
+				System.out.println(docType);
+			}
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
+			Boolean code_status = verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			if (code_status.equals(true)) {
+				verify.verifyResponseTime(resp, 10000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+
+				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
+
+				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
+				boolean tickerCheck = true;
+				if (total_results != 0) {
+					if (documentResults_size.length() != 0) {
+						for (int i = 0; i < documentResults_size.length(); i++) {
+							JSONArray tickers = documentResults_size.getJSONObject(i).getJSONArray("tickers");
+								tickerCheck = false;
+						}
+						if (tickerCheck)
+							verify.assertTrue(tickerCheck, "verifying ticker visibility in doc ");
+					}
+				}
+
+				boolean doctypeCheck = true;
+				if (total_results != 0) {
+					if (documentResults_size.length() != 0) {
+						for (int i = 0; i < documentResults_size.length(); i++) {
+							String doc_type = documentResults_size.getJSONObject(i).getString("doc_type");
+							System.out.println(doc_type.toString().contains(docType.toLowerCase()));
+							if (!doc_type.toString().contains(docType.toLowerCase()))
+								doctypeCheck = false;
+						}
+						if (doctypeCheck)
+							verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}	
+	
 	@Test(groups = "sanity", description = "applying doc type filters", dataProvider = "test_doctype_Filter", dataProviderClass = DataProviderClass.class)
 	public void fetchsearch_doctype(String ticker, String filters) throws CoreCommonException {
 

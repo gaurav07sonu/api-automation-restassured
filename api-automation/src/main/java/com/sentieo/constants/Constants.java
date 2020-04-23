@@ -19,7 +19,7 @@ public class Constants {
 	 static{
 
 		 String envArg = System.getProperty("env");
-		 //String envArg = "testing";
+//		 String envArg = "testing";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -103,6 +103,9 @@ public class Constants {
 	public static final String DELETE_SAVED_SEARCH = "/api/delete_saved_search/";
 	public static final String FETCH_NOTE_SEARCH = "/api/fetch_note_search/";
 	public static final String GET_DOCNOTE_PDF = "/api/get_docnote_pdf/";
+	public static final String REQUEST_FEED = "/api/request_feed/";
+	public static final String UPDATE_FEED = "/api/update_feed/";
+	public static final String UNSUBSCRIBE_FEED = "/api/unsubscribe_feed/";
 
 	// finance / plotter
 

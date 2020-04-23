@@ -111,6 +111,16 @@ public class DataProviderClass {
 	}
 	
 
+	@DataProvider(name = "test_doctype_watchlist")
+	public Object[][] test_doctype_watchlist() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { { "005930:ks,1810:hk,2317:tt,2330:tt,2454:tt,6758:jp,700:hk,7974:jp,992:hk,a,aapl,abbv,acn,adbe,adi,adsk,akam,amat,amd,amgn,amt,amzn,anet,antm,aph,arw,asml:na,atvi,avgo,avt,ba,baba,bby,bkng,brkr,c,cat,cci,chkp,chtr,ci,cmcsa,cone,cost,crm,csco,ctl,ctxs,cvs,cvx,data,dbx,dell,dhr,dis,ea,ebay,eqix,ew,fb,ffiv,ftnt,ge,gild,gm,googl,gsbd,hd,holx,hon,hpe,hpq,hubs,hum,ibm,ilmn,intc,intu,iqv,jbl,jnj,jnpr,jpm,ko,lrcx,ma,mcd,mchp,mdt,mrk,msft,mtd,mu,mygn,nflx,nke,nlok,nokia:fh,now,ntap,ntnx,nvda,nxpi,on,orcl,panw,payc,pfe,pfpt,pki,pstg,pypl,qcom,qgen,qrvo,rht,rng,rtx,s,sap:gr,sbac,sbux,shop:cn,siri,splk,spot,stm:fp,stx,swks,t,tdc,team,tel,tmo,tmus,tsla,ttwo,twlo,twtr,txn,unh,v,viac,vmw,vz,wat,wday,wdc,wmt,xlnx,xom,zen", "{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{\"ef\":{\"QA\":{\"values\":[\"10-k\",\"10-k/a\"],\"param\":\"filing_subtype\"},\"ECM\":{\"param\":\"filing_subtype\",\"values\":[]},\"ADR\":{\"param\":\"filing_subtype\",\"values\":[]},\"prx\":{\"param\":\"filing_subtype\",\"values\":[]},\"OR\":{\"param\":\"filing_subtype\",\"values\":[]},\"hdr\":{\"param\":\"filing_subtype\",\"values\":[]},\"emben\":{\"param\":\"filing_subtype\",\"values\":[]},\"intran\":{\"param\":\"filing_subtype\",\"values\":[]},\"other_subtype\":{\"param\":\"filing_subtype\",\"values\":[]}}},\"regions\":{},\"source\":{},\"other\":{},\"date\":{}}" }
+	};
+		
+		return groupArray;
+	}	
+	
+	
 	@DataProvider(name = "test_doctype_query")
 	public Object[][] test_doctype_query() {
 		Object[][] groupArray = null;
@@ -293,6 +303,35 @@ public class DataProviderClass {
 		
 		return groupArray;
 	}
+	
+	
+	@DataProvider(name = "request_feed")
+	public Object[][] request_feed() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { {"Market Watch Real time Headlines", "http://feeds.marketwatch.com/marketwatch/realtimeheadlines/"}
+		};
+		
+		return groupArray;
+	}
+	
+	@DataProvider(name = "update_feed")
+	public Object[][] update_feed() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { {"5e94096fb6037338344fc9a9", "test 2", "http://feeds.feedburner.com/TechCrunch/"}
+		};
+		
+		return groupArray;
+	}
+	
+	@DataProvider(name = "unsubscribe_feed")
+	public Object[][] unsubscribe_feed() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { {"5e94096fb6037338344fc9a9"}, {"5ea18899e4aaee53f855ee17"}
+		};
+		
+		return groupArray;
+	}
+	
 
 	
 	@DataProvider(name = "fetch_yearly_data")

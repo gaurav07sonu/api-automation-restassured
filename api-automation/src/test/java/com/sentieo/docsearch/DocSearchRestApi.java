@@ -890,4 +890,71 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
+	@Test(groups = "sanity", description = "Requesting for RSS Feed", dataProvider = "request_feed", dataProviderClass = DataProviderClass.class)
+	public void request_feed (String feed_name, String feed_url) throws CoreCommonException {
+
+		try {
+			String URI = APP_URL + REQUEST_FEED;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("feed_name", feed_name);
+			queryParams.put("feed_url", feed_url);
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI,null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	
+	@Test(groups = "sanity", description = "Updating existing RSS Feed", dataProvider = "update_feed", dataProviderClass = DataProviderClass.class)
+	public void update_feed (String feed_req_id, String feed_name, String feed_url) throws CoreCommonException {
+
+		try {
+			String URI = APP_URL + UPDATE_FEED;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("feed_req_id", feed_req_id);
+			queryParams.put("feed_name", feed_name);
+			queryParams.put("feed_url", feed_url);
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI,null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "sanity", description = "Unsubscribe existing RSS Feed", dataProvider = "unsubscribe_feed", dataProviderClass = DataProviderClass.class)
+	public void unsubscribe_feed (String feed_req_id) throws CoreCommonException {
+
+		try {
+			String URI = APP_URL + UNSUBSCRIBE_FEED;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("feed_req_id", feed_req_id);
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI,null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
 }
