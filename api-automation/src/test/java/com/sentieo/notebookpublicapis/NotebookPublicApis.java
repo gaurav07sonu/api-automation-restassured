@@ -109,11 +109,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
 			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
 		} catch (JSONException je) {
@@ -135,9 +135,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(NOTES, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyTrue(respJson.getJSONArray("entries").length() != 0, "Verify the API Response");
 		} catch (JSONException je) {
@@ -158,11 +158,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(NOTES, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
 		} catch (JSONException je) {
@@ -191,9 +191,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
 			Response resp = RestOperationUtils.get(NOTES, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONArray("entries").length(), 2, "Verify the API Response length");
 		} catch (JSONException je) {
@@ -224,9 +224,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
@@ -257,11 +257,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 401);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
 		} catch (JSONException je) {
@@ -291,9 +291,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
@@ -325,12 +325,12 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("error");
 			Object message = response.get("message");
 			Object code = response.get("code");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(message, "Note with given ref already exist. try update");
 			verify.verifyEquals(code, "CONFLICT ALREADY EXIST");
@@ -361,11 +361,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
 			verify.verifyEquals(msg.get(1).toString(), "[object has missing required properties ([\"type\"])]");
@@ -397,11 +397,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
 			verify.verifyEquals(msg.get(1).toString(),
@@ -434,11 +434,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
 			verify.verifyEquals(msg.get(1).toString(),
@@ -471,11 +471,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Bad Request Body");
 			verify.verifyEquals(msg.get(1).toString(),
@@ -507,9 +507,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("title"), "", "Verify title of the note");
@@ -542,9 +542,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("title"), "ÄÂ¿Ð", "Verify title of the note");
@@ -575,9 +575,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
@@ -609,9 +609,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("created_at"), "2010-04-14T07:55:41", "Verify created_at");
@@ -679,9 +679,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification specForNote = requestHeadersFormSpecForPublicApis(jsonForRequest, headerParamsForNote);
 			Response respForNote = RestOperationUtils.post(NOTES, null, specForNote, formParams);
 			APIResponse apiRespForNote = new APIResponse(respForNote);
+			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 201);
 			JSONObject respJsonForNote = new JSONObject(apiRespForNote.getResponseAsString());
 
-			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 201);
 			verify.verifyResponseTime(respForNote, 5000);
 			verify.verifyEquals(respJsonForNote.get("type"), "attachment", "Verify the API note type");
 			verify.jsonSchemaValidation(respForNote, "notebookPublicApi" + File.separator + "createAnAttachment.json");
@@ -743,11 +743,11 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 401);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJsonForNote.get("response");
 			JSONArray msg = response.getJSONArray("msg");
 
-			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 401);
 			verify.verifyResponseTime(fetchResp, 5000);
 			verify.verifyEquals(msg.get(0).toString(), "Unauthorized");
 
@@ -771,12 +771,12 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "112312321", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJsonForNote.get("error");
 			Object message = response.get("message");
 			Object code = response.get("code");
 
-			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(fetchResp, 5000);
 			verify.verifyEquals(message, "Note requested not found");
 			verify.verifyEquals(code, "NOTE NOT FOUND");
@@ -801,12 +801,12 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704deb", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJsonForNote.get("error");
 			Object message = response.get("message");
 			Object code = response.get("code");
 
-			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
 			verify.verifyResponseTime(fetchResp, 5000);
 			verify.verifyEquals(message, "Note requested not found");
 			verify.verifyEquals(code, "NOTE NOT FOUND");
@@ -823,17 +823,28 @@ public class NotebookPublicApis extends APIDriver {
 	@Test(description = "fetch a highlight note")
 	public void fetchHighlightNote() throws Exception {
 		try {
-			String highlightNoteId = "5e20262ae8f6c21b5f287c32";
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
+			
+			HashMap<String, String> filters = new HashMap<String, String>();
+			filters.put("limit", "1");
+			filters.put("term", "Schweizerische");
+
+			RequestSpecification spe = queryParamsSpecForPublicApis(filters, headerParams);
+			Response res = RestOperationUtils.get(NOTES, spe, null);
+			APIResponse apiRes = new APIResponse(res);
+			JSONObject resJson = new JSONObject(apiRes.getResponseAsString());
+			JSONArray arr = resJson.getJSONArray("entries");
+			JSONObject objId = (JSONObject) arr.get(0);
+			String highlightNoteId = (String) objId.get("id");
 
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + highlightNoteId, fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 200);
 			JSONObject fetchRespJson = new JSONObject(fetchApiResp.getResponseAsString());
 
-			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(fetchResp, 5000);
 			verify.verifyEquals(fetchRespJson.get("type"), "highlight", "Verify note type");
 		} catch (JSONException je) {
@@ -866,10 +877,10 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String noteId = (String) respJson.get("id");
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("category"), "meeting", "Verify the note_category");
 
@@ -894,9 +905,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
 			verify.verifyEquals(updateRespJson.get("id"), noteId, "Verify the message");
 			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the message");
@@ -980,9 +991,9 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
 			verify.verifyEquals(updateRespJson.get("parent_note_id"), noteId, "Verify the message");
 			verify.jsonSchemaValidation(updateResp, "notebookPublicApi" + File.separator + "addingTickerToNote.json");
@@ -1032,9 +1043,9 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
 			verify.verifyEquals(updateRespJson.get("parent_note_id"), noteId, "Verify the message");
 			verify.jsonSchemaValidation(updateResp, "notebookPublicApi" + File.separator + "addingTagToNote.json");
@@ -1115,9 +1126,9 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "attachments", null, updateSpec,
 					null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
 			verify.verifyEquals(updateRespJson.get("message"), "Attachments Added Successfully", "Verify the message");
 			verify.jsonSchemaValidation(updateResp,
@@ -1153,9 +1164,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(NOTES + "/" + noteId + "/" + "comments", spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONArray("entries").length(), 2, "Verify Comments length");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "fetchCommentAddedInANote.json");
@@ -1175,16 +1186,26 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
-			String noteId = "5dd3e573e8f6c23c67a8d1a7";
+			HashMap<String, String> filters = new HashMap<String, String>();
+			filters.put("limit", "1");
+			filters.put("term", "Schweizerische");
+
+			RequestSpecification spe = queryParamsSpecForPublicApis(filters, headerParams);
+			Response res = RestOperationUtils.get(NOTES, spe, null);
+			APIResponse apiRes = new APIResponse(res);
+			JSONObject resJson = new JSONObject(apiRes.getResponseAsString());
+			JSONArray arr = resJson.getJSONArray("entries");
+			JSONObject objId = (JSONObject) arr.get(0);
+			String noteId = (String) objId.get("id");
 
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(NOTES + "/" + noteId + "/" + "highlights", spec, null);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONArray("entries").length(), 4, "Verify Highlights length");
+			verify.verifyEquals(respJson.getJSONArray("entries").length(), 1, "Verify Highlights length");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
