@@ -13,10 +13,14 @@ public class Constants {
 	public static String PASSWORD = "";
 	public static String APP_URL = "";
 	public static String USER_APP_URL = "";
+	public static String PUBLIC_API_URL = "";
+	public static String X_API_KEY = "";
+	public static String X_USER_KEY = "";
 	
 	 static{
+
 		 String envArg = System.getProperty("env");
-		// String envArg = "citadel";
+		 //String envArg = "testing";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -29,6 +33,9 @@ public class Constants {
 		    		USER_APP_URL = ((Configuration)object).getUserAppUrl();
 		    		EMAIL = ((Configuration)object).getUserName();
 		    		PASSWORD = ((Configuration)object).getPassword();
+		    		PUBLIC_API_URL = ((Configuration)object).getPublicApiUrl();
+		    		X_API_KEY = ((Configuration)	object).getXapikey();
+		    		X_USER_KEY = ((Configuration)object).getXuserkey();
 			        System.out.println(APP_URL);
 			        System.out.println(USER_APP_URL);
 			        System.out.println(EMAIL);
@@ -168,19 +175,16 @@ public class Constants {
 	public static final String GET_NEW_FREE_CITATION_LINK = "/api/get_new_free_citation_link/";
 	
 	// notebook public apis
-	public static final String APPURL = "https://api.sentieo.com/v1";
-	public static final String X_USER_KEY = "schroders.check@scroders-test.com";
-	public static final String X_API_KEY = "JSE0VlYu0JaVVtlHzaBWG6YVL4k7V9Nf6RhFmmqm";
 	public static final String XUSERKEY = "x-user-key";
 	public static final String XAPIKEY = "x-api-key";
 	public static final String FILE_UPLOAD = "/files";
 	public static final String NOTES = "/notes";
 	
 	//security master APIs
-	public static final String SM_BASE_URL = "https://api.sentieo.com/sm/user";
-	public static final String SM_X_USER_KEY = "schroders.check@scroders-test.com";
-	public static final String SM_X_API_KEY = "JSE0VlYu0JaVVtlHzaBWG6YVL4k7V9Nf6RhFmmqm";
-	public static final String CREATE_ENTITY = "/entities";
+	public static final String ENTITY = "/sm/user/entities";
+	public static final String MESSAGE = "No object matches the given query";
+	public static final String CODE = "Not Found";
+	
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
