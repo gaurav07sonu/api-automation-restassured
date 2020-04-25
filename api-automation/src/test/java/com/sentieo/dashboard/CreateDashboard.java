@@ -24,7 +24,7 @@ import com.sentieo.utils.CoreCommonException;
 public class CreateDashboard extends APIDriver {
 
 	String viewName = "Automation-View";
-	String widget_order = "[\"PriceMonitorWidget\",\"DocumentWidget\"]";
+	String widget_order = "[\"PriceMonitorWidget_1\",\"DocumentWidget_1\"]";
 	static String db_id = "";
 
 	@BeforeMethod(alwaysRun = true)
@@ -50,9 +50,7 @@ public class CreateDashboard extends APIDriver {
 		String URI = USER_APP_URL + CREATE_DASHBOARD;
 		HashMap<String, String> dashboardData = new HashMap<String, String>();
 		dashboardData.put("widget_list",
-				"{\"PriceMonitorWidget_2\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"wrapPreference\":\"dont-wrap\",\"infiniteScroll\":true,\"infiniteScrollWaiting\":500,\"restrictOuterScroll\":true,\"disableLinking\":true,\"name\":\"Price Monitor\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":2,\"driveBy\":\"local\",\"wrapPreference\":\"dont-wrap\",\"columnOption1\":\"edt-icon\",\"columnOption2\":\"docsearch-icon\",\"updateUserData\":{\"tickers\":[],\"order\":[],\"wl_mapping\":{},\"wl_id_mapping\":{},\"addTickerWatchlistCount\":1,\"selectedRow\":\"{\\\"lastSelectedGroupID\\\":\\\"\\\",\\\"selectedTicker\\\":\\\"\\\"}\",\"watchlistsState\":{},\"viewData\":{\"header_fields\":[],\"header_fields_value\":[],\"thesis_fields\":[],\"sort\":\"\",\"custom_fields\":[],\"chosen_model_name\":\"\"},\"marketMonitorLoaded\":false},\"displayDensity\":\"compact\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PriceMonitorWidget_2\"}},\"DocumentWidget_1\":{\"configuration\":{\"settings\":{\"size\":15,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{},\"defaultFilterObj\":{\"ef\":[],\"tt\":[],\"ppt\":[],\"ni\":[],\"gbf\":[],\"rr\":[],\"sd\":[],\"nw\":[]},\"pticker_setting\":false,\"name\":\"All Documents\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true"
-						+ ",\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"}"
-						+ ",\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"DocumentWidget_1\"}}}");
+				"{\"PriceMonitorWidget_1\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"wrapPreference\":\"dont-wrap\",\"infiniteScroll\":true,\"infiniteScrollWaiting\":500,\"restrictOuterScroll\":true,\"disableLinking\":true,\"name\":\"Price Monitor\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":2,\"driveBy\":\"local\",\"wrapPreference\":\"dont-wrap\",\"columnOption1\":\"edt-icon\",\"columnOption2\":\"docsearch-icon\",\"updateUserData\":{\"tickers\":[],\"order\":[],\"wl_mapping\":{},\"wl_id_mapping\":{},\"addTickerWatchlistCount\":1,\"selectedRow\":\"{\\\"lastSelectedGroupID\\\":\\\"\\\",\\\"selectedTicker\\\":\\\"\\\"}\",\"watchlistsState\":{},\"viewData\":{\"header_fields\":[],\"header_fields_value\":[],\"thesis_fields\":[],\"sort\":\"\",\"custom_fields\":[],\"chosen_model_name\":\"\"},\"marketMonitorLoaded\":false},\"displayDensity\":\"compact\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PriceMonitorWidget_1\"}},\"DocumentWidget_1\":{\"configuration\":{\"settings\":{\"size\":20,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{},\"defaultFilterObj\":{\"ef\":[],\"tt\":[],\"ppt\":[],\"ni\":[],\"gbf\":[],\"rr\":[],\"sd\":[]},\"pticker_setting\":true,\"name\":\"All Documents\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"DocumentWidget_1\"}}}");
 
 		dashboardData.put("widget_order", widget_order);
 		dashboardData.put("dashboard_name", viewName);
