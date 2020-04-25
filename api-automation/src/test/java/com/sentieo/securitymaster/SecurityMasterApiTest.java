@@ -69,7 +69,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getString("short_name"), shortName);
 			verify.verifyResponseTime(resp, 5000);
@@ -178,7 +178,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getString("short_name"), shortName);
 			verify.verifyResponseTime(resp, 5000);
@@ -360,7 +360,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(ENTITY + "/" + invalidId, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 404);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject errorObject = (JSONObject) respJson.get("error");
 
@@ -397,7 +397,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(ENTITY, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String parentEntityId = (String) respJson.get("id");
 			
@@ -411,7 +411,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification specForChildEntity = requestHeadersFormSpecForPublicApis(jsonForChildEntity, headerParams);
 			Response respForChildEntity = RestOperationUtils.post(ENTITY, null, specForChildEntity, formParams);
 			APIResponse apiRespForChildEntity = new APIResponse(respForChildEntity);
-			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 200);
+			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 201);
 			JSONObject respJsonForChildEntity = new JSONObject(apiRespForChildEntity.getResponseAsString());
 			String childEntityId = (String) respJsonForChildEntity.get("id");
 			verify.verifyEquals(respJsonForChildEntity.getString("short_name"), shortnameForChildEntity);
@@ -420,7 +420,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec1 = requestHeadersSpecForPublicApis(headerParams);
 			Response resp1 = RestOperationUtils.get(ENTITY + "/" + childEntityId, spec1, null);
 			APIResponse apiResp1 = new APIResponse(resp1);
-			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 200);
+			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyEquals(respJson1.getString("parent_entity_id"), parentEntityId);
 		} catch (JSONException je) {

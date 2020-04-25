@@ -771,7 +771,7 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "112312321", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
-			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 404);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJsonForNote.get("error");
 			Object message = response.get("message");
@@ -801,7 +801,7 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704deb", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
-			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 404);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJsonForNote.get("error");
 			Object message = response.get("message");
