@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
@@ -1008,7 +1009,8 @@ public class DocSearchRestApi extends APIDriver {
 	public void fetch_note_search(String note_type, String filing_type, String filters) throws CoreCommonException {
 
 		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")) {
-		}
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
+	}
 		
 		else {
 		
@@ -1051,8 +1053,10 @@ public class DocSearchRestApi extends APIDriver {
 	public void fetch_transform_note_content(String doc_type, String id) throws CoreCommonException {
 
 		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")) {
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
 	}
 	
+			
 	else {
 
 			try {
