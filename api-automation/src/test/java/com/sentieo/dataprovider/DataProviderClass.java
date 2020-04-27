@@ -326,7 +326,25 @@ public class DataProviderClass {
 	@DataProvider(name = "unsubscribe_feed")
 	public Object[][] unsubscribe_feed() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] { {"5e94096fb6037338344fc9a9"}, {"5ea18899e4aaee53f855ee17"}
+		groupArray = new String[][] { {"5e94096fb6037338344fc9a9"}
+		};
+		
+		return groupArray;
+	}
+	
+	@DataProvider(name = "fetch_document_note_info")
+	public Object[][] fetch_document_note_info() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { {"[]" , "[\"5ea2d438c0af314efda2eeb9\"]"}, {"[]" , "[\"5e884c51c0af31078aed24e1\"]"}
+		};
+		
+		return groupArray;
+	}
+	
+	@DataProvider(name = "fetch_transform_note_content")
+	public Object[][] fetch_transform_note_content() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] { {"note", "5e91afd1142593f1c9d1d179"}
 		};
 		
 		return groupArray;

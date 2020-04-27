@@ -18,8 +18,8 @@ public class Constants {
 	
 	 static{
 
-		 String envArg = System.getProperty("env");
-//		 String envArg = "testing";
+//		 String envArg = System.getProperty("env");
+		 String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -106,6 +106,10 @@ public class Constants {
 	public static final String REQUEST_FEED = "/api/request_feed/";
 	public static final String UPDATE_FEED = "/api/update_feed/";
 	public static final String UNSUBSCRIBE_FEED = "/api/unsubscribe_feed/";
+	public static final String FETCH_DOCUMENT_NOTE_INFO = "/api/fetch_document_note_info/";
+	public static final String FETCH_SEARCH_FILTERS = "/api/fetch_search_filters/";
+	public static final String FETCH_SEARCH_SETTINGS = "/api/fetch_search_settings/";
+	public static final String FETCH_TRANSFORM_NOTE_CONTENT = "/api/fetch_transform_note_content/";
 
 	// finance / plotter
 
