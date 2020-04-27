@@ -1076,8 +1076,5 @@ public class DocSearchRestApi extends APIDriver {
 			}
 		} 
 	}	
-	
 
-	
-	// remember to change in constant
 }
