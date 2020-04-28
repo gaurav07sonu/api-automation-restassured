@@ -71,6 +71,7 @@ public class RestOperationUtils {
 	public static Response get(String url, RequestSpecification spec, Map params) throws CoreCommonException {
 		Response res = null;
 		try {
+			String classname = new Exception().getStackTrace()[1].getClassName();
 			String infoMessage = BREAK_LINE + "<div> Type: [GET] </div>" + BREAK_LINE + "<div> Parameters: "
 					+ (params == null ? "[EMPTY]" : params.toString()) + "</div>";
 
@@ -80,7 +81,11 @@ public class RestOperationUtils {
 			// reporter.reportStep(StepStatus.INFO, REQUEST_MSG, infoMessage);
 
 			res = given().spec(spec).when().get(url);
-			ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
+				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+			else if (classname.contains("comparables") || classname.contains("finance")
+					|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
+				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		}
