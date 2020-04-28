@@ -24,6 +24,7 @@ public class RestOperationUtils {
 			throws CoreCommonException {
 		Response res = null;
 		try {
+			String classname = new Exception().getStackTrace()[1].getClassName();
 			String payloadOutput = (payload == null || payload.isEmpty()) ? ""
 					: reporter.generateFormatedPayload(payload);
 			String infoMessage = BREAK_LINE + "<div> Type: [POST] </div>" + BREAK_LINE + "<div> Parameters: "
@@ -39,9 +40,13 @@ public class RestOperationUtils {
 			} else {
 				res = given().spec(spec).body(payload).when().post(url);
 			}
-			ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
+				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+			else if (classname.contains("comparables") || classname.contains("finance")
+					|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
+				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new CoreCommonException(e);
 		}
 		return res;
