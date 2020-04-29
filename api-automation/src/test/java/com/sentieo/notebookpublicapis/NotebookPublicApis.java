@@ -694,6 +694,143 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
+	@Test(description = "Test attachment note creation with invalid file id")
+	public void createAnAttachmentNoteWithInvalidFileId() throws Exception {
+		try {
+
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "wordFile.docx";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String fileId = respJson.get("id").toString();
+			String contentType = respJson.get("content_type").toString();
+
+			// Creating an attachment note
+			HashMap<String, String> headerParamsForNote = new HashMap<String, String>();
+			headerParamsForNote.put(XAPIKEY, X_API_KEY);
+			headerParamsForNote.put(XUSERKEY, X_USER_KEY);
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("appl");
+			tickers.add("fb");
+
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", "123");
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("type", "attachment");
+			formParams.put("category", "meeting");
+			formParams.put("file", listOfFileParams);
+			formParams.put("tickers", tickers);
+
+			String jsonForRequest = jsonUtils.toJson(formParams);
+
+			RequestSpecification specForNote = requestHeadersFormSpecForPublicApis(jsonForRequest, headerParamsForNote);
+			Response respForNote = RestOperationUtils.post(NOTES, null, specForNote, formParams);
+			APIResponse apiRespForNote = new APIResponse(respForNote);
+			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 400);
+			JSONObject respJsonForNote = new JSONObject(apiRespForNote.getResponseAsString());
+			JSONObject error = (JSONObject) respJsonForNote.get("error");
+
+			verify.verifyResponseTime(respForNote, 5000);
+			verify.verifyEquals(error.get("code"), "INVALID REQUEST");
+			verify.verifyEquals(error.get("message"), "Unsupported file_id ");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Test attachment note creation with different content type")
+	public void createAnAttachmentNoteWithDifferentContentType() throws Exception {
+		try {
+
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "wordFile.docx";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String fileId = respJson.get("id").toString();
+
+			// Creating an attachment note
+			HashMap<String, String> headerParamsForNote = new HashMap<String, String>();
+			headerParamsForNote.put(XAPIKEY, X_API_KEY);
+			headerParamsForNote.put(XUSERKEY, X_USER_KEY);
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("appl");
+			tickers.add("fb");
+
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", "application/pdf");
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("type", "attachment");
+			formParams.put("category", "meeting");
+			formParams.put("file", listOfFileParams);
+			formParams.put("tickers", tickers);
+
+			String jsonForRequest = jsonUtils.toJson(formParams);
+
+			RequestSpecification specForNote = requestHeadersFormSpecForPublicApis(jsonForRequest, headerParamsForNote);
+			Response respForNote = RestOperationUtils.post(NOTES, null, specForNote, formParams);
+			APIResponse apiRespForNote = new APIResponse(respForNote);
+			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 400);
+			JSONObject respJsonForNote = new JSONObject(apiRespForNote.getResponseAsString());
+			JSONObject error = (JSONObject) respJsonForNote.get("error");
+
+			verify.verifyResponseTime(respForNote, 5000);
+			verify.verifyEquals(error.get("code"), "INVALID REQUEST");
+			verify.verifyEquals(error.get("message"), "Discrepancy in content_type and file extension");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
 	@Test(description = "Fetch a note")
 	public void fetchSingleNote() throws Exception {
 		try {
@@ -826,7 +963,7 @@ public class NotebookPublicApis extends APIDriver {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
-			
+
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("limit", "1");
 			filters.put("term", "Schweizerische");
@@ -856,8 +993,8 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a specific note", enabled = false)
-	public void updatingASpecificNote() throws Exception {
+	@Test(description = "Update a private note")
+	public void updatingAPrivateNoteCreatedViaAPI() throws Exception {
 		try {
 
 			// note Creation
@@ -877,12 +1014,70 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String noteId = (String) respJson.get("id");
 
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.get("category"), "meeting", "Verify the note_category");
+			// Note Updation
+			List<String> tags = new ArrayList<String>();
+			tags.add("abc");
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("aapl");
+			tickers.add("fb");
+
+			String updatedTitle = "Updated Title of Note - " + noteId;
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+			updateParams.put("title", updatedTitle);
+			updateParams.put("content", "<p>THIS IS a typed note. And We are now editing this note</p>");
+			updateParams.put("category", "general");
+			updateParams.put("tags", tags);
+			updateParams.put("tickers", tickers);
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Update an attachment note")
+	public void updatingAnAttachmentNote() throws Exception {
+		try {
+
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+			HashMap<String, String> filters = new HashMap<String, String>();
+			filters.put("limit", "1");
+			filters.put("filter", "type eq attachment");
+
+			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
+			Response resp = RestOperationUtils.get(NOTES, spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONArray entries = respJson.getJSONArray("entries");
+			JSONObject firstElment = (JSONObject) entries.get(0);
+			String noteId = (String) firstElment.get("id");
 
 			// Note Updation
 			List<String> tags = new ArrayList<String>();
@@ -907,10 +1102,111 @@ public class NotebookPublicApis extends APIDriver {
 			APIResponse updateApiResp = new APIResponse(updateResp);
 			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			JSONArray tickersArray = updateRespJson.getJSONArray("tickers");
+			JSONArray tagsArray = updateRespJson.getJSONArray("tags");
 
 			verify.verifyResponseTime(updateResp, 5000);
-			verify.verifyEquals(updateRespJson.get("id"), noteId, "Verify the message");
-			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the message");
+			verify.verifyEquals(updateRespJson.get("id"), noteId, "Verify the id");
+			verify.verifyEquals(tickersArray.get(0), tickers.get(0));
+			verify.verifyEquals(tickersArray.get(1), tickers.get(1));
+			verify.verifyEquals(tagsArray.get(0), tags.get(0));
+			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the note title");
+			verify.jsonSchemaValidation(updateResp,
+					"notebookPublicApi" + File.separator + "updatingASpecificNote.json");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Update an attachment note and do file versioning")
+	public void updatingAnAttachmentNoteAndDoFileVersion() throws Exception {
+		try {
+
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "wordFile.docx";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String fileId = respJson.get("id").toString();
+			String contentType = respJson.get("content_type").toString();
+
+			// Creating an attachment note
+			HashMap<String, String> headerParamsForNote = new HashMap<String, String>();
+			headerParamsForNote.put(XAPIKEY, X_API_KEY);
+			headerParamsForNote.put(XUSERKEY, X_USER_KEY);
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("appl");
+			tickers.add("fb");
+
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("type", "attachment");
+			formParams.put("category", "meeting");
+			formParams.put("file", listOfFileParams);
+			formParams.put("tickers", tickers);
+
+			String jsonForRequest = jsonUtils.toJson(formParams);
+
+			RequestSpecification specForNote = requestHeadersFormSpecForPublicApis(jsonForRequest, headerParamsForNote);
+			Response respForNote = RestOperationUtils.post(NOTES, null, specForNote, formParams);
+			APIResponse apiRespForNote = new APIResponse(respForNote);
+			verify.verifyStatusCode(apiRespForNote.getStatusCode(), 201);
+			JSONObject respJsonForNote = new JSONObject(apiRespForNote.getResponseAsString());
+			String noteId = (String) respJsonForNote.get("id");
+
+			// Note Updation
+
+			RequestSpecification spec1 = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp1 = RestOperationUtils.post(FILE_UPLOAD, null, spec1, params);
+			APIResponse apiResp1 = new APIResponse(resp1);
+			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
+			String fileId1 = respJson1.get("id").toString();
+
+			HashMap<String, String> fileParams1 = new HashMap<String, String>();
+			fileParams1.put("file_id", fileId1);
+			fileParams1.put("content_type", contentType);
+			fileParams1.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams1 = new ArrayList<Map<String, String>>();
+			listOfFileParams1.add(fileParams1);
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+
+			updateParams.put("file", listOfFileParams1);
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(updateResp, 5000);
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "updatingASpecificNote.json");
 		} catch (JSONException je) {
@@ -921,7 +1217,49 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
+	
+	@Test(description = "Update a note with invalid Id")
+	public void updatingANoteWithInvalidId() throws Exception {
+		try {
 
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			String noteId = "123";
+
+			// Note Updation
+			String updatedTitle = "Updated Title of Note - " + noteId;
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+			updateParams.put("title", updatedTitle);
+			updateParams.put("content", "<p>THIS IS a typed note. And We are now editing this note</p>");
+			updateParams.put("category", "general");
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 404);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+			verify.verifyEquals(message, "Note requested not found");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
 	@Test(description = "Delete a note")
 	public void deletingANote() throws Exception {
 		try {
@@ -963,8 +1301,34 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker in a note", enabled = false)
-	public void addingDeletingTickerInNote() throws Exception {
+	@Test(description = "Delete a note with invalid id")
+	public void deletingANoteWithInvalidId() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + "1233", null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 404);
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyEquals(updateRespJson.getJSONObject("error").get("code"), "NOTE NOT FOUND");
+			verify.verifyEquals(updateRespJson.getJSONObject("error").get("message"), "Note requested not found");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add and delete ticker in a private note")
+	public void addingDeletingTickerInPrivateNote() throws Exception {
 		try {
 			// note Creation
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -991,7 +1355,52 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add and delete ticker in a note in attachment note")
+	public void addingDeletingTickerInAttachmentNote() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, String> filters = new HashMap<String, String>();
+			filters.put("limit", "1");
+			filters.put("filter", "type eq attachment");
+
+			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
+			Response resp = RestOperationUtils.get(NOTES, spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONArray entries = respJson.getJSONArray("entries");
+			JSONObject firstElment = (JSONObject) entries.get(0);
+			String noteId = (String) firstElment.get("id");
+
+			// Adding Ticker
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 201);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
 			verify.verifyResponseTime(updateResp, 5000);
@@ -1015,8 +1424,56 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in a note", enabled = false)
-	public void addingDeletingTagInNote() throws Exception {
+	@Test(description = "Add and delete ticker with invalid Id")
+	public void addingDeletingTickerWithInvalidId() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			// Adding Ticker
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + 123 + "/" + "tickers" + "/" + "fb", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 404);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+
+			// deleting Ticker
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + 131 + "/" + "tickers" + "/" + "fb", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 404);
+			verify.verifyResponseTime(deleteResp, 5000);
+			JSONObject deleteRespJson = new JSONObject(deleteApiResp.getResponseAsString());
+			JSONObject response1 = (JSONObject) deleteRespJson.get("error");
+			Object message1 = response1.get("message");
+			Object code1 = response1.get("code");
+
+			verify.verifyEquals(message1, "Note requested not found");
+			verify.verifyEquals(code1, "NOTE NOT FOUND");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add and delete tag in a private note")
+	public void addingDeletingTagInPrivateNote() throws Exception {
 		try {
 			// note Creation
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -1043,7 +1500,51 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add and delete tag in a Attachment note")
+	public void addingDeletingTagInAttachmentNote() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, String> filters = new HashMap<String, String>();
+			filters.put("limit", "1");
+			filters.put("filter", "type eq attachment");
+
+			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
+			Response resp = RestOperationUtils.get(NOTES, spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONArray entries = respJson.getJSONArray("entries");
+			JSONObject firstElment = (JSONObject) entries.get(0);
+			String noteId = (String) firstElment.get("id");
+
+			// Adding Tag
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 201);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
 			verify.verifyResponseTime(updateResp, 5000);
@@ -1058,6 +1559,53 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
 			verify.verifyResponseTime(deleteResp, 5000);
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add and delete tag in with invalid note id")
+	public void addingAndDeletingTagWithInvalidId() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			// Adding Tag
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + 123 + "/" + "tags" + "/" + "mynote", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 404);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+
+			// deleting Tag
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + 123 + "/" + "tags" + "/" + "mynote", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 404);
+			verify.verifyResponseTime(deleteResp, 5000);
+			JSONObject deleteRespJson = new JSONObject(deleteApiResp.getResponseAsString());
+			JSONObject response1 = (JSONObject) deleteRespJson.get("error");
+			Object message1 = response1.get("message");
+			Object code1 = response1.get("code");
+
+			verify.verifyEquals(message1, "Note requested not found");
+			verify.verifyEquals(code1, "NOTE NOT FOUND");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1142,6 +1690,455 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
+	@Test(description = "Add attachment in a note with created and updated date")
+	public void addingAttachmentInaNoteWithCreatedAndUpdatedDate() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(4));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding attachment
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "samplePdf.pdf";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification Filespec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response fileResp = RestOperationUtils.post(FILE_UPLOAD, null, Filespec, params);
+			APIResponse fileApiResp = new APIResponse(fileResp);
+			JSONObject fileRespJson = new JSONObject(fileApiResp.getResponseAsString());
+			String fileId = fileRespJson.get("id").toString();
+			String contentType = fileRespJson.get("content_type").toString();
+
+			// Uploading it to note
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+			fileParams.put("created_at", "2018-11-19T15:29:32");
+			fileParams.put("updated_at", "2017-11-19T15:29:32");
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> uploadAttachParams = new HashMap<String, Object>();
+			uploadAttachParams.put("files", listOfFileParams);
+
+			String dataDictJson = jsonUtils.toJson(uploadAttachParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(dataDictJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "attachments", null, updateSpec,
+					null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+
+			verify.verifyResponseTime(updateResp, 5000);
+			verify.verifyEquals(updateRespJson.get("message"), "Attachments Added Successfully", "Verify the message");
+			verify.jsonSchemaValidation(updateResp,
+					"notebookPublicApi" + File.separator + "addingAttachmentInaNote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add attachment in a note with Incorrect date format")
+	public void addingAttachmentInaNoteWithIncorrectDate() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(4));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding attachment
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "samplePdf.pdf";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification Filespec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response fileResp = RestOperationUtils.post(FILE_UPLOAD, null, Filespec, params);
+			APIResponse fileApiResp = new APIResponse(fileResp);
+			JSONObject fileRespJson = new JSONObject(fileApiResp.getResponseAsString());
+			String fileId = fileRespJson.get("id").toString();
+			String contentType = fileRespJson.get("content_type").toString();
+
+			// Uploading it to note
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+			fileParams.put("created_at", "2017-:29:32");
+			fileParams.put("updated_at", "2017-11-19T15:29:32");
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> uploadAttachParams = new HashMap<String, Object>();
+			uploadAttachParams.put("files", listOfFileParams);
+
+			String dataDictJson = jsonUtils.toJson(uploadAttachParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(dataDictJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "attachments", null, updateSpec,
+					null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Bad Format of Date try sending in format %Y-%m-%dT%H:%M:%S");
+			verify.verifyEquals(code, "INVALID REQUEST");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add attachment in a note with invalid note id")
+	public void addingAttachmentInaNoteWithInvalidNoteId() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			// Adding attachment
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "samplePdf.pdf";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification Filespec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response fileResp = RestOperationUtils.post(FILE_UPLOAD, null, Filespec, params);
+			APIResponse fileApiResp = new APIResponse(fileResp);
+			JSONObject fileRespJson = new JSONObject(fileApiResp.getResponseAsString());
+			String fileId = fileRespJson.get("id").toString();
+			String contentType = fileRespJson.get("content_type").toString();
+
+			// Uploading it to note
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> uploadAttachParams = new HashMap<String, Object>();
+			uploadAttachParams.put("files", listOfFileParams);
+
+			String dataDictJson = jsonUtils.toJson(uploadAttachParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(dataDictJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + 123 + "/" + "attachments", null, updateSpec,
+					null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 404);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add attachment in a note with invalid File Id")
+	public void addingAttachmentInaNoteUsingInvalidFileId() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(4));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding attachment
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "samplePdf.pdf";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification Filespec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response fileResp = RestOperationUtils.post(FILE_UPLOAD, null, Filespec, params);
+			APIResponse fileApiResp = new APIResponse(fileResp);
+			JSONObject fileRespJson = new JSONObject(fileApiResp.getResponseAsString());
+			String contentType = fileRespJson.get("content_type").toString();
+
+			// Uploading it to note
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", "123");
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> uploadAttachParams = new HashMap<String, Object>();
+			uploadAttachParams.put("files", listOfFileParams);
+
+			String dataDictJson = jsonUtils.toJson(uploadAttachParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(dataDictJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "attachments", null, updateSpec,
+					null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Unsupported file_id ");
+			verify.verifyEquals(code, "INVALID REQUEST");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add attachment in a note with contenttype mismatch")
+	public void addingAttachmentInaNoteContenTypeMismatch() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(4));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding attachment
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "samplePdf.pdf";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification Filespec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response fileResp = RestOperationUtils.post(FILE_UPLOAD, null, Filespec, params);
+			APIResponse fileApiResp = new APIResponse(fileResp);
+			JSONObject fileRespJson = new JSONObject(fileApiResp.getResponseAsString());
+			String fileId = fileRespJson.get("id").toString();
+			String contentType = "text/html";
+
+			// Uploading it to note
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + fileExtension);
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> uploadAttachParams = new HashMap<String, Object>();
+			uploadAttachParams.put("files", listOfFileParams);
+
+			String dataDictJson = jsonUtils.toJson(uploadAttachParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(dataDictJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "attachments", null, updateSpec,
+					null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Discrepancy in content_type and file extension");
+			verify.verifyEquals(code, "INVALID REQUEST");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Add attachment in a note with file extension mismatch")
+	public void addingAttachmentInaNoteFileExtensionMismatch() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(4));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding attachment
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "samplePdf.pdf";
+			String fileExtension = FilenameUtils.getExtension(fileName);
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			RequestSpecification Filespec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response fileResp = RestOperationUtils.post(FILE_UPLOAD, null, Filespec, params);
+			APIResponse fileApiResp = new APIResponse(fileResp);
+			JSONObject fileRespJson = new JSONObject(fileApiResp.getResponseAsString());
+			String fileId = fileRespJson.get("id").toString();
+			String contentType = fileRespJson.get("content_type").toString();
+
+			// Uploading it to note
+			HashMap<String, String> fileParams = new HashMap<String, String>();
+			fileParams.put("file_id", fileId);
+			fileParams.put("content_type", contentType);
+			fileParams.put("filename", "fileName" + new Date().getTime() + "." + "txt");
+
+			List<Map<String, String>> listOfFileParams = new ArrayList<Map<String, String>>();
+			listOfFileParams.add(fileParams);
+
+			HashMap<String, Object> uploadAttachParams = new HashMap<String, Object>();
+			uploadAttachParams.put("files", listOfFileParams);
+
+			String dataDictJson = jsonUtils.toJson(uploadAttachParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(dataDictJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "attachments", null, updateSpec,
+					null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Discrepancy in content_type and file extension");
+			verify.verifyEquals(code, "INVALID REQUEST");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
 	@Test(description = "Fetch all the comments from a note")
 	public void fetchCommentsAddedInANote() throws Exception {
 		try {
@@ -1170,6 +2167,34 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONArray("entries").length(), 2, "Verify Comments length");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "fetchCommentAddedInANote.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	@Test(description = "Fetch all the comments from a note for invalid Id")
+	public void fetchCommentsAddedInANoteForInvalidId() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
+			Response resp = RestOperationUtils.get(NOTES + "/" + 134 + "/" + "comments", spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 404);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyResponseTime(resp, 5000);
+			JSONObject response = (JSONObject) respJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1214,7 +2239,32 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
-	
 
+	@Test(description = "fetch Highlight created in a note for invalid id")
+	public void fetchHighlightsCreatedInANoteForInvalidId() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
 
+			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
+			Response resp = RestOperationUtils.get(NOTES + "/" + 1233 + "/" + "highlights", spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 404);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyResponseTime(resp, 5000);
+			JSONObject response = (JSONObject) respJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Note requested not found");
+			verify.verifyEquals(code, "NOTE NOT FOUND");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
 }
