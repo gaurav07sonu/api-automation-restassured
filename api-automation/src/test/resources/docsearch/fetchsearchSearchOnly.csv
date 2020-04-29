@@ -1,8 +1,2 @@
-query,facets_flag
-sales,true
-profit,false
-velocity,true
-profit NEAR loss,false
-iphone,false
-iPad,false
-mitsubhishi,true
+query,facets_flag,tickers,filing_type,date_range_from,date_range_to
+sales,false,amzn,rr#$,"16-Dec-2019","16-Dec-2019"

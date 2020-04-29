@@ -8,7 +8,6 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Constants {
 
-	
 	public static String EMAIL = "";
 	public static String PASSWORD = "";
 	public static String APP_URL = "";
@@ -20,7 +19,7 @@ public class Constants {
 	 static{
 
 		 String envArg = System.getProperty("env");
-		 //String envArg = "schroderstest";
+		 //String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -94,8 +93,26 @@ public class Constants {
 	public static final String GET_USER_DOWNLOADED_DOCS_STATUS = "/api/get_user_downloaded_docs_status/";
 	public static final String FETCH_SNIPPETS = "/api/fetch_snippets/";
 	public static final String FETCH_SEARCH_TERM_COUNT = "/api/fetch_search_term_count/";
+	public static final String FETCH_LANDING_PAGE_DATA = "/api/fetch_landing_page_data/";
+	public static final String FETCH_FILES_META_DATA = "/api/fetch_files_meta_data/";
+	public static final String SAVE_USER_SEARCH = "/api/save_user_search/";
+	public static final String FETCH_FILE_CONTENT = "/api/fetch_file_content/";
+	public static final String LOAD_USER_SEARCH = "/api/load_user_search/";
+	public static final String FETCH_USER_VIEWED_DOCS = "/api/fetch_user_viewed_docs/";
+	public static final String INDEX_USER_VIEWED_DOC = "/api/index_user_viewed_doc/";
+	public static final String DELETE_SAVED_SEARCH = "/api/delete_saved_search/";
+	public static final String FETCH_NOTE_SEARCH = "/api/fetch_note_search/";
+	public static final String GET_DOCNOTE_PDF = "/api/get_docnote_pdf/";
+	public static final String REQUEST_FEED = "/api/request_feed/";
+	public static final String UPDATE_FEED = "/api/update_feed/";
+	public static final String UNSUBSCRIBE_FEED = "/api/unsubscribe_feed/";
+	public static final String FETCH_DOCUMENT_NOTE_INFO = "/api/fetch_document_note_info/";
+	public static final String FETCH_SEARCH_FILTERS = "/api/fetch_search_filters/";
+	public static final String FETCH_SEARCH_SETTINGS = "/api/fetch_search_settings/";
+	public static final String FETCH_TRANSFORM_NOTE_CONTENT = "/api/fetch_transform_note_content/";
 
 	// finance / plotter
+
 	public static final String FETCH_CURRENT_STOCK_DATA = "/api/fetch_current_stock_data/";
 	public static final String FETCH_CAPITAL_EVENTS = "/api/fetch_capital_events/";
 	public static final String GET_TRACKER_MAPPINGS = "/api/get_tracker_mappings/";
