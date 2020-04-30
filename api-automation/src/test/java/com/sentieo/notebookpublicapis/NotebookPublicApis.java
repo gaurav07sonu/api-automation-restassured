@@ -1084,8 +1084,8 @@ public class NotebookPublicApis extends APIDriver {
 			tags.add("abc");
 
 			List<String> tickers = new ArrayList<String>();
-			tickers.add("aapl");
-			tickers.add("fb");
+			tickers.add("ssl");
+			tickers.add("plse");
 
 			String updatedTitle = "Updated Title of Note - " + noteId;
 			HashMap<String, Object> updateParams = new HashMap<String, Object>();
