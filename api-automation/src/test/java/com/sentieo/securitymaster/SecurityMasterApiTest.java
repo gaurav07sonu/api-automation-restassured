@@ -1179,12 +1179,16 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			RequestSpecification spec1 = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp1 = RestOperationUtils.post(SECURITIES, null, spec1, formParams);
-			APIResponse apiResp1 = new APIResponse(resp1);
-			verify.verifyStatusCode(apiResp1.getStatusCode(), 400);
-			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-			System.out.println(respJson1);
-			verify.verifyResponseTime(resp1, 5000);
-			JSONObject error = (JSONObject) respJson1.get("error");
+			
+			
+			RequestSpecification spec2 = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp2 = RestOperationUtils.post(SECURITIES, null, spec2, formParams);
+			APIResponse apiResp2 = new APIResponse(resp2);
+			verify.verifyStatusCode(apiResp2.getStatusCode(), 400);
+			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
+			System.out.println(respJson2);
+			verify.verifyResponseTime(resp2, 5000);
+			JSONObject error = (JSONObject) respJson2.get("error");
 			verify.verifyEquals(error.get("message"), "Unique Constraint violates on field short_name");
 			verify.verifyEquals(error.get("code"), "Conflict");
 			verify.verifyEquals(error.getJSONObject("detail").get("short_name"),
@@ -1225,7 +1229,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
 			formParams.put("short_name", shortName);
 			formParams.put("security_type", "Equity");
-			formParams.put("is_primary_flag", true);
+			formParams.put("is_primary_flag", false);
 			formParams.put("isin", "US30303M1027");
 			formParams.put("cusip_cins", "123");
 			formParams.put("primary_ric", "235235");
@@ -1457,7 +1461,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("short_name", shortName);
 			formParams.put("security_type", "etf");
-			formParams.put("is_primary_flag", true);
+			formParams.put("is_primary_flag", false);
 			formParams.put("isin", "US30303M1027");
 			formParams.put("cusip_cins", "123");
 			formParams.put("primary_ric", "235235");
@@ -1640,7 +1644,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("short_name", shortName);
 			formParams.put("security_type", "etf");
-			formParams.put("is_primary_flag", true);
+			formParams.put("is_primary_flag", false);
 			formParams.put("isin", "US30303M1027");
 			formParams.put("cusip_cins", "123");
 			formParams.put("primary_ric", "235235");
@@ -2199,12 +2203,16 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			RequestSpecification spec1 = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp1 = RestOperationUtils.post(QUOTES, null, spec1, formParams);
-			APIResponse apiResp1 = new APIResponse(resp1);
-			verify.verifyStatusCode(apiResp1.getStatusCode(), 400);
-			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-			System.out.println(respJson1);
-			verify.verifyResponseTime(resp1, 5000);
-			JSONObject error = (JSONObject) respJson1.get("error");
+			
+			
+			RequestSpecification spec2 = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp2 = RestOperationUtils.post(QUOTES, null, spec2, formParams);
+			APIResponse apiResp2 = new APIResponse(resp2);
+			verify.verifyStatusCode(apiResp2.getStatusCode(), 400);
+			JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
+			System.out.println(respJson2);
+			verify.verifyResponseTime(resp2, 5000);
+			JSONObject error = (JSONObject) respJson2.get("error");
 			verify.verifyEquals(error.get("message"), "Unique Constraint violates on field short_name");
 			verify.verifyEquals(error.get("code"), "Conflict");
 			verify.verifyEquals(error.getJSONObject("detail").get("short_name"),

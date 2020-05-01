@@ -1084,8 +1084,8 @@ public class NotebookPublicApis extends APIDriver {
 			tags.add("abc");
 
 			List<String> tickers = new ArrayList<String>();
-			tickers.add("aapl");
-			tickers.add("fb");
+			tickers.add("ssl");
+			tickers.add("plse");
 
 			String updatedTitle = "Updated Title of Note - " + noteId;
 			HashMap<String, Object> updateParams = new HashMap<String, Object>();
@@ -1107,8 +1107,8 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyResponseTime(updateResp, 5000);
 			verify.verifyEquals(updateRespJson.get("id"), noteId, "Verify the id");
-			verify.verifyEquals(tickersArray.get(0), tickers.get(0));
-			verify.verifyEquals(tickersArray.get(1), tickers.get(1));
+			verify.verifyEquals(tickersArray.get(0), tickers.get(0).toUpperCase());
+			verify.verifyEquals(tickersArray.get(1), tickers.get(1).toUpperCase());
 			verify.verifyEquals(tagsArray.get(0), tags.get(0));
 			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the note title");
 			verify.jsonSchemaValidation(updateResp,
