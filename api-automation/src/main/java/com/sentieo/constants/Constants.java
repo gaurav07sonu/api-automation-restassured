@@ -19,7 +19,7 @@ public class Constants {
 	 static{
 
 		 String envArg = System.getProperty("env");
-//		 String envArg = "app";
+//		 String envArg = "balyasny";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));

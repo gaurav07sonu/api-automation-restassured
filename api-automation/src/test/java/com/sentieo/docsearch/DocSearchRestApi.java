@@ -737,7 +737,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetches meta info like date, file type etc.", dataProvider = "fetch_files_meta_data", dataProviderClass = DataProviderClass.class)
+//	@Test(groups = "sanity", description = "fetches meta info like date, file type etc.", dataProvider = "fetch_files_meta_data", dataProviderClass = DataProviderClass.class)
 	public void fetch_files_meta_data(String id) throws CoreCommonException {
 
 		try {
@@ -833,7 +833,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 
-	@Test(groups = "sanity", description = "pdf view for note documents", dataProvider = "get_docnote_pdf", dataProviderClass = DataProviderClass.class)
+//	@Test(groups = "sanity", description = "pdf view for note documents", dataProvider = "get_docnote_pdf", dataProviderClass = DataProviderClass.class)
 	public void get_docnote_pdf(String doc_id) throws CoreCommonException {
 
 		try {
