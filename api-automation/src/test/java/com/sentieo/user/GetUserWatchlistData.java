@@ -25,19 +25,6 @@ public class GetUserWatchlistData extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-	}
 
 	@Test(groups = { "User", "user-watchlistData" }, description = "get user watchlist data")
 	public void getUserWatchlistsData() throws Exception {
