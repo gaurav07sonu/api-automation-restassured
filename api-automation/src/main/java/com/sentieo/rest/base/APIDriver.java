@@ -129,8 +129,13 @@ public class APIDriver {
 			Response resp = RestOperationUtils.login(URI, null, spec, loginData);
 			apid = resp.getCookie("apid");
 			usid = resp.getCookie("usid");
+			if(apid.isEmpty() || usid.isEmpty()) {
+				System.out.println("Login failed");
+				System.exit(1);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 }
