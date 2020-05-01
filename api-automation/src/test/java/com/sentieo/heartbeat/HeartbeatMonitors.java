@@ -40,6 +40,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
+		RestAssured.useRelaxedHTTPSValidation();
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
 		loginData.put("email", EMAIL);
