@@ -584,5 +584,9 @@ public class DataProviderClass {
 		return new Object[][] { { "Revenue","Q"}, { "Stock","Q" }
 		,{ "Revenue","M"}, { "Stock","M" }};
 	}
+	@DataProvider(name = "autocomplete")
+	public Object[][] queryAutocomplete() {
+		return new Object[][] { { "sales","aapl"}, { "revenue","msft" }};
+	}
 }
 
