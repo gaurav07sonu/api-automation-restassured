@@ -13,6 +13,7 @@
 			<package name="com.sentieo.finance" />
 		</packages>
 	</test>
+	
 	<test name="others" preserve-order="true">
 		<packages>
 			<package name="com.sentieo.*">

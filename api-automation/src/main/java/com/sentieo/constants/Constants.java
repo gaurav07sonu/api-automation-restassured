@@ -199,8 +199,16 @@ public class Constants {
 	
 	//security master APIs
 	public static final String ENTITY = "/sm/user/entities";
+	public static final String CHILD_ENTITIES = "/child_entities";
+	public static final String SECURITIES = "/sm/user/securities";
+	public static final String QUOTES = "/sm/user/quotes";
+	public static final String CHILD_QUOTES = "/child_quotes";
+	public static final String SEARCH_QUOTE = "/sm/sentieo/quotes/search/";
+	public static final String SECURITY_SEARCH = "/sm/sentieo/securities/search/";
+	public static final String SECURITY_MAP_SEARCH = "/sm/sentieo/securities/map/";
 	public static final String MESSAGE = "No object matches the given query";
 	public static final String CODE = "Not Found";
+	
 	
 
 	// plotter //mosaic

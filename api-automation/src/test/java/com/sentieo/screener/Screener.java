@@ -20,21 +20,6 @@ public class Screener extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 
-	@BeforeClass
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-
-		RestAssured.baseURI = USER_APP_URL;
-	}
-
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
@@ -47,7 +32,7 @@ public class Screener extends APIDriver {
 		queryParams.put("fetch_mode", "all");
 		RequestSpecification spec = queryParamsSpec(queryParams);
 
-		Response resp = RestOperationUtils.get(FETCH_SCREENER_MODELS, spec, queryParams);
+		Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_SCREENER_MODELS, spec, queryParams);
 		APIResponse apiResp = new APIResponse(resp);
 		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -63,7 +48,7 @@ public class Screener extends APIDriver {
 		queryParams.put("fetch_mode", "dropdown");
 		RequestSpecification spec = queryParamsSpec(queryParams);
 
-		Response resp = RestOperationUtils.get(FETCH_SCREEN_FILTERS, spec, queryParams);
+		Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_SCREEN_FILTERS, spec, queryParams);
 		APIResponse apiResp = new APIResponse(resp);
 		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -80,7 +65,7 @@ public class Screener extends APIDriver {
 
 		RequestSpecification spec = queryParamsSpec(queryParams);
 
-		Response resp = RestOperationUtils.get(FETCH_SCREENER_PARAM_USAGE, spec, queryParams);
+		Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_SCREENER_PARAM_USAGE, spec, queryParams);
 
 		APIResponse apiResp = new APIResponse(resp);
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);

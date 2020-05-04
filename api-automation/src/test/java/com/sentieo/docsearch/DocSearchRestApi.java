@@ -28,21 +28,6 @@ public class DocSearchRestApi extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 
-	@BeforeClass
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-
-		RestAssured.baseURI = USER_APP_URL;
-	}
-
 	@BeforeMethod
 	public void initVerify() {
 		verify = new APIAssertions();
@@ -56,7 +41,7 @@ public class DocSearchRestApi extends APIDriver {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("counter", "1");
 			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(FETCH_SAVED_FILTERS, null, spec, queryParams);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_SAVED_FILTERS, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);

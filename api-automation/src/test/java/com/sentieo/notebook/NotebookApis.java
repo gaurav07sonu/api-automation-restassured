@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -66,22 +67,12 @@ public class NotebookApis extends APIDriver {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
 	}
-
-	@BeforeSuite(alwaysRun = true)
-	public void setup() throws Exception {
-		URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-
-		RestAssured.baseURI = USER_APP_URL;
+	
+	@BeforeClass(alwaysRun = true)
+	public void setURI(){
+		URI=USER_APP_URL;
 	}
-
+	
 	@Test(groups = "sanity", priority = 0, description = "Create private note")
 	public void createPrivateNote() throws Exception {
 		try {
