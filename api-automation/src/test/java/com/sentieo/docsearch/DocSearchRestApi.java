@@ -26,9 +26,9 @@ import com.sentieo.utils.CoreCommonException;
 public class DocSearchRestApi extends APIDriver {
 
 	public static String doc_id = "";
-	public static String doc_type="";
-	public static String title="";
-	public static String filingDate="";
+	public static String doc_type = "";
+	public static String title = "";
+	public static String filingDate = "";
 	APIAssertions verify = new APIAssertions();
 
 	@BeforeMethod(alwaysRun = true)
@@ -42,12 +42,12 @@ public class DocSearchRestApi extends APIDriver {
 		JSONArray docs = obj.fetch_docid();
 		Random rand = new Random();
 		int rand_int1 = rand.nextInt(docs.length());
-		JSONObject result=docs.getJSONObject(rand_int1);
+		JSONObject result = docs.getJSONObject(rand_int1);
 		doc_id = result.getString("id");
-		doc_type=result.getString("doc_type");
-		title=result.getString("title");
-		filingDate=result.getString("filingdate");
-		
+		doc_type = result.getString("doc_type");
+		title = result.getString("title");
+		filingDate = result.getString("filingdate");
+
 	}
 
 //	Fetch saved filters......
@@ -76,27 +76,26 @@ public class DocSearchRestApi extends APIDriver {
 
 //	Test Download/Export 	
 
-	@Test(groups = { "bonding" }, description = "Test Download/Export ")
+	@Test(groups = { "bonding2" }, description = "Test Download/Export ")
 	public void bulk_download() throws CoreCommonException {
 		try {
 			String URI = APP_URL + BULK_DOWNLOAD;
-			if(!URI.contains("schroders"))
-			{
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("doc_ids", doc_id);
-			queryParams.put("email", "gaurav.anand@sentieo.com");
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.verifyAll();
-			}
-			else
-				ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because user is not allowed to download docs on "+URI);
+			if (!URI.contains("schroders")) {
+				HashMap<String, String> queryParams = new HashMap<String, String>();
+				queryParams.put("doc_ids", doc_id);
+				queryParams.put("email", "gaurav.anand@sentieo.com");
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyAll();
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP,
+						"test skipped because user is not allowed to download docs on " + URI);
 
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
@@ -109,10 +108,10 @@ public class DocSearchRestApi extends APIDriver {
 
 	@Test(groups = "bonding", description = "Fetching doc info")
 	public void fetch_docs_meta_data() throws CoreCommonException {
-		try {	
+		try {
 			String URI = APP_URL + FETCH_DOCS_META_DATA;
-			HashMap<String, String> queryParams = new HashMap<String, String>(); 
-			String docID="["+"\""+doc_id+"\""+"]";
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			String docID = "[" + "\"" + doc_id + "\"" + "]";
 			queryParams.put("doc_ids", docID);
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -122,19 +121,17 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			JSONObject result=respJson.getJSONObject("result").getJSONObject(doc_id);
-			String docType=result.get("doc_type").toString();
-			String docid=result.getString("doc_id").toString();
-			String docTitle=result.getString("title");
-			String date=result.getString("filingdate");
-			
+			JSONObject result = respJson.getJSONObject("result").getJSONObject(doc_id);
+			String docType = result.get("doc_type").toString();
+			String docid = result.getString("doc_id").toString();
+			String docTitle = result.getString("title");
+			String date = result.getString("filingdate");
+
 			verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
 			verify.assertEqualsActualContainsExpected(doc_id, docid, "verify docID");
 			verify.assertEqualsActualContainsExpected(title, docTitle, "verify document title");
 			verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
 
-			
-			
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -564,8 +561,8 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			JSONArray autocompleteResult=respJson.getJSONArray("result");
-			verify.assertTrue(autocompleteResult.length()!=0, "Verify Query Autocomple ");
+			JSONArray autocompleteResult = respJson.getJSONArray("result");
+			verify.assertTrue(autocompleteResult.length() != 0, "Verify Query Autocomple ");
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -657,23 +654,27 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", dataProvider = "fetch_user_viewed_docs", dataProviderClass = DataProviderClass.class)
-	public void fetch_user_viewed_docs(String did) throws CoreCommonException {
+	@Test(groups = "cd", description = "used to view document when user clicks doc from search result", priority = 1)
+	public void fetch_user_viewed_docs() throws CoreCommonException {
 
 		try {
 			String URI = USER_APP_URL + FETCH_USER_VIEWED_DOCS;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("did", did);
+			queryParams.put("did", doc_id);
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyResponseTime(resp, 10000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
+			JSONObject result = respJson.getJSONArray("result").getJSONObject(0);
+			String fetchID = result.getString("doc_id");
+			verify.assertEqualsActualContainsExpected(doc_id, fetchID, "Verify document id");
+			boolean viewedStatus = result.getBoolean("viewed");
+			verify.assertTrue(viewedStatus, "verify doc view status");
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -682,23 +683,24 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", dataProvider = "index_user_viewed_doc", dataProviderClass = DataProviderClass.class)
-	public void index_user_viewed_doc(String did) throws CoreCommonException {
-
+	@Test(groups = "cd", description = "used to view document when user clicks doc from search result", priority = 0)
+	public void index_user_viewed_doc() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + INDEX_USER_VIEWED_DOC;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("did", did);
+			queryParams.put("doc_id", doc_id);
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			System.out.println(respJson.toString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
+			boolean status = respJson.getJSONObject("result").getBoolean(doc_id);
+			verify.assertTrue(status, "Verify Index user viewed docs");
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -722,21 +724,21 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			JSONObject result=respJson.getJSONObject("result");
-			JSONArray latest_filing_list=result.getJSONArray("latest_filing_list");
-			JSONArray recent_open_docs=result.getJSONArray("recent_open_docs");
-			JSONArray search_list=result.getJSONArray("search_list");
-			JSONArray recent_search_tickers=result.getJSONArray("recent_search_tickers");
-			JSONObject recent_ticker_entity_info=result.getJSONObject("recent_ticker_entity_info");
-			verify.assertTrue(latest_filing_list.length()!=0, "verify latest_filing_list is not blank on landing page");
-			verify.assertTrue(recent_open_docs.length()!=0, "verify recent_open_docs is not blank on landing page");
+			JSONObject result = respJson.getJSONObject("result");
+			JSONArray latest_filing_list = result.getJSONArray("latest_filing_list");
+			JSONArray recent_open_docs = result.getJSONArray("recent_open_docs");
+			JSONArray search_list = result.getJSONArray("search_list");
+			JSONArray recent_search_tickers = result.getJSONArray("recent_search_tickers");
+			JSONObject recent_ticker_entity_info = result.getJSONObject("recent_ticker_entity_info");
+			verify.assertTrue(latest_filing_list.length() != 0,
+					"verify latest_filing_list is not blank on landing page");
+			verify.assertTrue(recent_open_docs.length() != 0, "verify recent_open_docs is not blank on landing page");
 
-			verify.assertTrue(search_list.length()!=0, "verify search_list is not blank on landing page");
-			verify.assertTrue(recent_search_tickers.length()!=0, "verify recent_search_tickers is not blank on landing page");
-			verify.assertTrue(recent_ticker_entity_info.length()!=0, "verify recent_ticker_entity_info is not blank on landing page");
-
-			
-			
+			verify.assertTrue(search_list.length() != 0, "verify search_list is not blank on landing page");
+			verify.assertTrue(recent_search_tickers.length() != 0,
+					"verify recent_search_tickers is not blank on landing page");
+			verify.assertTrue(recent_ticker_entity_info.length() != 0,
+					"verify recent_ticker_entity_info is not blank on landing page");
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -757,17 +759,14 @@ public class DocSearchRestApi extends APIDriver {
 					"{\"ticker\":{},\"doctype\":{},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}");
 			queryParams.put("force_save", "true");
 			queryParams.put("name", "newyork");
-
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {

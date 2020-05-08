@@ -23,14 +23,14 @@ public class DocumentSearch extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "c", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
 			queryParams.put("query", query);
-			queryParams.put("filters", filters);
+		//	queryParams.put("filters", filters);
 			queryParams.put("facets_flag", "false");
 
 			JSONObject json = new JSONObject(filters);
@@ -45,10 +45,11 @@ public class DocumentSearch extends APIDriver {
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
+			//verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
-			Boolean code_status = verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			if (code_status.equals(true)) {
+		//	verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			if (apiResp.getStatusCode()==200) {
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
