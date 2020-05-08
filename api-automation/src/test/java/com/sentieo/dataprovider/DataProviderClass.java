@@ -254,23 +254,6 @@ public class DataProviderClass {
 			return groupArray;		
 	}
 	
-	
-	@DataProvider(name = "fetch_user_viewed_docs")
-	public Object[][] fetch_user_viewed_docs() {
-		Object[][] groupArray = null;
-			groupArray = new String[][] { { "5e4f09df5133ce1518e59676"},  {"null"},  { "12345"}};
-			return groupArray;		
-	}
-	
-	
-	@DataProvider(name = "index_user_viewed_doc")
-	public Object[][] index_user_viewed_doc() {
-		Object[][] groupArray = null;
-			groupArray = new String[][] { { "5e4f09df5133ce1518e59676"},  {"null"},  { "12345"}};
-			return groupArray;		
-	}
-	
-	
 	@DataProvider(name = "fetch_files_meta_data")
 	public Object[][] fetch_files_meta_data() {
 		Object[][] groupArray = null;
