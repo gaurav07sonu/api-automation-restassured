@@ -126,10 +126,10 @@ public class DocSearchRestApi extends APIDriver {
 			String docid = result.getString("doc_id").toString();
 			String docTitle = result.getString("title");
 			String date = result.getString("filingdate");
-
+			
 			verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
 			verify.assertEqualsActualContainsExpected(doc_id, docid, "verify docID");
-			verify.assertEqualsActualContainsExpected(title, docTitle, "verify document title");
+			verify.assertEqualsActualContainsExpected(docTitle,title, "verify document title");
 			verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
 
 		} catch (JSONException e) {
