@@ -1064,7 +1064,7 @@ public class DocSearchRestApi extends APIDriver {
 						"Verify the API Response Status");
 
 				int total_results = respJson.getJSONObject("result").getInt("total_results");
-				verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
+				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
 			}
 

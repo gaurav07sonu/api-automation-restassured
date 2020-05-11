@@ -139,7 +139,7 @@ public class NotebookPublicApis extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyTrue(respJson.getJSONArray("entries").length() != 0, "Verify the API Response");
+			verify.assertTrue(respJson.getJSONArray("entries").length() != 0, "Verify the API Response");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
