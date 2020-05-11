@@ -60,7 +60,7 @@ public class TestWatchlistPriceChange extends APIDriver {
 			if(allWatchList.length()==0)
 			{
 				
-				verify.verifyTrue(false, watchlistName+" Watchlist has no tickers : "+allWatchList);
+				verify.assertTrue(false, watchlistName+" Watchlist has no tickers : "+allWatchList);
 			}
 			watchlistTickers
 					.add(allWatchList.toString().replaceAll("\\[", "").replaceAll("\\]", "").replace("\"", " "));
