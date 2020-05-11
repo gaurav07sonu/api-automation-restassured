@@ -9,8 +9,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
+import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -23,7 +25,7 @@ public class DocumentSearch extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "c", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
@@ -161,8 +163,12 @@ public class DocumentSearch extends APIDriver {
 
 	@Test(groups = "sanity", description = "applying doc type filters", dataProvider = "test_doctype_Filter", dataProviderClass = DataProviderClass.class)
 	public void fetchsearch_doctype(String ticker, String filters) throws CoreCommonException {
-
-		try {
+		try { 
+		if(!APP_URL.contains("app") && filters.contains("note")) {
+			ExtentTestManager.getTest().log(LogStatus.SKIP,
+					"We are not supporting on : " + APP_URL);
+		}else {
+			
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
@@ -220,8 +226,7 @@ public class DocumentSearch extends APIDriver {
 					}
 				}
 			}
-
-		} catch (Exception e) {
+		} }catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
@@ -230,8 +235,11 @@ public class DocumentSearch extends APIDriver {
 
 	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
 	public void docsearch_date_filter(String ticker, String filters) throws CoreCommonException {
-
 		try {
+			if(!APP_URL.contains("app") && filters.contains("note")) {
+				ExtentTestManager.getTest().log(LogStatus.SKIP,
+						"We are not supporting on : " + APP_URL);
+			}else {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
@@ -290,7 +298,7 @@ public class DocumentSearch extends APIDriver {
 				}
 			}
 
-		} catch (Exception e) {
+		}} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
@@ -636,7 +644,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "dev", description = "for getting form count for doc subtypes")
+	@Test(groups = "sanity", description = "for getting form count for doc subtypes")
 	public void fetchsearch_nodoc_1() throws CoreCommonException {
 
 		try {
@@ -752,7 +760,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "deve", description = "getting facets count")
+	@Test(groups = "sanity", description = "getting facets count")
 	public void fetchsearch_nodoc_6() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
@@ -784,7 +792,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "deve", description = "for screener tickers ")
+	@Test(groups = "sanity", description = "for screener tickers ")
 	public void fetchsearch_nodoc_7() throws CoreCommonException {
 
 		try {
