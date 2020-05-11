@@ -30,11 +30,11 @@ public class loginForMultipleUser extends APIDriver {
 		APIDriver ap = new APIDriver();
 		ap.login();
 	}
-	
+
 	@Test(groups = "sanity", description = "check", dataProvider = "users", dataProviderClass = DataProviderClass.class)
 	public void verifyLogin(String email, String password) throws Exception {
-		apid="";
-		usid="";
+		apid = "";
+		usid = "";
 		String URI = USER_APP_URL + LOGIN_URL;
 		HashMap<String, String> loginData = new HashMap<String, String>();
 		loginData.put("email", email);
@@ -51,11 +51,9 @@ public class loginForMultipleUser extends APIDriver {
 		if (msg.contains("Login successful")) {
 			userName = respJson.getJSONObject("result").getString("email").toString();
 			verify.assertEqualsActualContainsExpected(email, userName, msg);
-		}
-		else {
+		} else {
 			verify.assertTrue(false, msg);
 		}
 		verify.verifyAll();
 	}
-
 }
