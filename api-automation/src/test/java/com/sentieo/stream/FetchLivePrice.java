@@ -39,19 +39,6 @@ public class FetchLivePrice extends APIDriver {
 
 //	public static ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("qure", "asia"));
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-
-	}
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
