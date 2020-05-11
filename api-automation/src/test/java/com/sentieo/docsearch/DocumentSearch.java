@@ -1,30 +1,56 @@
 package com.sentieo.docsearch;
 
 import static com.sentieo.constants.Constants.*;
+import static org.testng.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.Iterator;
+
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.google.api.services.gmail.Gmail.Users.Settings.SendAs.Verify;
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DocumentSearch extends APIDriver {
 
-	@BeforeMethod(alwaysRun = true)
+	@BeforeClass
+	public void setup() throws CoreCommonException {
+		String URI = USER_APP_URL + LOGIN_URL;
+		HashMap<String, String> loginData = new HashMap<String, String>();
+		loginData.put("email", EMAIL);
+		loginData.put("password", PASSWORD);
+
+		RequestSpecification spec = loginSpec(loginData);
+		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
+		apid = resp.getCookie("apid");
+		usid = resp.getCookie("usid");
+
+		RestAssured.baseURI = USER_APP_URL;
+	}
+
+	@BeforeMethod
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
+	
+	
+	
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
@@ -32,7 +58,7 @@ public class DocumentSearch extends APIDriver {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
 			queryParams.put("query", query);
-		//	queryParams.put("filters", filters);
+			queryParams.put("filters", filters);
 			queryParams.put("facets_flag", "false");
 
 			JSONObject json = new JSONObject(filters);
@@ -47,15 +73,16 @@ public class DocumentSearch extends APIDriver {
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			if (apiResp.getStatusCode()==200) {
+			System.out.println(respJson.toString());
+			Boolean code_status = verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			if (code_status.equals(true)) {
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
 				int total_results = respJson.getJSONObject("result").getInt("total_results");
-				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+				verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -124,7 +151,7 @@ public class DocumentSearch extends APIDriver {
 						"Verify the API Response Status");
 
 				int total_results = respJson.getJSONObject("result").getInt("total_results");
-				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+				verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -132,7 +159,7 @@ public class DocumentSearch extends APIDriver {
 					if (documentResults_size.length() != 0) {
 						for (int i = 0; i < documentResults_size.length(); i++) {
 							JSONArray tickers = documentResults_size.getJSONObject(i).getJSONArray("tickers");
-							tickerCheck = false;
+								tickerCheck = false;
 						}
 						if (tickerCheck)
 							verify.assertTrue(tickerCheck, "verifying ticker visibility in doc ");
@@ -159,16 +186,12 @@ public class DocumentSearch extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
-	}
-
+	}	
+	
 	@Test(groups = "sanity", description = "applying doc type filters", dataProvider = "test_doctype_Filter", dataProviderClass = DataProviderClass.class)
 	public void fetchsearch_doctype(String ticker, String filters) throws CoreCommonException {
-		try { 
-		if(!APP_URL.contains("app") && filters.contains("note")) {
-			ExtentTestManager.getTest().log(LogStatus.SKIP,
-					"We are not supporting on : " + APP_URL);
-		}else {
-			
+
+		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
@@ -195,7 +218,7 @@ public class DocumentSearch extends APIDriver {
 						"Verify the API Response Status");
 
 				int total_results = respJson.getJSONObject("result").getInt("total_results");
-				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+				verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -226,7 +249,8 @@ public class DocumentSearch extends APIDriver {
 					}
 				}
 			}
-		} }catch (Exception e) {
+
+		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
@@ -235,11 +259,8 @@ public class DocumentSearch extends APIDriver {
 
 	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
 	public void docsearch_date_filter(String ticker, String filters) throws CoreCommonException {
+
 		try {
-			if(!APP_URL.contains("app") && filters.contains("note")) {
-				ExtentTestManager.getTest().log(LogStatus.SKIP,
-						"We are not supporting on : " + APP_URL);
-			}else {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
@@ -268,7 +289,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 
 			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -298,7 +319,7 @@ public class DocumentSearch extends APIDriver {
 				}
 			}
 
-		}} catch (Exception e) {
+		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
@@ -306,7 +327,8 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "doc type and custom date as filter combinations", dataProvider = "doctype_customdate_filters_combination", dataProviderClass = DataProviderClass.class)
-	public void docsearch_customdate_filter(String ticker, String filters) throws CoreCommonException {
+	public void docsearch_customdate_filter(String ticker, String filters)
+			throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
@@ -336,7 +358,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 
 			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -404,7 +426,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 
 			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -471,7 +493,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 
 			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -538,7 +560,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 
 			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -607,7 +629,7 @@ public class DocumentSearch extends APIDriver {
 					"Verify the API Response Status");
 
 			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			verify.verifyTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -673,6 +695,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "Ticker pagination from ticker filter ")
 	public void fetchsearch_nodoc_2() throws CoreCommonException {
 
@@ -702,6 +725,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "ticker with no pagination ")
 	public void fetchsearch_nodoc_4() throws CoreCommonException {
 
@@ -731,6 +755,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "save as spreadsheet from action menu ")
 	public void fetchsearch_nodoc_5() throws CoreCommonException {
 
@@ -760,38 +785,37 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "getting facets count")
 	public void fetchsearch_nodoc_6() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("facets_flag", "true");
-			queryParams.put("filters",
-					"{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"date\":{},\"other\":{},\"rss\":{\"\":{\"\":{\"param\":\"feed_id\",\"values\":[599]}}}}");
+			queryParams.put("filters","{\"ticker\":{},\"doctype\":{},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}");
 			queryParams.put("no_docs", "6");
 			queryParams.put("query", "sales");
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				System.out.println(respJson);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
+			Boolean code_status = verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			if (code_status.equals(true)) {
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				JSONObject facets = respJson.getJSONObject("result").getJSONObject("facets");
-				verify.assertTrue(facets.length() > 0 && facets != null, "facets object is null");
-				}
+
+		}
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "for screener tickers ")
 	public void fetchsearch_nodoc_7() throws CoreCommonException {
 
@@ -807,13 +831,13 @@ public class DocumentSearch extends APIDriver {
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyResponseTime(resp, 10000);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-			}
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -821,6 +845,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "for export hits from action menu ")
 	public void fetchsearch_nodoc_8() throws CoreCommonException {
 
@@ -851,6 +876,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
+	
 	@Test(groups = "sanity", description = "for score debug spreadsheet ")
 	public void fetchsearch_nodoc_9() throws CoreCommonException {
 
@@ -867,6 +893,7 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -877,33 +904,6 @@ public class DocumentSearch extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
-	}
-
-	public JSONArray fetch_docid() throws CoreCommonException {
-		JSONArray documentResults_size = null;
-		try {
-			String URI = APP_URL + FETCH_SEARCH;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("query", "sales");
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject total_results = respJson.getJSONObject("result");
-				if (total_results.length()!=0) {
-					documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
-					return documentResults_size;
-				} else
-					verify.assertTrue(false, "Search shows blank data");
-			} else
-				verify.assertTrue(false, "status code is : " + apiResp.getStatusCode());
-		}
-
-		catch (Exception e) {
-			throw new CoreCommonException(e);
-		}
-		return documentResults_size;
 	}
 
 }

@@ -6,21 +6,16 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.utils.CoreCommonException;
-import static com.sentieo.constants.Constants.*;
 
 public class APIDriver {
 	
 	protected APIAssertions verify = null;
-	static protected String apid = "";
-	static protected String usid = "";
+	protected String apid = "";
+	protected String usid = "";
 	
 
 	@BeforeMethod
@@ -116,26 +111,5 @@ public class APIDriver {
 				  .basic("sanjay.saini@sentieo.com", "Iniaskyajnas97").contentType(ContentType.JSON);
 	}
 	
-	@BeforeSuite(alwaysRun = true)
-	public void login() throws CoreCommonException {
-		try {
-			RestAssured.baseURI = APP_URL;
-			String URI = USER_APP_URL + LOGIN_URL;
-			HashMap<String, String> loginData = new HashMap<String, String>();
-			loginData.put("email", EMAIL);
-			loginData.put("password", PASSWORD);
-
-			RequestSpecification spec = loginSpec(loginData);
-			Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-			apid = resp.getCookie("apid");
-			usid = resp.getCookie("usid");
-			if(apid.isEmpty() || usid.isEmpty()) {
-				System.out.println("Login failed");
-				System.exit(1);
-				}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
+	
 }

@@ -35,6 +35,19 @@ public class TestWatchlistPriceChange extends APIDriver {
 		verify = new APIAssertions();
 	}
 
+	@BeforeClass(alwaysRun=true)
+	public void setup() throws Exception {
+		String URI = USER_APP_URL + LOGIN_URL;
+		HashMap<String, String> loginData = new HashMap<String, String>();
+		loginData.put("email", EMAIL);
+		loginData.put("password", PASSWORD);
+		RequestSpecification spec = loginSpec(loginData);
+		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
+		apid = resp.getCookie("apid");
+		usid = resp.getCookie("usid");
+		RestAssured.baseURI = APP_URL;
+	}
+
 	@Test(groups = "sanity", description = "fetch login 1", priority = 0)
 	public void testWatchlistPercentageChange() throws Exception {
 		String URI = USER_APP_URL + FETCH_USER_PORTFOLIO;
@@ -60,7 +73,7 @@ public class TestWatchlistPriceChange extends APIDriver {
 			if(allWatchList.length()==0)
 			{
 				
-				verify.assertTrue(false, watchlistName+" Watchlist has no tickers : "+allWatchList);
+				verify.verifyTrue(false, watchlistName+" Watchlist has no tickers : "+allWatchList);
 			}
 			watchlistTickers
 					.add(allWatchList.toString().replaceAll("\\[", "").replaceAll("\\]", "").replace("\"", " "));
