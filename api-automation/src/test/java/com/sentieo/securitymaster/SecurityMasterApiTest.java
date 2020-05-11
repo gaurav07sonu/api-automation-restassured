@@ -80,7 +80,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getString("short_name"), shortName);
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyTrue(respJson.getString("id").contains("e!"), "Verify entity id format");
+			verify.assertTrue(respJson.getString("id").contains("e!"), "Verify entity id format");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -138,7 +138,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -366,7 +366,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			Response resp = RestOperationUtils.get(ENTITY, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
 			JSONArray entries = respJson.getJSONArray("entries");
 			JSONObject firstEntry = (JSONObject) entries.get(0);
 			String entityId = (String) firstEntry.get("id");
@@ -377,7 +377,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 			verify.verifyEquals(respJson1.get("id"), entityId);
 
 		} catch (JSONException je) {
@@ -408,7 +408,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyEquals(errorObject.get("message"), MESSAGE);
 			verify.verifyEquals(errorObject.get("code"), CODE);
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -872,7 +872,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			System.out.println(respJson1);
 			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
 			String id = (String) respJson1.get("id");
-			verify.verifyTrue(id.contains("s!"), "Verify security id format");
+			verify.assertTrue(id.contains("s!"), "Verify security id format");
 			verify.verifyResponseTime(resp1, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1259,7 +1259,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			System.out.println(respJson1);
 			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
 			String id = (String) respJson1.get("id");
-			verify.verifyTrue(id.contains("s!"), "Verify security id format");
+			verify.assertTrue(id.contains("s!"), "Verify security id format");
 			verify.verifyResponseTime(resp1, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1284,8 +1284,8 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
 
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
-			verify.verifyTrue(entries.length() != 0, "Verify length");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(entries.length() != 0, "Verify length");
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1358,7 +1358,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			Response resp = RestOperationUtils.get(SECURITIES, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
 			JSONArray entries = respJson.getJSONArray("entries");
 			JSONObject firstEntry = (JSONObject) entries.get(0);
 			String securityId = (String) firstEntry.get("id");
@@ -1369,7 +1369,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 			verify.verifyEquals(respJson1.get("id"), securityId);
 
 		} catch (JSONException je) {
@@ -1893,7 +1893,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			System.out.println(respJson1);
 			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
 			String id = (String) respJson1.get("id");
-			verify.verifyTrue(id.contains("q!"), "Verify quote id format");
+			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2277,7 +2277,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			System.out.println(respJson1);
 			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
 			String id = (String) respJson1.get("id");
-			verify.verifyTrue(id.contains("q!"), "Verify quote id format");
+			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2302,8 +2302,8 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
 
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
-			verify.verifyTrue(entries.length() != 0, "Verify length");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(entries.length() != 0, "Verify length");
 			verify.verifyResponseTime(resp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2376,7 +2376,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			Response resp = RestOperationUtils.get(QUOTES, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
 			JSONArray entries = respJson.getJSONArray("entries");
 			JSONObject firstEntry = (JSONObject) entries.get(0);
 			String quoteId = (String) firstEntry.get("id");
@@ -2387,7 +2387,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 			verify.verifyEquals(respJson1.get("id"), quoteId);
 
 		} catch (JSONException je) {
@@ -2927,7 +2927,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			Response resp = RestOperationUtils.get(SECURITIES, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyTrue(respJson != null, "Checking if response is null or not");
+			verify.assertTrue(respJson != null, "Checking if response is null or not");
 			JSONArray entries = respJson.getJSONArray("entries");
 			JSONObject firstEntry = (JSONObject) entries.get(0);
 			String securityId = (String) firstEntry.get("id");
@@ -2938,7 +2938,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2966,7 +2966,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			JSONArray entries =  respJson1.getJSONArray("entries");
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1!= null, "Checking if response is null");
+			verify.assertTrue(respJson1!= null, "Checking if response is null");
 			verify.verifyEquals(entries.length(), 0);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2993,7 +2993,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -3020,7 +3020,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -3076,7 +3076,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -3102,7 +3102,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -3128,7 +3128,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyTrue(respJson1 != null, "Checking if response is null or not");
+			verify.assertTrue(respJson1 != null, "Checking if response is null or not");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);

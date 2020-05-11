@@ -33,7 +33,10 @@ public class RestOperationUtils {
 			infoMessage = infoMessage + reporter.generateFormatedRequestHeader(spec);
 
 			infoMessage = infoMessage + BREAK_LINE + "<div>   URI : " + url + "</div>" + payloadOutput;
-			ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
+			String testname = new Exception().getStackTrace()[1].getMethodName();
+			if (!(testname.equalsIgnoreCase("fetch_docid")))
+
+				ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
 
 			if (payload == null) {
 				res = given().spec(spec).when().post(url);
@@ -41,10 +44,11 @@ public class RestOperationUtils {
 				res = given().spec(spec).body(payload).when().post(url);
 			}
 			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
-				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
-			else if (classname.contains("comparables") || classname.contains("finance")
-					|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
-				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+				if (!(testname.equalsIgnoreCase("fetch_docid")))
+					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+				else if (classname.contains("comparables") || classname.contains("finance")
+						|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
+					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -167,8 +171,8 @@ public class RestOperationUtils {
 		return res;
 	}
 
-	public static Response post(String url, String payload, RequestSpecification spec, Map params,boolean useExtentReport)
-			throws CoreCommonException {
+	public static Response post(String url, String payload, RequestSpecification spec, Map params,
+			boolean useExtentReport) throws CoreCommonException {
 		Response res = null;
 		try {
 			String payloadOutput = (payload == null || payload.isEmpty()) ? ""
@@ -179,26 +183,26 @@ public class RestOperationUtils {
 			infoMessage = infoMessage + reporter.generateFormatedRequestHeader(spec);
 
 			infoMessage = infoMessage + BREAK_LINE + "<div>   URI : " + url + "</div>" + payloadOutput;
-			
-			if(useExtentReport)
-			ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
+
+			if (useExtentReport)
+				ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
 
 			if (payload == null) {
 				res = given().spec(spec).when().post(url);
 			} else {
 				res = given().spec(spec).body(payload).when().post(url);
 			}
-			
-			if(useExtentReport)
-			ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
-			
+
+			if (useExtentReport)
+				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CoreCommonException(e);
 		}
 		return res;
 	}
-	
+
 	public static Response patch(String url, String payload, RequestSpecification spec, Map<?, ?> params)
 			throws CoreCommonException {
 		Response res = null;

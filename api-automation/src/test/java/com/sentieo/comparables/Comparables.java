@@ -34,20 +34,6 @@ public class Comparables extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-
-		RestAssured.baseURI = APP_URL;
-	}
-
 	public void fetchscreenermodels(boolean status) throws Exception {
 		String URI = USER_APP_URL + FETCH_SCREENER_MODELS;
 		HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -249,13 +235,13 @@ public class Comparables extends APIDriver {
 		JSONArray ticker = values.getJSONArray("tickers");
 		JSONObject fields_info = values.getJSONObject("fields_info");
 		if (values.length() == 0)
-			verify.verifyTrue(false, "verify result : ");
+			verify.assertTrue(false, "verify result : ");
 		if (ticker.length() == 0)
-			verify.verifyTrue(false, "verify tickers : ");
+			verify.assertTrue(false, "verify tickers : ");
 		if (ticker_currency.length() == 0)
-			verify.verifyTrue(false, "verify ticker :  ");
+			verify.assertTrue(false, "verify ticker :  ");
 		if (fields_info.length() == 0)
-			verify.verifyTrue(false, "verify fields info :  ");
+			verify.assertTrue(false, "verify fields info :  ");
 
 		verify.verifyAll();
 	}
