@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.google.api.client.util.Data;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -30,6 +32,11 @@ public class DocSearchRestApi extends APIDriver {
 	public static String title = "";
 	public static String filingDate = "";
 	APIAssertions verify = new APIAssertions();
+	static String uss_ids="";
+	static JSONObject uss_data=null;
+	static String feed_name="";
+	static String feed_url="";
+	static String feed_req_id ="";
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
@@ -228,24 +235,42 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "load_saved_search_data", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void load_saved_search_data(String uss_ids, String tickers) throws CoreCommonException {
-
+	@Test(groups = "ssssss", description = "load_saved_search_data")
+	public void load_saved_search_data() throws CoreCommonException {
 		try {
+			if(uss_ids.isEmpty())
+				load_user_search();
+			if(!uss_ids.isEmpty()) 
+			{
 			String URI = APP_URL + LOAD_SAVED_SEARCH_DATA;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("uss_ids", uss_ids);
-			queryParams.put("tickers", tickers);
+			String ussID = "[" + "\"" + uss_ids + "\"" + "]";
+			queryParams.put("uss_ids", ussID);
+			queryParams.put("uss_data", uss_data.toString());
+			queryParams.put("start", "0");
+			queryParams.put("size", "5");
+			queryParams.put("all_tickers", "[]");
+			queryParams.put("tickers", "[]");
+			queryParams.put("watchlistIds", "[]");
+			queryParams.put("watchlist_tickers", "[]");
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			if(apiResp.getStatusCode()==200) {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-
-		} catch (JSONException e) {
+			
+			JSONArray ussData = respJson.getJSONObject("result").getJSONArray("uss_data");
+			verify.assertTrue(ussData!=null || uss_data.length()>0, "uss data array should not be empty");	
+			}
+			}else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "saved search not present");
+		}catch (JSONException e) {
+			e.printStackTrace();
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
@@ -392,30 +417,21 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_exhibits", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void fetch_exhibits(String docid, String error) throws CoreCommonException {
+	@Test(groups = "sanity", description = "fetch_exhibits")
+	public void fetch_exhibits() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_EXHIBITS;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("docid", docid);
+			queryParams.put("docid", doc_id);
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.get(URI, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-
-			if (!StringUtils.isEmpty(error)) {
-				String actualErorr = respJson.getJSONObject("response").getString("error");
-				verify.verifyEquals(actualErorr, error, "Comparing error message");
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-			}
-
-			else {
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-			}
+			
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -423,12 +439,12 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_pagelink", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
-	public void fetch_pagelink(String id, String error) throws CoreCommonException {
+	@Test(groups = "sanity", description = "fetch_pagelink")
+	public void fetch_pagelink() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_PAGELINK;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("id", id);
+			queryParams.put("id", doc_id);
 			// queryParams.put("type", type);
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -436,18 +452,8 @@ public class DocSearchRestApi extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-			if (!StringUtils.isEmpty(error)) {
-				String actualErorr = respJson.getJSONObject("response").getString("error");
-				verify.verifyEquals(actualErorr, error, "Comparing error message");
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-			}
-
-			else {
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-			}
-
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -455,7 +461,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "pub_doc_viewer", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+	//@Test(groups = "sanity", description = "pub_doc_viewer", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void pub_doc_viewer(String id, String free_call) throws CoreCommonException {
 		try {
 			String URI = APP_URL + PUB_DOC_VIEWER;
@@ -806,7 +812,6 @@ public class DocSearchRestApi extends APIDriver {
 			String URI = USER_APP_URL + FETCH_FILE_CONTENT;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("id", id);
-
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.get(URI, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -830,13 +835,18 @@ public class DocSearchRestApi extends APIDriver {
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-
+			if(apiResp.getStatusCode()==200)
+			{			
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				if(respJson.getJSONObject("result").getJSONArray("userss").length()>0) {
+				uss_ids = respJson.getJSONObject("result").getJSONArray("userss").getJSONObject(0).getString("id");
+				uss_data = respJson.getJSONObject("result").getJSONArray("userss").getJSONObject(0);
+				}
+			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -889,15 +899,16 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-
-	@Test(groups = "sanity", description = "Requesting for RSS Feed", dataProvider = "request_feed", dataProviderClass = DataProviderClass.class)
-	public void request_feed(String feed_name, String feed_url) throws CoreCommonException {
-
+	
+	@Test(groups = "sanitysss", description = "Unsubscribe existing RSS Feed")
+	public void ra__unsubscribe_feed() throws CoreCommonException {
 		try {
-			String URI = APP_URL + REQUEST_FEED;
+			if(feed_req_id.isEmpty())
+				fetch_search_filters();
+			if(!feed_req_id.isEmpty()) {
+			String URI = APP_URL + UNSUBSCRIBE_FEED;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("feed_name", feed_name);
-			queryParams.put("feed_url", feed_url);
+			queryParams.put("feed_req_id", feed_req_id);
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -909,17 +920,47 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-		} catch (Exception e) {
+		} }catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
 		}
 	}
 
-	@Test(groups = "sanity", description = "Updating existing RSS Feed", dataProvider = "update_feed", dataProviderClass = DataProviderClass.class)
-	public void update_feed(String feed_req_id, String feed_name, String feed_url) throws CoreCommonException {
+	@Test(groups = "sanitysss", description = "Requesting for RSS Feed")
+	public void request_feed() throws CoreCommonException {
+		try {
+			if(feed_req_id.isEmpty())
+				fetch_search_filters();
+			if(!feed_req_id.isEmpty()) {
+			String URI = APP_URL + REQUEST_FEED;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("feed_name", feed_name);
+			queryParams.put("feed_url", feed_url);
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 10000);
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			feed_req_id=respJson.getJSONObject("result").getString("feed_req_id");
+		}} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "sanitysss", description = "Updating existing RSS Feed")
+	public void update_feed() throws CoreCommonException {
 
 		try {
+			if(feed_req_id.isEmpty())
+				fetch_search_filters();
+			if(!feed_req_id.isEmpty()) {
 			String URI = APP_URL + UPDATE_FEED;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("feed_req_id", feed_req_id);
@@ -936,37 +977,14 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-		} catch (Exception e) {
+		} }catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();
 		}
 	}
 
-	@Test(groups = "sanity", description = "Unsubscribe existing RSS Feed", dataProvider = "unsubscribe_feed", dataProviderClass = DataProviderClass.class)
-	public void unsubscribe_feed(String feed_req_id) throws CoreCommonException {
-
-		try {
-			String URI = APP_URL + UNSUBSCRIBE_FEED;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("feed_req_id", feed_req_id);
-
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson.toString());
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 10000);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		} finally {
-			verify.verifyAll();
-		}
-	}
+	
 
 	@Test(groups = "sanity", description = "fetching note info from doc", dataProvider = "fetch_document_note_info", dataProviderClass = DataProviderClass.class)
 	public void fetch_document_note_info(String doc_ids, String note_ids) throws CoreCommonException {
@@ -996,7 +1014,6 @@ public class DocSearchRestApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetching saved filters")
 	public void fetch_search_filters() throws CoreCommonException {
-
 		try {
 			String URI = APP_URL + FETCH_SEARCH_FILTERS;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -1004,12 +1021,20 @@ public class DocSearchRestApi extends APIDriver {
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.get(URI, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 10000);
+			if(apiResp.getStatusCode()==200){
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-
+			if(respJson.getJSONObject("result")!=null) {
+			JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters").getJSONArray("rss").getJSONObject(0);
+			if(rss!=null) {
+			feed_name=rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items").getJSONObject(0).getString("label");
+			feed_url=rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items").getJSONObject(0).getString("url");;
+			feed_req_id =rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items").getJSONObject(0).getString("feed_req_id");;
+			}
+		}}
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -1042,10 +1067,7 @@ public class DocSearchRestApi extends APIDriver {
 
 		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")) {
 			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
-		}
-
-		else {
-
+		}else {
 			try {
 				String URI = USER_APP_URL + FETCH_NOTE_SEARCH;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -1104,6 +1126,5 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyAll();
 			}
 		}
-	}
-
+	}		
 }
