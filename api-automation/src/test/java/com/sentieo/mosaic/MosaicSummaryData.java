@@ -138,7 +138,7 @@ public class MosaicSummaryData extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "heart-beat", "test" }, description = "verify mosaic summary data")
+	@Test(groups = { "heart-beat", "bonding2" }, description = "verify mosaic summary data")
 	public void mosaicSummaryData() throws CoreCommonException {
 		JSONArray revenuSeries = null;
 		JSONArray kpiSeries = null;
@@ -158,7 +158,7 @@ public class MosaicSummaryData extends APIDriver {
 					"Verify the API Response Status");
 			verify.verifyResponseTime(resp, 5000);
 			String selection = respJson.getJSONObject("result").getString("selection").toString().trim();
-			if (selection.contains("Revenue_corrScore_all")) {
+			if (selection.contains("Revenue_corrScore")) {
 				revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
 						.getJSONArray("series");
 				if (revenuSeries.length() == 0 || revenuSeries == null)
