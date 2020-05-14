@@ -753,7 +753,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyResponseTime(respForNote, 5000);
 			verify.verifyEquals(error.get("code"), "INVALID REQUEST");
-			verify.verifyEquals(error.get("message"), "Unsupported file_id ");
+			verify.verifyEquals(error.get("message"), "Invalid file_id");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -821,7 +821,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyResponseTime(respForNote, 5000);
 			verify.verifyEquals(error.get("code"), "INVALID REQUEST");
-			verify.verifyEquals(error.get("message"), "Discrepancy in content_type and file extension");
+			verify.verifyEquals(error.get("message"), "Content-type mismatch with uploaded file");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1400,7 +1400,7 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 201);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
 			verify.verifyResponseTime(updateResp, 5000);
@@ -1544,7 +1544,7 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 201);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 
 			verify.verifyResponseTime(updateResp, 5000);
@@ -1974,7 +1974,7 @@ public class NotebookPublicApis extends APIDriver {
 			Object message = response.get("message");
 			Object code = response.get("code");
 
-			verify.verifyEquals(message, "Unsupported file_id ");
+			verify.verifyEquals(message, "Invalid file_id");
 			verify.verifyEquals(code, "INVALID REQUEST");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2051,7 +2051,7 @@ public class NotebookPublicApis extends APIDriver {
 			Object message = response.get("message");
 			Object code = response.get("code");
 
-			verify.verifyEquals(message, "Discrepancy in content_type and file extension");
+			verify.verifyEquals(message, "Content-type mismatch with uploaded file");
 			verify.verifyEquals(code, "INVALID REQUEST");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2128,7 +2128,7 @@ public class NotebookPublicApis extends APIDriver {
 			Object message = response.get("message");
 			Object code = response.get("code");
 
-			verify.verifyEquals(message, "Discrepancy in content_type and file extension");
+			verify.verifyEquals(message, "File extension mismatch with uploaded file");
 			verify.verifyEquals(code, "INVALID REQUEST");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
