@@ -136,7 +136,16 @@ public class DocSearchRestApi extends APIDriver {
 			
 			verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
 			verify.assertEqualsActualContainsExpected(doc_id, docid, "verify docID");
-			verify.assertEqualsActualContainsExpected(docTitle,title, "verify document title");
+			boolean status = false;
+			if(docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
+				status=true;
+			else if (title.contains(docTitle) && !docTitle.isEmpty() && !title.isEmpty())
+				status=true;
+			if(!status) {
+				ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
+				ExtentTestManager.getTest().log(LogStatus.INFO, "Expected : " + title);
+			}
+			verify.assertTrue(status,"verify document title");
 			verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
 
 		} catch (JSONException e) {
