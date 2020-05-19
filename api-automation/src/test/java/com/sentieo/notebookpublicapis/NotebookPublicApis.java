@@ -2148,7 +2148,8 @@ public class NotebookPublicApis extends APIDriver {
 
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("limit", "1");
-			filters.put("term", "Coldplay");
+			filters.put("term", "Rio-Tokyo");
+			filters.put("filter", "type eq typed");
 
 			RequestSpecification spe = queryParamsSpecForPublicApis(filters, headerParams);
 			Response res = RestOperationUtils.get(NOTES, spe, null);
