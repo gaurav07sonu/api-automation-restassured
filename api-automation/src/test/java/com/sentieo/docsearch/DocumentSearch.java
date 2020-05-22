@@ -885,6 +885,7 @@ public class DocumentSearch extends APIDriver {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("query", "sales");
+			queryParams.put("size", "30");
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
