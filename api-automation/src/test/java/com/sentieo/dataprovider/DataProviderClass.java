@@ -571,5 +571,10 @@ public class DataProviderClass {
 	public Object[][] queryAutocomplete() {
 		return new Object[][] { { "sales","aapl"}, { "revenue","msft" }};
 	}
+	
+	@DataProvider(name = "autocomplete_ticker_list")
+	public String[][] fetchAutocompleteData_tickers() {
+		return CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
+	}
 }
 
