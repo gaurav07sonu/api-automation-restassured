@@ -577,7 +577,11 @@ public class DataProviderClass {
 		String[][] groupArray = null;
 		groupArray = CSVReaderUtil.readAllDataAtOnce("notebookPublicApi" + File.separator + "notebookImageData.csv");
 		return groupArray;
+	}
 
+	@DataProvider(name = "autocomplete_ticker_list")
+	public String[][] fetchAutocompleteData_tickers() {
+		return CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
 	}
 }
 
