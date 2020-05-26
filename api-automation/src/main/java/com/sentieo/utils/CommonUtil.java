@@ -1,7 +1,10 @@
 package com.sentieo.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -19,6 +22,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+
+import org.apache.commons.codec.binary.Base64;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import static com.sentieo.utils.FileUtil.*;
@@ -261,6 +267,24 @@ public class CommonUtil {
 			return true;
 		return false;
 	}
+	
+	public static String encodeFileToBase64Binary(File file){
+        String encodedfile = null;
+        try {
+            FileInputStream fileInputStreamReader = new FileInputStream(file);
+            byte[] bytes = new byte[(int)file.length()];
+            fileInputStreamReader.read(bytes);
+            encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
+            fileInputStreamReader.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return encodedfile;
+    }
 
 }
 

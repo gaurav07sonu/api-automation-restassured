@@ -1,8 +1,10 @@
 package com.sentieo.notebookpublicapis;
 
+import static com.sentieo.constants.Constants.FETCH_NOTE_HTML;
 import static com.sentieo.constants.Constants.FILE_UPLOAD;
 import static com.sentieo.constants.Constants.NOTES;
 import static com.sentieo.constants.Constants.PUBLIC_API_URL;
+import static com.sentieo.constants.Constants.USER_APP_URL;
 import static com.sentieo.constants.Constants.XAPIKEY;
 import static com.sentieo.constants.Constants.XUSERKEY;
 import static com.sentieo.constants.Constants.X_API_KEY;
@@ -27,10 +29,13 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
+import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CommonUtil;
+import com.sentieo.utils.CoreCommonException;
 import com.sentieo.utils.FileUtil;
 import com.sentieo.utils.JSONUtils;
 
@@ -2268,4 +2273,148 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
+	
+	@Test(description = "Add Gif,Png,Jpeg,Bitmap image in a note Content", dataProvider = "notebookImageData", dataProviderClass = DataProviderClass.class)
+	public void addImageInNoteContentAndDownload(String imageData[]) throws Exception {
+		try {
+			
+			String contentType = imageData[0];
+			String imageName = imageData[1];
+			String extension = imageData[2];
+			
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources("notebookPublicApi" + File.separator + imageName);
+			String encodeFileToBase64Binary = CommonUtil.encodeFileToBase64Binary(file);
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title",
+					"Typed note With " + contentType + " image in content" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<img src='data:" + contentType +";base64," + encodeFileToBase64Binary
+					+ "'> <br><p>This is a typed note with " + contentType + "</p>");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = respJson.getString("id");
+			verify.verifyResponseTime(resp, 5000);
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+
+			// Download image from content
+			JSONObject noteDetail = getNoteDetail(noteId);
+			JSONObject result = noteDetail.getJSONObject("result");
+			String content = result.getString("content");
+			String[] splitKey = content.split("key");
+			String[] splitImage = splitKey[1].split(extension);
+			String imageId = splitImage[0].replace("=", "");
+
+			RequestSpecification imageSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response respimage = RestOperationUtils
+					.get(NOTES + "/" + noteId + "/" + "images" + "/" + imageId + "/" + "content", imageSpec, null);
+			APIResponse apiRespImage = new APIResponse(respimage);
+			verify.verifyStatusCode(apiRespImage.getStatusCode(), 200);
+			verify.verifyResponseTime(respimage, 5000);
+			verify.verifyEquals(apiRespImage.getContentType(), contentType);
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+	
+	
+	@Test(description = "Verify error for invalid image id")
+	public void testErrorMessageForInvalidImageId() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources("notebookPublicApi" + File.separator + "tenor.gif");
+			String encodeFileToBase64Binary = CommonUtil.encodeFileToBase64Binary(file);
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title",
+					"Typed note With gif image in content" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<img src='data:image/gif;base64," + encodeFileToBase64Binary
+					+ "'> <br><p>This is a typed note with gif image</p>");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = respJson.getString("id");
+			verify.verifyResponseTime(resp, 5000);
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+
+			// Download image from content
+			JSONObject noteDetail = getNoteDetail(noteId);
+			JSONObject result = noteDetail.getJSONObject("result");
+			String content = result.getString("content");
+			String[] splitKey = content.split("key");
+			String[] splitImage = splitKey[1].split(".gif");
+			String imageId = splitImage[0].replace("=", "");
+
+			RequestSpecification imageSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response respimage = RestOperationUtils
+					.get(NOTES + "/" + noteId + "/" + "images" + "/" + "2123" + "/" + "content", imageSpec, null);
+			APIResponse apiRespImage = new APIResponse(respimage);
+			verify.verifyStatusCode(apiRespImage.getStatusCode(), 400);
+			JSONObject respJsonImage = new JSONObject(apiRespImage.getResponseAsString());
+			verify.verifyResponseTime(respimage, 5000);
+			JSONObject response = (JSONObject) respJsonImage.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(message, "Invalid file_id");
+			verify.verifyEquals(code, "INVALID REQUEST");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	public JSONObject getNoteDetail(String noteID) throws CoreCommonException {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("id", noteID);
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_HTML, null, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			if (apiResp.getStatusCode() == 200) {
+				return respJson;
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+			return null;
+		} finally {
+			verify.verifyAll();
+		}
+		return null;
+	}
+	
+	
 }
