@@ -2776,7 +2776,7 @@ public class NotebookApis extends APIDriver {
 				if (type.equalsIgnoreCase("public")) {
 					JSONArray companylist = respJson.getJSONObject("result").getJSONObject("data")
 							.getJSONArray("company");
-					if (companylist.length() > 0 && companylist == null) {
+					if (companylist.length() = 0 && companylist == null) {
 						verify.assertTrue(false, "Ticker not coming for search : ");
 					}
 					if (companylist.length() > 0) {
@@ -2800,7 +2800,7 @@ public class NotebookApis extends APIDriver {
 				} else if (type.equalsIgnoreCase("private")) {
 					JSONArray privcomp = respJson.getJSONObject("result").getJSONObject("data")
 							.getJSONArray("privcomp");
-					if (privcomp.length() > 0 && privcomp == null) {
+					if (privcomp.length() = 0 && privcomp == null) {
 						verify.assertTrue(false, "Ticker not coming for search : ");
 					}
 					if (privcomp.length() > 0) {
