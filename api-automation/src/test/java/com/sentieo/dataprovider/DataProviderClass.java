@@ -571,5 +571,10 @@ public class DataProviderClass {
 	public Object[][] queryAutocomplete() {
 		return new Object[][] { { "sales","aapl"}, { "revenue","msft" }};
 	}
+	
+	@DataProvider(name = "module-type")
+	public String[][] fetchAutocompleteData_tickers() {
+		return new String[][] {{ "EDT","1"}, { "docsearch","1"},{ "notebook","0"}};
+	}
 }
 
