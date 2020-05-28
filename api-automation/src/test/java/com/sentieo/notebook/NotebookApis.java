@@ -1,10 +1,8 @@
 package com.sentieo.notebook;
 
 import static com.sentieo.constants.Constants.*;
-import static com.sentieo.utils.FileUtil.RESOURCE_PATH;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,32 +12,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.heartbeat.Team;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CSVReaderUtil;
 import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 import com.sentieo.utils.FileUtil;
@@ -67,6 +59,7 @@ public class NotebookApis extends APIDriver {
 	static String comment_id = "";
 	static JSONArray noteList_Typed = null;
 	static String HighlightNoteID = "";
+	static String[][] tickers;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -77,6 +70,11 @@ public class NotebookApis extends APIDriver {
 	@BeforeClass(alwaysRun = true)
 	public void setURI() {
 		URI = USER_APP_URL;
+	}
+	
+	@BeforeClass(alwaysRun = true)
+	public void setTickers() {
+		tickers = CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
 	}
 
 	@Test(groups = "sanity", priority = 0, description = "Create private note")
@@ -2762,24 +2760,22 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "checktest", description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
 	public void search_entities(String moduleType, String sentieoEntity) throws CoreCommonException, IOException {
 		try {
-			CSVReader csvReader = readCSV();
-			String[] nextLine;
-			while ((nextLine = csvReader.readNext()) != null) { //Set ticker,token,status
+		for (String[] row : tickers) {
 				String tickername = "";
 				String type = "";
 				String status = "";
 				try {
-					for (String token : nextLine) {
+					for (String cell : row) {
 						if (tickername.isEmpty()) {
-							tickername = token;
+							tickername = cell;
 							continue;
 						}
 						if (type.isEmpty()) {
-							type = token;
+							type = cell;
 							continue;
 						}
 						if (status.isEmpty()) {
-							status = token;
+							status = cell;
 						}
 					}
 					if(moduleType.equalsIgnoreCase("EDT"))  //to print proper name in report
@@ -2929,18 +2925,6 @@ public class NotebookApis extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
-	}
-	
-	public CSVReader readCSV() {
-		FileReader file;
-		try {
-			file = new FileReader(RESOURCE_PATH + File.separator + "notebook" + File.separator + "autocomplete_ticker_list.csv");
-			CSVReader csvReader = new CSVReaderBuilder(file).withSkipLines(1).build();
-			return csvReader;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	public String getCurrentTime() {
