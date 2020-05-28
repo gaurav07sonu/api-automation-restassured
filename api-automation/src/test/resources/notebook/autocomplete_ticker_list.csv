@@ -31,10 +31,10 @@ TCL:AU,public,active
 8197:JP,public,active
 IOC:IN,public,active
 DAI:GR,public,active
-FLIPKART,Private,active
-SWIGGY,Private,active
-HIKE,Private,active
-ZOMATO,Private,active
+FLIPKART,private,active
+SWIGGY,private,active
+HIKE,private,active
+ZOMATO,private,active
 8197:HK,public,inactive
-8197:TT,public,Inactive
-USG,public,Inactive
+8197:TT,public,inactive
+USG,public,inactive
