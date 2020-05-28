@@ -1,8 +1,11 @@
 package com.sentieo.notebook;
 
 import static com.sentieo.constants.Constants.*;
+import static com.sentieo.utils.FileUtil.RESOURCE_PATH;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,6 +30,8 @@ import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
@@ -2754,94 +2759,167 @@ public class NotebookApis extends APIDriver {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(groups = "checktest", description = "Check autocomplete api", dataProvider = "autocomplete_ticker_list", dataProviderClass = DataProviderClass.class)
-	public void search_entities(String tickername, String type, String status) throws CoreCommonException {
+	@Test(groups = "checktest", description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
+	public void search_entities(String moduleType, String sentieoEntity) throws CoreCommonException, IOException {
 		try {
-			System.out.println(tickername + type + status);
-			HashMap<String, String> parameters = new HashMap<String, String>();
-			parameters.put("suggest", tickername);
-			parameters.put("allow_pvt_company", "true");
-			parameters.put("pagetype", "notebook");
-			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get(APP_URL + SEARCH_ENTITIES, spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
-			verify.verifyResponseTime(resp, 5000);
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
-				System.out.println(respJson);
-				verify.assertTrue(respJson.getJSONObject("result").getJSONObject("data") != null,
-						"Data should be present");
-				if (type.equalsIgnoreCase("public")) {
-					JSONArray companylist = respJson.getJSONObject("result").getJSONObject("data")
-							.getJSONArray("company");
-					if (companylist.length() = 0 && companylist == null) {
-						verify.assertTrue(false, "Ticker not coming for search : ");
-					}
-					if (companylist.length() > 0) {
-						for (int i = 0; i < companylist.length(); i++) {
-							JSONObject ticker = companylist.getJSONObject(i);
-							verify.assertEqualsActualContainsExpected(ticker.getString("name").toLowerCase(),
-									tickername.toLowerCase(), "verify result");
-							if (status.equalsIgnoreCase("active")
-									&& ticker.getString("ticker").equalsIgnoreCase(tickername))
-								verify.verifyEquals(ticker.getString("status"), "Active", "verify status");
-							else if (status.equalsIgnoreCase("inactive")
-									&& ticker.getString("ticker").equalsIgnoreCase(tickername))
-								verify.verifyEquals(ticker.getString("status"), "Inactive", "verify status");
-							else
-								verify.assertTrue(!ticker.getString("status").isEmpty(), "verify ticker status");
-							verify.assertTrue(!ticker.getString("ticker").isEmpty(), "verify ticker name");
-							verify.assertTrue(!ticker.getString("_id").isEmpty(), "verify ticker _id present");
-							verify.verifyEquals(ticker.getString("type"), "company", "verify company type");
+			CSVReader csvReader = readCSV();
+			String[] nextLine;
+			while ((nextLine = csvReader.readNext()) != null) { //Set ticker,token,status
+				String tickername = "";
+				String type = "";
+				String status = "";
+				try {
+					for (String token : nextLine) {
+						if (tickername.isEmpty()) {
+							tickername = token;
+							continue;
+						}
+						if (type.isEmpty()) {
+							type = token;
+							continue;
+						}
+						if (status.isEmpty()) {
+							status = token;
 						}
 					}
-				} else if (type.equalsIgnoreCase("private")) {
-					JSONArray privcomp = respJson.getJSONObject("result").getJSONObject("data")
-							.getJSONArray("privcomp");
-					if (privcomp.length() = 0 && privcomp == null) {
-						verify.assertTrue(false, "Ticker not coming for search : ");
-					}
-					if (privcomp.length() > 0) {
-						for (int i = 0; i < privcomp.length(); i++) {
-							JSONObject ticker = privcomp.getJSONObject(i);
-							verify.assertEqualsActualContainsExpected(ticker.getString("name").toLowerCase(),
-									tickername.toLowerCase(), "verify result");
-							if (status.equalsIgnoreCase("active")
-									&& ticker.getString("ticker").equalsIgnoreCase(tickername))
-								verify.verifyEquals(ticker.getString("status"), "Active", "verify status");
-							else if (status.equalsIgnoreCase("inactive")
-									&& ticker.getString("ticker").equalsIgnoreCase(tickername))
-								verify.verifyEquals(ticker.getString("status"), "Inactive", "verify status");
+					if(moduleType.equalsIgnoreCase("EDT"))  //to print proper name in report
+						moduleType="company";
+					
+					HashMap<String, String> parameters = new HashMap<String, String>();
+					parameters.put("suggest", tickername);
+					parameters.put("allow_pvt_company", "true");
+					parameters.put("pagetype", moduleType);
+					parameters.put("sentieoentity", sentieoEntity);
+					RequestSpecification spec = formParamsSpec(parameters);
+					Response resp = RestOperationUtils.get(APP_URL + SEARCH_ENTITIES, spec, parameters);
+					APIResponse apiResp = new APIResponse(resp);
+					ExtentTestManager.getTest().log(LogStatus.INFO, "Ticker/Partial Search : " + tickername);
+					if(!(apiResp.getStatusCode() == 200))	
+					verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+					verify.verifyResponseTime(resp, 5000);
+					if (apiResp.getStatusCode() == 200) {
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+						if(!respJson.getJSONObject("response").getBoolean("status"))
+						verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+						if (type.equalsIgnoreCase("public")) {
+							JSONArray companylist;
+							if (sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company"))
+								companylist = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("company");
 							else
-								verify.assertTrue(!ticker.getString("status").isEmpty(), "verify ticker status");
-							verify.assertTrue(!ticker.getString("ticker").isEmpty(), "verify ticker name");
-							verify.assertTrue(!ticker.getString("_id").isEmpty(), "verify ticker _id present");
-							verify.verifyEquals(ticker.getString("type"), "privcomp", "verify company type");
+								companylist = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("sentieoentity");
+							if (companylist.length() == 0 && companylist == null) {
+								verify.assertTrue(false, "Ticker not coming for search : ");
+							}
+							if (companylist.length() > 0) {
+								JSONObject tickerData = companylist.getJSONObject(0);
+								String token_label = tickerData.getString("token_label");
+								String ticker_status = tickerData.getString("status");
+								if (!tickerData.getString("name").toLowerCase().contains(tickername.toLowerCase()))
+									verify.assertEqualsActualContainsExpected(
+											tickerData.getString("name").toLowerCase(), tickername.toLowerCase(),
+											"verify ticker name");
+								if (ticker_status.isEmpty())
+								verify.assertTrue(!ticker_status.isEmpty(), "verify ticker status");
+								
+								if (tickerData.getString("_id").isEmpty())
+									verify.assertTrue(!tickerData.getString("_id").isEmpty(),
+											"verify ticker _id present");
+								if(sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company")) {
+								if (!tickerData.getString("type").equalsIgnoreCase("company")) 
+									verify.verifyEquals(tickerData.getString("type"), "company", "verify company type");
+								}else {
+									if (!tickerData.getString("type").equalsIgnoreCase("sentieoentity"))
+										verify.verifyEquals(tickerData.getString("type"), "sentieoentity", "verify company type");									
+								}
+							}
+						} else if (type.equalsIgnoreCase("private")) {
+							JSONArray privcomp;
+							if (sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company"))
+								privcomp = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privcomp");
+							else
+								privcomp = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privateentity");
+							if (privcomp.length() == 0 && privcomp == null) {
+								verify.assertTrue(false, "Ticker not coming for search : ");
+							}
+							if (privcomp.length() > 0) {
+								JSONObject tickerData = privcomp.getJSONObject(0);
+								String token_label = tickerData.getString("token_label");
+								String ticker_status = tickerData.getString("status");
+								if (!tickerData.getString("name").toLowerCase().contains(tickername.toLowerCase()))
+									verify.assertEqualsActualContainsExpected(
+											tickerData.getString("name").toLowerCase(), tickername.toLowerCase(),
+											"verify ticker name");
+								if (ticker_status.isEmpty())
+										verify.assertTrue(!ticker_status.isEmpty(), "verify ticker status");
+								
+								if (tickerData.getString("_id").isEmpty())
+									verify.assertTrue(!tickerData.getString("_id").isEmpty(),
+											"verify ticker _id present");
+								if(sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company")) {
+									if (!tickerData.getString("type").equalsIgnoreCase("privcomp")) 
+										verify.verifyEquals(tickerData.getString("type"), "privcomp", "verify company type");
+									}else {
+										if (!tickerData.getString("type").equalsIgnoreCase("privateentity"))
+											verify.verifyEquals(tickerData.getString("type"), "privateentity", "verify company type");									
+									}
+							}
+						} else {// for partial text search
+							if (sentieoEntity.equals("0") || moduleType.equalsIgnoreCase("company")) {
+								JSONArray companylist = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("company");
+								verify.assertTrue(companylist.length() > 0, "company data should be present");
+
+								JSONArray privcomp = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privcomp");
+								verify.assertTrue(privcomp.length() > 0, "privcomp data should be present");
+								
+								if(!moduleType.equalsIgnoreCase("company")) {
+								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("crypto");
+								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
+
+								JSONArray entity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("entity");
+								verify.assertTrue(entity.length() > 0, "entity data should be present");
+
+								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("organization");
+								verify.assertTrue(organization.length() > 0, "organization data should be present");
+
+								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("debt");
+								verify.assertTrue(debt.length() > 0, "debt data should be present");
+								}
+							} else {
+								JSONArray privateentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privateentity");
+								verify.assertTrue(privateentity.length() > 0, "privateentity data should be present");
+
+								JSONArray sentieoentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("sentieoentity");
+								verify.assertTrue(sentieoentity.length() > 0, "sentieoentity data should be present");
+
+								JSONArray subsidiary = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("subsidiary");
+								verify.assertTrue(subsidiary.length() > 0, "subsidiary data should be present");
+
+								JSONArray cryptoentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("cryptoentity");
+								verify.assertTrue(cryptoentity.length() > 0, "cryptoentity data should be present");
+
+								JSONArray secentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("secentity");
+								verify.assertTrue(secentity.length() > 0, "secentity data should be present");
+							}
 						}
 					}
-				} else {// for partial text search
-					JSONArray companylist = respJson.getJSONObject("result").getJSONObject("data")
-							.getJSONArray("company");
-					verify.assertTrue(companylist.length() > 0, "company data should be present");
-
-					JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data").getJSONArray("crypto");
-					verify.assertTrue(companylist.length() > 0, "crypto data should be present");
-
-					JSONArray entity = respJson.getJSONObject("result").getJSONObject("data").getJSONArray("entity");
-					verify.assertTrue(companylist.length() > 0, "entity data should be present");
-
-					JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
-							.getJSONArray("organization");
-					verify.assertTrue(organization.length() > 0, "organization data should be present");
-
-					JSONArray debt = respJson.getJSONObject("result").getJSONObject("data").getJSONArray("debt");
-					verify.assertTrue(debt.length() > 0, "debt data should be present");
-
-					JSONArray privcomp = respJson.getJSONObject("result").getJSONObject("data")
-							.getJSONArray("privcomp");
-					verify.assertTrue(privcomp.length() > 0, "privcomp data should be present");
+				} catch (Exception e) {
+					e.printStackTrace();
+					verify.assertTrue(false, "ticker : " + tickername + e.toString());
 				}
 			}
 		} catch (JSONException je) {
@@ -2851,6 +2929,18 @@ public class NotebookApis extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
+	}
+	
+	public CSVReader readCSV() {
+		FileReader file;
+		try {
+			file = new FileReader(RESOURCE_PATH + File.separator + "notebook" + File.separator + "autocomplete_ticker_list.csv");
+			CSVReader csvReader = new CSVReaderBuilder(file).withSkipLines(1).build();
+			return csvReader;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public String getCurrentTime() {

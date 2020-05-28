@@ -39,9 +39,11 @@ public class APIAssertions extends SentieoSoftAssertion {
 	public void verifyResponseTime(Response res, long timeInMillis) {
 		String message = "";
 		try {
+			String methodName = new Exception().getStackTrace()[1].getMethodName();
 			Assert.assertTrue(res.getTimeIn(TimeUnit.MILLISECONDS) < timeInMillis);
 			message = "Response time: [" + res.getTimeIn(TimeUnit.MILLISECONDS) + " ms] is less than expected ["
 					+ timeInMillis + "] milliseconds.";
+			if(!methodName.equalsIgnoreCase("search_entities"))
 			ExtentTestManager.getTest().log(LogStatus.PASS, message);
 		} catch (JSONException je) {
 			// verificationFailures.add(je);

@@ -579,9 +579,9 @@ public class DataProviderClass {
 		return groupArray;
 	}
 
-	@DataProvider(name = "autocomplete_ticker_list")
+	@DataProvider(name = "module-type")
 	public String[][] fetchAutocompleteData_tickers() {
-		return CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
+		return new String[][] {{ "EDT","1"}, { "docsearch","1"},{ "notebook","0"}};
 	}
 }
 
