@@ -571,5 +571,13 @@ public class DataProviderClass {
 	public Object[][] queryAutocomplete() {
 		return new Object[][] { { "sales","aapl"}, { "revenue","msft" }};
 	}
+	
+	@DataProvider(name = "notebookImageData")
+	Object[][] getImageData() {
+		String[][] groupArray = null;
+		groupArray = CSVReaderUtil.readAllDataAtOnce("notebookPublicApi" + File.separator + "notebookImageData.csv");
+		return groupArray;
+
+	}
 }
 

@@ -113,4 +113,9 @@ public class APIResponse {
 		}
 		return containString;
 	}
+	
+	public String getContentType() {
+		return res.getContentType();
+	}
+	
 }
