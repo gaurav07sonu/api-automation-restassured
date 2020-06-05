@@ -14,20 +14,26 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import static com.sentieo.utils.FileUtil.*;
 
 public class CommonUtil {
+	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+			+ "test" + File.separator + "resources";
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> revenueTickers = new HashMap<Integer, String>();
 
 	public String convertTimestampIntoDate(int time) {
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).withLocale(Locale.US)
 				.withZone(ZoneId.systemDefault());
 		long epoch = time;
@@ -72,7 +78,6 @@ public class CommonUtil {
 			String str = dateformat.format(calNewYork.getTime());
 			return str;
 		}
-
 	}
 
 	public String getCurrentUSDate() {
@@ -87,22 +92,21 @@ public class CommonUtil {
 		for (int i = 0; i < s.length(); i++)
 			if (Character.isDigit(s.charAt(i)) == false)
 				return false;
-
 		return true;
 	}
 
 	public void generateRandomTickers(Method testMethod) {
 		List<String[]> tickers = randomTickerCSV(testMethod);
 		randomTickers.clear();
-		if (!testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM"))
+		if (!testMethod.getName().equalsIgnoreCase("keyMultiplesNTM")
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM"))
 				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue"))
-				&&(!testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX"))
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX"))
 				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT"))) {
 			randomTickers.put(1001, "AAPL");
 			randomTickers.put(1002, "AMZN");
 			randomTickers.put(1003, "TSLA");
 			randomTickers.put(1004, "ASNA");
-
 		}
 		for (String[] row : tickers) {
 			int highlightLabelRandom = new Random().nextInt(tickers.size());
@@ -114,7 +118,7 @@ public class CommonUtil {
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")
 						|| testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
-					if (randomTickers.size() >=5)
+					if (randomTickers.size() >= 5)
 						break;
 				} else {
 					if (randomTickers.size() >= 100)
@@ -142,18 +146,13 @@ public class CommonUtil {
 					|| (testMethod.getName().equalsIgnoreCase("keyMultiplesP_CashFlow"))) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "dailyseries.csv");
-			}
-
-			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")) {
+			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "Tangible.csv");
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "gross.csv");
-			}
-
-			else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
+			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
-				
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
@@ -161,16 +160,13 @@ public class CommonUtil {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
 			}
-
 			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
 			List<String[]> allData = csvReader.readAll();
 			return allData;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public List<String[]> readTickerCSV(String csv) {
@@ -180,12 +176,10 @@ public class CommonUtil {
 			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
 			List<String[]> allData = csvReader.readAll();
 			return allData;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public Double getpostivePercentageChange(Double firstValue, Double secondValue) {
@@ -203,55 +197,52 @@ public class CommonUtil {
 		Double perChange = divideDIfference * 100;
 		return perChange;
 	}
-	
-	public String getCurrentDate()
-	{
+
+	public String getCurrentDate() {
 		Calendar calNewYork = Calendar.getInstance();
 		DateFormat dateformat;
 		dateformat = new SimpleDateFormat("M/dd/yy");
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 		calNewYork.add(Calendar.DAY_OF_MONTH, 0);
 		String str = dateformat.format(calNewYork.getTime());
-		return str;		
+		return str;
 	}
-	
-	public Integer getYearFromTimeStamp(double timestamp)
-	{	
-		 Timestamp ts=new Timestamp((long) timestamp);  
-		 Calendar cal = Calendar.getInstance();
-		 cal.setTime(new Date(ts.getTime()));
-		 int year = cal.get(Calendar.YEAR);
-		return year;
-		
-	}
-	public String getRandomString() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
-        while (salt.length() <5) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String saltStr = "Automation"+salt.toString();
-        return saltStr;
 
-    }
-	public  List<String> pickNRandomItems(List<String> lst, int n) {
-	    List<String> copy = new LinkedList<String>(lst);
-	    Collections.shuffle(copy);
-	    return copy.subList(0, n);
+	public Integer getYearFromTimeStamp(double timestamp) {
+		Timestamp ts = new Timestamp((long) timestamp);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date(ts.getTime()));
+		int year = cal.get(Calendar.YEAR);
+		return year;
 	}
-	
-	public String getCurrentTimeStamp()
-	{
+
+	public String getRandomString() {
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+		while (salt.length() < 5) { // length of the random string.
+			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+			salt.append(SALTCHARS.charAt(index));
+		}
+		String saltStr = "Automation" + salt.toString();
+		return saltStr;
+	}
+
+	public List<String> pickNRandomItems(List<String> lst, int n) {
+		List<String> copy = new LinkedList<String>(lst);
+		Collections.shuffle(copy);
+		return copy.subList(0, n);
+	}
+
+	public String getCurrentTimeStamp() {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Instant instant = timestamp.toInstant();
-        Timestamp tsFromInstant = Timestamp.from(instant);
-        long stamp=tsFromInstant.getTime();
-        String timeStamp=Long.toString(stamp);
-        return timeStamp;
+		Instant instant = timestamp.toInstant();
+		Timestamp tsFromInstant = Timestamp.from(instant);
+		long stamp = tsFromInstant.getTime();
+		String timeStamp = Long.toString(stamp);
+		return timeStamp;
 	}
-	
+
 	public boolean validateTimeStampIsTodaysDate(double timestamp) {
 		int digit = (int) (timestamp / 1000);
 		String commentDate = convertTimestampIntoDate(digit);
@@ -262,5 +253,43 @@ public class CommonUtil {
 		return false;
 	}
 
-}
+	public long daysDifferenceBetweenTwoTimestamps(long time1, long time2) {
+		final long MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
+		// Set both times to 0:00:00
+		time1 -= time1 % MILLIS_PER_DAY;
+		time2 -= time2 % MILLIS_PER_DAY;
+		return TimeUnit.DAYS.convert(time2 - time1, TimeUnit.MILLISECONDS);
+	}
 
+	public HashMap<Integer, String> readJSONFromFile() {
+		JSONParser parser = new JSONParser();
+		try {
+			int i = 0;
+			Object obj = parser.parse(new FileReader(
+					(RESOURCE_PATH + File.separator + "finance" + File.separator + "revenueticker.json")));
+			// A JSON object. Key value pairs are unordered. JSONObject supports
+			// java.util.Map interface.
+			JSONObject jsonObject = (JSONObject) obj;
+			// A JSON array. JSONObject supports java.util.List interface.
+			// System.out.println(array);
+			JSONArray companyList = (JSONArray) jsonObject.get("tickers");
+			// An iterator over a collection. Iterator takes the place of Enumeration in the
+			// Java Collections Framework.
+			// Iterators differ from enumerations in two ways:
+			// 1. Iterators allow the caller to remove elements from the underlying
+			// collection during the iteration with well-defined semantics.
+			// 2. Method names have been improved.
+			@SuppressWarnings("unchecked")
+			Iterator<Object> iterator = companyList.iterator();
+			while (iterator.hasNext()) {
+				revenueTickers.put(i, iterator.next().toString());
+				i++;
+				if (revenueTickers.size() > 5)
+					return revenueTickers;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+}
