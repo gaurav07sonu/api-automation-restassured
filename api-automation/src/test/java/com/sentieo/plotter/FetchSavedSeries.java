@@ -6,8 +6,11 @@ import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;

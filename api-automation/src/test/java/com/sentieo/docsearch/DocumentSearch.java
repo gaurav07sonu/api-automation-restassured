@@ -233,7 +233,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "response", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
 	public void docsearch_date_filter(String ticker, String filters) throws CoreCommonException {
 		try {
 			if(!APP_URL.contains("app") && filters.contains("note")) {
@@ -246,13 +246,9 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("applied_filter", "doctype");
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
+
 			JSONObject json = new JSONObject(filters);
-			System.out.println(json.getJSONObject("date"));
-			JSONObject obj= json.getJSONObject("date");
-			for(Iterator<String> keys=obj.keys();keys.hasNext();) {
-			   System.out.println(obj.get(keys.next()));
-			    
-			}
+			System.out.println(json.getJSONObject("doctype"));
 			String docType = "";
 			Iterator<String> keys = json.getJSONObject("doctype").keys();
 			while (keys.hasNext()) {
@@ -303,7 +299,6 @@ public class DocumentSearch extends APIDriver {
 			}
 
 		}} catch (Exception e) {
-			System.out.println(e.toString());
 			throw new CoreCommonException(e);
 		} finally {
 			verify.verifyAll();

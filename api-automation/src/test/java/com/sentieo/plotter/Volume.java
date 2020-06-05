@@ -6,27 +6,28 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.finance.FinanceApi;
 import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 
 public class Volume extends APIDriver {
-	String systemDate;
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
+	// public ArrayList<String> tickers = new
+	// ArrayList<String>(Arrays.asList("aapl", "amzn"));
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeMethod(alwaysRun = true)
+	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
@@ -34,15 +35,26 @@ public class Volume extends APIDriver {
 	@Test(description = "Match stock price plotter series and stream call ")
 	public void volume() throws CoreCommonException {
 		try {
-			JSONArray value = null;
-			String stock_URI = APP_URL + FETCH_GRAPH_DATA;
+			String URI = APP_URL + FETCH_CURRENT_STOCK_DATA;
 			for (String[] row : tickers) {
 				for (String cell : row) {
-					cell = cell.toLowerCase();
+					cell=cell.toLowerCase();
 					parameters.put("summary", "true");
 					parameters.put("yearly", "1");
 					parameters.put("new_wl", "true");
 					parameters.put("ticker", cell);
+					RequestSpecification spec = queryParamsSpec(parameters);
+					Response resp = RestOperationUtils.get(URI, spec, parameters);
+					APIResponse apiResp = new APIResponse(resp);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					Double volume = respJson.getJSONObject("result").getDouble("volume");
+					long currentstock_Volume = volume.longValue();
+
+					String stock_URI = APP_URL + FETCH_GRAPH_DATA;
 					HashMap<String, String> stock_Parameters = new HashMap<String, String>();
 					stock_Parameters.put("head_name", "Volume");
 					stock_Parameters.put("pagetype", "plotter");
@@ -63,31 +75,19 @@ public class Volume extends APIDriver {
 					stock_Parameters.put("loc", "app");
 
 					RequestSpecification specVolume = queryParamsSpec(stock_Parameters);
-					Response resp = RestOperationUtils.get(stock_URI, specVolume, stock_Parameters);
-					APIResponse apiRespVolume = new APIResponse(resp);
+					Response resp2 = RestOperationUtils.get(stock_URI, specVolume, stock_Parameters);
+					APIResponse apiRespVolume = new APIResponse(resp2);
+					JSONObject respJsonVolume = new JSONObject(apiRespVolume.getResponseAsString());
 					verify.verifyStatusCode(apiRespVolume.getStatusCode(), 200);
-					if (apiRespVolume.getStatusCode() == 200) {
-
-						JSONObject respJsonVolume = new JSONObject(apiRespVolume.getResponseAsString());
-						verify.verifyEquals(respJsonVolume.getJSONObject("response").getBoolean("status"), true,
-								"Verify the API Response Status");
-						verify.verifyResponseTime(resp, 5000);
-						JSONArray values = respJsonVolume.getJSONObject("result").getJSONArray("series")
-								.getJSONObject(0).getJSONArray("series");
-						if (values.length() != 0) {
-							value = values.getJSONArray(values.length() - 1);
-							double timestamp = value.getDouble(0);
-							int digit = (int) (timestamp / 1000);
-							CommonUtil util = new CommonUtil();
-							String date = util.convertTimestampIntoDate(digit);
-							FinanceApi fin = new FinanceApi();
-							systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", cell);
-							verify.compareDates(date, systemDate, "Verify the Current Date Point");
-						} else
-							verify.assertTrue(false, "series shows blank data for " + cell);
-
-					} else
-						verify.assertTrue(false, "status code is not 200 ");
+					verify.verifyEquals(respJsonVolume.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					JSONArray values = respJsonVolume.getJSONObject("result").getJSONArray("series").getJSONObject(0)
+							.getJSONArray("series");
+					Double value = (Double) values.getJSONArray(values.length() - 1).get(1);
+					long plotterVolume = value.longValue();
+					verify.verifyEquals(currentstock_Volume, plotterVolume, "Verify volume values ");
+					verify.verifyAll();
 
 				}
 			}
