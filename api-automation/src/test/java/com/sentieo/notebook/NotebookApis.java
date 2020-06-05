@@ -3,6 +3,7 @@ package com.sentieo.notebook;
 import static com.sentieo.constants.Constants.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -11,29 +12,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.heartbeat.Team;
+import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CSVReaderUtil;
 import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 import com.sentieo.utils.FileUtil;
@@ -64,18 +62,24 @@ public class NotebookApis extends APIDriver {
 	public static String doc_id_sentieoDrive = "";
 	public static String doc_id_noncsv_sentieoDrive = "";
 
+	static String[][] tickers;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
 	}
-	
+
 	@BeforeClass(alwaysRun = true)
-	public void setURI(){
-		URI=USER_APP_URL;
+	public void setURI() {
+		URI = USER_APP_URL;
 	}
 	
+	@BeforeClass(alwaysRun = true)
+	public void setTickers() {
+		tickers = CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
+	}
+
 	@Test(groups = "sanity", priority = 0, description = "Create private note")
 	public void createPrivateNote() throws Exception {
 		try {
@@ -87,7 +91,7 @@ public class NotebookApis extends APIDriver {
 			params.put("version", "1");
 			params.put("note", "<p>Hello world!!</p>");
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + SET_NOTE_HTML, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + SET_NOTE_HTML, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			if (apiResp.getStatusCode() == 200) {
@@ -115,8 +119,7 @@ public class NotebookApis extends APIDriver {
 					boolean isNotePresent = false;
 					JSONArray notelist_new = getNoteList();
 					for (int i = 0; i < notelist_new.length(); i++) {
-						if (notelist_new.getJSONObject(i).getString("id")
-								.equalsIgnoreCase(private_note_id)) {
+						if (notelist_new.getJSONObject(i).getString("id").equalsIgnoreCase(private_note_id)) {
 							isNotePresent = true;
 							break;
 						}
@@ -143,7 +146,7 @@ public class NotebookApis extends APIDriver {
 				deleteNoteParams.put("note_id", private_note_id);
 
 				RequestSpecification spec1 = formParamsSpec(deleteNoteParams);
-				Response resp1 = RestOperationUtils.post( USER_APP_URL + DELETE_NOTE, null, spec1, deleteNoteParams);
+				Response resp1 = RestOperationUtils.post(USER_APP_URL + DELETE_NOTE, null, spec1, deleteNoteParams);
 				APIResponse apiResp1 = new APIResponse(resp1);
 
 				// validation
@@ -197,7 +200,7 @@ public class NotebookApis extends APIDriver {
 				emailParams.put("id", note_id);
 
 				RequestSpecification emailSpec = formParamsSpec(emailParams);
-				Response emailResp = RestOperationUtils.post( USER_APP_URL + EMAIL_NOTE, null, emailSpec, emailParams);
+				Response emailResp = RestOperationUtils.post(USER_APP_URL + EMAIL_NOTE, null, emailSpec, emailParams);
 				APIResponse emailApiResp = new APIResponse(emailResp);
 
 				verify.verifyStatusCode(emailApiResp.getStatusCode(), 200);
@@ -234,7 +237,7 @@ public class NotebookApis extends APIDriver {
 			params.put("mode", "all");
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -287,7 +290,7 @@ public class NotebookApis extends APIDriver {
 			params.put("qqfile", fileName);
 
 			RequestSpecification spec = multipartParamSpec(params, file);
-			Response resp = RestOperationUtils.post( USER_APP_URL + UPLOAD_FILE, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + UPLOAD_FILE, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 
@@ -321,7 +324,8 @@ public class NotebookApis extends APIDriver {
 				attachParams.put("dataDict", dataJson);
 
 				RequestSpecification spec1 = formParamsSpec(attachParams);
-				Response resp1 = RestOperationUtils.post( USER_APP_URL + CREATE_ATTACHMENT_NOTE, null, spec1, attachParams);
+				Response resp1 = RestOperationUtils.post(USER_APP_URL + CREATE_ATTACHMENT_NOTE, null, spec1,
+						attachParams);
 				APIResponse apiResp1 = new APIResponse(resp1);
 
 				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
@@ -348,7 +352,7 @@ public class NotebookApis extends APIDriver {
 					deleteNoteParams.put("note_id", noteIdToBeDeleted);
 
 					RequestSpecification spec2 = formParamsSpec(deleteNoteParams);
-					Response resp2 = RestOperationUtils.post( USER_APP_URL + DELETE_NOTE, null, spec2, deleteNoteParams);
+					Response resp2 = RestOperationUtils.post(USER_APP_URL + DELETE_NOTE, null, spec2, deleteNoteParams);
 					APIResponse apiResp2 = new APIResponse(resp2);
 					JSONObject respJson2 = new JSONObject(apiResp2.getResponseAsString());
 
@@ -376,7 +380,7 @@ public class NotebookApis extends APIDriver {
 			params.put("query", "test");
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -434,7 +438,7 @@ public class NotebookApis extends APIDriver {
 			params.put("tickers", tickerJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -499,7 +503,7 @@ public class NotebookApis extends APIDriver {
 			params.put("tags", tagsJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -563,7 +567,7 @@ public class NotebookApis extends APIDriver {
 			params.put("users", usersJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
@@ -597,7 +601,7 @@ public class NotebookApis extends APIDriver {
 			params.put("labels", labelsJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -633,7 +637,7 @@ public class NotebookApis extends APIDriver {
 			params.put("gics_sector", sectorsJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -671,7 +675,7 @@ public class NotebookApis extends APIDriver {
 			params.put("countrycode", countryCodeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -707,7 +711,7 @@ public class NotebookApis extends APIDriver {
 			params.put("kind", categoryJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -743,7 +747,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -779,7 +783,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -815,7 +819,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -851,7 +855,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -887,7 +891,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -923,7 +927,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -964,7 +968,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -1004,7 +1008,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -1043,7 +1047,7 @@ public class NotebookApis extends APIDriver {
 			params.put("typ", typeJson);
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -1083,7 +1087,7 @@ public class NotebookApis extends APIDriver {
 				thesisParams.put("create_default_children", Boolean.TRUE.toString());
 
 				RequestSpecification spec = formParamsSpec(thesisParams);
-				Response resp = RestOperationUtils.post( USER_APP_URL + THESIS_ENTITY, null, spec, thesisParams);
+				Response resp = RestOperationUtils.post(USER_APP_URL + THESIS_ENTITY, null, spec, thesisParams);
 				APIResponse apiResp = new APIResponse(resp);
 
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -1141,7 +1145,7 @@ public class NotebookApis extends APIDriver {
 				params.put("term", tagName);
 
 				RequestSpecification tagSpec = formParamsSpec(params);
-				Response tagResp = RestOperationUtils.post( USER_APP_URL + UPDATE_TAG_TICKER, null, tagSpec, params);
+				Response tagResp = RestOperationUtils.post(USER_APP_URL + UPDATE_TAG_TICKER, null, tagSpec, params);
 				APIResponse tagApiResp = new APIResponse(tagResp);
 
 				verify.verifyStatusCode(tagApiResp.getStatusCode(), 200);
@@ -1194,7 +1198,8 @@ public class NotebookApis extends APIDriver {
 				params.put("term", tagName);
 
 				RequestSpecification removeTagSpec = formParamsSpec(params);
-				Response tagResp = RestOperationUtils.post( USER_APP_URL + UPDATE_TAG_TICKER, null, removeTagSpec, params);
+				Response tagResp = RestOperationUtils.post(USER_APP_URL + UPDATE_TAG_TICKER, null, removeTagSpec,
+						params);
 				APIResponse tagApiResp = new APIResponse(tagResp);
 
 				verify.verifyStatusCode(tagApiResp.getStatusCode(), 200);
@@ -1245,7 +1250,8 @@ public class NotebookApis extends APIDriver {
 				params.put("term", ticker);
 
 				RequestSpecification tickerSpec = formParamsSpec(params);
-				Response tickerResp = RestOperationUtils.post( USER_APP_URL + UPDATE_TAG_TICKER, null, tickerSpec, params);
+				Response tickerResp = RestOperationUtils.post(USER_APP_URL + UPDATE_TAG_TICKER, null, tickerSpec,
+						params);
 				APIResponse tickerApiResp = new APIResponse(tickerResp);
 
 				verify.verifyStatusCode(tickerApiResp.getStatusCode(), 200);
@@ -1298,7 +1304,8 @@ public class NotebookApis extends APIDriver {
 				removeTickerParams.put("term", ticker);
 
 				RequestSpecification removeSpec = formParamsSpec(removeTickerParams);
-				Response removeResp = RestOperationUtils.post( USER_APP_URL + UPDATE_TAG_TICKER, null, removeSpec, removeTickerParams);
+				Response removeResp = RestOperationUtils.post(USER_APP_URL + UPDATE_TAG_TICKER, null, removeSpec,
+						removeTickerParams);
 				APIResponse removeApiResp = new APIResponse(removeResp);
 
 				verify.verifyStatusCode(removeApiResp.getStatusCode(), 200);
@@ -1348,7 +1355,7 @@ public class NotebookApis extends APIDriver {
 				params.put("template_dictionary", templateDictJson);
 
 				RequestSpecification spec = formParamsSpec(params);
-				Response resp = RestOperationUtils.post( USER_APP_URL + TEMPLATE_ENTITY, null, spec, params);
+				Response resp = RestOperationUtils.post(USER_APP_URL + TEMPLATE_ENTITY, null, spec, params);
 				APIResponse apiResp = new APIResponse(resp);
 
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -1376,7 +1383,7 @@ public class NotebookApis extends APIDriver {
 						deleteParams.put("action", "delete_template");
 
 						RequestSpecification spec1 = formParamsSpec(deleteParams);
-						RestOperationUtils.post( USER_APP_URL + TEMPLATE_ENTITY, null, spec1, deleteParams);
+						RestOperationUtils.post(USER_APP_URL + TEMPLATE_ENTITY, null, spec1, deleteParams);
 					} else {
 						verify.assertTrue(false, "Template is missing, can not perform delete");
 					}
@@ -1409,7 +1416,7 @@ public class NotebookApis extends APIDriver {
 				params.put("template_dictionary", templateDictJson);
 
 				RequestSpecification spec = formParamsSpec(params);
-				Response resp = RestOperationUtils.post( USER_APP_URL + TEMPLATE_ENTITY, null, spec, params);
+				Response resp = RestOperationUtils.post(USER_APP_URL + TEMPLATE_ENTITY, null, spec, params);
 				APIResponse apiResp = new APIResponse(resp);
 
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -1429,7 +1436,7 @@ public class NotebookApis extends APIDriver {
 				deleteParams.put("action", "delete_template");
 
 				RequestSpecification spec1 = formParamsSpec(deleteParams);
-				RestOperationUtils.post( USER_APP_URL + TEMPLATE_ENTITY, null, spec1, deleteParams);
+				RestOperationUtils.post(USER_APP_URL + TEMPLATE_ENTITY, null, spec1, deleteParams);
 			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1455,7 +1462,7 @@ public class NotebookApis extends APIDriver {
 				params.put("template_dictionary", templateDictJson);
 
 				RequestSpecification spec = formParamsSpec(params);
-				Response resp = RestOperationUtils.post( USER_APP_URL + TEMPLATE_ENTITY, null, spec, params);
+				Response resp = RestOperationUtils.post(USER_APP_URL + TEMPLATE_ENTITY, null, spec, params);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				JSONObject res = (JSONObject) respJson.getJSONObject("result").getJSONArray("res").get(0);
@@ -1466,7 +1473,7 @@ public class NotebookApis extends APIDriver {
 				deleteParams.put("action", "delete_template");
 
 				RequestSpecification spec1 = formParamsSpec(deleteParams);
-				Response resp1 = RestOperationUtils.post( USER_APP_URL + TEMPLATE_ENTITY, null, spec1, deleteParams);
+				Response resp1 = RestOperationUtils.post(USER_APP_URL + TEMPLATE_ENTITY, null, spec1, deleteParams);
 				APIResponse apiResp1 = new APIResponse(resp1);
 
 				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
@@ -1495,7 +1502,7 @@ public class NotebookApis extends APIDriver {
 				params.put("noteid", note_id);
 
 				RequestSpecification starSpec = formParamsSpec(params);
-				Response starResp = RestOperationUtils.post( USER_APP_URL + STAR_NOTE, null, starSpec, params);
+				Response starResp = RestOperationUtils.post(USER_APP_URL + STAR_NOTE, null, starSpec, params);
 				APIResponse starApiResp = new APIResponse(starResp);
 				verify.verifyStatusCode(starApiResp.getStatusCode(), 200);
 
@@ -1542,7 +1549,7 @@ public class NotebookApis extends APIDriver {
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("noteid", starNoteID);
 				RequestSpecification unstarSpec = formParamsSpec(params);
-				Response unstarResp = RestOperationUtils.post( USER_APP_URL + UNSTAR_NOTE, null, unstarSpec, params);
+				Response unstarResp = RestOperationUtils.post(USER_APP_URL + UNSTAR_NOTE, null, unstarSpec, params);
 				APIResponse unstarApiResp = new APIResponse(unstarResp);
 				verify.verifyStatusCode(unstarApiResp.getStatusCode(), 200);
 				if (unstarApiResp.getStatusCode() == 200) {
@@ -1581,7 +1588,7 @@ public class NotebookApis extends APIDriver {
 				params.put("qqfile", fileName);
 
 				RequestSpecification uploadspec = multipartParamSpec(params, file);
-				Response uploadResp = RestOperationUtils.post( USER_APP_URL + UPLOAD_FILE, null, uploadspec, params);
+				Response uploadResp = RestOperationUtils.post(USER_APP_URL + UPLOAD_FILE, null, uploadspec, params);
 				APIResponse uploadApiResp = new APIResponse(uploadResp);
 				verify.verifyStatusCode(uploadApiResp.getStatusCode(), 200);
 				JSONObject uploadRespJson = new JSONObject(uploadApiResp.getResponseAsString());
@@ -1608,7 +1615,7 @@ public class NotebookApis extends APIDriver {
 					attachParams.put("dataDict", dataJson);
 
 					RequestSpecification spec1 = formParamsSpec(attachParams);
-					Response resp1 = RestOperationUtils.post( USER_APP_URL + SAVE_ATTACHMENT, null, spec1, attachParams);
+					Response resp1 = RestOperationUtils.post(USER_APP_URL + SAVE_ATTACHMENT, null, spec1, attachParams);
 					APIResponse apiResp1 = new APIResponse(resp1);
 
 					verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
@@ -1667,7 +1674,8 @@ public class NotebookApis extends APIDriver {
 				dataMapForRemove.put("note_id", note_id);
 
 				RequestSpecification spec2 = formParamsSpec(dataMapForRemove);
-				Response resp2 = RestOperationUtils.post( USER_APP_URL + REMOVE_ATTACHMENT, null, spec2, dataMapForRemove);
+				Response resp2 = RestOperationUtils.post(USER_APP_URL + REMOVE_ATTACHMENT, null, spec2,
+						dataMapForRemove);
 				APIResponse apiResp2 = new APIResponse(resp2);
 
 				verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
@@ -1720,7 +1728,8 @@ public class NotebookApis extends APIDriver {
 				commentParams.put("comment_dict", json);
 
 				RequestSpecification commentSpec = formParamsSpec(commentParams);
-				Response commentResp = RestOperationUtils.post( USER_APP_URL + USER_COMMENTS, null, commentSpec, commentParams);
+				Response commentResp = RestOperationUtils.post(USER_APP_URL + USER_COMMENTS, null, commentSpec,
+						commentParams);
 				APIResponse commentApiResp = new APIResponse(commentResp);
 
 				verify.verifyStatusCode(commentApiResp.getStatusCode(), 200);
@@ -1776,7 +1785,7 @@ public class NotebookApis extends APIDriver {
 				params1.put("comment_dict", json1);
 
 				RequestSpecification spec1 = formParamsSpec(params1);
-				Response resp1 = RestOperationUtils.post( USER_APP_URL + USER_COMMENTS, null, spec1, params1);
+				Response resp1 = RestOperationUtils.post(USER_APP_URL + USER_COMMENTS, null, spec1, params1);
 				APIResponse apiResp1 = new APIResponse(resp1);
 				verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 				if (apiResp1.getStatusCode() == 200) {
@@ -1820,7 +1829,7 @@ public class NotebookApis extends APIDriver {
 				params2.put("comment_dict", editJson);
 
 				RequestSpecification spec2 = formParamsSpec(params2);
-				Response resp2 = RestOperationUtils.post( USER_APP_URL + USER_COMMENTS, null, spec2, params2);
+				Response resp2 = RestOperationUtils.post(USER_APP_URL + USER_COMMENTS, null, spec2, params2);
 				APIResponse apiResp2 = new APIResponse(resp2);
 
 				verify.verifyStatusCode(apiResp2.getStatusCode(), 200);
@@ -1851,7 +1860,7 @@ public class NotebookApis extends APIDriver {
 			if (note_id != "") {
 				parameters.put("id", note_id);
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_HTML, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_HTML, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -1884,7 +1893,7 @@ public class NotebookApis extends APIDriver {
 			parameters.put("type", "all");
 			parameters.put("all_contacts", "true");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_FACET_AND_HTML, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_FACET_AND_HTML, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -1918,7 +1927,7 @@ public class NotebookApis extends APIDriver {
 			parameters.put("user_fields", "true");
 			parameters.put("user_email", "true");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_NOTEBOOK_DATA, spec, parameters);
+			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_NOTEBOOK_DATA, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -1928,21 +1937,21 @@ public class NotebookApis extends APIDriver {
 						.getJSONArray("static_note_type_list");
 				if (noteType.length() == 0 || noteType == null)
 					verify.assertTrue(false, "note type array is empty : ");
-				if(USER_APP_URL.contains("app")) {
-				JSONArray user_template = respJson.getJSONObject("result").getJSONArray("user_template");
-				if (user_template.length() == 0 || user_template == null)
-					verify.assertTrue(false, "user template array is empty : ");
+				if (USER_APP_URL.contains("app")) {
+					JSONArray user_template = respJson.getJSONObject("result").getJSONArray("user_template");
+					if (user_template.length() == 0 || user_template == null)
+						verify.assertTrue(false, "user template array is empty : ");
 					JSONArray user_groups = respJson.getJSONObject("result").getJSONArray("user_groups");
 					if (user_groups.length() == 0 || user_groups == null)
 						verify.assertTrue(false, "user group array is empty : ");
 					JSONObject user_fields = respJson.getJSONObject("result").getJSONObject("user_fields");
 					if (user_fields.length() == 0 || user_fields == null)
 						verify.assertTrue(false, "user fields array is empty");
-				JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
-				if (user_email.length() == 0 || user_email == null)
-					verify.assertTrue(false, "user email array is empty : ");
+					JSONArray user_email = respJson.getJSONObject("result").getJSONArray("user_email");
+					if (user_email.length() == 0 || user_email == null)
+						verify.assertTrue(false, "user email array is empty : ");
+				}
 			}
-		}
 		} catch (JSONException je) {
 			je.printStackTrace();
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1962,7 +1971,7 @@ public class NotebookApis extends APIDriver {
 			if (!note_id.isEmpty()) {
 				parameters.put("id", note_id);
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_NOTE_HISTORY, spec, parameters);
+				Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_NOTE_HISTORY, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -1989,7 +1998,7 @@ public class NotebookApis extends APIDriver {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_NOTE_SETTING, spec, parameters);
+			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_NOTE_SETTING, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -2035,7 +2044,7 @@ public class NotebookApis extends APIDriver {
 				parameters.put("id", note_id);
 				parameters.put("version", Integer.toString(version));
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_NOTE_VERSION, spec, parameters);
+				Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_NOTE_VERSION, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -2067,7 +2076,7 @@ public class NotebookApis extends APIDriver {
 				parameters.put("noteid", note_id);
 				parameters.put("set_lock", "1");
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LOCK_STATUS, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LOCK_STATUS, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -2096,7 +2105,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("docid", "5e68de142e808522f1a39820");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_NOTE, spec, parameters);
+			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_NOTE, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -2125,7 +2134,7 @@ public class NotebookApis extends APIDriver {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_THESIS_FIELDS, spec, parameters);
+			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_THESIS_FIELDS, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2162,7 +2171,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("size", "15");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_RECENT_NOTES, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_RECENT_NOTES, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2207,7 +2216,7 @@ public class NotebookApis extends APIDriver {
 			parameters.put("only_folder_names", "true");
 			parameters.put("owner_type", "user");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get( USER_APP_URL + GET_HIERARCHY, spec, parameters);
+			Response resp = RestOperationUtils.get(USER_APP_URL + GET_HIERARCHY, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2283,7 +2292,7 @@ public class NotebookApis extends APIDriver {
 				HashMap<String, String> parameters = new HashMap<String, String>();
 				parameters.put("thesis_id", thesis_id);
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + GET_THESIS_LIST, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + GET_THESIS_LIST, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2314,7 +2323,7 @@ public class NotebookApis extends APIDriver {
 				parameters.put("email_flag", "0");
 				parameters.put("share_user", shareUser);
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.get( USER_APP_URL + SHARE_NEW_USER_NOTE, spec, parameters);
+				Response resp = RestOperationUtils.get(USER_APP_URL + SHARE_NEW_USER_NOTE, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2351,7 +2360,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("doc_id", "5e789829f8bad52e4c6de0ad");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + NEW_BOOKMARK_NOTE, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + NEW_BOOKMARK_NOTE, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2383,7 +2392,7 @@ public class NotebookApis extends APIDriver {
 			parameters.put("doc_id", "5e789829f8bad52e4c6de0ad");
 			parameters.put("bookmark", "true");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + INDEX_USER_BOOKMARK_DOC, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + INDEX_USER_BOOKMARK_DOC, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2440,7 +2449,8 @@ public class NotebookApis extends APIDriver {
 						parameters.put("data_dict", dataJson);
 						parameters.put("section_id", section_id);
 						RequestSpecification spec = formParamsSpec(parameters);
-						Response resp = RestOperationUtils.post( USER_APP_URL + UPDATE_FIELD_VALUE, null, spec, parameters);
+						Response resp = RestOperationUtils.post(USER_APP_URL + UPDATE_FIELD_VALUE, null, spec,
+								parameters);
 						APIResponse apiResp = new APIResponse(resp);
 						verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 						verify.verifyResponseTime(resp, 5000);
@@ -2477,7 +2487,7 @@ public class NotebookApis extends APIDriver {
 			parameters.put("update", "true");
 			parameters.put("version", "1.0.6");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + NEW_CLIPPER_NOTE, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + NEW_CLIPPER_NOTE, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2519,7 +2529,7 @@ public class NotebookApis extends APIDriver {
 				parameters.put("other_flags", dataJson);
 
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + UPDATE_FIELD, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + UPDATE_FIELD, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2561,7 +2571,7 @@ public class NotebookApis extends APIDriver {
 				parameters.put("sections_data", "[" + dataJson + "]");
 
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + NEW_SECTION, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + NEW_SECTION, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2590,7 +2600,7 @@ public class NotebookApis extends APIDriver {
 				parameters.put("id", HighlightNoteID);
 				parameters.put("forever_delete", "false");
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + DELETE_HIGHLIGHT, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + DELETE_HIGHLIGHT, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2615,7 +2625,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("doc_id", "5e789829f8bad52e4c6de0ad");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + DELETE_USER_BOOKMARK, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + DELETE_USER_BOOKMARK, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2650,7 +2660,7 @@ public class NotebookApis extends APIDriver {
 				HashMap<String, String> parameters = new HashMap<String, String>();
 				parameters.put("action_list", "[" + dataJson + "]");
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.post( USER_APP_URL + UPDATE_SECTION, null, spec, parameters);
+				Response resp = RestOperationUtils.post(USER_APP_URL + UPDATE_SECTION, null, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2680,7 +2690,7 @@ public class NotebookApis extends APIDriver {
 				HashMap<String, String> parameters = new HashMap<String, String>();
 				parameters.put("id", note_id);
 				RequestSpecification spec = formParamsSpec(parameters);
-				Response resp = RestOperationUtils.get( USER_APP_URL + GET_NOTE_CONTENT_FOR_IFRAME, spec, parameters);
+				Response resp = RestOperationUtils.get(USER_APP_URL + GET_NOTE_CONTENT_FOR_IFRAME, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 				verify.verifyResponseTime(resp, 5000);
@@ -2708,7 +2718,7 @@ public class NotebookApis extends APIDriver {
 		parameters.put("highlight_id", "5e85c1aef7322a753dafa603");
 		RequestSpecification spec = formParamsSpec(parameters);
 		try {
-			Response resp = RestOperationUtils.post( USER_APP_URL + CONSUME_CITATION_LINK, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + CONSUME_CITATION_LINK, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
 			verify.verifyResponseTime(resp, 5000);
@@ -2729,7 +2739,7 @@ public class NotebookApis extends APIDriver {
 	public void get_new_free_citation_link() throws CoreCommonException {
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		RequestSpecification spec = formParamsSpec(parameters);
-		Response resp = RestOperationUtils.post( USER_APP_URL + GET_NEW_FREE_CITATION_LINK, null, spec, parameters);
+		Response resp = RestOperationUtils.post(USER_APP_URL + GET_NEW_FREE_CITATION_LINK, null, spec, parameters);
 		try {
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -2835,6 +2845,177 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
+	@SuppressWarnings("unused")
+	@Test(groups = "checktest", description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
+	public void search_entities(String moduleType, String sentieoEntity) throws CoreCommonException, IOException {
+		try {
+		for (String[] row : tickers) {
+				String tickername = "";
+				String type = "";
+				String status = "";
+				try {
+					for (String cell : row) {
+						if (tickername.isEmpty()) {
+							tickername = cell;
+							continue;
+						}
+						if (type.isEmpty()) {
+							type = cell;
+							continue;
+						}
+						if (status.isEmpty()) {
+							status = cell;
+						}
+					}
+					if(moduleType.equalsIgnoreCase("EDT"))  //to print proper name in report
+						moduleType="company";
+					
+					HashMap<String, String> parameters = new HashMap<String, String>();
+					parameters.put("suggest", tickername);
+					parameters.put("allow_pvt_company", "true");
+					parameters.put("pagetype", moduleType);
+					parameters.put("sentieoentity", sentieoEntity);
+					RequestSpecification spec = formParamsSpec(parameters);
+					Response resp = RestOperationUtils.get(APP_URL + SEARCH_ENTITIES, spec, parameters);
+					APIResponse apiResp = new APIResponse(resp);
+					ExtentTestManager.getTest().log(LogStatus.INFO, "Ticker/Partial Search : " + tickername);
+					if(!(apiResp.getStatusCode() == 200))	
+					verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+					verify.verifyResponseTime(resp, 5000);
+					if (apiResp.getStatusCode() == 200) {
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+						if(!respJson.getJSONObject("response").getBoolean("status"))
+						verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+						if (type.equalsIgnoreCase("public")) {
+							JSONArray companylist;
+							if (sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company"))
+								companylist = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("company");
+							else
+								companylist = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("sentieoentity");
+							if (companylist.length() == 0 && companylist == null) {
+								verify.assertTrue(false, "Ticker not coming for search : ");
+							}
+							if (companylist.length() > 0) {
+								JSONObject tickerData = companylist.getJSONObject(0);
+								String token_label = tickerData.getString("token_label");
+								String ticker_status = tickerData.getString("status");
+								if (!tickerData.getString("name").toLowerCase().contains(tickername.toLowerCase()))
+									verify.assertEqualsActualContainsExpected(
+											tickerData.getString("name").toLowerCase(), tickername.toLowerCase(),
+											"verify ticker name");
+								if (ticker_status.isEmpty())
+								verify.assertTrue(!ticker_status.isEmpty(), "verify ticker status");
+								
+								if (tickerData.getString("_id").isEmpty())
+									verify.assertTrue(!tickerData.getString("_id").isEmpty(),
+											"verify ticker _id present");
+								if(sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company")) {
+								if (!tickerData.getString("type").equalsIgnoreCase("company")) 
+									verify.verifyEquals(tickerData.getString("type"), "company", "verify company type");
+								}else {
+									if (!tickerData.getString("type").equalsIgnoreCase("sentieoentity"))
+										verify.verifyEquals(tickerData.getString("type"), "sentieoentity", "verify company type");									
+								}
+							}
+						} else if (type.equalsIgnoreCase("private")) {
+							JSONArray privcomp;
+							if (sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company"))
+								privcomp = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privcomp");
+							else
+								privcomp = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privateentity");
+							if (privcomp.length() == 0 && privcomp == null) {
+								verify.assertTrue(false, "Ticker not coming for search : ");
+							}
+							if (privcomp.length() > 0) {
+								JSONObject tickerData = privcomp.getJSONObject(0);
+								String token_label = tickerData.getString("token_label");
+								String ticker_status = tickerData.getString("status");
+								if (!tickerData.getString("name").toLowerCase().contains(tickername.toLowerCase()))
+									verify.assertEqualsActualContainsExpected(
+											tickerData.getString("name").toLowerCase(), tickername.toLowerCase(),
+											"verify ticker name");
+								if (ticker_status.isEmpty())
+										verify.assertTrue(!ticker_status.isEmpty(), "verify ticker status");
+								
+								if (tickerData.getString("_id").isEmpty())
+									verify.assertTrue(!tickerData.getString("_id").isEmpty(),
+											"verify ticker _id present");
+								if(sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company")) {
+									if (!tickerData.getString("type").equalsIgnoreCase("privcomp")) 
+										verify.verifyEquals(tickerData.getString("type"), "privcomp", "verify company type");
+									}else {
+										if (!tickerData.getString("type").equalsIgnoreCase("privateentity"))
+											verify.verifyEquals(tickerData.getString("type"), "privateentity", "verify company type");									
+									}
+							}
+						} else {// for partial text search
+							if (sentieoEntity.equals("0") || moduleType.equalsIgnoreCase("company")) {
+								JSONArray companylist = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("company");
+								verify.assertTrue(companylist.length() > 0, "company data should be present");
+
+								JSONArray privcomp = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privcomp");
+								verify.assertTrue(privcomp.length() > 0, "privcomp data should be present");
+								
+								if(!moduleType.equalsIgnoreCase("company")) {
+								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("crypto");
+								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
+
+								JSONArray entity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("entity");
+								verify.assertTrue(entity.length() > 0, "entity data should be present");
+
+								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("organization");
+								verify.assertTrue(organization.length() > 0, "organization data should be present");
+
+								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("debt");
+								verify.assertTrue(debt.length() > 0, "debt data should be present");
+								}
+							} else {
+								JSONArray privateentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("privateentity");
+								verify.assertTrue(privateentity.length() > 0, "privateentity data should be present");
+
+								JSONArray sentieoentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("sentieoentity");
+								verify.assertTrue(sentieoentity.length() > 0, "sentieoentity data should be present");
+
+								JSONArray subsidiary = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("subsidiary");
+								verify.assertTrue(subsidiary.length() > 0, "subsidiary data should be present");
+
+								JSONArray cryptoentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("cryptoentity");
+								verify.assertTrue(cryptoentity.length() > 0, "cryptoentity data should be present");
+
+								JSONArray secentity = respJson.getJSONObject("result").getJSONObject("data")
+										.getJSONArray("secentity");
+								verify.assertTrue(secentity.length() > 0, "secentity data should be present");
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					verify.assertTrue(false, "ticker : " + tickername + e.toString());
+				}
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+
 	public String getCurrentTime() {
 		String DATE_FORMAT = "dd-M-yyyy hh:mm:ss a z";
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
@@ -2851,7 +3032,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("id", noteID);
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_HTML, null, spec, parameters);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_HTML, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
@@ -2879,7 +3060,7 @@ public class NotebookApis extends APIDriver {
 			params.put("mode", "all");
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			if (apiResp.getStatusCode() == 200) {
@@ -2916,7 +3097,7 @@ public class NotebookApis extends APIDriver {
 			params.put("mode", "all");
 
 			RequestSpecification spec = formParamsSpec(params);
-			Response resp = RestOperationUtils.post( USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
+			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
 
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -2946,7 +3127,7 @@ public class NotebookApis extends APIDriver {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("apiname", "fetch_user_portfolio_data");
 			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.get( USER_APP_URL + FETCH_INITIAL_LOADING, spec, parameters);
+			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_INITIAL_LOADING, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
