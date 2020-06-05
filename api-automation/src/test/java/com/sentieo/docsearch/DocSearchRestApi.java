@@ -928,14 +928,9 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-<<<<<<< HEAD
-	@Test(groups = "abcd", description = "fetches meta info like date, file type etc.", dataProvider = "fetch_files_meta_data", dataProviderClass = DataProviderClass.class)
-	public void fetch_files_meta_data(String id) throws CoreCommonException {
 
-=======
 	@Test(groups = "adsf", description = "fetches meta info like date, file type etc.")
 	public void fetch_files_meta_data() throws CoreCommonException {
->>>>>>> a0848c1aecc870b7609257e6bbd41fc4c9440f88
 		try {
 			NotebookApis notebook = new NotebookApis();
 			if (NotebookApis.doc_id_sentieoDrive.isEmpty())
@@ -1104,15 +1099,9 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-<<<<<<< HEAD
 
-//	@Test(groups = "sanity", description = "pdf view for note documents", dataProvider = "get_docnote_pdf", dataProviderClass = DataProviderClass.class)
-	public void get_docnote_pdf(String doc_id) throws CoreCommonException {
-
-=======
 	@Test(groups = "saniasdty", description = "pdf view for note documents")
 	public void get_docnote_pdf() throws CoreCommonException {
->>>>>>> a0848c1aecc870b7609257e6bbd41fc4c9440f88
 		try {
 			if (docid_note.isEmpty())
 				setNoteTypeDocId();
