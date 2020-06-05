@@ -7,8 +7,6 @@
    </listeners>
  
   <test name="sentieo-tests" preserve-order="true">
-  <groups> 
-  <run> <include name="assert" /> </run> </groups>
     <packages>
       <package name="com.sentieo.docsearch.*" />
     </packages>
