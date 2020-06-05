@@ -1,25 +1,15 @@
 package com.sentieo.plotter;
 
-import static com.sentieo.constants.Constants.APP_URL;
-import static com.sentieo.constants.Constants.EMAIL;
-import static com.sentieo.constants.Constants.FETCH_GRAPH_DATA;
-import static com.sentieo.constants.Constants.LOGIN_URL;
-import static com.sentieo.constants.Constants.PASSWORD;
-import static com.sentieo.constants.Constants.USER_APP_URL;
-
+import static com.sentieo.constants.Constants.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -43,7 +33,7 @@ public class StockPrice50650 extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
@@ -56,7 +46,7 @@ public class StockPrice50650 extends APIDriver {
 				JSONArray value = null;
 				String URI = APP_URL + FETCH_GRAPH_DATA;
 				String cell = "^gspc";
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				parameters.put("head_name", "Stock Price");
 				parameters.put("graphtype_original", "stock");
 				parameters.put("graphtype", "stock");
@@ -83,10 +73,10 @@ public class StockPrice50650 extends APIDriver {
 						String date = util.convertTimestampIntoDate(digit);
 						FinanceApi fin = new FinanceApi();
 						CommonUtil comm = new CommonUtil();
-						if (hour >= 9 && hour<24)
+						if (hour >= 9 && hour < 24)
 							systemDate = comm.getCurrentDate();
 						else
-							systemDate = fin.dateValidationForHistoricalChart("",cell);
+							systemDate = fin.dateValidationForHistoricalChart("", cell);
 						verify.compareDates(date, systemDate, "Verify the Current Date Point");
 						verify.verifyAll();
 					}
@@ -118,6 +108,6 @@ public class StockPrice50650 extends APIDriver {
 			morningTime = time.replaceAll("PM", "");
 		String[] hourMin = morningTime.split(":");
 		hour = Integer.parseInt(hourMin[0]);
-		//mins = Integer.parseInt(hourMin[1]);
+		// mins = Integer.parseInt(hourMin[1]);
 	}
 }

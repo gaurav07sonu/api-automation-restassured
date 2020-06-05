@@ -55,6 +55,9 @@ compile group: 'org.yaml', name: 'snakeyaml', version:'1.21'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.3'
     compile group: 'org.codehaus.jackson', name:'jackson-mapper-asl', version:'1.9.9'
  	 compile group: 'com.flipkart.zjsonpatch', name: 'zjsonpatch', version: '0.4.9'
+ 	 compile group: 'org.apache.poi', name: 'poi', version: '3.9'
+ 	 compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+ 	 
   
 }
 

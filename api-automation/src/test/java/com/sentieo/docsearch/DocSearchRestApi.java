@@ -43,23 +43,23 @@ public class DocSearchRestApi extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass(alwaysRun = true)
-	public void setDoc_ID() throws CoreCommonException {
-		DocumentSearch obj = new DocumentSearch();
-		JSONArray docs = obj.fetch_docid();
-		Random rand = new Random();
-		int rand_int1 = rand.nextInt(docs.length());
-		JSONObject result = docs.getJSONObject(rand_int1);
-		doc_id = result.getString("id");
-		doc_type = result.getString("doc_type");
-		title = result.getString("title");
-		filingDate = result.getString("filingdate");
-
-	}
+//	@BeforeClass(alwaysRun = true)
+//	public void setDoc_ID() throws CoreCommonException {
+//		DocumentSearch obj = new DocumentSearch();
+//		JSONArray docs = obj.fetch_docid();
+//		Random rand = new Random();
+//		int rand_int1 = rand.nextInt(docs.length());
+//		JSONObject result = docs.getJSONObject(rand_int1);
+//		doc_id = result.getString("id");
+//		doc_type = result.getString("doc_type");
+//		title = result.getString("title");
+//		filingDate = result.getString("filingdate");
+//
+//	}
 
 //	Fetch saved filters......
 
-	@Test(groups = "sanity", description = "Fetch saved filters")
+	@Test(groups = "assert", description = "Fetch saved filters")
 	public void fetchsavedfilters() throws CoreCommonException {
 		try {
 			HashMap<String, String> queryParams = new HashMap<String, String>();

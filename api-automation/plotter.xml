@@ -17,7 +17,7 @@
 		<classes>
 <!-- 			<class name="com.sentieo.plotter.DocumentData" /> -->
 			<class name="com.sentieo.plotter.IncomeStatement" />
-			<class name="com.sentieo.plotter.KeyMultiples" />
+			<!-- <class name="com.sentieo.plotter.KeyMultiples" />
 			<class name="com.sentieo.plotter.LoadGraph" />
 			<class name="com.sentieo.plotter.StockData" />
 			<class name="com.sentieo.plotter.StockPrice49929"/>
@@ -25,7 +25,7 @@
 			<class name="com.sentieo.plotter.TestDailySeriesData" />
 			<class name="com.sentieo.plotter.WebandSocialData" />
 			<class name="com.sentieo.plotter.TestPENotUpdatingBug53404" />
-			<class name="com.sentieo.plotter.FetchSavedSeries" />
+			<class name="com.sentieo.plotter.FetchSavedSeries" /> -->
 		</classes>
 	</test>
 

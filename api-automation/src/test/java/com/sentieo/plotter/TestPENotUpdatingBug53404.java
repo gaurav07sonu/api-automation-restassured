@@ -1,21 +1,13 @@
 package com.sentieo.plotter;
 
-import static com.sentieo.constants.Constants.APP_URL;
-import static com.sentieo.constants.Constants.EMAIL;
-import static com.sentieo.constants.Constants.FETCH_GRAPH_DATA;
-import static com.sentieo.constants.Constants.LOGIN_URL;
-import static com.sentieo.constants.Constants.PASSWORD;
-import static com.sentieo.constants.Constants.USER_APP_URL;
+import static com.sentieo.constants.Constants.*;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
