@@ -131,13 +131,13 @@ public class Screener extends APIDriver {
 		JSONArray ticker = values.getJSONArray("tickers");
 		JSONObject fields_info = values.getJSONObject("fields_info");
 		if (values.length() == 0)
-			verify.verifyTrue(false, "verify result : ");
+			verify.assertTrue(false, "verify result : ");
 		if (ticker.length() == 0)
-			verify.verifyTrue(false, "verify tickers : ");
+			verify.assertTrue(false, "verify tickers : ");
 		if (ticker_currency.length() == 0)
-			verify.verifyTrue(false, "verify ticker :  ");
+			verify.assertTrue(false, "verify ticker :  ");
 		if (fields_info.length() == 0)
-			verify.verifyTrue(false, "verify fields info :  ");
+			verify.assertTrue(false, "verify fields info :  ");
 
 		verify.verifyAll();
 	}
