@@ -67,7 +67,7 @@ public class DocSearchRestApi extends APIDriver {
 
 //	Fetch saved filters......
 
-	@Test(groups = "ssanisty", description = "Fetch saved filters")
+	@Test(groups = "sanity", description = "Fetch saved filters")
 	public void fetchsavedfilters() throws CoreCommonException {
 		try {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -98,7 +98,7 @@ public class DocSearchRestApi extends APIDriver {
 
 //	Test Download/Export 	
 
-	@Test(groups = { "bonding22" }, description = "Test Download/Export ")
+	@Test(groups = "sanity", description = "Test Download/Export ")
 	public void bulk_download() throws CoreCommonException {
 		try {
 			String URI = APP_URL + BULK_DOWNLOAD;
@@ -130,7 +130,7 @@ public class DocSearchRestApi extends APIDriver {
 
 //	Fetching doc info	
 
-	@Test(groups = "bonding", description = "Fetching doc info")
+	@Test(groups = "sanity", description = "Fetching doc info")
 	public void fetch_docs_meta_data() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_DOCS_META_DATA;
@@ -143,6 +143,7 @@ public class DocSearchRestApi extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
+			if(apiResp.getStatusCode()==200) {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			JSONObject result = respJson.getJSONObject("result").getJSONObject(doc_id);
@@ -164,7 +165,7 @@ public class DocSearchRestApi extends APIDriver {
 			}
 			verify.assertTrue(status, "verify document title");
 			verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
-
+			}
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -172,7 +173,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanityssssss", description = "fetch_note_filters")
+	@Test(groups = "sanity", description = "fetch_note_filters")
 	public void fetchnotefilters() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_NOTE_FILTERS;
@@ -194,7 +195,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "ssafsf", description = "fetch_searchlibrary")
+	@Test(groups = "sanity", description = "fetch_searchlibrary")
 	public void fetchsearchlibrary() throws Exception {
 		try {
 			String URI = APP_URL + FETCH_SEARCH_LIBRARY;
@@ -209,7 +210,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.assertTrue(!respJson.getJSONObject("result").toString().isEmpty(), "Reponse should be present");
-			verify.verifyEquals(apiResp.getResponseHeaderValue("content-encoding"), "gzip", "Verify response encoding");
+			verify.verifyEquals(apiResp.getResponseHeaderValue("content-encoding"), "gzip", "Verify response encoding should be gzip");
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -217,7 +218,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitsssssy", description = "fetch_custom_doc_diff")
+	@Test(groups = "sanity", description = "fetch_custom_doc_diff")
 	public void fetch_custom_doc_diff() throws CoreCommonException {
 		try {
 			if (docid_filling.isEmpty() && custom_doc_id_filling.isEmpty())
@@ -248,7 +249,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sasafsnity", description = "fetch_impact_score")
+	@Test(groups = "sanity", description = "fetch_impact_score")
 	public void fetch_impact_score() throws CoreCommonException {
 		try {
 			if (doc_arr.length() > 0) {
@@ -295,7 +296,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitsay", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetch_company_docs(String ticker) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_COMPANY_DOCS;
@@ -345,7 +346,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "afafs", description = "Fetch Sections")
+	@Test(groups = "sanity", description = "Fetch Sections")
 	public void fetch_sections() throws CoreCommonException {
 		try {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -385,7 +386,7 @@ public class DocSearchRestApi extends APIDriver {
 
 	}
 
-	@Test(groups = "sanidty", description = "fetch_pdf_flag")
+	@Test(groups = "sanity", description = "fetch_pdf_flag")
 	public void fetch_pdf_flag() throws CoreCommonException {
 		try {
 			if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch")) {
@@ -422,7 +423,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "assd", description = "fetch_note_doc")
+	@Test(groups = "sanity", description = "fetch_note_doc")
 	public void fetch_note_doc() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_NOTE_DOC;
@@ -465,7 +466,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "safsf", description = "fetch_transform_doc_content")
+	@Test(groups = "sanity", description = "fetch_transform_doc_content")
 	public void fetch_transform_doc_content() throws Exception {
 		try {
 			String URI = APP_URL + FETCH_TRANSFORM_DOC_CONTENT;
@@ -486,7 +487,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "asfsaf", description = "fetch_exhibits")
+	@Test(groups = "sanity", description = "fetch_exhibits")
 	public void fetch_exhibits() throws CoreCommonException {
 		try {
 			if (docid_filling.isEmpty())
@@ -522,7 +523,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "asfsaa", description = "fetch_pagelink")
+	@Test(groups = "sanity", description = "fetch_pagelink")
 	public void fetch_pagelink() throws CoreCommonException {
 		try {
 			if (docid_filling.isEmpty())
@@ -653,7 +654,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "bonding", description = "query_suggest_autocomplete", dataProvider = "autocomplete", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "query_suggest_autocomplete", dataProvider = "autocomplete", dataProviderClass = DataProviderClass.class)
 	public void query_suggest_autocomplete(String text, String tickers) throws CoreCommonException {
 		try {
 			String URI = APP_URL + QUERY_SUGGEST_AUTOCOMPLETE;
@@ -677,7 +678,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitasfy", description = "get_user_downloaded_docs_status ")
+	@Test(groups = "sanity", description = "get_user_downloaded_docs_status ")
 	public void get_user_downloaded_docs_status() throws CoreCommonException {
 		try {
 			String URI = APP_URL + GET_USER_DOWNLOADED_DOCS_STATUS;
@@ -707,7 +708,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanasdasity", description = "fetch_snippets")
+	@Test(groups = "sanity", description = "fetch_snippets")
 	public void fetch_snippets() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SNIPPETS;
@@ -745,7 +746,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitsssy", description = "search with query and getting snippets count", dataProvider = "fetch_search_term_count", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "search with query and getting snippets count", dataProvider = "fetch_search_term_count", dataProviderClass = DataProviderClass.class)
 	public void fetch_search_term_count(String ticker, String filters, String size) throws CoreCommonException {
 
 		try {
@@ -801,7 +802,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "cd", description = "used to view document when user clicks doc from search result", priority = 1)
+	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 1)
 	public void fetch_user_viewed_docs() throws CoreCommonException {
 
 		try {
@@ -830,7 +831,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "cd", description = "used to view document when user clicks doc from search result", priority = 0)
+	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 0)
 	public void index_user_viewed_doc() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + INDEX_USER_VIEWED_DOC;
@@ -855,7 +856,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "bonding", description = "fetches all info at user`s search landing page")
+	@Test(groups = "sanity", description = "fetches all info at user`s search landing page")
 	public void fetch_landing_page_data() throws CoreCommonException {
 
 		try {
@@ -929,7 +930,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 
-	@Test(groups = "adsf", description = "fetches meta info like date, file type etc.")
+	@Test(groups = "sanity", description = "fetches meta info like date, file type etc.")
 	public void fetch_files_meta_data() throws CoreCommonException {
 		try {
 			NotebookApis notebook = new NotebookApis();
@@ -971,7 +972,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanssity", description = "load file contents")
+	@Test(groups = "sanity", description = "load file contents")
 	public void fetch_file_content() throws CoreCommonException {
 		try {
 			NotebookApis notebook = new NotebookApis();
@@ -1032,7 +1033,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "ssssss", description = "load_saved_search_data")
+	@Test(groups = "sanity", description = "load_saved_search_data")
 	public void load_saved_search_data() throws CoreCommonException {
 		try {
 			if (uss_ids.isEmpty())
@@ -1100,7 +1101,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 
-	@Test(groups = "saniasdty", description = "pdf view for note documents")
+	@Test(groups = "sanity", description = "pdf view for note documents")
 	public void get_docnote_pdf() throws CoreCommonException {
 		try {
 			if (docid_note.isEmpty())
@@ -1128,7 +1129,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitysss", description = "Unsubscribe existing RSS Feed")
+	@Test(groups = "sanity", description = "Unsubscribe existing RSS Feed")
 	public void ra__unsubscribe_feed() throws CoreCommonException {
 		try {
 			if (feed_req_id.isEmpty())
@@ -1155,7 +1156,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitysss", description = "Requesting for RSS Feed")
+	@Test(groups = "sanity", description = "Requesting for RSS Feed")
 	public void request_feed() throws CoreCommonException {
 		try {
 			if (feed_req_id.isEmpty())
@@ -1183,7 +1184,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanitysss", description = "Updating existing RSS Feed")
+	@Test(groups = "sanity", description = "Updating existing RSS Feed")
 	public void update_feed() throws CoreCommonException {
 
 		try {
@@ -1214,7 +1215,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "ads", description = "fetching note info from doc")
+	@Test(groups = "sanity", description = "fetching note info from doc")
 	public void fetch_document_note_info(String doc_ids, String note_ids) throws CoreCommonException {
 		try {
 			JSONArray notes_array = setNoteTypeDocId();
@@ -1285,7 +1286,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "saniasdty", description = "fetching saved search setting")
+	@Test(groups = "sanity", description = "fetching saved search setting")
 	public void fetch_search_settings() throws CoreCommonException {
 
 		try {

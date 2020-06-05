@@ -232,7 +232,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "ssafsfsa", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
 	public void docsearch_date_filter(String ticker, String filters) throws CoreCommonException {
 		try {
 			if (!APP_URL.contains("app") && filters.contains("note")) {
@@ -733,7 +733,7 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(groups = "sanisafswty", description = "save as spreadsheet from action menu ")
+	@Test(groups = "sanity", description = "save as spreadsheet from action menu ")
 	public void fetchsearch_nodoc_5() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
@@ -826,7 +826,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "saasanity", description = "for export hits from action menu ")
+	@Test(groups = "sanity", description = "for export hits from action menu ")
 	public void fetchsearch_nodoc_8() throws CoreCommonException {
 
 		try {
