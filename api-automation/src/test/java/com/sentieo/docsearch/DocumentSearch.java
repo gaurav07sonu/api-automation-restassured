@@ -1,6 +1,10 @@
 package com.sentieo.docsearch;
 
 import static com.sentieo.constants.Constants.*;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,6 +18,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
+import com.sentieo.report.Reporter;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -29,11 +34,12 @@ public class DocumentSearch extends APIDriver {
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
+			Reporter reporter = Reporter.getInstance();
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
 			queryParams.put("query", query);
-			// queryParams.put("filters", filters);
+			 queryParams.put("filters", filters);
 			queryParams.put("facets_flag", "false");
 
 			JSONObject json = new JSONObject(filters);
@@ -48,15 +54,16 @@ public class DocumentSearch extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
 				int total_results = respJson.getJSONObject("result").getInt("total_results");
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
-
+				if(total_results==0)
+				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(resp));
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
 				if (total_results != 0) {
@@ -233,7 +240,7 @@ public class DocumentSearch extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
-	public void docsearch_date_filter(String ticker, String filters) throws CoreCommonException {
+	public void docsearch_date_filter(String ticker,String sort, String filters) throws CoreCommonException {
 		try {
 			if (!APP_URL.contains("app") && filters.contains("note")) {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "We are not supporting on : " + APP_URL);
@@ -243,11 +250,11 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("tickers", ticker);
 				queryParams.put("applied_filter", "doctype");
 				queryParams.put("facets_flag", "false");
-				queryParams.put("filters", filters);	
-				String filter = filters.replaceAll("\"date\":{\"\":{\"\":", "\"date\":{\"one\":{\"two\":");
+				queryParams.put("filters", filters);
+				queryParams.put("default_sort", "date");
+				queryParams.put("sort", sort); //asc or desc
+				String filter = filters.replace("\"date\":{\"\":{\"\":", "\"date\":{\"one\":{\"two\":");
 				JSONObject json = new JSONObject(filter);
-				System.out.println(json);
-				System.out.println(json.getJSONObject("doctype"));
 				String docType = "";
 				Iterator<String> keys = json.getJSONObject("doctype").keys();
 				while (keys.hasNext()) {
@@ -255,7 +262,6 @@ public class DocumentSearch extends APIDriver {
 					System.out.println(docType);
 				}
 				
-				String date = json.getJSONObject("date").getJSONArray("values").getString(0);
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
@@ -297,7 +303,32 @@ public class DocumentSearch extends APIDriver {
 						verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
 					}
 				}
+			
+				if(sort.equalsIgnoreCase("filing_date:asc")) {
+				String date = json.getJSONObject("date").getJSONObject("one").getJSONObject("two").getJSONArray("values").getString(0);
 
+				boolean dateCheck = true;
+				if (total_results != 0) {
+					if (documentResults_size.length() != 0) {
+						int dates = Integer.valueOf(date.replaceAll("[^\\d]", " ").trim()); 
+						int pastYear = Calendar.getInstance().get(Calendar.YEAR)-dates;
+						for (int i = 0; i < documentResults_size.length(); i++) {
+							String fillingDate = documentResults_size.getJSONObject(i).getString("filingdate");
+							fillingDate = fillingDate.substring(0,11);
+							DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "MMM dd,yyyy");
+							LocalDate localDate = LocalDate.parse( fillingDate , formatter );
+							if (!((localDate.getYear()>=pastYear) && (localDate.getYear()<Calendar.getInstance().get(Calendar.YEAR)))) {
+								verify.assertTrue(false,"docs not coming for past :" + date + "filling date : " + fillingDate);
+								//verify.assertTrue(false,"filling date not from year" + pastYear + "for doc" + docid);
+								dateCheck = false;
+								}
+						}
+
+						verify.assertTrue(dateCheck, "verifying doc coming according to selected date criteria");
+					}
+				}
+				
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

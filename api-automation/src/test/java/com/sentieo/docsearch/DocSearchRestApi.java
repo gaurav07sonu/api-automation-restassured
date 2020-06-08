@@ -22,6 +22,7 @@ import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.notebook.NotebookApis;
 import com.sentieo.report.ExtentTestManager;
+import com.sentieo.report.Reporter;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -299,6 +300,7 @@ public class DocSearchRestApi extends APIDriver {
 	@Test(groups = "sanity", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetch_company_docs(String ticker) throws CoreCommonException {
 		try {
+			Reporter reporter = Reporter.getInstance();
 			String URI = APP_URL + FETCH_COMPANY_DOCS;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("ticker", ticker);
@@ -335,8 +337,10 @@ public class DocSearchRestApi extends APIDriver {
 						}
 						if (datacheck)
 							verify.assertTrue(datacheck, "Valid data present for : " + key);
-					}else
-						verify.assertTrue(false, "key data not present " + result.toString());
+					}else {
+						verify.assertTrue(false," data not present for key : " + key);
+						ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(resp));
+					}
 				}
 			}
 		} catch (JSONException e) {
