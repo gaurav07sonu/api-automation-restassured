@@ -138,7 +138,7 @@ public class MosaicSummaryData extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "heart-beat", "test" }, description = "verify mosaic summary data")
+	@Test(groups = { "heart-beat", "bonding2" }, description = "verify mosaic summary data")
 	public void mosaicSummaryData() throws CoreCommonException {
 		JSONArray revenuSeries = null;
 		JSONArray kpiSeries = null;

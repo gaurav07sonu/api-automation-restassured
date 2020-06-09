@@ -9,10 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -98,7 +96,7 @@ public class KeyMultiples extends APIDriver {
 				double fetchFraphDataEbitdaValue = Double.parseDouble(fetchGraphEbitdaValue);
 				Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEbitdaValue,
 						fetchFraphDataEbitdaValue);
-				if (postivePerChnage > 20) {
+				if (postivePerChnage > 35) {
 					verify.assertTrue(false,
 							"<b>" + "Match current stock data and fetch graph data value for EV/EBITDA :" + "<b>"
 									+ postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell + "<br/>"
@@ -118,7 +116,7 @@ public class KeyMultiples extends APIDriver {
 				double fetchFraphDataEVSalesvalue = Double.parseDouble(fetchGraphEvSalesValue);
 				Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEVSalesValue,
 						fetchFraphDataEVSalesvalue);
-				if (postivePerChnage > 20) {
+				if (postivePerChnage > 35) {
 					verify.assertTrue(false,
 							"<b>" + "Match current stock data and fetch graph data value for EV/Sales : " + "<b>"
 									+ postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell + "<br/>"
