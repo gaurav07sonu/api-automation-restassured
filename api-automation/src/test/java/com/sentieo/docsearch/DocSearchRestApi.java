@@ -902,7 +902,6 @@ public class DocSearchRestApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "saves user searches")
 	public void save_user_search() throws CoreCommonException {
-
 		try {
 			String URI = USER_APP_URL + SAVE_USER_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -921,7 +920,7 @@ public class DocSearchRestApi extends APIDriver {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				verify.verifyEquals(respJson.getJSONObject("result").getInt("save_status"), "1",
+				verify.verifyEquals(respJson.getJSONObject("result").getInt("save_status"),1,
 						"verify saved status");
 				verify.verifyEquals(respJson.getJSONObject("result").getJSONObject("message"), "Successfully Saved",
 						"verify status message");
