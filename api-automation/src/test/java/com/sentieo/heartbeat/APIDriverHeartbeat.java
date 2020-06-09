@@ -226,11 +226,13 @@ public class APIDriverHeartbeat {
 	
 	public static String generateFormatedResponse(Response res, HashMap<String, String> parameters, boolean flag, String exceptionMsg) {
 		JSONObject json = new JSONObject(parameters);
+		String requestId = "RequestId is: " + res.getHeaders().getValue("RequestId");
+		System.out.println(res.getHeaders().getValue("RequestId"));
 		if(flag) {
-			return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse(res.asString()) + BREAK_LINE + generateFormatedException(exceptionMsg);
+			return requestId + BREAK_LINE + generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse(res.asString()) + BREAK_LINE + generateFormatedException(exceptionMsg);
 		}
 		else {
-			return generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse("Not showing response body for passed tests!");
+			return requestId + BREAK_LINE + generateFormatedPayload(json.toString()) + BREAK_LINE + generateFormatedResponse("Not showing response body for passed tests!");
 		}
 	}
 	
