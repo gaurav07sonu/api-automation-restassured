@@ -808,8 +808,8 @@ public class DocSearchRestApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 1)
 	public void fetch_user_viewed_docs() throws CoreCommonException {
-
 		try {
+			index_user_viewed_doc();
 			String URI = USER_APP_URL + FETCH_USER_VIEWED_DOCS;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("did", doc_id);

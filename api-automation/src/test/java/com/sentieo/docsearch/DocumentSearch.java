@@ -483,15 +483,15 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("tickers", ticker);
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
-
-			JSONObject json = new JSONObject(filters);
-			System.out.println(json.getJSONObject("doctype"));
-			String docType = "";
-			Iterator<String> keys = json.getJSONObject("doctype").keys();
-			while (keys.hasNext()) {
-				docType = keys.next();
-				System.out.println(docType);
-			}
+//
+//			JSONObject json = new JSONObject(filters);
+//			System.out.println(json.getJSONObject("doctype"));
+//			String docType = "";
+//			Iterator<String> keys = json.getJSONObject("doctype").keys();
+//			while (keys.hasNext()) {
+//				docType = keys.next();
+//				System.out.println(docType);
+//			}
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -520,19 +520,19 @@ public class DocumentSearch extends APIDriver {
 				}
 			}
 
-			boolean doctypeCheck = true;
-			if (total_results != 0) {
-				if (documentResults_size.length() != 0) {
-					for (int i = 0; i < documentResults_size.length(); i++) {
-						String doc_type = documentResults_size.getJSONObject(i).getString("doc_type");
-						System.out.println(doc_type.toString().contains(docType.toLowerCase()));
-						if (!doc_type.toString().contains(docType.toLowerCase()))
-							doctypeCheck = false;
-					}
-
-					verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
-				}
-			}
+//			boolean doctypeCheck = true;
+//			if (total_results != 0) {
+//				if (documentResults_size.length() != 0) {
+//					for (int i = 0; i < documentResults_size.length(); i++) {
+//						String doc_type = documentResults_size.getJSONObject(i).getString("doc_type");
+//						System.out.println(doc_type.toString().contains(docType.toLowerCase()));
+//						if (!doc_type.toString().contains(docType.toLowerCase()))
+//							doctypeCheck = false;
+//					}
+//
+//					verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
+//				}
+//			}
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
