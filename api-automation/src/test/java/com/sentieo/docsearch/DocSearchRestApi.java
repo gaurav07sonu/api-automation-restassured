@@ -921,7 +921,7 @@ public class DocSearchRestApi extends APIDriver {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				verify.verifyEquals(respJson.getJSONObject("result").getJSONObject("save_status"), "1",
+				verify.verifyEquals(respJson.getJSONObject("result").getInt("save_status"), "1",
 						"verify saved status");
 				verify.verifyEquals(respJson.getJSONObject("result").getJSONObject("message"), "Successfully Saved",
 						"verify status message");
