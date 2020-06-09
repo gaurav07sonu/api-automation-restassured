@@ -43,12 +43,12 @@ public class RestOperationUtils {
 			} else {
 				res = given().spec(spec).body(payload).when().post(url);
 			}
-			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
+		//	if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
 				if (!(testname.equalsIgnoreCase("fetch_docid")))
 					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
-				else if (classname.contains("comparables") || classname.contains("finance")
-						|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
-					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+//				else if (classname.contains("comparables") || classname.contains("finance")
+//						|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
+//					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
