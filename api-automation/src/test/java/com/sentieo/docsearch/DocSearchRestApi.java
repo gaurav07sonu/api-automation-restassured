@@ -806,35 +806,6 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 1)
-	public void fetch_user_viewed_docs() throws CoreCommonException {
-		try {
-			index_user_viewed_doc();
-			String URI = USER_APP_URL + FETCH_USER_VIEWED_DOCS;
-			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("did", doc_id);
-			RequestSpecification spec = formParamsSpec(queryParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 10000);
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				JSONObject result = respJson.getJSONArray("result").getJSONObject(0);
-				String fetchID = result.getString("doc_id");
-				verify.assertEqualsActualContainsExpected(doc_id, fetchID, "Verify document id");
-				boolean viewedStatus = result.getBoolean("viewed");
-				verify.assertTrue(viewedStatus, "verify doc view status");
-			}
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		} finally {
-			verify.verifyAll();
-		}
-	}
-
 	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 0)
 	public void index_user_viewed_doc() throws CoreCommonException {
 		try {
@@ -852,6 +823,35 @@ public class DocSearchRestApi extends APIDriver {
 						"Verify the API Response Status");
 				boolean status = respJson.getJSONObject("result").getBoolean(doc_id);
 				verify.assertTrue(status, "Verify Index user viewed docs");
+			}
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 1)
+	public void fetch_user_viewed_docs() throws CoreCommonException {
+		try {
+			//index_user_viewed_doc();
+			String URI = USER_APP_URL + FETCH_USER_VIEWED_DOCS;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("did", doc_id);
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 10000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				JSONObject result = respJson.getJSONArray("result").getJSONObject(0);
+				String fetchID = result.getString("doc_id");
+				verify.assertEqualsActualContainsExpected(doc_id, fetchID, "Verify document id");
+				boolean viewedStatus = result.getBoolean("viewed");
+				verify.assertTrue(viewedStatus, "verify doc view status");
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
