@@ -34,7 +34,6 @@ public class DocumentSearch extends APIDriver {
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
-			Reporter reporter = Reporter.getInstance();
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
@@ -62,8 +61,6 @@ public class DocumentSearch extends APIDriver {
 
 				int total_results = respJson.getJSONObject("result").getInt("total_results");
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
-				if(total_results==0)
-				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(resp));
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
 				if (total_results != 0) {

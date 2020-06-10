@@ -35,9 +35,7 @@ public class RestOperationUtils {
 			infoMessage = infoMessage + BREAK_LINE + "<div>   URI : " + url + "</div>" + payloadOutput;
 			String testname = new Exception().getStackTrace()[1].getMethodName();
 			if (!(testname.equalsIgnoreCase("fetch_docid")))
-
 				ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
-
 			if (payload == null) {
 				res = given().spec(spec).when().post(url);
 			} else {
