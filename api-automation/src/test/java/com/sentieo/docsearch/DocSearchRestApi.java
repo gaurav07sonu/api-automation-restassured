@@ -188,7 +188,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			verify.verifyTrue(respJson.getJSONObject("result"), "Data should be present");
+			verify.verifyTrue(respJson.getString("result"), "Data should be present");
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -442,8 +442,6 @@ public class DocSearchRestApi extends APIDriver {
 						"Verify the API Response Status");
 				verify.assertTrue(respJson.getJSONObject("result") != null, "result data should be present");
 				verify.verifyEquals(respJson.getJSONObject("result").getString("doc_id"), doc_id, "verify doc id");
-				verify.verifyEquals(respJson.getJSONObject("result").getString("ticker"), doc_ticker,
-						"ticker value should be present");
 				verify.assertEqualsActualContainsExpected(doc_type,
 						respJson.getJSONObject("result").getString("doc_type"), "verify docType");
 				String docTitle = respJson.getJSONObject("result").getString("title");
@@ -718,6 +716,9 @@ public class DocSearchRestApi extends APIDriver {
 			queryParams.put("doc_id", doc_id);
 			queryParams.put("doctype", doc_type);
 			queryParams.put("query", "sales");
+			queryParams.put("tickers", doc_ticker);
+			queryParams.put("snippet_fragment_size", "400");
+
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -749,16 +750,19 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "search with query and getting snippets count", dataProvider = "fetch_search_term_count", dataProviderClass = DataProviderClass.class)
-	public void fetch_search_term_count(String ticker, String filters, String size) throws CoreCommonException {
+	public void fetch_search_term_count(String ticker,String size,String query) throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH_TERM_COUNT;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
-			queryParams.put("applied_filter", "doctype");
+			queryParams.put("applied_filter", "[]");
 			queryParams.put("facets_flag", "false");
-			queryParams.put("filters", filters);
+			queryParams.put("filters", "{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"date\":{},\"other\":{}}");
 			queryParams.put("size", size);
+			queryParams.put("query",query);
+			queryParams.put("default_sort","date");
+			queryParams.put("sort","filing_date:desc");
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -776,7 +780,7 @@ public class DocSearchRestApi extends APIDriver {
 				if (search_data.length() != 0) {
 					for (int i = 0; i < search_data.length(); i++) {
 						JSONArray subData = search_data.getJSONArray(i);
-						if (subData.getDouble(0) > 0 && subData.getInt(1) > 0)
+						if (!(subData.getDouble(0) > 0))
 							datacheck = false;
 					}
 					if (!datacheck)
@@ -790,7 +794,7 @@ public class DocSearchRestApi extends APIDriver {
 				if (normal.length() != 0) {
 					for (int i = 0; i < normal.length(); i++) {
 						JSONArray subData = normal.getJSONArray(i);
-						if (subData.getDouble(0) > 0 && subData.getInt(1) > 0)
+						if (!(subData.getDouble(0) > 0 && subData.getInt(1) > 0))
 							datacheck = false;
 					}
 					if (!datacheck)
@@ -920,7 +924,7 @@ public class DocSearchRestApi extends APIDriver {
 						"Verify the API Response Status");
 				verify.verifyEquals(respJson.getJSONObject("result").getInt("save_status"),1,
 						"verify saved status");
-				verify.verifyEquals(respJson.getJSONObject("result").getJSONObject("message"), "Successfully Saved",
+				verify.verifyEquals(respJson.getJSONObject("result").getString("message"), "Successfully Saved",
 						"verify status message");
 			}
 		} catch (Exception e) {
@@ -991,7 +995,7 @@ public class DocSearchRestApi extends APIDriver {
 				if (apiResp.getStatusCode() == 200) {
 					String responseHtml = apiResp.getResponseAsString();
 					verify.assertTrue(!responseHtml.isEmpty(), "verify response is not blank");
-					verify.verifyEquals(apiResp.getResponseHeaderValue("content-type"), "application/pdf",
+					verify.verifyEquals(apiResp.getResponseHeaderValue("content-type"), "text/html; charset=utf-8",
 							"verify content type");
 				}
 			} else
@@ -1217,7 +1221,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "fetching note info from doc")
-	public void fetch_document_note_info(String doc_ids, String note_ids) throws CoreCommonException {
+	public void fetch_document_note_info() throws CoreCommonException {
 		try {
 			JSONArray notes_array = setNoteTypeDocId();
 			String note_id = "";
