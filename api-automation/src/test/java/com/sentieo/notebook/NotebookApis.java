@@ -59,6 +59,9 @@ public class NotebookApis extends APIDriver {
 	static String comment_id = "";
 	static JSONArray noteList_Typed = null;
 	static String HighlightNoteID = "";
+	public static String doc_id_sentieoDrive = "";
+	public static String doc_id_noncsv_sentieoDrive = "";
+
 	static String[][] tickers;
 
 	@BeforeMethod(alwaysRun = true)
@@ -2206,12 +2209,12 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", priority = 46, description = "fetch group")
+	@Test(groups = "sansity", priority = 46, description = "fetch group")
 	public void get_hierarchy() throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("only_folder_names", "true");
-			// parameters.put("owner_type", "group");
+			parameters.put("owner_type", "user");
 			RequestSpecification spec = formParamsSpec(parameters);
 			Response resp = RestOperationUtils.get(USER_APP_URL + GET_HIERARCHY, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
@@ -2219,9 +2222,10 @@ public class NotebookApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			if (apiResp.getStatusCode() == 200) {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				System.out.println(respJson);
 				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
 				JSONArray grouplist = respJson.getJSONArray("result");
-				verify.verifyTrue(grouplist.length(), "Verify group list present");
+				verify.assertTrue(grouplist.length()>0, "Verify group list present");
 				if (grouplist.length() > 0) {
 					JSONObject group;
 					boolean groupdata = true;
@@ -2746,6 +2750,91 @@ public class NotebookApis extends APIDriver {
 				verify.assertTrue(respJson.getJSONObject("result").getBoolean("status"), "verify result status");
 				verify.assertTrue(!respJson.getJSONObject("result").getString("new_link").isEmpty(),
 						"verify new_link url is not blank");
+			}
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "sandity", priority = 62, description = "fetch sentieo drive data")
+	public void get_hierarchy_sentieoDrive() throws CoreCommonException {
+		try {
+			if(!APP_URL.contains("schroders")) {
+			setUp();
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("resource_id", "root");
+			parameters.put("owner_type", "user");
+			parameters.put("owner", username);
+
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.get( USER_APP_URL + GET_HIERARCHY, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			verify.verifyResponseTime(resp, 5000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				System.out.println(respJson);
+				verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
+				JSONArray grouplist = respJson.getJSONArray("result");
+				System.out.println(grouplist);
+				verify.assertTrue(grouplist.length()>0, "Verify group list present");
+				if (grouplist.length() > 0) {
+					JSONObject group;
+					boolean groupdata = true;
+					for (int i = 0; i < grouplist.length(); i++) {
+						group = respJson.getJSONArray("result").getJSONObject(i);
+						if (group == null || group.length() == 0) {
+							verify.assertTrue(false, "Note data not present");
+							groupdata = false;
+						}
+					}
+					if (groupdata) {
+						verify.assertTrue(groupdata, "Data present for all notes");
+					}
+//					verify.assertTrue(respJson.getJSONArray("result").getJSONObject(0).getString("unique_id") != null,
+//							"Verify note id present");
+					
+					JSONArray files_Data = grouplist.getJSONObject(0).getJSONArray("children");
+					if(files_Data.length()>0)
+					{
+						for(int i=0;i<files_Data.length();i++) {
+							if(files_Data.getJSONObject(i)==null)
+								verify.assertTrue(false, "files data not present in sentieo drive");
+							else {
+								if(files_Data.getJSONObject(i).getString("resource_type").equalsIgnoreCase("file") && !files_Data.getJSONObject(i).getString("id").isEmpty()){
+									doc_id_sentieoDrive = files_Data.getJSONObject(i).getString("id");
+									verify.assertTrue(true, "file data present : " + files_Data.getJSONObject(i).toString());
+									break;
+								}
+									//else
+//									verify.assertTrue(false, "file data not present : " + files_Data.getJSONObject(i).toString());
+							}
+						}
+						
+						for(int i=0;i<files_Data.length();i++) {
+							if(files_Data.getJSONObject(i)==null)
+								verify.assertTrue(false, "files data not present in sentieo drive");
+							else {
+								System.out.println(files_Data.getJSONObject(i).getString("name"));
+								if(files_Data.getJSONObject(i).getString("resource_type").equalsIgnoreCase("file")&& !files_Data.getJSONObject(i).getString("extension").equalsIgnoreCase("csv") && !files_Data.getJSONObject(i).getString("id").isEmpty()){
+									doc_id_noncsv_sentieoDrive = files_Data.getJSONObject(i).getString("id");
+									verify.assertTrue(true, "file data present : " + files_Data.getJSONObject(i).toString());
+									break;
+								}
+									//else
+//									verify.assertTrue(false, "file data not present : " + files_Data.getJSONObject(i).toString());
+							}
+						}
+					}
+				}
+
+			}
+		  }else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
