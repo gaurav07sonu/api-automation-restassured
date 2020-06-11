@@ -26,11 +26,14 @@ import com.sentieo.utils.CoreCommonException;
 
 public class DocumentSearch extends APIDriver {
 
+	public static String query = "sales";
+	public static String isSynonym = "true";
+	
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
-
+	
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
@@ -918,8 +921,9 @@ public class DocumentSearch extends APIDriver {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("query", "sales");
+			queryParams.put("query",query);
 			queryParams.put("size", "30");
+			queryParams.put("synonym_setting", isSynonym);
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
