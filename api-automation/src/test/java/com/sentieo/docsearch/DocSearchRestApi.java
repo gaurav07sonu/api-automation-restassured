@@ -715,9 +715,10 @@ public class DocSearchRestApi extends APIDriver {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("doc_id", doc_id);
 			queryParams.put("doctype", doc_type);
-			queryParams.put("query", "sales");
+			queryParams.put("query", DocumentSearch.query);
 			queryParams.put("tickers", doc_ticker);
 			queryParams.put("snippet_fragment_size", "400");
+			queryParams.put("synonym_setting", DocumentSearch.isSynonym);
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -726,7 +727,6 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			if (apiResp.getStatusCode() == 200) {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-
 				verify.assertTrue(respJson.getJSONObject("result").getInt("total_results") > 0,
 						"total result should be greater than 1");
 				JSONArray docs = respJson.getJSONObject("result").getJSONArray("docs");
