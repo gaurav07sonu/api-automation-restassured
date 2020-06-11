@@ -735,7 +735,7 @@ public class DocSearchRestApi extends APIDriver {
 					JSONArray main_content = docs.getJSONObject(0).getJSONObject("highlights")
 							.getJSONArray("main_content");
 					for (int i = 0; i < main_content.length(); i++) {
-						if (!main_content.getJSONArray(i).getString(0).toLowerCase().contains("sale")) {
+						if (!main_content.getJSONArray(i).getString(0).isEmpty()) {
 							verify.assertTrue(false, "snippet not present for doc : " + doc_id);
 							ExtentTestManager.getTest().log(LogStatus.INFO, main_content.getJSONArray(i).getString(0));
 						}
@@ -1225,7 +1225,7 @@ public class DocSearchRestApi extends APIDriver {
 		try {
 			JSONArray notes_array = setNoteTypeDocId();
 			String note_id = "";
-			if (notes_array.length() > 0) {
+			if (notes_array!= null && notes_array.length() > 0) {
 				note_id = note_id + "\"" + notes_array.getJSONObject(0).getString("id") + "\"";
 				for (int i = 1; i < notes_array.length(); i++)
 					note_id = note_id + ",\"" + notes_array.getJSONObject(i).getString("id") + "\"";
@@ -1415,6 +1415,11 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	public JSONArray setNoteTypeDocId() throws CoreCommonException {
+		String URI="";
+		if(APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch"))
+			URI = APP_URL + FETCH_SEARCH;
+		else
+			URI = USER_APP_URL + FETCH_NOTE_SEARCH;
 		HashMap<String, String> getDocParams = new HashMap<String, String>();
 		getDocParams.put("query", "attachment");
 		getDocParams.put("facets_flag", "false");
@@ -1422,8 +1427,9 @@ public class DocSearchRestApi extends APIDriver {
 				"{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{\"note\":{\"note-type\":{\"param\":\"note_subtype\",\"values\":[\"note\",\"email\",\"attachment\",\"clipper\",\"starred\",\"plotter\",\"sntclipper\",\"thesis\"]},\"username\":{\"param\":\"note_authors\",\"values\":[]},\"note_origin\":{\"param\":\"note_origin\",\"values\":[\"sentieo\",\"\",\"clipper\"]},\"usertags\":{\"param\":\"usertags\",\"values\":[]},\"note_topic\":{\"param\":\"note_topic\",\"values\":[\"General\",\"Earnings\",\"Transcript\"]}}},\"regions\":{},\"source\":{},\"date\":{},\"other\":{}}");
 		getDocParams.put("default_sort", "date");
 		getDocParams.put("sort", "filing_date:desc");
+		getDocParams.put("applied_filters", "[\"doctype\"]");
 		RequestSpecification specDoc = formParamsSpec(getDocParams);
-		Response respDoc = RestOperationUtils.post(APP_URL + FETCH_SEARCH, null, specDoc, getDocParams);
+		Response respDoc = RestOperationUtils.post(URI, null, specDoc, getDocParams);
 		APIResponse apiRespDoc = new APIResponse(respDoc);
 		verify.verifyStatusCode(apiRespDoc.getStatusCode(), 200);
 		verify.verifyResponseTime(respDoc, 5000);
@@ -1431,7 +1437,7 @@ public class DocSearchRestApi extends APIDriver {
 			JSONObject respJsonDoc = new JSONObject(apiRespDoc.getResponseAsString());
 			verify.verifyEquals(respJsonDoc.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			if (respJsonDoc.getJSONObject("result").getInt("total_results") > 1) {
+			if (respJsonDoc.getJSONObject("result").getInt("total_results") > 0) {
 				JSONArray notes_array = respJsonDoc.getJSONObject("result").getJSONArray("docs");
 				for (int i = 0; i < notes_array.length(); i++) {
 					if (notes_array.getJSONObject(i).getString("title").contains(".pdf")) {
