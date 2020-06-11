@@ -735,7 +735,7 @@ public class DocSearchRestApi extends APIDriver {
 					JSONArray main_content = docs.getJSONObject(0).getJSONObject("highlights")
 							.getJSONArray("main_content");
 					for (int i = 0; i < main_content.length(); i++) {
-						if (!main_content.getJSONArray(i).getString(0).isEmpty()) {
+						if (main_content.getJSONArray(i).getString(0).isEmpty()) {
 							verify.assertTrue(false, "snippet not present for doc : " + doc_id);
 							ExtentTestManager.getTest().log(LogStatus.INFO, main_content.getJSONArray(i).getString(0));
 						}
