@@ -79,8 +79,6 @@ public class RestOperationUtils {
 
 			infoMessage = infoMessage + BREAK_LINE + "<div> URI: " + url + "</div>";
 			infoMessage = infoMessage + reporter.generateFormatedRequestHeader(spec);
-			ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
-			// reporter.reportStep(StepStatus.INFO, REQUEST_MSG, infoMessage);
 			String testname = new Exception().getStackTrace()[1].getMethodName();
 			if (!(testname.equalsIgnoreCase("fetch_docid")))
 				ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
