@@ -1587,7 +1587,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a security with used short name")
+	@Test(description = "Update a security with used short name", enabled = false)
 	public void updateASecurityWithUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2654,7 +2654,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a Quote with used short name")
+	@Test(description = "Update a Quote with used short name", enabled = false)
 	public void updateAQuoteWithUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2671,7 +2671,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			String qId = firstResult.getString("id");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", "usedShortName");
+			formParams.put("short_name", "usedShortName1");
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -3048,7 +3048,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyEquals(respJson1.get("message"), "At least one parameter(isin, ric, company_name, sentieo_ticker, ciq_tickers, old_ciq_tickers, old_market_symbols, figi, bloomberg_ticker) is needed");
+			verify.verifyEquals(respJson1.get("message"), "At least one parameter(isin, ric, company_name, sentieo_ticker, ciq_tickers, old_ciq_tickers, old_market_symbols, figi, bloomberg_ticker, permid, cusip) is needed");
 			verify.verifyEquals(respJson1.get("code"), "Missing Parameters");
 
 		} catch (JSONException je) {
@@ -3158,7 +3158,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject status = respJson1.getJSONObject("status");
 			JSONArray jsonArray = status.getJSONArray("msg");
 			verify.verifyEquals(jsonArray.get(0), "Invalid Parameters");
-			verify.verifyEquals(jsonArray.get(1), "only one of these parameters is allowed - ciq_tickers, figi, bloomberg_ticker");
+			verify.verifyEquals(jsonArray.get(1), "only one of these parameters is allowed - ciq_tickers, figi, bloomberg_ticker, permid, ric, isin, cusip");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
