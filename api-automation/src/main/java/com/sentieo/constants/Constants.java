@@ -18,10 +18,12 @@ public class Constants {
 	
 	 static{
 
+
 		 String envArg = System.getProperty("env");
-//		 String envArg = "balyasny";
+		//String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
+
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
@@ -37,6 +39,8 @@ public class Constants {
 		    		X_USER_KEY = ((Configuration)object).getXuserkey();
 			        System.out.println(APP_URL);
 			        System.out.println(USER_APP_URL);
+			        System.out.println(PUBLIC_API_URL);
+			        System.out.println(X_API_KEY);
 			        System.out.println(EMAIL);
 			        System.out.println(PASSWORD);
 		    	}
