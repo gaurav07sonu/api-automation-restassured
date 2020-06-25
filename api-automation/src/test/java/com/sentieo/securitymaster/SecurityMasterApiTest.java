@@ -1587,7 +1587,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a security with used short name")
+	@Test(description = "Update a security with used short name", enabled = false)
 	public void updateASecurityWithUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2654,7 +2654,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a Quote with used short name")
+	@Test(description = "Update a Quote with used short name", enabled = false)
 	public void updateAQuoteWithUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
