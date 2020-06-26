@@ -335,10 +335,10 @@ public class NotebookApis extends APIDriver {
 					verify.verifyResponseTime(resp1, 3000);
 					verify.verifyEquals(respJson1.getJSONObject("response").get("status"), true,
 							"Verify the API Response Status");
-					verify.verifyEquals(respJson1.getJSONArray("result").getJSONObject(0).getString("file_id"), id);
+					verify.verifyEquals(respJson1.getJSONArray("result").getJSONObject(0).getString("file_id"), id,"verify file id");
 					verify.verifyEquals(
 							respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").getString(0),
-							tickers.get(0));
+							tickers.get(0),"verify ticker");
 //					double timestamp = respJson1.getJSONArray("result").getJSONObject(0).getDouble("timestamp");
 //					CommonUtil util = new CommonUtil();
 //					verify.assertTrue(util.validateTimeStampIsTodaysDate(timestamp), "Verify attachment updation date");
