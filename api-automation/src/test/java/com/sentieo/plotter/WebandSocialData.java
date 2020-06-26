@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.TimeZone;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -35,20 +33,6 @@ public class WebandSocialData extends APIDriver {
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 	String no_mapping = "";
-
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-
-	}
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
@@ -119,31 +103,35 @@ public class WebandSocialData extends APIDriver {
 			for (String[] row : tickers) {
 				for (String cell : row) {
 					cell = cell.toLowerCase();
-					parameters.put("url", "");
-					parameters.put("ticker", cell);
-					parameters.put("pagetype", "plotter");
-					parameters.put("datatype", "page_views");
-					RequestSpecification spec = queryParamsSpec(parameters);
-					Response resp = RestOperationUtils.get(URI, spec, parameters);
-					APIResponse apiResp = new APIResponse(resp);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					String msg = respJson.getJSONObject("response").get("msg").toString().replaceAll("\\[", "")
-							.replaceAll("\\]", "").replace("\"", " ");
-					verify.assertEqualsActualContainsExpected(msg, actualMSG, "match response msg");
-					verify.verifyResponseTime(resp, 5000);
-					JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
-					String yAxis = getSeries.getString("yaxis");
-					verify.assertEqualsActualContainsExpected(yAxisActual, yAxis, "match series name");
+					String isMapping = getMapping(cell);
+					if (!isMapping.contains("true")) {
+						parameters.put("url", "");
+						parameters.put("ticker", cell);
+						parameters.put("pagetype", "plotter");
+						parameters.put("datatype", "page_views");
+						RequestSpecification spec = queryParamsSpec(parameters);
+						Response resp = RestOperationUtils.get(URI, spec, parameters);
+						APIResponse apiResp = new APIResponse(resp);
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+						verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+								"Verify the API Response Status");
+						String msg = respJson.getJSONObject("response").get("msg").toString().replaceAll("\\[", "")
+								.replaceAll("\\]", "").replace("\"", " ");
+						verify.assertEqualsActualContainsExpected(msg, actualMSG, "match response msg");
+						verify.verifyResponseTime(resp, 5000);
+						JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
+						String yAxis = getSeries.getString("yaxis");
+						verify.assertEqualsActualContainsExpected(yAxisActual, yAxis, "match series name");
+					} else
+						ExtentTestManager.getTest().log(LogStatus.INFO, cell + " not mapped in Mosaic");
+
 				}
 			}
 			verify.verifyAll();
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
-
 	}
 
 	public String getMapping(String cell) throws CoreCommonException {

@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sentieo tests" parallel="classes" thread-count="1">
+<suite name="Sentieo tests" parallel="classes" thread-count="1" preserve-order="true">
 	<listeners>
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
@@ -42,6 +42,8 @@
 				<exclude name="com.sentieo.marketsummary"></exclude>
 				<exclude name="com.sentieo.kibana"></exclude>
 				<exclude name="com.sentieo.tp"></exclude>
+				<exclude name="com.sentieo.mosaic"></exclude>
+				<exclude name="com.sentieo.securitymaster"></exclude>
 			</package>
 		</packages>
 	</test>

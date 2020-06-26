@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -29,26 +27,12 @@ public class IncomeStatement extends APIDriver {
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 
-	@BeforeClass(alwaysRun=true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-
-	}
-
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups ="test-group", description = "Plotter Income Statement Series", dataProvider = "fetch_graph_data", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "test-group", description = "Plotter Income Statement Series", dataProvider = "fetch_graph_data", dataProviderClass = DataProviderClass.class)
 	public void incomeStatement(String headName, String subType, String dataSource) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;

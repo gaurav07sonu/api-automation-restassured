@@ -17,12 +17,18 @@ public class Constants {
 	public static String PASSWORD = "";
 	public static String APP_URL = "";
 	public static String USER_APP_URL = "";
+	public static String PUBLIC_API_URL = "";
+	public static String X_API_KEY = "";
+	public static String X_USER_KEY = "";
 	
 	 static{
+
+
 		 String envArg = System.getProperty("env");
-		// String envArg = "app";
+		//String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
+
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
@@ -33,8 +39,13 @@ public class Constants {
 		    		USER_APP_URL = ((Configuration)object).getUserAppUrl();
 		    		EMAIL = ((Configuration)object).getUserName();
 		    		PASSWORD = ((Configuration)object).getPassword();
+		    		PUBLIC_API_URL = ((Configuration)object).getPublicApiUrl();
+		    		X_API_KEY = ((Configuration)	object).getXapikey();
+		    		X_USER_KEY = ((Configuration)object).getXuserkey();
 			        System.out.println(APP_URL);
 			        System.out.println(USER_APP_URL);
+			        System.out.println(PUBLIC_API_URL);
+			        System.out.println(X_API_KEY);
 			        System.out.println(EMAIL);
 			        System.out.println(PASSWORD);
 		    	}
@@ -60,6 +71,9 @@ public class Constants {
 	public static final String MANAGEMENT_INFO_NEW = "/api/managementinfo_new/";
 	public static final String FIN_SETTINGS="/api/fetch_fin_settings/";
 	public static final String METADATA="/api/fetch_metadata/";
+	public static final String SAVE_RISK_REWARD_VIEWS="/api/save_risk_reward_views/";
+	public static final String UPDATE_SCREENER_VIEWS="/api/update_screener_views/";
+	public static final String DELETE_RISK_REWARD_VIEWS="/api/delete_risk_reward_views/";
 	
 
 	// doc-search
@@ -86,8 +100,26 @@ public class Constants {
 	public static final String GET_USER_DOWNLOADED_DOCS_STATUS = "/api/get_user_downloaded_docs_status/";
 	public static final String FETCH_SNIPPETS = "/api/fetch_snippets/";
 	public static final String FETCH_SEARCH_TERM_COUNT = "/api/fetch_search_term_count/";
+	public static final String FETCH_LANDING_PAGE_DATA = "/api/fetch_landing_page_data/";
+	public static final String FETCH_FILES_META_DATA = "/api/fetch_files_meta_data/";
+	public static final String SAVE_USER_SEARCH = "/api/save_user_search/";
+	public static final String FETCH_FILE_CONTENT = "/api/fetch_file_content/";
+	public static final String LOAD_USER_SEARCH = "/api/load_user_search/";
+	public static final String FETCH_USER_VIEWED_DOCS = "/api/fetch_user_viewed_docs/";
+	public static final String INDEX_USER_VIEWED_DOC = "/api/index_user_viewed_doc/";
+	public static final String DELETE_SAVED_SEARCH = "/api/delete_saved_search/";
+	public static final String FETCH_NOTE_SEARCH = "/api/fetch_note_search/";
+	public static final String GET_DOCNOTE_PDF = "/api/get_docnote_pdf/";
+	public static final String REQUEST_FEED = "/api/request_feed/";
+	public static final String UPDATE_FEED = "/api/update_feed/";
+	public static final String UNSUBSCRIBE_FEED = "/api/unsubscribe_feed/";
+	public static final String FETCH_DOCUMENT_NOTE_INFO = "/api/fetch_document_note_info/";
+	public static final String FETCH_SEARCH_FILTERS = "/api/fetch_search_filters/";
+	public static final String FETCH_SEARCH_SETTINGS = "/api/fetch_search_settings/";
+	public static final String FETCH_TRANSFORM_NOTE_CONTENT = "/api/fetch_transform_note_content/";
 
 	// finance / plotter
+
 	public static final String FETCH_CURRENT_STOCK_DATA = "/api/fetch_current_stock_data/";
 	public static final String FETCH_CAPITAL_EVENTS = "/api/fetch_capital_events/";
 	public static final String GET_TRACKER_MAPPINGS = "/api/get_tracker_mappings/";
@@ -115,6 +147,7 @@ public class Constants {
 	public static final String FETCH_COMPANY_LIST="/api/fetch_company_list/";
 	public static final String FETCH_STOCK_META="/api/stock_meta/";
 	public static final String FETCH_INTRA_HEADER_DATA="/api/fetch_intra_header_data/";
+	public static final String GET_YEARLY_TABLE="/api/get_yearly_table/";
 	
 	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
@@ -139,7 +172,7 @@ public class Constants {
 	public static final String USER_COMMENTS = "/api/user_comments/";
 	public static final String SEND_NOTE_EMAIL = "notebookapitesting@gmail.com";
 	public static final String FETCH_NOTE_HISTORY = "/api/fetch_note_history/";
-	public static final String FETCH_NOTE_DATA="/api/notebook_data/";
+	public static final String FETCH_NOTEBOOK_DATA="/api/notebook_data/";
 	public static final String FETCH_NOTE_HTML="/api/get_note_html/";
 	public static final String FETCH_NOTE_FACET_AND_HTML = "/api/fetch_note_facet_and_html/";
 	public static final String FETCH_NOTE_SETTING = "/api/notebook_settings/";
@@ -153,23 +186,38 @@ public class Constants {
 	public static final String GET_THESIS_LIST ="/api/get_thesis_list/";
 	public static final String SHARE_NEW_USER_NOTE ="/api/share_new_user_note/";
 	public static final String NEW_BOOKMARK_NOTE="/api/new_bookmark_note/";
-
-
+	public static final String INDEX_USER_BOOKMARK_DOC= "/api/index_user_bookmark_doc/";
+	public static final String UPDATE_FIELD_VALUE = "/api/update_field_value/";
+	public static final String NEW_CLIPPER_NOTE =  "/api/new_clipper_note/";
+	public static final String UPDATE_FIELD ="/api/update_field/";
+	public static final String NEW_SECTION ="/api/new_section/";
+	public static final String DELETE_HIGHLIGHT = "/api/delete_highlight/";
+	public static final String DELETE_USER_BOOKMARK="/api/delete_user_bookmark/";
+	public static final String UPDATE_SECTION = "/api/update_section/";
+	public static final String GET_NOTE_CONTENT_FOR_IFRAME = "/api/get_note_content_for_iframe/";
+	public static final String CONSUME_CITATION_LINK = "/api/consume_citation_link/";
+	public static final String GET_NEW_FREE_CITATION_LINK = "/api/get_new_free_citation_link/";
+	public static final String SEARCH_ENTITIES="/api/search_entities/";
 	
 	// notebook public apis
-	public static final String APPURL = "https://api.sentieo.com/v1";
-	public static final String X_USER_KEY = "schroders.check@scroders-test.com";
-	public static final String X_API_KEY = "JSE0VlYu0JaVVtlHzaBWG6YVL4k7V9Nf6RhFmmqm";
 	public static final String XUSERKEY = "x-user-key";
 	public static final String XAPIKEY = "x-api-key";
 	public static final String FILE_UPLOAD = "/files";
 	public static final String NOTES = "/notes";
 	
 	//security master APIs
-	public static final String SM_BASE_URL = "https://api.sentieo.com/sm/user";
-	public static final String SM_X_USER_KEY = "schroders.check@scroders-test.com";
-	public static final String SM_X_API_KEY = "JSE0VlYu0JaVVtlHzaBWG6YVL4k7V9Nf6RhFmmqm";
-	public static final String CREATE_ENTITY = "/entities";
+	public static final String ENTITY = "/sm/user/entities";
+	public static final String CHILD_ENTITIES = "/child_entities";
+	public static final String SECURITIES = "/sm/user/securities";
+	public static final String QUOTES = "/sm/user/quotes";
+	public static final String CHILD_QUOTES = "/child_quotes";
+	public static final String SEARCH_QUOTE = "/sm/sentieo/quotes/search/";
+	public static final String SECURITY_SEARCH = "/sm/sentieo/securities/search/";
+	public static final String SECURITY_MAP_SEARCH = "/sm/sentieo/securities/map/";
+	public static final String MESSAGE = "No object matches the given query";
+	public static final String CODE = "Not Found";
+	
+	
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
@@ -182,6 +230,8 @@ public class Constants {
 	public static final String FETCHTRACKERTABLE = "/api/fetch_tracker_table/";
 	public static final String LOADGRAPH_NEW="/api/loadgraph_new/";
 	public static final String LOADTEMPLATE_SENTIEO="/api/loadtemplate_sentieo/";
+	public static final String SET_MOSAIC_DEFAULT_SETTINGS="/api/get_or_set_mosaic_default_settings/";
+	public static final String FETCH_SAVED_SERIES="/api/fetch_saved_series/";
 	
 
 	// screener
@@ -213,8 +263,9 @@ public class Constants {
 	public static final String EDIT_WATCHLIST="/api/edit_watchlist/";
 	public static final String UNFOLLOW_TICKER="/alert/unfollow_ticker/";
 	public static final String FOLLOW="/alert/follow_ticker/";
-	public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
+	//public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
 	public static final String 	ALERT_NOTIFICATION_CLICK="/alert/notification_click/";
+	public static final String NEW_ALERT_NOTIFICATION="/alert/new_alert_notification/";
 	
 
 	// private companies

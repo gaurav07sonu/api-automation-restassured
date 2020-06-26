@@ -24,7 +24,7 @@ import com.sentieo.utils.CoreCommonException;
 public class CreateDashboard extends APIDriver {
 
 	String viewName = "Automation-View";
-	String widget_order = "[\"PriceMonitorWidget_2\",\"DocumentWidget_1\"]";
+	String widget_order = "[\"PriceMonitorWidget_1\",\"DocumentWidget_1\"]";
 	static String db_id = "";
 
 	@BeforeMethod(alwaysRun = true)
@@ -32,27 +32,12 @@ public class CreateDashboard extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-	}
-
 	@Test(groups = "sanity", description = "create dashboard", priority = 0)
 	public void createNewDashboard() throws Exception {
 		String URI = USER_APP_URL + CREATE_DASHBOARD;
 		HashMap<String, String> dashboardData = new HashMap<String, String>();
 		dashboardData.put("widget_list",
-				"{\"PriceMonitorWidget_2\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"wrapPreference\":\"dont-wrap\",\"infiniteScroll\":true,\"infiniteScrollWaiting\":500,\"restrictOuterScroll\":true,\"disableLinking\":true,\"name\":\"Price Monitor\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":2,\"driveBy\":\"local\",\"wrapPreference\":\"dont-wrap\",\"columnOption1\":\"edt-icon\",\"columnOption2\":\"docsearch-icon\",\"updateUserData\":{\"tickers\":[],\"order\":[],\"wl_mapping\":{},\"wl_id_mapping\":{},\"addTickerWatchlistCount\":1,\"selectedRow\":\"{\\\"lastSelectedGroupID\\\":\\\"\\\",\\\"selectedTicker\\\":\\\"\\\"}\",\"watchlistsState\":{},\"viewData\":{\"header_fields\":[],\"header_fields_value\":[],\"thesis_fields\":[],\"sort\":\"\",\"custom_fields\":[],\"chosen_model_name\":\"\"},\"marketMonitorLoaded\":false},\"displayDensity\":\"compact\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PriceMonitorWidget_2\"}},\"DocumentWidget_1\":{\"configuration\":{\"settings\":{\"size\":15,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{},\"defaultFilterObj\":{\"ef\":[],\"tt\":[],\"ppt\":[],\"ni\":[],\"gbf\":[],\"rr\":[],\"sd\":[],\"nw\":[]},\"pticker_setting\":false,\"name\":\"All Documents\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true"
-						+ ",\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"}"
-						+ ",\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"DocumentWidget_1\"}}}");
+				"{\"PriceMonitorWidget_1\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"wrapPreference\":\"dont-wrap\",\"infiniteScroll\":true,\"infiniteScrollWaiting\":500,\"restrictOuterScroll\":true,\"disableLinking\":true,\"name\":\"Price Monitor\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":2,\"driveBy\":\"local\",\"wrapPreference\":\"dont-wrap\",\"columnOption1\":\"edt-icon\",\"columnOption2\":\"docsearch-icon\",\"updateUserData\":{\"tickers\":[],\"order\":[],\"wl_mapping\":{},\"wl_id_mapping\":{},\"addTickerWatchlistCount\":1,\"selectedRow\":\"{\\\"lastSelectedGroupID\\\":\\\"\\\",\\\"selectedTicker\\\":\\\"\\\"}\",\"watchlistsState\":{},\"viewData\":{\"header_fields\":[],\"header_fields_value\":[],\"thesis_fields\":[],\"sort\":\"\",\"custom_fields\":[],\"chosen_model_name\":\"\"},\"marketMonitorLoaded\":false},\"displayDensity\":\"compact\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PriceMonitorWidget_1\"}},\"DocumentWidget_1\":{\"configuration\":{\"settings\":{\"size\":20,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{},\"defaultFilterObj\":{\"ef\":[],\"tt\":[],\"ppt\":[],\"ni\":[],\"gbf\":[],\"rr\":[],\"sd\":[]},\"pticker_setting\":true,\"name\":\"All Documents\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"DocumentWidget_1\"}}}");
 
 		dashboardData.put("widget_order", widget_order);
 		dashboardData.put("dashboard_name", viewName);
@@ -128,7 +113,7 @@ public class CreateDashboard extends APIDriver {
 					}
 					JSONObject first_object = result.getJSONObject("first_object");
 					String order = first_object.getJSONArray("order").toString().trim().toLowerCase();
-					verify.assertEqualsActualContainsExpected(widget_order.trim().toLowerCase(), order,
+					verify.assertEqualsActualContainsExpected(order,widget_order.trim().toLowerCase(),
 							"verify widget order");
 				}
 			}

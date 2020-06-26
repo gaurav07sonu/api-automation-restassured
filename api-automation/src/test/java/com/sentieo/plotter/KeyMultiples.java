@@ -9,10 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -43,21 +41,7 @@ public class KeyMultiples extends APIDriver {
 	String fetchGraphPEValue;
 	String gethHeadName = null;
 
-	@BeforeClass(alwaysRun=true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-
-	}
-
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
@@ -72,78 +56,76 @@ public class KeyMultiples extends APIDriver {
 			for (String[] row : tickers) {
 				for (String cell : row) {
 					cell = cell.toLowerCase();
-					parameters.put("head_name", headName);
-					parameters.put("pagetype", "plotter");
-					parameters.put("graphtype", "newratioestimate");
-					// parameters.put("ptype", "carry");
-					parameters.put("ratio_name", "ntm");
-					parameters.put("datasource", "rf");
-					parameters.put("stack", "0");
-					parameters.put("dma", "0");
-					parameters.put("median", "0");
-					parameters.put("yoy_rt", "0");
-					parameters.put("qoq_rt", "0");
-					parameters.put("outliers", "0");
-					parameters.put("day_dma", "0");
-					parameters.put("yUnit", "xa");
-					parameters.put("freq_set1", "");
-					parameters.put("freq_type1", "mean");
-					parameters.put("ratio", ratio);
-					parameters.put("ticker", cell);
-					parameters.put("graphtype_original", "ev_sales");
-					parameters.put("ptype", "rolling");
-					parameters.put("shift", "backward");
+					
+				parameters.put("head_name", headName);
+				parameters.put("pagetype", "plotter");
+				parameters.put("graphtype", "newratioestimate");
+				parameters.put("ratio_name", "NTM Rolling");
+				parameters.put("datasource", "rf");
+				parameters.put("stack", "0");
+				parameters.put("dma", "0");
+				parameters.put("median", "0");
+				parameters.put("yoy_rt", "0");
+				parameters.put("qoq_rt", "0");
+				parameters.put("outliers", "0");
+				parameters.put("day_dma", "0");
+				parameters.put("yUnit", "xa");
+				parameters.put("freq_set1", "");
+				parameters.put("freq_type1", "mean");
+				parameters.put("ratio", ratio);
+				parameters.put("ticker", cell);
+				parameters.put("graphtype_original", ratio);
+				parameters.put("ptype", "rolling");
+				parameters.put("shift", "blended");
 
-					RequestSpecification spec = queryParamsSpec(parameters);
-					Response resp = RestOperationUtils.get(fetchGraphURI, spec, parameters);
-					APIResponse apiResp = new APIResponse(resp);
-					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					verify.verifyResponseTime(resp, 5000);
-					if (headName.contains("EV/EBITDA")) {
-						JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
-								.getJSONArray("series");
-						Double ebitdaValue = (Double) values.getJSONArray(values.length() - 1).get(1);
-						fetchGraphEbitdaValue = new Double(ebitdaValue).toString();
-						testKeyMultiples(cell);
-						double currentStockDataEbitdaValue = Double.parseDouble(evEbitdaValue);
-						double fetchFraphDataEbitdaValue = Double.parseDouble(fetchGraphEbitdaValue);
-						Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEbitdaValue,
-								fetchFraphDataEbitdaValue);
-						if (postivePerChnage > 20) {
-							verify.assertTrue(false,
-									"<b>" + "Match current stock data and fetch graph data value for EV/EBITDA :"
-											+ "<b>" + postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell
-											+ "<br/>" + " current stock data value is : " + currentStockDataEbitdaValue
-											+ "<br/>" + "<b>" + " fetch graph data value is : "
-											+ fetchFraphDataEbitdaValue);
-						}
-					}
-					if (headName.contains("EV/Sales")) {
-						JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
-								.getJSONArray("series");
-						Double evValue = (Double) values.getJSONArray(values.length() - 1).get(1);
-						DecimalFormat df2 = new DecimalFormat("#.#");
-						evValue = Double.valueOf(df2.format(evValue));
-						fetchGraphEvSalesValue = new Double(evValue).toString();
-						testKeyMultiples(cell);
-						double currentStockDataEVSalesValue = Double.parseDouble(evSalesValue);
-						double fetchFraphDataEVSalesvalue = Double.parseDouble(fetchGraphEvSalesValue);
-						Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEVSalesValue,
-								fetchFraphDataEVSalesvalue);
-						if (postivePerChnage > 20) {
-							verify.assertTrue(false,
-									"<b>" + "Match current stock data and fetch graph data value for EV/Sales : "
-											+ "<b>" + postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell
-											+ "<br/>" + " current stock data value is : " + currentStockDataEVSalesValue
-											+ "<br/>" + "<b>" + " fetch graph data value is : "
-											+ fetchFraphDataEVSalesvalue);
-						}
-
-					}
+			RequestSpecification spec = queryParamsSpec(parameters);
+			Response resp = RestOperationUtils.get(fetchGraphURI, spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			verify.verifyResponseTime(resp, 5000);
+			if (headName.contains("EV/EBITDA")) {
+				JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
+						.getJSONArray("series");
+				Double ebitdaValue = (Double) values.getJSONArray(values.length() - 1).get(1);
+				fetchGraphEbitdaValue = new Double(ebitdaValue).toString();
+				testKeyMultiples(cell);
+				double currentStockDataEbitdaValue = Double.parseDouble(evEbitdaValue);
+				double fetchFraphDataEbitdaValue = Double.parseDouble(fetchGraphEbitdaValue);
+				Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEbitdaValue,
+						fetchFraphDataEbitdaValue);
+				if (postivePerChnage > 35) {
+					verify.assertTrue(false,
+							"<b>" + "Match current stock data and fetch graph data value for EV/EBITDA :" + "<b>"
+									+ postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell + "<br/>"
+									+ " current stock data value is : " + currentStockDataEbitdaValue + "<br/>" + "<b>"
+									+ " fetch graph data value is : " + fetchFraphDataEbitdaValue);
 				}
+			}
+			if (headName.contains("EV/Sales")) {
+				JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
+						.getJSONArray("series");
+				Double evValue = (Double) values.getJSONArray(values.length() - 1).get(1);
+				DecimalFormat df2 = new DecimalFormat("#.#");
+				evValue = Double.valueOf(df2.format(evValue));
+				fetchGraphEvSalesValue = new Double(evValue).toString();
+				testKeyMultiples(cell);
+				double currentStockDataEVSalesValue = Double.parseDouble(evSalesValue);
+				double fetchFraphDataEVSalesvalue = Double.parseDouble(fetchGraphEvSalesValue);
+				Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEVSalesValue,
+						fetchFraphDataEVSalesvalue);
+				if (postivePerChnage > 35) {
+					verify.assertTrue(false,
+							"<b>" + "Match current stock data and fetch graph data value for EV/Sales : " + "<b>"
+									+ postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell + "<br/>"
+									+ " current stock data value is : " + currentStockDataEVSalesValue + "<br/>" + "<b>"
+									+ " fetch graph data value is : " + fetchFraphDataEVSalesvalue);
+				}
+
+				 }
+				 }
 			}
 			verify.verifyAll();
 		} catch (Exception e) {

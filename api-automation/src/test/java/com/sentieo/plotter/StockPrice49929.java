@@ -1,19 +1,10 @@
 package com.sentieo.plotter;
 
-import static com.sentieo.constants.Constants.APP_URL;
-import static com.sentieo.constants.Constants.EMAIL;
-import static com.sentieo.constants.Constants.FETCH_GRAPH_DATA;
-import static com.sentieo.constants.Constants.LOGIN_URL;
-import static com.sentieo.constants.Constants.PASSWORD;
-import static com.sentieo.constants.Constants.USER_APP_URL;
-
+import static com.sentieo.constants.Constants.*;
 import java.util.HashMap;
-
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -26,20 +17,6 @@ public class StockPrice49929 extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
-
-	@BeforeClass(alwaysRun=true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-
-	}
 
 	@BeforeMethod(alwaysRun=true)
 	public void initVerify() {

@@ -1,30 +1,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sentieo tests" parallel="classes" thread-count="1" >
-   <listeners>
-        <listener class-name="com.sentieo.listener.TestListener"/>
-        <listener class-name="com.sentieo.listener.AnnotationTransformer"/> 
-   </listeners>
- <test name="others" preserve-order="true">
+<suite name="Sentieo tests" parallel="classes" thread-count="1">
+	<listeners>
+		<listener class-name="com.sentieo.listener.TestListener" />
+		<listener
+			class-name="com.sentieo.listener.AnnotationTransformer" />
+		<listener
+			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
+	</listeners>
+	<test name="others" preserve-order="true">
 		<packages>
-			<package name="com.sentieo.plotter">
-				<exclude name="com.sentieo.plotter.*"></exclude>
+			<package name="com.sentieo.plotter.*">
 			</package>
 		</packages>
 	</test>
-  
-	<test name="plotter test">
-		<classes>
-<!-- 			<class name="com.sentieo.plotter.DocumentData" /> -->
-			<class name="com.sentieo.plotter.IncomeStatement" />
-			<class name="com.sentieo.plotter.KeyMultiples" />
-			<class name="com.sentieo.plotter.LoadGraph" />
-			<class name="com.sentieo.plotter.StockData" />
-			<class name="com.sentieo.plotter.StockPrice49929"/>
-			<class name="com.sentieo.plotter.StockPrice50650"/>
-			<class name="com.sentieo.plotter.TestDailySeriesData" />
-			<class name="com.sentieo.plotter.WebandSocialData" />
-			<class name="com.sentieo.plotter.TestPENotUpdatingBug53404" />
-		</classes>
-	</test>
-
 </suite>

@@ -24,20 +24,6 @@ import com.sentieo.utils.CoreCommonException;
 
 public class MosaicSummaryData extends APIDriver {
 
-	@BeforeClass(alwaysRun = true)
-	public void setup() throws Exception {
-		String URI = USER_APP_URL + LOGIN_URL;
-		HashMap<String, String> loginData = new HashMap<String, String>();
-		loginData.put("email", EMAIL);
-		loginData.put("password", PASSWORD);
-		RequestSpecification spec = loginSpec(loginData);
-		Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-		apid = resp.getCookie("apid");
-		usid = resp.getCookie("usid");
-		RestAssured.baseURI = APP_URL;
-
-	}
-
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		verify = new APIAssertions();
@@ -152,7 +138,7 @@ public class MosaicSummaryData extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "heart-beat", "test" }, description = "verify mosaic summary data")
+	@Test(groups = { "heart-beat", "bonding2" }, description = "verify mosaic summary data")
 	public void mosaicSummaryData() throws CoreCommonException {
 		JSONArray revenuSeries = null;
 		JSONArray kpiSeries = null;
@@ -172,7 +158,7 @@ public class MosaicSummaryData extends APIDriver {
 					"Verify the API Response Status");
 			verify.verifyResponseTime(resp, 5000);
 			String selection = respJson.getJSONObject("result").getString("selection").toString().trim();
-			if (selection.contains("Revenue_corrScore_all")) {
+			if (selection.contains("Revenue_corrScore")) {
 				revenuSeries = respJson.getJSONObject("result").getJSONArray("Revenue").getJSONObject(0)
 						.getJSONArray("series");
 				if (revenuSeries.length() == 0 || revenuSeries == null)
