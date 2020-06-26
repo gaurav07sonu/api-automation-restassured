@@ -1,5 +1,6 @@
 package com.sentieo.constants;
 
+import java.io.File;
 import java.io.InputStream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,10 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Constants {
+
+	//general set of data
+//	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+//			+ "test" + File.separator + "resources";
 
 	public static String EMAIL = "";
 	public static String PASSWORD = "";
@@ -53,8 +58,6 @@ public class Constants {
 		    }
 			System.out.println("static block is invoked");
 		 }  
-	
-
 
 	public static final String LOGIN_URL = "/api/login_1/";
 
