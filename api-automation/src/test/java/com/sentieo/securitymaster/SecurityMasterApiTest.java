@@ -2126,11 +2126,11 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
 			verify.verifyResponseTime(resp1, 5000);
-			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "name : This field is required. ");
-			verify.verifyEquals(error.get("code"), "Invalid Request");
-			JSONArray jArray = error.getJSONObject("detail").getJSONArray("name");
-			verify.verifyEquals(jArray.get(0), "This field is required.");
+			JSONObject response = (JSONObject) respJson1.get("response");
+			JSONArray msg = response.getJSONArray("msg");
+			verify.verifyEquals(response.get("status"), true);
+			verify.verifyEquals(msg.get(0), "Bad Request Body");
+			verify.verifyEquals(msg.get(1), "[object has missing required properties ([\"name\"])]");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
