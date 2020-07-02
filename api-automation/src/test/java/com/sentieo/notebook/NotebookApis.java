@@ -1073,7 +1073,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 21, description = "Create Thesis and verify")
 	public void createThesis() throws Exception {
 		try {
-			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing") || URI.contains("staging")) {
 
 				HashMap<String, String> thesisData = new HashMap<String, String>();
 				String ticker = "dfkcy";
@@ -1346,7 +1346,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 26, description = "create Thesis template")
 	public void createThesisTemplate() throws Exception {
 		try {
-			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing") || URI.contains("staging")) {
 				HashMap<String, String> templateDict = new HashMap<String, String>();
 				String templateName = "autothesis" + new Date();
 				templateDict.put("name", templateName);
@@ -1406,7 +1406,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 27, description = "create tab template")
 	public void createTabTemplate() throws Exception {
 		try {
-			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing") || URI.contains("staging")) {
 
 				HashMap<String, String> templateDict = new HashMap<String, String>();
 				templateDict.put("name", "autoTab" + new Date().getTime());
@@ -1452,7 +1452,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 28, description = "Delete thesis template")
 	public void deleteThesisTemplate() throws Exception {
 		try {
-			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing")) {
+			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing") || URI.contains("staging")) {
 
 				HashMap<String, String> templateDict = new HashMap<String, String>();
 				templateDict.put("name", "autothesis" + new Date());
@@ -2416,7 +2416,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 52, description = "Update user field")
 	public void update_field_value() throws Exception {
 		try {
-			if (URI.contains("app") || URI.contains("app2")) {
+			if (URI.contains("app") || URI.contains("app2") || URI.contains("staging")) {
 				String key_id = "";
 				String section_id = "";
 				if (noteList_Typed == null)
@@ -2515,7 +2515,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 54, description = "Update field")
 	public void update_field() throws CoreCommonException {
 		try {
-			if (URI.contains("app") || URI.contains("app2")) {
+			if (URI.contains("app") || URI.contains("app2") || URI.contains("staging")) {
 				HashMap<String, String> other_flags = new HashMap<String, String>();
 				other_flags.put("required", "false");
 				other_flags.put("currency", "false");
@@ -2649,7 +2649,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 58, description = "Update note section")
 	public void update_section() throws CoreCommonException {
 		try {
-			if (URI.contains("app") || URI.contains("app2")) {
+			if (URI.contains("app") || URI.contains("app2") || URI.contains("staging")) {
 				String[] data = new String[] { "5e8486c0f7322a4a3c768544" };
 				int[] dataInt = new int[] { 1, 0, 0 };
 				HashMap<String, Object> section_data = new HashMap<String, Object>();
