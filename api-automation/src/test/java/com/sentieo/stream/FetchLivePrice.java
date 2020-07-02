@@ -31,7 +31,7 @@ public class FetchLivePrice extends APIDriver {
 	Response resp = null;
 	public static ArrayList<String> tickers = new ArrayList<String>(
 			Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr", "awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack",
-					"ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue", "nem","nee", "lb", "bluu", "tipt",
+					"ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue","gnciq", "nem","nee", "lb", "bluu", "tipt",
 					"med", "hmta", "atec", "pnqi", "wnrp", "amswa", "met", "hmtv", "hm-b:ss", "tgls", "ssa:ln", "ghdx",
 					"aks", "k", "drw", "dri", "drh", "ect", "drn", "tglo", "drd", "glw", "ads:gr", "qcom", "gpor",
 					"cohr", "cohu", "apam", "plow", "bdsi", "call", "type", "hwbk", "nke", "yamcy", "aeex", "yahoy",
