@@ -2897,8 +2897,8 @@ public class NotebookApis extends APIDriver {
 							else
 								companylist = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("sentieoentity");
-							if (companylist.length() == 0 && companylist == null) {
-								verify.assertTrue(false, "Ticker not coming for search : ");
+							if (null == companylist  || companylist.length() == 0) {
+								verify.assertTrue(false, "Ticker not coming for search : " + tickername);
 							}
 							if (companylist.length() > 0) {
 								JSONObject tickerData = companylist.getJSONObject(0);
@@ -2930,8 +2930,8 @@ public class NotebookApis extends APIDriver {
 							else
 								privcomp = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("privateentity");
-							if (privcomp.length() == 0 && privcomp == null) {
-								verify.assertTrue(false, "Ticker not coming for search : ");
+							if (null == privcomp || privcomp.length() == 0) {
+								verify.assertTrue(false, "Ticker not coming for search : " + tickername);
 							}
 							if (privcomp.length() > 0) {
 								JSONObject tickerData = privcomp.getJSONObject(0);
