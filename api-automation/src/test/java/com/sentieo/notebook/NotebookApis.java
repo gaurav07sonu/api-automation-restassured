@@ -2973,7 +2973,7 @@ public class NotebookApis extends APIDriver {
 								verify.assertTrue(privcomp.length() > 0, "privcomp data should be present");
 								
 								if (privcomp.length() > 0) {			
-									if(privcomp.getJSONObject(0).getString("name").toLowerCase().contains("-cb:pvt"))
+									if(privcomp.getJSONObject(0).getString("name").toLowerCase().contains(privcomp.getJSONObject(0).getString("_id").toLowerCase()))
 										verify.assertTrue(false, "Id appearing in name" + privcomp.getJSONObject(0).getString("name"));
 								}
 								if(!moduleType.equalsIgnoreCase("company")) {
