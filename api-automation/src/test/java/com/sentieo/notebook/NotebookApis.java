@@ -2925,8 +2925,6 @@ public class NotebookApis extends APIDriver {
 									if (!tickerData.getString("type").equalsIgnoreCase("sentieoentity"))
 										verify.verifyEquals(tickerData.getString("type"), "sentieoentity", "verify company type");									
 								}
-								if(tickerData.getString("name").toLowerCase().contains("-cb:pvt"))
-									verify.assertTrue(false, "Id appearing in name" + tickerData.getString("name"));
 							}
 						} else if (type.equalsIgnoreCase("private")) {
 							JSONArray privcomp;
