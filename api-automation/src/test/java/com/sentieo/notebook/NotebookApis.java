@@ -336,12 +336,16 @@ public class NotebookApis extends APIDriver {
 					verify.verifyEquals(respJson1.getJSONObject("response").get("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(respJson1.getJSONArray("result").getJSONObject(0).getString("file_id"),id,"verify file id");
-					if(respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").length()>0)
-					verify.verifyEquals(
-							respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").getString(0),
-							tickers.get(0),"verify ticker");
-					else
-						verify.assertTrue(respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").length()>0, "ticker array is empty");
+
+					//temporary disabled below validation
+//					if(respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").length()>0)
+//					verify.verifyEquals(
+//							respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").getString(0),
+//							tickers.get(0),"verify ticker");
+//					else
+//						verify.assertTrue(respJson1.getJSONArray("result").getJSONObject(0).getJSONArray("tickers").length()>0, "ticker array is empty");
+
+					
 //					double timestamp = respJson1.getJSONArray("result").getJSONObject(0).getDouble("timestamp");
 //					CommonUtil util = new CommonUtil();
 //					verify.assertTrue(util.validateTimeStampIsTodaysDate(timestamp), "Verify attachment updation date");
@@ -2921,6 +2925,8 @@ public class NotebookApis extends APIDriver {
 									if (!tickerData.getString("type").equalsIgnoreCase("sentieoentity"))
 										verify.verifyEquals(tickerData.getString("type"), "sentieoentity", "verify company type");									
 								}
+								if(tickerData.getString("name").toLowerCase().contains("-cb:pvt"))
+									verify.assertTrue(false, "Id appearing in name" + tickerData.getString("name"));
 							}
 						} else if (type.equalsIgnoreCase("private")) {
 							JSONArray privcomp;
@@ -2954,6 +2960,9 @@ public class NotebookApis extends APIDriver {
 										if (!tickerData.getString("type").equalsIgnoreCase("privateentity"))
 											verify.verifyEquals(tickerData.getString("type"), "privateentity", "verify company type");									
 									}
+							
+								if(tickerData.getString("name").toLowerCase().contains("-cb:pvt"))
+									verify.assertTrue(false, "Id appearing in name" + tickerData.getString("name"));
 							}
 						} else {// for partial text search
 							if (sentieoEntity.equals("0") || moduleType.equalsIgnoreCase("company")) {
@@ -2965,6 +2974,10 @@ public class NotebookApis extends APIDriver {
 										.getJSONArray("privcomp");
 								verify.assertTrue(privcomp.length() > 0, "privcomp data should be present");
 								
+								if (privcomp.length() > 0) {			
+									if(privcomp.getJSONObject(0).getString("name").toLowerCase().contains("-cb:pvt"))
+										verify.assertTrue(false, "Id appearing in name" + privcomp.getJSONObject(0).getString("name"));
+								}
 								if(!moduleType.equalsIgnoreCase("company")) {
 								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("crypto");
@@ -2976,6 +2989,7 @@ public class NotebookApis extends APIDriver {
 
 								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("organization");
+								if(!tickername.equalsIgnoreCase("8"))
 								verify.assertTrue(organization.length() > 0, "organization data should be present");
 
 								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
