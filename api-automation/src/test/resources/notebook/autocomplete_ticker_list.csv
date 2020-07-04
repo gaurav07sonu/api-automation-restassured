@@ -1,5 +1,6 @@
 Tickers,Type,Status
 AA,,
+8,,
 AAPL,public,active
 MSFT,public,active
 AMZN,public,active
@@ -37,3 +38,4 @@ ZOMATO,private,active
 8197:HK,public,inactive
 8197:TT,public,inactive
 USG,public,inactive
+donghia,private,active
