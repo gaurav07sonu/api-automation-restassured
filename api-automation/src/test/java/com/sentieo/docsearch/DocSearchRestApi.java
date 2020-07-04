@@ -1272,7 +1272,7 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				if (respJson.getJSONObject("result") != null) {
-					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters").getJSONArray("rss")
+					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters").getJSONObject("rss_parent").getJSONArray("rss")
 							.getJSONObject(0);
 					if (rss != null) {
 						feed_name = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
