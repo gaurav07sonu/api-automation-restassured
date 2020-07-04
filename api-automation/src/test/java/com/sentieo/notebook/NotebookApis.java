@@ -2961,7 +2961,7 @@ public class NotebookApis extends APIDriver {
 											verify.verifyEquals(tickerData.getString("type"), "privateentity", "verify company type");									
 									}
 							
-								if(tickerData.getString("name").toLowerCase().contains("-cb:pvt"))
+								if(tickerData.getString("name").toLowerCase().contains(tickerData.getString("_id").toLowerCase()))
 									verify.assertTrue(false, "Id appearing in name" + tickerData.getString("name"));
 							}
 						} else {// for partial text search
