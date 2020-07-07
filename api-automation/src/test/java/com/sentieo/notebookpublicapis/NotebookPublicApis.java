@@ -999,6 +999,72 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
+	@Test(description = "Update a private note schroders")
+	public void updatingAPrivateNoteCreatedViaAPISchroders() throws Exception {
+		try {
+
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Note Updation
+			List<String> tags = new ArrayList<String>();
+			tags.add("abc");
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("aapl");
+			tickers.add("fb");
+
+			String updatedTitle = "Updated Title of Note - " + noteId;
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+			updateParams.put("title", updatedTitle);
+			updateParams.put("content", "<p>THIS IS a typed note. And We are now editing this note</p>");
+			updateParams.put("category", "general");
+			updateParams.put("tags", tags);
+			updateParams.put("tickers", tickers);
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 403);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	
 	@Test(description = "Update a private note")
 	public void updatingAPrivateNoteCreatedViaAPI() throws Exception {
 		try {
@@ -1045,15 +1111,9 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyResponseTime(updateResp, 5000);
-			JSONObject response = (JSONObject) updateRespJson.get("error");
-			Object message = response.get("message");
-			Object code = response.get("code");
-
-			verify.verifyEquals(code, "ACCESS DENIED");
-			verify.verifyEquals(message, "Update not allowed Note Read only");
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1266,7 +1326,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Delete a note")
+	@Test(description = "Delete a note", enabled = false)
 	public void deletingANote() throws Exception {
 		try {
 
@@ -1333,13 +1393,16 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker in a private note")
-	public void addingDeletingTickerInPrivateNote() throws Exception {
+	@Test(description = "Add and delete ticker in a private note schroders")
+	public void addingDeletingTickerInPrivateNoteSchroders() throws Exception {
 		try {
 			// note Creation
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
+			
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("fb");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("ref", new Date().toString().trim());
@@ -1347,6 +1410,7 @@ public class NotebookPublicApis extends APIDriver {
 			formParams.put("title", "PrivateNote" + new Date().getTime());
 			formParams.put("content", "<p>THIS IS a typed note</p>");
 			formParams.put("category", "meeting");
+			formParams.put("tickers", tickers);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -1361,7 +1425,7 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 403);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyResponseTime(updateResp, 5000);
 			JSONObject response = (JSONObject) updateRespJson.get("error");
@@ -1370,6 +1434,24 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyEquals(code, "ACCESS DENIED");
 			verify.verifyEquals(message, "Update not allowed Note Read only");
+			
+			
+			//deleting a ticker
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+
+		
+			JSONObject deleteRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 403);
+			verify.verifyResponseTime(deleteResp, 5000);
+			JSONObject responseDelete = (JSONObject) deleteRespJson.get("error");
+			Object deleteMessage = responseDelete.get("message");
+			Object deleteCode = responseDelete.get("code");
+
+			verify.verifyEquals(deleteCode, "ACCESS DENIED");
+			verify.verifyEquals(deleteMessage, "Update not allowed Note Read only");
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1379,6 +1461,66 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
+	
+	@Test(description = "Add and delete ticker in a private note")
+	public void addingDeletingTickerInPrivateNote() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+			
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("fb");
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+			formParams.put("tickers", tickers);
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding Ticker
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONArray tickerArray =  updateRespJson.getJSONArray("tickers");
+			verify.verifyEquals(tickerArray.get(0), "fb");
+			
+	
+			
+			//deleting a ticker
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			JSONObject deleteRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+
+
 
 	@Test(description = "Add and delete ticker in a note in attachment note")
 	public void addingDeletingTickerInAttachmentNote() throws Exception {
@@ -1478,6 +1620,69 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
+	@Test(description = "Add and delete tag in a private note schroders")
+	public void addingDeletingTagInPrivateNoteSchroders() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding Tag
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 403);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+			
+			//deleting tag
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			JSONObject deleteRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 403);
+			verify.verifyResponseTime(deleteResp, 5000);
+			JSONObject responseDelete = (JSONObject) deleteRespJson.get("error");
+			Object deleteMessage = responseDelete.get("message");
+			Object deleteCode = responseDelete.get("code");
+
+			verify.verifyEquals(deleteCode, "ACCESS DENIED");
+			verify.verifyEquals(deleteMessage, "Update not allowed Note Read only");
+			
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	
 	@Test(description = "Add and delete tag in a private note")
 	public void addingDeletingTagInPrivateNote() throws Exception {
 		try {
@@ -1506,15 +1711,21 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyResponseTime(updateResp, 5000);
-			JSONObject response = (JSONObject) updateRespJson.get("error");
-			Object message = response.get("message");
-			Object code = response.get("code");
-
-			verify.verifyEquals(code, "ACCESS DENIED");
-			verify.verifyEquals(message, "Update not allowed Note Read only");
+			JSONArray tagsArray =  updateRespJson.getJSONArray("tags");
+			verify.verifyEquals(tagsArray.get(0), "mynote");
+			
+			
+			//deleting a tag
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+			
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2394,6 +2605,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
+
 	public JSONObject getNoteDetail(String noteID) throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();

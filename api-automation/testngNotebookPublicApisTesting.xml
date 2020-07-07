@@ -4,6 +4,7 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
+
 		<listener
 			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
@@ -12,9 +13,9 @@
 		<classes>
 			<class name="com.sentieo.notebookpublicapis.NotebookPublicApis">
 				<methods>
-					<exclude name="addingDeletingTagInPrivateNote"/>
-					<exclude name="addingDeletingTickerInPrivateNote"/>
-					<exclude name="updatingAPrivateNoteCreatedViaAPI"/>
+					<exclude name="addingDeletingTagInPrivateNoteSchroders" />
+					<exclude name="addingDeletingTickerInPrivateNoteSchroders" />
+					<exclude name="updatingAPrivateNoteCreatedViaAPISchroders" />
 				</methods>
 			</class>
 		</classes>

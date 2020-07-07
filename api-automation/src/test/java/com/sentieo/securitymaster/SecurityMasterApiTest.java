@@ -58,7 +58,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Creating an Entity", enabled = true)
-	public void testCreationOfAnEntity() throws Exception {
+	public void creationOfAnEntity() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -150,7 +150,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create Entity with all the non mandatory params", enabled = true)
-	public void testCreationOfEntitiesWithAllParams() throws Exception {
+	public void creationOfEntitiesWithAllParams() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -356,7 +356,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific entity")
-	public void fetchASpecificEntity() throws Exception {
+	public void testFetchASpecificEntity() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -390,7 +390,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific entity with invalid id")
-	public void fetchASpecificEntityWithInvalidId() throws Exception {
+	public void testFetchASpecificEntityWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -475,7 +475,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "fetch immediate Child Entities")
-	public void fetchImmediateChildEntitiesOfAnEntity() throws Exception {
+	public void testFetchImmediateChildEntitiesOfAnEntity() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -531,7 +531,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Entity")
-	public void updateAnEntity() throws Exception {
+	public void testCUpdateAnEntity() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -586,7 +586,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Entity with Invalid Id")
-	public void updateAnEntityWithInvalidId() throws Exception {
+	public void testCUpdateAnEntityWithInvalidId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -644,7 +644,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 
 	@Test(description = "Update a security master Entity with blank name")
-	public void updateAnEntityWithBlankName() throws Exception {
+	public void testCUpdateAnEntityWithBlankName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -686,7 +686,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Entity with blank short name")
-	public void updateAnEntityWithBlankShortName() throws Exception {
+	public void testCUpdateAnEntityWithBlankShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -728,7 +728,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Entity with more than 20chars short name")
-	public void updateAnEntityWithTwentyCharShortName() throws Exception {
+	public void testCUpdateAnEntityWithTwentyCharShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String shortName = "ShortName" + uuid.toString();
@@ -773,7 +773,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Deletin a security master Entity")
-	public void deletingAnEntity() throws Exception {
+	public void testDeletingAnEntity() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -804,7 +804,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Deleting a security master Entity with invalid Id")
-	public void deletingAnEntityWithInvalidId() throws Exception {
+	public void testDeletingAnEntityWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -838,7 +838,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security")
-	public void testCreationOfASecurity() throws Exception {
+	public void creationOfASecurity() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -884,7 +884,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with 20chas shortname ")
-	public void testCreationOfASecurityWithTwentyCharsInShortName() throws Exception {
+	public void creationOfASecurityWithTwentyCharsInShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String shortName = "ShortName" + uuid;
@@ -932,7 +932,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with out short name")
-	public void testCreationOfASecurityWithoutShortName() throws Exception {
+	public void creationOfASecurityWithoutShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -978,7 +978,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with out security_type")
-	public void testCreationOfASecurityWithoutSecurityType() throws Exception {
+	public void creationOfASecurityWithoutSecurityType() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1024,7 +1024,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with out Name")
-	public void testCreationOfASecurityWithoutName() throws Exception {
+	public void creationOfASecurityWithoutName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1071,7 +1071,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with out issuer Id")
-	public void testCreationOfASecurityWithoutIssuerId() throws Exception {
+	public void creationOfASecurityWithoutIssuerId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1117,7 +1117,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with invalid issuerId")
-	public void testCreationOfASecurityInvalidIssuerId() throws Exception {
+	public void creationOfASecurityInvalidIssuerId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1154,7 +1154,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with used shortname")
-	public void testCreationOfASecurityWithAlreadyUsedShortName() throws Exception {
+	public void creationOfASecurityWithAlreadyUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1203,7 +1203,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with all the params")
-	public void testCreationOfASecurityWithAllParams() throws Exception {
+	public void creationOfASecurityWithAllParams() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1271,7 +1271,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "fetch All securities")
-	public void testFetchAllSecurities() throws Exception {
+	public void testCFetchAllSecurities() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1348,7 +1348,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific security")
-	public void fetchASpecificSecurity() throws Exception {
+	public void testCFetchASpecificSecurity() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1382,7 +1382,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific security with invalid Id")
-	public void fetchASpecificSecurityWithInvalidId() throws Exception {
+	public void testFetchASpecificSecurityWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1409,7 +1409,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific security without xapikey")
-	public void fetchASpecificSecurityWithoutXapikey() throws Exception {
+	public void testFetchASpecificSecurityWithoutXapikey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			// headerParams.put(XAPIKEY, X_API_KEY);
@@ -1437,7 +1437,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master security")
-	public void updateASecurity() throws Exception {
+	public void testCUpdateASecurity() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1501,7 +1501,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with 20char short name")
-	public void updateASecurityWithtwentyShortName() throws Exception {
+	public void testCUpdateASecurityWithtwentyShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String shortName = "ShortName" + uuid.toString();
@@ -1546,7 +1546,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with blank short name")
-	public void updateASecurityWithBlankShortName() throws Exception {
+	public void testCUpdateASecurityWithBlankShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1588,7 +1588,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with used short name", enabled = false)
-	public void updateASecurityWithUsedShortName() throws Exception {
+	public void testUpdateASecurityWithUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1627,7 +1627,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master security with invalid ID")
-	public void updateASecurityWithInvalidId() throws Exception {
+	public void testUpdateASecurityWithInvalidId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1685,7 +1685,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master security with invalid issuer ID")
-	public void updateASecurityWithInvalidIssuerId() throws Exception {
+	public void testCUpdateASecurityWithInvalidIssuerId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1723,7 +1723,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with blank name")
-	public void updateASecurityWithBlankName() throws Exception {
+	public void testCUpdateASecurityWithBlankName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1762,7 +1762,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with blank security type")
-	public void updateASecurityWithBlankSecurityType() throws Exception {
+	public void testCUpdateASecurityWithBlankSecurityType() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1802,7 +1802,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 
 	@Test(description = "Deleting a security master secuirty")
-	public void deletingAnSecurity() throws Exception {
+	public void testDeletingAnSecurity() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1832,7 +1832,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Deleting a security master security with invalid Id")
-	public void deletingASecurityWithInvalidId() throws Exception {
+	public void testDeletingASecurityWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1858,7 +1858,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	
 
 	@Test(description = "Create a quote")
-	public void testCreationOfAQuote() throws Exception {
+	public void creationOfAQuote() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1905,7 +1905,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with 20chars shortname")
-	public void testCreationOfAQuoteWithTwentyCharsInShortName() throws Exception {
+	public void creationOfAQuoteWithTwentyCharsInShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String shortName = "QShortName" + uuid;
@@ -1953,7 +1953,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with out short name")
-	public void testCreationOfAQuoteWithoutShortName() throws Exception {
+	public void creationOfAQuoteWithoutShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -1999,7 +1999,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with out exchange code")
-	public void testCreationOfAQuoteWithoutExchangeCode() throws Exception {
+	public void creationOfAQuoteWithoutExchangeCode() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2046,7 +2046,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 
 	@Test(description = "Create a quote with out security Id")
-	public void testCreationOfAQuoteWithoutSecurityId() throws Exception {
+	public void creationOfAQuoteWithoutSecurityId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2093,7 +2093,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	
 	
 	@Test(description = "Create a quote with out name")
-	public void testCreationOfAQuoteWithoutName() throws Exception {
+	public void creationOfAQuoteWithoutName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2141,7 +2141,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with invalid security id")
-	public void testCreationOfAQuoteInvalidSecurityId() throws Exception {
+	public void creationOfAQuoteInvalidSecurityId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2178,7 +2178,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with used shortname")
-	public void testCreationOfAQuoteWithAlreadyUsedShortName() throws Exception {
+	public void creationOfAQuoteWithAlreadyUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2227,7 +2227,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with all the params")
-	public void testCreationOfAQuoteWithAllParams() throws Exception {
+	public void creationOfAQuoteWithAllParams() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2289,7 +2289,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "fetch All quotes")
-	public void testFetchAllQuotes() throws Exception {
+	public void testCFetchAllQuotes() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2366,7 +2366,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific quote")
-	public void fetchASpecificQuote() throws Exception {
+	public void testCFetchASpecificQuote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2400,7 +2400,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific quote with invalid Id")
-	public void fetchASpecificQuoteWithInvalidId() throws Exception {
+	public void testFetchASpecificQuoteWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2427,7 +2427,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Fetch a specific quote without xapikey")
-	public void fetchASpecificQuoteWithoutXapikey() throws Exception {
+	public void testFetchASpecificQuoteWithoutXapikey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			// headerParams.put(XAPIKEY, X_API_KEY);
@@ -2455,7 +2455,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Quote")
-	public void updateAQuote() throws Exception {
+	public void testCUpdateAQuote() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2526,7 +2526,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a quote with 20char short name")
-	public void updateAQuoteWithtwentyShortName() throws Exception {
+	public void testCUpdateAQuoteWithtwentyShortName() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String shortName = "ShortName" + uuid.toString();
@@ -2571,7 +2571,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a quote with blank short name")
-	public void updateAQuoteWithBlankShortName() throws Exception {
+	public void testCUpdateAQuoteWithBlankShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2613,7 +2613,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Update a quote with blank name")
-	public void updateAQuoteWithBlankName() throws Exception {
+	public void testCUpdateAQuoteWithBlankName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2655,7 +2655,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a Quote with used short name", enabled = false)
-	public void updateAQuoteWithUsedShortName() throws Exception {
+	public void testUpdateAQuoteWithUsedShortName() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2694,7 +2694,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a quote with invalid ID")
-	public void updateAQuoteWithInvalidId() throws Exception {
+	public void testCUpdateAQuoteWithInvalidId() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
@@ -2746,7 +2746,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a quote with invalid security ID")
-	public void updateAQuoteWithInvalidSecurityId() throws Exception {
+	public void testCUpdateAQuoteWithInvalidSecurityId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2785,7 +2785,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 
 	@Test(description = "Update a quote with blank exchange code")
-	public void updateAQuoteWithBlankExhangeCode() throws Exception {
+	public void testCUpdateAQuoteWithBlankExhangeCode() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2823,7 +2823,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	
 	
 	@Test(description = "Update a quote with blank security Id")
-	public void updateAQuoteWithBlankSecurityId() throws Exception {
+	public void testCUpdateAQuoteWithBlankSecurityId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2862,7 +2862,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Deleting a quote")
-	public void deletingAQuote() throws Exception {
+	public void testDeletingAQuote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2892,7 +2892,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Deleting a quote with invalid Id")
-	public void deletingAQuoteWithInvalidId() throws Exception {
+	public void testDeletingAQuoteWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2917,7 +2917,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Fetch Child quotes")
-	public void fetchChildQuotes() throws Exception {
+	public void testCFetchChildQuotes() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2951,7 +2951,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	
 	
 	@Test(description = "Fetch Child quotes with invalid Id")
-	public void fetchChildQuotesWithInvalidID() throws Exception {
+	public void testFetchChildQuotesWithInvalidID() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2978,7 +2978,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Search Quote")
-	public void SearchQuote() throws Exception {
+	public void testSearchQuote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -3005,7 +3005,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Sentieo Security Search")
-	public void SentieoSecuritySearch() throws Exception {
+	public void testSentieoSecuritySearch() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -3033,7 +3033,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	
 	
 	@Test(description = "Sentieo Security Search without params")
-	public void SentieoSecuritySearchWithOutParams() throws Exception {
+	public void testSentieoSecuritySearchWithOutParams() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -3061,7 +3061,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Sentieo Security Map Search with ciq_tickers")
-	public void SentieoSecurityMapSearchWithCiqTickers() throws Exception {
+	public void testSentieoSecurityMapSearchWithCiqTickers() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -3087,7 +3087,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Sentieo Security Map Search with figi")
-	public void SentieoSecurityMapSearchWithFigi() throws Exception {
+	public void testSentieoSecurityMapSearchWithFigi() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -3113,7 +3113,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Sentieo Security Map Search with bloombergTicker")
-	public void SentieoSecurityMapSearchWithBloombergTicker() throws Exception {
+	public void testSentieoSecurityMapSearchWithBloombergTicker() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -3139,7 +3139,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 	
 	@Test(description = "Sentieo Security Map Search with two params")
-	public void SentieoSecurityMapSearchWithTwoParams() throws Exception {
+	public void testSentieoSecurityMapSearchWithTwoParams() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
