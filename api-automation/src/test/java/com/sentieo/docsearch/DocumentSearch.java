@@ -102,13 +102,13 @@ public class DocumentSearch extends APIDriver {
 	
 	
 	@Test(groups = "sanity", description = "verifying with invalid filter data", dataProvider = "test_invalid_filters", dataProviderClass = DataProviderClass.class)
-	public void test_invalid_filters(String ticker, String filters, String output) throws CoreCommonException {
+	public void test_invalid_filters(String ticker, String filters) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
 			queryParams.put("filters", filters);
-			queryParams.put("output", output);
+			queryParams.put("output", "Error: Filter Object format is wrong");
 			queryParams.put("facets_flag", "false");
 
 			RequestSpecification spec = formParamsSpec(queryParams);
@@ -121,7 +121,7 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");				
-				verify.verifyEquals(result, output, "Verifying the Error message");
+				verify.verifyEquals(result, "Error: Filter Object format is wrong", "Verifying the Error message");
 				}
 			
 			

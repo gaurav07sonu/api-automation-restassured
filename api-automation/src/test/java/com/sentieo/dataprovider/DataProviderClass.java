@@ -173,7 +173,7 @@ public class DataProviderClass {
 	@DataProvider(name = "test_invalid_filters")
 	public Object[][] test_invalid_filters() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] { {"","{\"ticker\":{1234}}", "Error: Filter Object format is wrong"}, {"", "abcd", "Error: Filter Object format is wrong"}, {"", "//////", "Error: Filter Object format is wrong" } };
+		groupArray = new String[][] { {"","{\"ticker\":{1234}}"}, {"", "abcd"}, {"", "//////"} };
 
 		return groupArray;
 	}
