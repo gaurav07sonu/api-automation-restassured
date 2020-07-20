@@ -99,6 +99,39 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyAll();
 		}
 	}
+	
+	
+	@Test(groups = "sanity", description = "verifying with invalid filter data", dataProvider = "test_invalid_filters", dataProviderClass = DataProviderClass.class)
+	public void test_invalid_filters(String ticker, String filters, String output) throws CoreCommonException {
+		try {
+			String URI = APP_URL + FETCH_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("tickers", ticker);
+			queryParams.put("filters", filters);
+			queryParams.put("output", output);
+			queryParams.put("facets_flag", "false");
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String result= respJson.getJSONObject("result").getString("output");
+			if ((apiResp.getStatusCode() == 200)){
+				verify.verifyResponseTime(resp, 10000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");				
+				verify.verifyEquals(result, output, "Verifying the Error message");
+				}
+			
+			
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
 
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_watchlist", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_watchlist(String watchlist_tickers, String filters) throws CoreCommonException {
