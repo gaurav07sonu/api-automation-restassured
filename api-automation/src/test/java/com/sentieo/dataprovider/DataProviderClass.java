@@ -173,7 +173,7 @@ public class DataProviderClass {
 	@DataProvider(name = "test_invalid_filters")
 	public Object[][] test_invalid_filters() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] { {"","{\"ticker\":{1234}}"}, {"", "abcd"}, {"", "//////"} };
+		groupArray = new String[][] { {"{\"ticker\":{1234}}"}, {"abcd"}, {"//////"},{"\"ticker\":{},\"doctype\":{\"abcd1234\"},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{},\"neeraj\":{}}"} };
 
 		return groupArray;
 	}

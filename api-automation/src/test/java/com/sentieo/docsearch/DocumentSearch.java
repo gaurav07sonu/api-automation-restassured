@@ -102,11 +102,11 @@ public class DocumentSearch extends APIDriver {
 	
 	
 	@Test(groups = "sanity", description = "verifying with invalid filter data", dataProvider = "test_invalid_filters", dataProviderClass = DataProviderClass.class)
-	public void test_invalid_filters(String ticker, String filters) throws CoreCommonException {
+	public void test_invalid_filters(String filters) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
-			queryParams.put("tickers", ticker);
+			queryParams.put("tickers", "aapl");
 			queryParams.put("filters", filters);
 			queryParams.put("output", "Error: Filter Object format is wrong");
 			queryParams.put("facets_flag", "false");
