@@ -333,11 +333,12 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("error");
-			Object message = response.get("message");
-			Object code = response.get("code");
+			String message = (String) response.get("message");
+			String code = (String) response.get("code");
 
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(message, "Note with given ref already exist. try update");
+			verify.verifyTrue(message.startsWith("Note"), "Start message");
+			verify.verifyTrue(message.endsWith("given ref usedRef"), "End message");
 			verify.verifyEquals(code, "CONFLICT ALREADY EXIST");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());

@@ -1,5 +1,6 @@
 package com.sentieo.constants;
 
+import java.io.File;
 import java.io.InputStream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,10 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class Constants {
+
+	//general set of data
+//	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+//			+ "test" + File.separator + "resources";
 
 	public static String EMAIL = "";
 	public static String PASSWORD = "";
@@ -18,10 +23,12 @@ public class Constants {
 	
 	 static{
 
+
 		 String envArg = System.getProperty("env");
-		 //String envArg = "app";
+//		 String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
+
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
@@ -37,6 +44,8 @@ public class Constants {
 		    		X_USER_KEY = ((Configuration)object).getXuserkey();
 			        System.out.println(APP_URL);
 			        System.out.println(USER_APP_URL);
+			        System.out.println(PUBLIC_API_URL);
+			        System.out.println(X_API_KEY);
 			        System.out.println(EMAIL);
 			        System.out.println(PASSWORD);
 		    	}
@@ -49,8 +58,6 @@ public class Constants {
 		    }
 			System.out.println("static block is invoked");
 		 }  
-	
-
 
 	public static final String LOGIN_URL = "/api/login_1/";
 
