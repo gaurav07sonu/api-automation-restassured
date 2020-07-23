@@ -935,9 +935,10 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 
-	@Test(groups = "sanity", description = "fetches meta info like date, file type etc.")
+	@Test(groups = "sanisadssty", description = "fetches meta info like date, file type etc.")
 	public void fetch_files_meta_data() throws CoreCommonException {
 		try {
+			if(!APP_URL.contains("schroders")) {
 			NotebookApis notebook = new NotebookApis();
 			if (NotebookApis.doc_id_sentieoDrive.isEmpty())
 				notebook.get_hierarchy_sentieoDrive();
@@ -969,6 +970,9 @@ public class DocSearchRestApi extends APIDriver {
 							NotebookApis.doc_id_sentieoDrive, "Doc id should be same as fetched doc");
 				}
 			}
+		}else {
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CoreCommonException(e);
@@ -977,9 +981,10 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "load file contents")
+	@Test(groups = "sasdsaanity", description = "load file contents")
 	public void fetch_file_content() throws CoreCommonException {
 		try {
+			if(!APP_URL.contains("schroders")) {
 			NotebookApis notebook = new NotebookApis();
 			if (NotebookApis.doc_id_sentieoDrive.isEmpty())
 				notebook.get_hierarchy_sentieoDrive();
@@ -1000,7 +1005,9 @@ public class DocSearchRestApi extends APIDriver {
 				}
 			} else
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "no data in sentieo drive");
-		} catch (Exception e) {
+		} else 
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
+		}catch (Exception e) {
 			e.printStackTrace();
 			throw new CoreCommonException(e);
 		} finally {
@@ -1272,7 +1279,7 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				if (respJson.getJSONObject("result") != null) {
-					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters").getJSONArray("rss")
+					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters").getJSONObject("rss_parent").getJSONArray("rss")
 							.getJSONObject(0);
 					if (rss != null) {
 						feed_name = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")

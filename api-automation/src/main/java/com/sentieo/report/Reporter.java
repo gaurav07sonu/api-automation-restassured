@@ -40,9 +40,10 @@ public class Reporter {
 	 * @return
 	 */
 	public String generateFormatedResponse(Response res) {
-		return "Response: </br><a style=\"cursor:pointer\" onclick=\"$(this).next('div').toggle()\"> HTTP Info (Click to Expand)</a>"+
+		return "Response: </br><a style=\"cursor:pointer\" onclick=\"$(this).next('div').toggle()\"> Headers (Click to Expand)</a>"+
 				"<div style=\"display:none\">"+
-				HTTP_INFO_STYLE + " Status: </span><span> " + res.getStatusLine()+"</span>" +  BREAK_LINE + 
+				HTTP_INFO_STYLE + " Status: </span><span> " + res.getStatusLine()+"</span>" +  BREAK_LINE +
+				HTTP_INFO_STYLE + " Request id: </span><span> " + res.getHeader("requestid")+"</span>" +  BREAK_LINE + 
 				HTTP_INFO_STYLE + " Content Type: </span><span>" + res.getContentType()+"</span>" +  BREAK_LINE + 
 				HTTP_INFO_STYLE + " Content Length: </span><span>" + res.getHeader("Content-Length")+"</span>" +  BREAK_LINE + 
 				HTTP_INFO_STYLE + " Date: </span><span>" + res.getHeader("Date")+"</span>" +  BREAK_LINE + 
@@ -64,11 +65,11 @@ public class Reporter {
 				prettyPayload = payload;
 
 			return BREAK_LINE
-					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Payload (Click to Expand)</a><xmp style=\"display:none\">"
+					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Body (Click to Expand)</a><xmp style=\"display:none\">"
 					+ prettyPayload + "</xmp></>";
 		} catch (Exception e) {
 			return BREAK_LINE
-					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Invalid JSON/XML Payload (Click to Expand)</a><xmp style=\"display:none\">"
+					+ "<a style=\"cursor:pointer\" onclick=\"$(this).next('xmp').toggle()\"> Invalid JSON/XML Body (Click to Expand)</a><xmp style=\"display:none\">"
 					+ payload + "</xmp></>";
 		}
 	}
