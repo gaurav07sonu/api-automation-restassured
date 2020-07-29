@@ -1469,6 +1469,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			formParams.put("rkd_issue_code", 124);
 			formParams.put("tr_sec_master_sec_code", 1233);
 			formParams.put("ciq_security_id", 214);
+			formParams.put("share_class_figi", "testShareFigi");
 			formParams.put("fact_set_security_id", "00991");
 			formParams.put("datastream_ds_scty_code", "990011");
 			formParams.put("datastream_ds_sec_code", 88773);
@@ -2256,14 +2257,15 @@ public class SecurityMasterApiTest extends APIDriver {
 			formParams.put("exchange_mic_code", "US30303M1027");
 			formParams.put("exchange_region", "ind");
 			formParams.put("is_primary_flag", false);
-			formParams.put("exch_symbol", "");
-			formParams.put("sedol", "");
-			formParams.put("ric", "");
-			formParams.put("ciq_symbol", "");
+			formParams.put("exch_symbol", "test");
+			formParams.put("sedol", "test123");
+			formParams.put("figi", "BBG00196W5W2");
+			formParams.put("ric", "123");
+			formParams.put("ciq_symbol", "86test");
 			formParams.put("fact_set_symbol", "");
 			formParams.put("bbg_symbol", "");
 			formParams.put("datastream_infocode", "");
-			formParams.put("datastream_infocode_exchange", "");
+			formParams.put("datastream_infocode_exchange", "test");
 			formParams.put("tr_quote_perm_id", 213);
 			formParams.put("other_names", othernames);
 
