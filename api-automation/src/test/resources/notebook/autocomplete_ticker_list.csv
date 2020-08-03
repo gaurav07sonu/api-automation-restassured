@@ -1,5 +1,6 @@
 Tickers,Type,Status
 AA,,
+8,,
 AAPL,public,active
 MSFT,public,active
 AMZN,public,active
@@ -28,7 +29,6 @@ HEXA-B:SS,public,active
 TLEVISACPO:MM,public,active
 MP1:AU,public,active
 TCL:AU,public,active
-8197:JP,public,active
 IOC:IN,public,active
 DAI:GR,public,active
 FLIPKART,private,active
@@ -38,3 +38,4 @@ ZOMATO,private,active
 8197:HK,public,inactive
 8197:TT,public,inactive
 USG,public,inactive
+donghia,private,active

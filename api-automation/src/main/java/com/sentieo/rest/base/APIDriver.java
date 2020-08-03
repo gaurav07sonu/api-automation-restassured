@@ -5,6 +5,7 @@ import static com.jayway.restassured.RestAssured.given;
 import java.io.File;
 import java.util.HashMap;
 
+import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
@@ -21,6 +22,7 @@ public class APIDriver {
 	protected APIAssertions verify = null;
 	static protected String apid = "";
 	static protected String usid = "";
+	static public String username = "";
 	
 
 	@BeforeMethod
@@ -127,6 +129,9 @@ public class APIDriver {
 
 			RequestSpecification spec = loginSpec(loginData);
 			Response resp = RestOperationUtils.login(URI, null, spec, loginData);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			username = respJson.getJSONObject("result").getString("username");
 			apid = resp.getCookie("apid");
 			usid = resp.getCookie("usid");
 			if(apid.isEmpty() || usid.isEmpty()) {

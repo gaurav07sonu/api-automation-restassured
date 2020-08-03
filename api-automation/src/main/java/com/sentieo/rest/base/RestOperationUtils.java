@@ -35,20 +35,18 @@ public class RestOperationUtils {
 			infoMessage = infoMessage + BREAK_LINE + "<div>   URI : " + url + "</div>" + payloadOutput;
 			String testname = new Exception().getStackTrace()[1].getMethodName();
 			if (!(testname.equalsIgnoreCase("fetch_docid")))
-
 				ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
-
 			if (payload == null) {
 				res = given().spec(spec).when().post(url);
 			} else {
 				res = given().spec(spec).body(payload).when().post(url);
 			}
-			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
+		//	if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
 				if (!(testname.equalsIgnoreCase("fetch_docid")))
 					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
-				else if (classname.contains("comparables") || classname.contains("finance")
-						|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
-					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+//				else if (classname.contains("comparables") || classname.contains("finance")
+//						|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
+//					ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
 
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -81,15 +79,17 @@ public class RestOperationUtils {
 
 			infoMessage = infoMessage + BREAK_LINE + "<div> URI: " + url + "</div>";
 			infoMessage = infoMessage + reporter.generateFormatedRequestHeader(spec);
-			ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
-			// reporter.reportStep(StepStatus.INFO, REQUEST_MSG, infoMessage);
-
+			String testname = new Exception().getStackTrace()[1].getMethodName();
+			if (!(testname.equalsIgnoreCase("fetch_docid")))
+				ExtentTestManager.getTest().log(LogStatus.INFO, infoMessage);
+			
 			res = given().spec(spec).when().get(url);
-			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
+//			if (res.getStatusCode() != 200 && res.getStatusCode() != 201)
+			if (!(testname.equalsIgnoreCase("fetch_docid")))
 				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
-			else if (classname.contains("comparables") || classname.contains("finance")
-					|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
-				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
+//			else if (classname.contains("comparables") || classname.contains("finance")
+//					|| classname.contains("screener") || classname.contains("EDT") || classname.contains("market"))
+//				ExtentTestManager.getTest().log(LogStatus.INFO, reporter.generateFormatedResponse(res));
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		}

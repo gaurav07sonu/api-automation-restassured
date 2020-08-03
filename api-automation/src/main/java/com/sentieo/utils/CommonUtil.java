@@ -2,6 +2,8 @@ package com.sentieo.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+import org.apache.commons.codec.binary.Base64;
 import java.util.concurrent.TimeUnit;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -255,6 +258,24 @@ public class CommonUtil {
 			return true;
 		return false;
 	}
+	
+	public static String encodeFileToBase64Binary(File file){
+        String encodedfile = null;
+        try {
+            FileInputStream fileInputStreamReader = new FileInputStream(file);
+            byte[] bytes = new byte[(int)file.length()];
+            fileInputStreamReader.read(bytes);
+            encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
+            fileInputStreamReader.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return encodedfile;
+    }
 
 	public long daysDifferenceBetweenTwoTimestamps(long time1, long time2) {
 		final long MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
