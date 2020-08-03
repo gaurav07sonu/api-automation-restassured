@@ -1,8 +1,5 @@
 package com.sentieo.constants;
-
-import java.io.File;
 import java.io.InputStream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
