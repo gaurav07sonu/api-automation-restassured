@@ -18,8 +18,8 @@ public class Constants {
 	
 	 static{
 
-		 String envArg = System.getProperty("env");
-		 //String envArg = "app";
+		String envArg = System.getProperty("env");
+		// String envArg = "app";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -225,6 +225,7 @@ public class Constants {
 	public static final String LOADTEMPLATE_SENTIEO="/api/loadtemplate_sentieo/";
 	public static final String SET_MOSAIC_DEFAULT_SETTINGS="/api/get_or_set_mosaic_default_settings/";
 	public static final String FETCH_SAVED_SERIES="/api/fetch_saved_series/";
+	public static final String INSTAGRAM_MAPPINGS="/api/get_instagram_mappings/";
 	
 
 	// screener
