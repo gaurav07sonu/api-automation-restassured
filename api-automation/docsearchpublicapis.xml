@@ -8,7 +8,7 @@
  
   <test name="sentieo-tests" preserve-order="true">
     <packages>
-      <package name="com.sentieo.docsearch.*" />
+      <package name="com.sentieo.docsearchpublicapis.*" />
     </packages>
   </test>
 </suite>
