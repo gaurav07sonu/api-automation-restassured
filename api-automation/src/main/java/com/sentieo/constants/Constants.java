@@ -305,7 +305,8 @@ public class Constants {
 	public static final String DELETE_DASHBOARD="/api/delete_dashboard/";
 	public static final String GET_DASHBOARD_LIST="/api/get_dashboard_list/";
 	public static final String UPDATE_DASHBOARD_WIDGET="/api/update_dashboard_widget/";
-	
+	public static final String INSTAGRAM_MAPPINGS = "/api/get_instagram_mappings/";
+
 	//Table x
 	
 	public static final String CHAIN_USER_DATA="/api/tablex_fetch_chain_user_data/";

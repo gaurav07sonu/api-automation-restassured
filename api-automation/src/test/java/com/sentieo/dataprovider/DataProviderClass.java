@@ -594,4 +594,10 @@ public class DataProviderClass {
 	public Object[][] revenuePeriodType() {
 		return new Object[][] { { "Quarterly" }, { "Annual" } };
 	}
+	
+	@DataProvider(name = "instagram")
+	public Object[][] instagramMetric() {
+		return new Object[][] { { "all_list" }, { "likes_list" } , { "comments_list" }, { "posts_list" }
+		, { "followers_list" }, { "likes_list/posts_list" }, { "comments_list/posts_list" }};
+	}
 }

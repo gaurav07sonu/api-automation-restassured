@@ -1,34 +1,21 @@
 package com.sentieo.docsearchpublicapis;
 import static com.sentieo.constants.Constants.*;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.io.FilenameUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mortbay.util.ajax.JSON;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.utils.CommonUtil;
-import com.sentieo.utils.CoreCommonException;
-import com.sentieo.utils.FileUtil;
 import com.sentieo.utils.JSONUtils;
 
 public class docsearchpublicapis extends APIDriver {
@@ -43,7 +30,6 @@ public class docsearchpublicapis extends APIDriver {
 		RestAssured.baseURI = PUBLIC_API_URL;
 	}
 	
-	
 	@Test(description = "search 1")
 	public void search1() throws Exception {
 		try {
@@ -51,7 +37,6 @@ public class docsearchpublicapis extends APIDriver {
 			docTypeParams.put("name", "ef");
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
-			
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("size", "200");
 			formParams.put("sort", "filing_date:desc");
@@ -59,11 +44,11 @@ public class docsearchpublicapis extends APIDriver {
 			formParams.put("tickers", "");
 			formParams.put("doc_type", docTypeList);
 			formParams.put("query", "");
-			
+
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY1, X_API_KEY);
-			headerParams.put(XUSERKEY1, X_USER_KEY);;
-
+			headerParams.put(XUSERKEY1, X_USER_KEY);
+			
 			String change = jsonUtils.toJson(formParams);
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(change, headerParams);
 			Response resp = RestOperationUtils.post(SEARCH, null, spec, formParams);
@@ -81,5 +66,4 @@ public class docsearchpublicapis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
-	
 }
