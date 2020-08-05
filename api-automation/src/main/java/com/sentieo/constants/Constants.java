@@ -20,6 +20,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
+		//String envArg="app";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 
