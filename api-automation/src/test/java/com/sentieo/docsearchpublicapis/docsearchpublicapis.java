@@ -1,5 +1,4 @@
 package com.sentieo.docsearchpublicapis;
-
 import static com.sentieo.constants.Constants.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -31,7 +29,7 @@ public class docsearchpublicapis extends APIDriver {
 		jsonUtils = new JSONUtils();
 		RestAssured.baseURI = PUBLIC_API_URL;
 	}
-
+	
 	@Test(description = "search 1")
 	public void search1() throws Exception {
 		try {
@@ -39,7 +37,6 @@ public class docsearchpublicapis extends APIDriver {
 			docTypeParams.put("name", "ef");
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
-
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("size", "200");
 			formParams.put("sort", "filing_date:desc");
@@ -51,8 +48,7 @@ public class docsearchpublicapis extends APIDriver {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY1, X_API_KEY);
 			headerParams.put(XUSERKEY1, X_USER_KEY);
-			;
-
+			
 			String change = jsonUtils.toJson(formParams);
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(change, headerParams);
 			Response resp = RestOperationUtils.post(SEARCH, null, spec, formParams);
@@ -70,5 +66,4 @@ public class docsearchpublicapis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
-
 }
