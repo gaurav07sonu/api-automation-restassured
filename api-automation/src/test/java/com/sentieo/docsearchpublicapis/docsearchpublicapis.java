@@ -27,12 +27,11 @@ public class docsearchpublicapis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
-		//RestAssured.baseURI = PUBLIC_API_URL;
+		RestAssured.baseURI = PUBLIC_API_URL;
 	}
 	
 
-	
-	//@Test(description = "search 1")
+	@Test(description = "search 1")
 	public void search1() throws Exception {
 		try {
 			HashMap<String, Object> docTypeParams = new HashMap<String, Object>();
@@ -68,4 +67,6 @@ public class docsearchpublicapis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
+	
+	
 }
