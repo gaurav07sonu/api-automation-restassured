@@ -30,6 +30,7 @@ public class docsearchpublicapis extends APIDriver {
 		RestAssured.baseURI = PUBLIC_API_URL;
 	}
 	
+
 	@Test(description = "search 1")
 	public void search1() throws Exception {
 		try {
@@ -66,4 +67,6 @@ public class docsearchpublicapis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
+	
+	
 }
