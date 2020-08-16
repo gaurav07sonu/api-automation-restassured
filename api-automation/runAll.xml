@@ -44,6 +44,7 @@
 				<exclude name="com.sentieo.tp"></exclude>
 				<exclude name="com.sentieo.mosaic"></exclude>
 				<exclude name="com.sentieo.securitymaster"></exclude>
+				<exclude name="com.sentieo.statuspage"></exclude>
 			</package>
 		</packages>
 	</test>
