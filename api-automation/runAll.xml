@@ -32,6 +32,7 @@
 			<package name="com.sentieo.*">
 				<exclude name="com.sentieo.finance"></exclude>
 				<exclude name="com.sentieo.notebookpublicapis"></exclude>
+				<exclude name="com.sentieo.docsearchpublicapis"></exclude>
 				<exclude name="com.sentieo.notebook"></exclude>
 				<exclude name="com.sentieo.logintest"></exclude>
 				<exclude name="com.sentieo.plotter"></exclude>
