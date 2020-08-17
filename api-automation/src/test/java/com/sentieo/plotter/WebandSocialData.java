@@ -143,6 +143,8 @@ public class WebandSocialData extends APIDriver {
 						verify.assertEqualsActualContainsExpected(yAxisActual, yAxis, "match series name");
 						JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 								.getJSONArray("series");
+						if(values.length()!=0 && values!=null)
+						{
 						JSONArray value = values.getJSONArray(values.length() - 1);
 						double timestamp = value.getDouble(0);
 						int digit = (int) (timestamp / 1000);
@@ -158,7 +160,8 @@ public class WebandSocialData extends APIDriver {
 								"verify website-traffic latest point for " + cell);
 					} else
 						verify.assertTrue(false, "status code is : " + statuscode + " for " + cell);
-				} else
+				
+					}} else
 					ExtentTestManager.getTest().log(LogStatus.INFO, cell + " not mapped in Mosaic");
 
 			}
@@ -171,8 +174,8 @@ public class WebandSocialData extends APIDriver {
 	@Test(description = "Plotter instagram", groups = { "insta",
 			"strong_ties" }, dataProvider = "instagram", dataProviderClass = DataProviderClass.class)
 	public void instagramMention(String metric) throws CoreCommonException {
+		String cell = "";
 		try {
-			String cell = "";
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			for (int i = 0; i < tickers.size(); i++) {
@@ -199,27 +202,29 @@ public class WebandSocialData extends APIDriver {
 						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 								"Verify the API Response Status");
 						JSONArray series = respJson.getJSONObject("result").getJSONArray("series");
-						JSONArray values = series.getJSONObject(series.length() - 1).getJSONArray("series");
-						JSONArray value = values.getJSONArray(values.length() - 1);
-						double timestamp = value.getDouble(0);
-						int digit = (int) (timestamp / 1000);
-						CommonUtil util = new CommonUtil();
-						String date = util.convertTimestampIntoDate(digit);
-						String str = getDate(2);
-						if (!date.contains(str))
-							str = getDate(3);
-						if (!date.contains(str))
-							str = getDate(6);
+						if (series.length() != 1 && series != null) {
+							JSONArray values = series.getJSONObject(series.length() - 1).getJSONArray("series");
+							JSONArray value = values.getJSONArray(values.length() - 1);
+							double timestamp = value.getDouble(0);
+							int digit = (int) (timestamp / 1000);
+							CommonUtil util = new CommonUtil();
+							String date = util.convertTimestampIntoDate(digit);
+							String str = getDate(2);
+							if (!date.contains(str))
+								str = getDate(3);
+							if (!date.contains(str))
+								str = getDate(6);
 
-						if (!date.contains(str))
-							str = getDate(7);
+							if (!date.contains(str))
+								str = getDate(7);
 
-						if (!date.contains(str))
-							str = getDate(8);
+							if (!date.contains(str))
+								str = getDate(8);
 
-						verify.assertEqualsActualContainsExpected(date, str,
-								"verify instagram latest point for query " + query_param + " and ticker is " + cell);
-
+							verify.assertEqualsActualContainsExpected(date, str,
+									"verify instagram latest point for query " + query_param + " and ticker is "
+											+ cell);
+						}
 					}
 				}
 			}
@@ -228,7 +233,8 @@ public class WebandSocialData extends APIDriver {
 		} catch (
 
 		Exception e) {
-			throw new CoreCommonException(e.getMessage());
+			System.out.println(e.toString() + " " + cell);
+			// throw new CoreCommonException(e.getMessage());
 		}
 	}
 
