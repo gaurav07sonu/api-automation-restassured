@@ -3,8 +3,10 @@ package com.sentieo.plotter;
 import static com.sentieo.constants.Constants.*;
 
 import java.lang.reflect.Method;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.Map.Entry;
@@ -39,6 +41,9 @@ public class TestDailySeriesData extends APIDriver {
 	}
 
 	public void keyMultiples(String headName, String graphType, String ticker) throws Exception {
+		SimpleDateFormat formatter = new SimpleDateFormat("M/dd/yy");
+		Date cal = addDays(new Date(), 0);
+		String expectedDate = formatter.format(cal.getTime());
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -47,11 +52,10 @@ public class TestDailySeriesData extends APIDriver {
 		parameters.put("graphtype_original", graphType);
 		parameters.put("ratio", graphType);
 		parameters.put("ticker", ticker);
-		
-		
+
 		if (headName.contains("Enterprise Value") || headName.contains("Market Cap"))
 			parameters.put("graphtype", "newratio");
-		
+
 		else if (headName.contains("P/Cash Flow")) {
 			parameters.put("ratio_name", "NTM Rolling");
 			parameters.put("shift", "blended");
@@ -105,15 +109,26 @@ public class TestDailySeriesData extends APIDriver {
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
 				FinanceApi fin = new FinanceApi();
-				systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
-				verify.compareDates(date, systemDate, "Verify the Current Date Point");
+				if (!date.contains(expectedDate)) {
+					cal = addDays(new Date(), -1);
+					expectedDate = formatter.format(cal.getTime());
+					if (!date.contains(expectedDate)) {
+						cal = addDays(new Date(), -2);
+						expectedDate = formatter.format(cal.getTime());
+						verify.compareDates(date, expectedDate, "Verify the Current Date Point");
+					}
+
+				} else {
+					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
+					verify.compareDates(date, systemDate, "Verify the Current Date Point");
+				}
 			}
 		} else {
 			verify.assertTrue(false, "status code is not 200 " + statusCode);
 		}
 	}
 
-	 @Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
+	@Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
 	public void keyMultiplesNTM(String headName, String graphType) throws Exception {
 		Calendar calNewYork = Calendar.getInstance();
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
@@ -131,7 +146,7 @@ public class TestDailySeriesData extends APIDriver {
 		}
 	}
 
-	 @Test(description = "Check latest data points for Tangible Book Value perShare", priority = 1)
+	@Test(description = "Check latest data points for Tangible Book Value perShare", priority = 1)
 	public void keyMultiplesTangibleBookValueNTM() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -141,8 +156,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	 @Test(description = "Check latest data points for EV/GROSS PROFIT", priority=
-	 2)
+	@Test(description = "Check latest data points for EV/GROSS PROFIT", priority = 2)
 	public void keyMultiplesEVGROSSPROFIT() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -162,7 +176,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	 @Test(description = "Check latest data points for P/Book Value", priority = 4)
+	@Test(description = "Check latest data points for P/Book Value", priority = 4)
 	public void keyMultiplesP_BookValue() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -170,6 +184,20 @@ public class TestDailySeriesData extends APIDriver {
 			keyMultiples("P/Book Value", "price_bookvalue", ticker);
 		}
 		verify.verifyAll();
+	}
+
+	public Date addDays(Date date, Integer days) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DAY_OF_MONTH, days);
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 7)
+			cal.add(Calendar.DAY_OF_MONTH, -1);
+
+		if (dayOfWeek == 1)
+			cal.add(Calendar.DAY_OF_MONTH, -2);
+		return cal.getTime();
+
 	}
 
 }
