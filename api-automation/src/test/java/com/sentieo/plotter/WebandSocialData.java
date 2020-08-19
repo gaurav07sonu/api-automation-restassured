@@ -171,8 +171,7 @@ public class WebandSocialData extends APIDriver {
 		}
 	}
 
-	@Test(description = "Plotter instagram", groups = { "insta",
-			"strong_ties" }, dataProvider = "instagram", dataProviderClass = DataProviderClass.class)
+	//@Test(description = "Plotter instagram", groups = { "insta","strong_ties" }, dataProvider = "instagram", dataProviderClass = DataProviderClass.class)
 	public void instagramMention(String metric) throws CoreCommonException {
 		String cell = "";
 		try {

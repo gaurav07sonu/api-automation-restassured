@@ -3,7 +3,6 @@ package com.sentieo.plotter;
 import static com.sentieo.constants.Constants.*;
 
 import java.lang.reflect.Method;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
