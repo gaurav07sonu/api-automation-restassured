@@ -111,7 +111,7 @@ public class WebandSocialData extends APIDriver {
 
 	}
 
-	@Test(description = "Plotter Web and Social Data Series", groups = { "web", "strong_ties" })
+	@Test(description = "Plotter Web and Social Data Series", groups = { "web", "strong_ties2" })
 	public void websiteTraffic() throws CoreCommonException {
 		try {
 			String cell = "";
@@ -155,6 +155,8 @@ public class WebandSocialData extends APIDriver {
 							str = getDate(3);
 						if (!date.contains(str))
 							str = getDate(4);
+						if (!date.contains(str))
+							str = getDate(5);
 
 						verify.assertEqualsActualContainsExpected(date, str,
 								"verify website-traffic latest point for " + cell);
