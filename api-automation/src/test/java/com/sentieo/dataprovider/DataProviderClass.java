@@ -343,7 +343,75 @@ public class DataProviderClass {
 
 		return groupArray;
 	}
+	
+	@DataProvider(name = "test_doctype_ticker_publicapi")
+	public Object[][] test_doctype_ticker_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"ef" , "10-k", "aapl"}, {"ef" , "10-q/a", ""}, {"ppt" , "1", ""}, {"nw" , "lx_3588", "msft"},{"tt" , "earnings", ""},
+									{"gbf" , "1", ""}, {"ni" , "pr", ""},{"reg" , "epa", ""},
+									{"jr" , "c19", ""}, {"sd" , "all", ""}, {"rss" , "14", ""}, {"bd" , "", ""}
+		};
+		return groupArray;
+	}	
+	
+	@DataProvider(name = "test_doctype_rr_publicapi")
+	public Object[][] test_doctype_rr_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"se_10619","rr_reasons_19","rr_styles_8"}, {"se_11864","rr_reasons_2","rr_styles_9"}
+		};
+		return groupArray;
+	}
+	
+	@DataProvider(name = "test_doctype_notes_publicapi")
+	public Object[][] test_doctype_notes_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"attachment", "gaurav.anand"}, {"note", "akash.aggarwal"}
+		};
+		return groupArray;
+	}
+	
+	@DataProvider(name = "invalid_test_doctype_ticker_publicapi")
+	public Object[][] invalid_test_doctype_ticker_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"ef" , "", "aapl"},  {"" , "", "1234568"}, {"abcd" , "12345", "aaaaaaaaaa"},{"@#$%^&*" , "@#$%$#", "%^&^%$"}
+		};
+		return groupArray;
+	}
+	
+	
+	@DataProvider(name = "test_query_publicapi")
+	public Object[][] test_query_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"nw" , "sales", "601398:CH"}, {"nw" , "in:title sales", ""}, {"ef" , "sales AND China", ""},
+									{"tt" , "china OR profit", ""}, {"nw" , "~month", ""}, {"nw" , "~year", ""}
+		};
+		return groupArray;
+	}
 
+	@DataProvider(name = "test_datefrom_publicapi")
+	public Object[][] test_datefrom_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"ef" ,"16-Aug-2020"}, {"ef" , ""},
+		};
+		return groupArray;
+	}
+	
+	@DataProvider(name = "test_start_size_publicapi")
+	public Object[][] test_start_size_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"0" , "5"}, {"5" , "5"},
+		};
+		return groupArray;
+	}
+	
+	@DataProvider(name = "invalid_test_datefrom_publicapi")
+	public Object[][] invalid_test_datefrom_publicapi() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"ef" , "16-Aug-2022"}, {"ef" , "16-Auggggggggggggg-2015"},
+		};
+		return groupArray;
+	}
+	
 	@DataProvider(name = "fetch_yearly_data")
 	public Object[][] fetchEarlyData(Method testmethodname) {
 		Object[][] groupArray = null;

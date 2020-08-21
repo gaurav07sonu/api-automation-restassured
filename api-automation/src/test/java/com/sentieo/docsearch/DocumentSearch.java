@@ -43,7 +43,6 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("query", query);
 			queryParams.put("filters", filters);
 			queryParams.put("facets_flag", "false");
-			queryParams.put("loc", "ios");
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
