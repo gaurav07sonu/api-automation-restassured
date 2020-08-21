@@ -58,9 +58,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		apid = resp.getCookie("apid");
 		usid = resp.getCookie("usid");
 		RestAssured.baseURI = APP_URL;
-		
 		users.put(Team.FIN.toString(), " @sanjay @bhaskar ");
-		//fetch_docid();
 		//users.put(Team.Search.toString(), " @devesh @atish ");
 	}
 
@@ -1720,46 +1718,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				updatePassResult(URI, team.toString(), "200", resp, parameters);
 			} catch (Error e) {
 				
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
-				Assert.fail();
-			} catch (Exception e) {
-				
-				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
-				Assert.fail();
-			}
-		}
-	
-		
-		public void fetch_docid() throws CoreCommonException {
-			Team team = Team.Search;
-			String URI = APP_URL + FETCH_SEARCH;
-			HashMap<String, String> parameters = new HashMap<String, String>();
-			try {
-				parameters.put("tickers", "aapl");
-				parameters.put("query", "sales");
-				parameters.put("filters", "{\"ticker\":{},\"doctype\":{\"ppt\":{\"company-presentations\":{\"param\":\"ppt_category\",\"values\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"8\",\"0\"]}}},\"sector\":{},\"regions\":{},\"date\":{},\"source\":{},\"language\":{},\"other\":{},\"section\":{}}");
-				parameters.put("facets_flag", "false");
-				parameters.put("synonym_setting", "true");
-				RequestSpecification spec = formParamsSpec(parameters);
-				resp = RestOperationUtils.post(URI, null, spec, parameters);
-				apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				Assert.assertEquals(apiResp.getStatusCode(), 200 , "Api response : ");
-				Assert.assertEquals(respJson.getJSONObject("response").getBoolean("status"), true, "Response status is not equal to true : ");
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
-				if (total_results>0) {
-					JSONArray doc_arr = respJson.getJSONObject("result").getJSONArray("docs");
-					Assert.assertTrue(doc_arr.length()>0,"Total array length should be present");
-					Random rand = new Random();
-					int rand_int1 = rand.nextInt(doc_arr.length());
-					JSONObject result = doc_arr.getJSONObject(rand_int1);
-					doc_id = result.getString("id");
-					doc_type = result.getString("doc_type");
-					title = result.getString("title");
-				}
-				System.out.println();
-				updatePassResult(URI, team.toString(), "200", resp, parameters);
-			} catch (Error e) {
 				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
 				Assert.fail();
 			} catch (Exception e) {
