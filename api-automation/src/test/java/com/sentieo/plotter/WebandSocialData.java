@@ -159,6 +159,8 @@ public class WebandSocialData extends APIDriver {
 
 							if (!date.contains(str))
 								str = getDate(6);
+							if (!date.contains(str))
+								str = getDate(7);
 
 							verify.assertEqualsActualContainsExpected(date, str,
 									"verify website-traffic latest point for " + cell);
