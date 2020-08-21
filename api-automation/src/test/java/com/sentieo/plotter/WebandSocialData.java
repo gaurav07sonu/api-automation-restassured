@@ -149,16 +149,23 @@ public class WebandSocialData extends APIDriver {
 							int digit = (int) (timestamp / 1000);
 							CommonUtil util = new CommonUtil();
 							String date = util.convertTimestampIntoDate(digit);
-							String str = getDate(2);
+							String str = getDate(1);
+
+							if (!date.contains(str))
+								str = getDate(2);
+
 							if (!date.contains(str))
 								str = getDate(3);
+
 							if (!date.contains(str))
 								str = getDate(4);
+
 							if (!date.contains(str))
 								str = getDate(5);
 
 							if (!date.contains(str))
 								str = getDate(6);
+
 							if (!date.contains(str))
 								str = getDate(7);
 
