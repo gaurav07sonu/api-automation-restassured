@@ -1,5 +1,6 @@
 package com.sentieo.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -314,4 +316,56 @@ public class CommonUtil {
 		}
 		return null;
 	}
+
+	// get complete data into list from file
+	public List<String> readFile(String fileName) {
+		BufferedReader reader;
+		List<String> returnList = new ArrayList<String>();
+		try {
+			reader = new BufferedReader(new FileReader(RESOURCE_PATH + File.separator + fileName));
+			String line = reader.readLine();
+			while (line != null) {
+				// read next line
+				line = reader.readLine();
+				returnList.add(line);
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return returnList;
+	}
+
+	public List<String> getDay(String fileName) {
+		List<String> abd = null;
+		List<String> abcd = readFile(fileName);
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_YEAR);
+		abd = revampValues(day, abcd);
+		if (abd == null) {
+			if (day != 0) {
+				int newDay = (day % 9 == 0) ? 9 : (day % 9);
+				abd = revampValues(newDay, abcd);
+			}
+		} else {
+			return abd;
+		}
+
+		return abd;
+	}
+
+	public List<String> revampValues(int day, List<String> tickers) {
+		int getMOdulus = day % 50;
+		int min_index = getMOdulus * 50;
+		int max_index = (getMOdulus + 1) * 50;
+		if (tickers.size() > min_index && tickers.size() > max_index) {
+			tickers = tickers.subList(min_index, max_index);
+			// returnArray = convertListIntoArray(abcd);
+			return tickers;
+		} else
+			tickers = null;
+
+		return tickers;
+	}
+
 }
