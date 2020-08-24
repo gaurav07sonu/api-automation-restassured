@@ -29,7 +29,6 @@ public class Constants {
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 
-
 		 Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		 InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
