@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sentieo tests" parallel="classes" thread-count="1">
+	<listeners>
+		<listener class-name="com.sentieo.listener.TestListener" />
+		<listener
+			class-name="com.sentieo.listener.AnnotationTransformer" />
+		<!-- <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" 
+			/> -->
+	</listeners>
+
+	<test name="sentieo-tests" preserve-order="true">
+		<parameter name="loc" value="ios" />
+		<!-- <packages> <package name="com.sentieo.finance.*" /> </packages> -->
+
+		<groups>
+			<run>
+				<include name="mobile" />
+			</run>
+		</groups>
+
+
+		<classes>
+			<class name ="com.sentieo.finance.FinanceApi" />
+			<class name ="com.sentieo.finance.MobileFinanceApi" />
+			<class name ="com.sentieo.finance.InputTicker" />
+			<class name="com.sentieo.statements.Statements" />
+			<class name ="com.sentieo.comparables.Comparables" />
+			<class name ="com.sentieo.EDT.FetchGraphDataEstimatesChart" />
+
+		</classes>
+		
+
+	</test>
+</suite>

@@ -1,6 +1,8 @@
 package com.sentieo.finance;
 
 import static com.sentieo.constants.Constants.*;
+
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -20,6 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.jayway.restassured.RestAssured;
@@ -32,11 +37,13 @@ import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-
+import com.sentieo.finance.*;
 public class FinanceApi extends APIDriver {
 
 	String watchName = "";
 	Object ticker = "";
+	String loc2 = "";
+
 
 	APIAssertions verify = new APIAssertions();
 	public static HashMap<String, String> fetchcompanysummarytable = new HashMap<String, String>();
@@ -47,31 +54,89 @@ public class FinanceApi extends APIDriver {
 	@BeforeMethod
 	public void initVerify() {
 		verify = new APIAssertions();
-
 	}
-
-	@Test(groups = "sanity", description = "fetch current stock data")
+    	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({"loc"})
+	public void getLoc(@Optional("loc")String loc) {
+		loc2 = loc;
+		System.out.println(loc2);
+	}
+	
+	@Test(groups = {"sanity","mobile"}, description = "fetch current stock data")	
 	public void fetchCurrentStockData() throws Exception {
 		for (String[] row : tickers) {
 			for (String cell : row) {
 				cell = cell.toLowerCase();
+				Response resp;
 				HashMap<String, String> tickerData = new HashMap<String, String>();
+				
+
 				tickerData.put("ticker", cell);
 				RequestSpecification spec = formParamsSpec(tickerData);
-				Response resp = RestOperationUtils.post(FETCH_CURRENT_STOCK_DATA, null, spec, tickerData);
+				
+				if(loc2.equals("ios"))
+				{
+					tickerData.put("loc", "ios");
+				    resp = RestOperationUtils.post(MOBILE_STOCK_DATA, null, spec, tickerData);				   			   
+				}
+				else
+				{
+				    resp = RestOperationUtils.post(FETCH_CURRENT_STOCK_DATA, null, spec, tickerData);
+				}
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				//System.out.println("Response body is: "+ respJson );
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
+				
+				if(loc2.equals("ios"))
+				{
+					JSONObject result = respJson.getJSONObject("result");
+					JSONObject intraday = result.getJSONObject("intraday");
+					
+					HashMap<String, String> keyMap = new HashMap<String, String>();
+					keyMap.put("currency", "java.lang.String");
+					keyMap.put("found", "java.lang.Boolean");
+					keyMap.put("stock-flag", "java.lang.Boolean");
+					keyMap.put("m_open", "java.lang.String");
+					keyMap.put("duration", "java.lang.Double");
+					keyMap.put("current_price", "java.lang.Double");
+					keyMap.put("perc_change", "java.lang.String");
+					keyMap.put("change", "java.lang.String");
+					
+					HashMap<String, String> keyMap2 = new HashMap<String, String>();
+					keyMap2.put("summary", "org.json.JSONObject");
+					keyMap2.put("powergraph", "org.json.JSONArray");
+					keyMap2.put("trading_ratios", "org.json.JSONObject");
+					keyMap2.put("intraday", "org.json.JSONObject");
+					
+					for (Map.Entry<String, String> set : keyMap.entrySet()) {
+						verifykeyAvailable(intraday, set.getKey(), set.getValue());
+						System.out.println(set.getKey() + " = " + set.getValue());
+					}
+					
+					for (Map.Entry<String, String> set : keyMap2.entrySet()) {
+						verifykeyAvailable(result, set.getKey(), set.getValue());
+						System.out.println(set.getKey() + " = " + set.getValue());
+					}
+					
+
+						verify.verifyEquals(intraday.getString("ticker"), cell.toUpperCase() ,"Verify that Requested ticker Visible in the API");
+						verify.jsonSchemaValidation(resp, "mobileFin" + File.separator +
+								 "mobileStockData.json");		
+				}
+				else
+				{
 				verify.verifyEquals(respJson.getJSONObject("result").getString("ticker"), cell.toUpperCase(),
 						"Verify that Requested ticker Visible in the API");
 				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
 						"Verify the API Message");
 				// verify.jsonSchemaValidation(resp, "finance" + File.separator +
 				// "fetchCurrentStockData.json");
-
+				}
 			}
 		}
 		verify.verifyAll();
@@ -391,7 +456,8 @@ public class FinanceApi extends APIDriver {
 		}
 		verify.verifyAll();
 	}
-
+	
+	
 	@Test(groups = "sanity", description = "earnings_surprises_data", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
 	public void earningssurprisesdata(String datatype, String periodtype) throws Exception {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -414,7 +480,7 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "fetch", description = "fetch_past_intra")
+	@Test(groups = {"fetch","mobile"}, description = "fetch_past_intra")	
 	public void fetchpastintra() throws Exception {
 		String systemDate = "";
 		HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -422,8 +488,22 @@ public class FinanceApi extends APIDriver {
 			for (String cell : row) {
 				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
+				Response resp;
+
+				if(loc2.equals("ios"))
+				{
+					
+					tickerData.put("loc", "ios");
+					RequestSpecification spec = formParamsSpec(tickerData);
+				    resp = RestOperationUtils.post(FETCH_PAST_INTRADAY, null, spec, tickerData);
+									    					
+				}
+				else
+				{
 				RequestSpecification spec = queryParamsSpec(tickerData);
-				Response resp = RestOperationUtils.get(FETCH_PAST_INTRADAY, spec, tickerData);
+				resp = RestOperationUtils.get(FETCH_PAST_INTRADAY, spec, tickerData);
+				}
+				
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -444,6 +524,12 @@ public class FinanceApi extends APIDriver {
 							String systemDate1 = dateValidationForHistoricalChart("", cell);
 							verify.compareDates(date, systemDate1, "Verify the Current Date Point");
 							break;
+						}
+						if(loc2.equals("ios"))
+						{
+							//verify.verifyEquals(respJson.getJSONObject("result").get("past_intra").getClass().getName() , "org.json.JSONObject", "Verify data type for key past_intra");
+						
+							verifykeyAvailable(respJson.getJSONObject("result"), "past_intra", "org.json.JSONObject");
 						}
 					}
 				} catch (JSONException je) {
@@ -614,8 +700,12 @@ public class FinanceApi extends APIDriver {
 				tickerData.put("subtype", subtype);
 				tickerData.put("ttmind", "true");
 				tickerData.put("getestimates", "true");
+				
+				
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_GRAPH_DATA, spec, tickerData);
+				
+				
 				APIResponse apiResp = new APIResponse(resp);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -627,23 +717,29 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "fetch_value_table", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
+	@Test(groups = "sanity", description = "fetch_value_table", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)	
 	public void fetchvaluetable(String subtype, String currency) throws Exception {
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
 			for (String cell : row) {
 				cell = cell.toLowerCase();
+				
 				tickerData.put("ticker", cell);
 				tickerData.put("type", subtype);
+			
 				tickerData.put("report_currency", currency);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_VALUE_DATA, spec, tickerData);
+				
+				
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
+
 			}
 		}
 		verify.verifyAll();
@@ -1097,6 +1193,14 @@ public class FinanceApi extends APIDriver {
 				}
 			}
 		}
+	}
+	
+	public void verifykeyAvailable(JSONObject result, String key, String type) {
+		if (result.has(key)) {
+			verify.verifyEquals(result.get(key).getClass().getName(), type,
+					"Verify data type for key: "+key );
+		} else
+			verify.assertTrue(false, key + " :key not found");
 	}
 
 }

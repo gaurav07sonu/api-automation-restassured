@@ -364,6 +364,16 @@ public class DataProviderClass {
 					{ "DilutedEPSTotal", "AnnualRestated" }, { "DilutedEPSTotal", "QuarterlyRestated" },
 					{ "FreeCashFlowPerShare", "QuarterlyRestated" }, { "FreeCashFlowPerShare", "AnnualRestated" } };
 		}
+		 else if (testmethodname.getName().equalsIgnoreCase("fetchGraphDataFinMatrices")) {
+			 groupArray = new String[][] { { "eps" }, { "sales"}, { "gross_profit" },
+					{ "cogs"},{"sga"},{"ebitda"},{"da"},{"ebit"},{"ebit-per"},{"ebitda-per"},{"gross_margin"},{"fcf"},{"capex"},{"net_inc"},{"tax"},{"net_int"}};			
+		 }
+	     else if (testmethodname.getName().equalsIgnoreCase("fetchValueTableForMobile")) {
+		 groupArray = new String[][] { { "eps" }, { "sales" }, { "gross_profit" },
+				{ "cogs" }, { "sga" },{"ebitda" },{"da"},{"ebit"},{"ebit-per"},{"ebitda-per"},{"gross_margin"},{"fcf"},{"capex"},{"net_inc"},{"tax"},{"net_int"}};
+	 
+	     }
+		
 		return groupArray;
 	}
 
@@ -424,8 +434,8 @@ public class DataProviderClass {
 	public Object[][] yearlyEstimate() {
 		Object[][] groupArray = null;
 		groupArray = new String[][] { { "DilutedEPSTotal" }, { "TotalRevenue" }, { "GrossProfit" }, { "Ebitda" },
-				{ "Ebit" }, { "NetIncome" }, { "DividendsPaidPerShare" }, { "CashFlowPerShare" },
-				{ "PurchaseOfPropertyPlantAndEquipment" }, { "GrossMargin" }, { "EbitdaMargin" }, { "EbitMargin" } };
+			{ "Ebit" }, { "NetIncome" }, { "DividendsPaidPerShare" }, { "CashFlowPerShare" },
+			{ "PurchaseOfPropertyPlantAndEquipment" }, { "GrossMargin" }, { "EbitdaMargin" }, { "EbitMargin" } };
 		return groupArray;
 	}
 

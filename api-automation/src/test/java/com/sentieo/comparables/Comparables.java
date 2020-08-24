@@ -3,13 +3,19 @@ package com.sentieo.comparables;
 import static com.sentieo.constants.Constants.*;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
@@ -28,10 +34,20 @@ public class Comparables extends APIDriver {
 	List<String[]> tickers = obj.readTickerCSV();
 	static String VIEW = "Automation_View";
 	static String cid = "";
+	String loc2 = "";
+	public static ArrayList<String> tickers1 = new ArrayList<String>(
+			Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr", "awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack",
+					"ovbc", "fhn", "cmg", "psix", "tcbi"));
 
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
+	}
+	@BeforeTest(alwaysRun = true)
+	@Parameters({"loc"})
+	public void getLoc(@Optional("loc")String loc) {
+		loc2 = loc;
+		System.out.println(loc2);
 	}
 
 	public void fetchscreenermodels(boolean status) throws Exception {
@@ -102,26 +118,109 @@ public class Comparables extends APIDriver {
 		}
 	}
 
-	 @Test(groups = "sanity", description = "comparable_search",priority=1)
+	 @Test(groups = {"sanity","mobile"}, description = "comparable_search",priority=1)
 	public void comparablesearch() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
-			for (String cell : row) {
+				for (String cell : row) {
+				Response resp;
 				queryParams.put("tickers", cell);
-				queryParams.put("pagetype", "company");
-				queryParams.put("currency", "usd");
-				queryParams.put("model_id", "company");
 				queryParams.put("init", "1");
 				queryParams.put("rival", "1");
+				
+				if(loc2.equals("ios"))
+				{
+				    
+					queryParams.put("loc", "ios");
+					queryParams.put("pagetype", "riskreward");
+					queryParams.put("model_id", "default");	
+					queryParams.put("appnew_version", "7.4");	
+				}
+				else
+				{				
+				    queryParams.put("pagetype", "company");
+				    queryParams.put("currency", "usd");
+				    queryParams.put("model_id", "company");
+			
+				}
+				
 				RequestSpecification spec = formParamsSpec(queryParams);
-				Response resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
+			    resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				verify.verifyResponseTime(resp, 5000);
+				
+				if(loc2.equals("ios"))
+				{
+					JSONObject result = respJson.getJSONObject("result");
+					HashMap<String,String> keyMap = new HashMap<String,String>();
+					keyMap.put("data", "org.json.JSONArray");
+					keyMap.put("all_keys", "org.json.JSONArray");
+					
+					for (Map.Entry<String, String> set : keyMap.entrySet()) {
+						verifykeyAvailable(result, set.getKey(), set.getValue());
+						System.out.println(set.getKey() + " = " + set.getValue());
+					}
+				
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+				
+					JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
+					if (data.length() == 0 || data == null)
+					{
+						verify.assertTrue(false, "API shows blank data");
+					}
+				}
 			}
+		}
+		if(loc2.equals("ios"))
+		{
+		comparableSearchWithMultipleTickers();
 		}
 		verify.verifyAll();
 	}
+	 
+    public void comparableSearchWithMultipleTickers() throws Exception
+    {
+    	String ticker = tickers1.toString();
+	    ticker = ticker.replaceAll("\\[", "").replaceAll("\\]", "");
+	    System.out.println(ticker);
+	    HashMap<String, String> queryParams = new HashMap<String, String>();
+	    queryParams.put("tickers", ticker);
+		queryParams.put("init", "1");
+		queryParams.put("rival", "1");
+		queryParams.put("loc", "ios");
+		queryParams.put("pagetype", "riskreward");
+		queryParams.put("model_id", "default");	
+		queryParams.put("appnew_version", "7.4");
+		RequestSpecification spec = formParamsSpec(queryParams);
+	    Response resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
+		APIResponse apiResp = new APIResponse(resp);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		verify.verifyResponseTime(resp, 5000);
+		JSONObject result = respJson.getJSONObject("result");
+		HashMap<String,String> keyMap = new HashMap<String,String>();
+		keyMap.put("data", "org.json.JSONArray");
+		keyMap.put("all_keys", "org.json.JSONArray");
+		
+		for (Map.Entry<String, String> set : keyMap.entrySet()) {
+			verifykeyAvailable(result, set.getKey(), set.getValue());
+			System.out.println(set.getKey() + " = " + set.getValue());
+		}
+	
+		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+				"Verify the API Response Status");
+	
+		JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
+		if (data.length() == 0 || data == null)
+		{
+			verify.assertTrue(false, "API shows blank data");
+		}
+		
+	    
+    }
 
 	 @Test(groups = "sanity", description = "managementinfo",priority=2)
 	public void managementinfo() throws Exception {
@@ -338,4 +437,11 @@ public class Comparables extends APIDriver {
 		}
 
 	}
+	 public void verifykeyAvailable(JSONObject result, String key, String type) {
+			if (result.has(key)) {
+				verify.verifyEquals(result.get(key).getClass().getName(), type,
+						"Verify data type for key: "+key );
+			} else
+				verify.assertTrue(false, key + " :key not found");
+		}
 }
