@@ -25,7 +25,7 @@ public class Constants {
 
 
 		 String envArg = System.getProperty("env");
-//		 String envArg = "app";
+//		 String envArg = "testing-nonadmin1";
 		 String usernameArg = System.getProperty("username");
 		 String passwordArg = System.getProperty("password");
 
@@ -41,7 +41,7 @@ public class Constants {
 		    		EMAIL = ((Configuration)object).getUserName();
 		    		PASSWORD = ((Configuration)object).getPassword();
 		    		PUBLIC_API_URL = ((Configuration)object).getPublicApiUrl();
-		    		X_API_KEY = ((Configuration)	object).getXapikey();
+		    		X_API_KEY = ((Configuration)object).getXapikey();
 		    		X_USER_KEY = ((Configuration)object).getXuserkey();
 			        System.out.println(APP_URL);
 			        System.out.println(USER_APP_URL);
@@ -118,6 +118,12 @@ public class Constants {
 	public static final String FETCH_SEARCH_FILTERS = "/api/fetch_search_filters/";
 	public static final String FETCH_SEARCH_SETTINGS = "/api/fetch_search_settings/";
 	public static final String FETCH_TRANSFORM_NOTE_CONTENT = "/api/fetch_transform_note_content/";
+	
+	
+//	 doc search public apis
+		public static final String XUSERKEY1 = "x-user-key";
+		public static final String XAPIKEY1 = "x-api-key";
+		public static final String SEARCH = "/documents/search";
 
 	// finance / plotter
 
@@ -301,7 +307,8 @@ public class Constants {
 	public static final String DELETE_DASHBOARD="/api/delete_dashboard/";
 	public static final String GET_DASHBOARD_LIST="/api/get_dashboard_list/";
 	public static final String UPDATE_DASHBOARD_WIDGET="/api/update_dashboard_widget/";
-	
+	public static final String INSTAGRAM_MAPPINGS = "/api/get_instagram_mappings/";
+
 	//Table x
 	
 	public static final String CHAIN_USER_DATA="/api/tablex_fetch_chain_user_data/";
