@@ -209,6 +209,7 @@ public class Constants {
 	public static final String XUSERKEY = "x-user-key";
 	public static final String XAPIKEY = "x-api-key";
 	public static final String FILE_UPLOAD = "/files";
+	public static final String LARGE_FILE_UPLOAD = "/file_url";
 	public static final String NOTES = "/notes";
 	
 	//security master APIs

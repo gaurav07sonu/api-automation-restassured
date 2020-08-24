@@ -4,7 +4,7 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-		<listener
+		 <listener
 			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
 
@@ -15,6 +15,7 @@
 					<exclude name="addingDeletingTagInPrivateNote"/>
 					<exclude name="addingDeletingTickerInPrivateNote"/>
 					<exclude name="updatingAPrivateNoteCreatedViaAPI"/>
+					<exclude name="testSoftDeleteAndRestoreOfNote"/>
 				</methods>
 			</class>
 		</classes>
