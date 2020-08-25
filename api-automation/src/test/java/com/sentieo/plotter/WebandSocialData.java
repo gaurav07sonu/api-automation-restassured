@@ -1,6 +1,7 @@
 package com.sentieo.plotter;
 
 import static com.sentieo.constants.Constants.*;
+import static org.testng.Assert.assertEquals;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -111,10 +112,10 @@ public class WebandSocialData extends APIDriver {
 
 	}
 
-	@Test(description = "Plotter Web and Social Data Series", groups = { "web", "strong_ties2" })
+	@Test(description = "Plotter Web and Social Data Series", groups = { "website", "strong_ties2" })
 	public void websiteTraffic() throws CoreCommonException {
+		String cell = "";
 		try {
-			String cell = "";
 			String URI = APP_URL + ALEXA;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			for (int i = 0; i < tickers.size(); i++) {
@@ -168,6 +169,9 @@ public class WebandSocialData extends APIDriver {
 
 							if (!date.contains(str))
 								str = getDate(7);
+							
+							if (!date.contains(str))
+								str = getDate(8);
 
 							verify.assertEqualsActualContainsExpected(date, str,
 									"verify website-traffic latest point for " + cell);
@@ -181,7 +185,7 @@ public class WebandSocialData extends APIDriver {
 			}
 			verify.verifyAll();
 		} catch (Exception e) {
-			throw new CoreCommonException(e.getMessage());
+			assertEquals(false, "in websiteTraffic Catch " + e.toString()+" for ticker "+cell);
 		}
 	}
 
