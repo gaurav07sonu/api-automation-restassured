@@ -15,7 +15,6 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.finance.FinanceApi;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -34,7 +33,7 @@ public class StockPrice50650 extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
@@ -47,7 +46,7 @@ public class StockPrice50650 extends APIDriver {
 				JSONArray value = null;
 				String URI = APP_URL + FETCH_GRAPH_DATA;
 				String cell = "^gspc";
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				parameters.put("head_name", "Stock Price");
 				parameters.put("graphtype_original", "stock");
 				parameters.put("graphtype", "stock");
@@ -72,13 +71,11 @@ public class StockPrice50650 extends APIDriver {
 						int digit = (int) (timestamp / 1000);
 						CommonUtil util = new CommonUtil();
 						String date = util.convertTimestampIntoDate(digit);
-						FinanceApi fin = new FinanceApi();
-						CommonUtil comm = new CommonUtil();
-						if (hour >= 9 && hour<24)
-							systemDate = comm.getCurrentDate();
-						else
-							systemDate = fin.dateValidationForHistoricalChart("",cell);
-						verify.compareDates(date, systemDate, "Verify the Current Date Point");
+						WebandSocialData obj = new WebandSocialData();
+						String str = obj.getDate(0);
+						if (!date.contains(str))
+							str = obj.getDate(1);
+						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
 					}
 				} else {
@@ -109,6 +106,6 @@ public class StockPrice50650 extends APIDriver {
 			morningTime = time.replaceAll("PM", "");
 		String[] hourMin = morningTime.split(":");
 		hour = Integer.parseInt(hourMin[0]);
-		//mins = Integer.parseInt(hourMin[1]);
+		// mins = Integer.parseInt(hourMin[1]);
 	}
 }
