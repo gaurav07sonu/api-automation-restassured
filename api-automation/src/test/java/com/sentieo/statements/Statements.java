@@ -98,7 +98,6 @@ public class Statements extends APIDriver {
 								getXbrlDataTableForMobile(getURl, getName);
 							} else {
 								JSONArray getQuarterResults = completeAPIResult.getJSONArray("quarter_results");
-
 								JSONArray getDocKey = getQuarterResults.getJSONArray(0);
 								getDocID = String.valueOf(getDocKey.get(0));
 								getxbrldatatable(getURl, getName, getDocID);
@@ -123,20 +122,14 @@ public class Statements extends APIDriver {
 		try {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			if (getURl != null && getName != null && getDocID != null) {
-				System.out.println("ticker name is:" + ticker);
-				System.out.println("url is:" + getURl);
-				System.out.println("name is: " + getName);
-
 				tickerData.put("url", "http://www.sec.gov" + getURl);
 				tickerData.put("key", getName);
 				tickerData.put("doc_id", getDocID);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(GET_XBRL_DATA_TABLE, spec, tickerData);
-
 				APIResponse apiResp = new APIResponse(resp);
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
@@ -156,11 +149,9 @@ public class Statements extends APIDriver {
 		try {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			if (getURl != null && getName != null) {
-
 				tickerData.put("url", "http://www.sec.gov" + getURl);
 				tickerData.put("key", getName);
 				tickerData.put("loc", "ios");
-
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(XBRL_TABLE_WITH_CHANGE, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);

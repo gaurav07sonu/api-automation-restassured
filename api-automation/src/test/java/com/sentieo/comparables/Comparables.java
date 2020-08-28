@@ -15,9 +15,6 @@ import static com.sentieo.constants.Constants.SAVE_RISK_REWARD_VIEWS;
 import static com.sentieo.constants.Constants.UPDATE_SCREENER_VIEWS;
 import static com.sentieo.constants.Constants.USER_APP_URL;
 import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,65 +130,59 @@ public class Comparables extends APIDriver {
 
 	@Test(groups = { "sanity", "mobile" }, description = "comparable_search", priority = 1)
 	public void comparablesearch() throws Exception {
-		try
-		{
-		HashMap<String, String> queryParams = new HashMap<String, String>();
-		for (String[] row : tickers) {
-			for (String cell : row) {
-				Response resp;
-				queryParams.put("tickers", cell);
-				queryParams.put("init", "1");
-				queryParams.put("rival", "1");
+		try {
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			for (String[] row : tickers) {
+				for (String cell : row) {
+					Response resp;
+					queryParams.put("tickers", cell);
+					queryParams.put("init", "1");
+					queryParams.put("rival", "1");
 
-				if (loc2.equals("ios")) {
-					queryParams.put("loc", "ios");
-					queryParams.put("pagetype", "riskreward");
-					queryParams.put("model_id", "default");
-					queryParams.put("appnew_version", "7.4");
-				} else {
-					queryParams.put("pagetype", "company");
-					queryParams.put("currency", "usd");
-					queryParams.put("model_id", "company");
-				}
-				RequestSpecification spec = formParamsSpec(queryParams);
-				resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
-				APIResponse apiResp = new APIResponse(resp);
-
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
-				if (data.length() == 0 || data == null) {
-					verify.assertTrue(false, "API shows blank data");
-				}
-				if (loc2.equals("ios")) {
-					JSONObject result = respJson.getJSONObject("result");
-					HashMap<String, String> keyMap = new HashMap<String, String>();
-					keyMap.put("data", "org.json.JSONArray");
-					keyMap.put("all_keys", "org.json.JSONArray");
-
-					for (Map.Entry<String, String> set : keyMap.entrySet()) {
-						util.verifykeyAvailable(result, set.getKey(), set.getValue());
-						System.out.println(set.getKey() + " = " + set.getValue());
+					if (loc2.equals("ios")) {
+						queryParams.put("loc", "ios");
+						queryParams.put("pagetype", "riskreward");
+						queryParams.put("model_id", "default");
+						queryParams.put("appnew_version", "7.4");
+					} else {
+						queryParams.put("pagetype", "company");
+						queryParams.put("currency", "usd");
+						queryParams.put("model_id", "company");
 					}
-				
+					RequestSpecification spec = formParamsSpec(queryParams);
+					resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
+					APIResponse apiResp = new APIResponse(resp);
+
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
+					if (data.length() == 0 || data == null) {
+						verify.assertTrue(false, "API shows blank data");
+					}
+					if (loc2.equals("ios")) {
+						JSONObject result = respJson.getJSONObject("result");
+						HashMap<String, String> keyMap = new HashMap<String, String>();
+						keyMap.put("data", "org.json.JSONArray");
+						keyMap.put("all_keys", "org.json.JSONArray");
+
+						for (Map.Entry<String, String> set : keyMap.entrySet()) {
+							util.verifykeyAvailable(result, set.getKey(), set.getValue());
+						}
+
+					}
 				}
 			}
-		}
-		
-		}
-		catch (JSONException je) {
+
+		} catch (JSONException je) {
 			verify.assertTrue(false, je.toString());
+		} finally {
+			verify.verifyAll();
 		}
-		finally
-		{
-		verify.verifyAll();
-	}
 	}
 
-	
 	@Test(groups = "sanity", description = "managementinfo", priority = 2)
 	public void managementinfo() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();

@@ -87,7 +87,6 @@ public class FinanceApi extends APIDriver {
 	@Parameters({ "loc" })
 	public void getLoc(@Optional("loc") String loc) {
 		loc2 = loc;
-		System.out.println(loc2);
 	}
 
 	@Test(groups = { "sanity", "mobile" }, description = "fetch current stock data")
@@ -98,30 +97,24 @@ public class FinanceApi extends APIDriver {
 					cell = cell.toLowerCase();
 					Response resp;
 					HashMap<String, String> tickerData = new HashMap<String, String>();
-
 					tickerData.put("ticker", cell);
 					RequestSpecification spec = formParamsSpec(tickerData);
-
 					if (loc2.equals("ios")) {
 						tickerData.put("loc", "ios");
 						resp = RestOperationUtils.post(MOBILE_STOCK_DATA, null, spec, tickerData);
-					} else {
+					} else
 						resp = RestOperationUtils.post(FETCH_CURRENT_STOCK_DATA, null, spec, tickerData);
-					}
 					APIResponse apiResp = new APIResponse(resp);
 					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyResponseTime(resp, 5000);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
-
 					if (loc2.equals("ios")) {
 						JSONObject result = respJson.getJSONObject("result");
 						JSONObject intraday = result.getJSONObject("intraday");
-
 						verify.verifyEquals(intraday.getString("ticker"), cell.toUpperCase(),
 								"Verify that Requested ticker Visible in the API");
-
 						HashMap<String, String> keyMap = new HashMap<String, String>();
 						keyMap.put("currency", "java.lang.String");
 						keyMap.put("found", "java.lang.Boolean");
@@ -131,23 +124,17 @@ public class FinanceApi extends APIDriver {
 						keyMap.put("current_price", "java.lang.Double");
 						keyMap.put("perc_change", "java.lang.String");
 						keyMap.put("change", "java.lang.String");
-
 						HashMap<String, String> keyMap2 = new HashMap<String, String>();
 						keyMap2.put("summary", "org.json.JSONObject");
 						keyMap2.put("powergraph", "org.json.JSONArray");
 						keyMap2.put("trading_ratios", "org.json.JSONObject");
 						keyMap2.put("intraday", "org.json.JSONObject");
-
 						for (Map.Entry<String, String> set : keyMap.entrySet()) {
 							util.verifykeyAvailable(intraday, set.getKey(), set.getValue());
-
-							System.out.println(set.getKey() + " = " + set.getValue());
 						}
-
 						for (Map.Entry<String, String> set : keyMap2.entrySet()) {
 							util.verifykeyAvailable(result, set.getKey(), set.getValue());
-							System.out.println(set.getKey() + " = " + set.getValue());
-						}	
+						}
 					} else {
 						verify.verifyEquals(respJson.getJSONObject("result").getString("ticker"), cell.toUpperCase(),
 								"Verify that Requested ticker Visible in the API");
@@ -175,7 +162,6 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_CAPITAL_EVENTS, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
@@ -200,7 +186,6 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(GET_TRACKER_MAPPINGS, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
@@ -221,10 +206,9 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(GET_COMPANY_RETURN, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -244,10 +228,9 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_CAPITAL_EVENTS, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -267,10 +250,9 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_COMPANY_DOCS, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -291,7 +273,6 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(NEW_FETCH_MOSAIC_SUMMARY_DATA, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
@@ -316,7 +297,6 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_COMPANY_SUMARY_TABLE, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
@@ -363,10 +343,9 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_ANALYST_RECOMMEND, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -391,10 +370,9 @@ public class FinanceApi extends APIDriver {
 					RequestSpecification spec = formParamsSpec(tickerData);
 					Response resp = RestOperationUtils.post(FETCH_YEARLY_DATA, null, spec, tickerData);
 					APIResponse apiResp = new APIResponse(resp);
-
 					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyResponseTime(resp, 5000);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					verify.verifyEquals(respJson.getJSONObject("response").getString("msg"), "success",
@@ -437,10 +415,9 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_COMPANY_STATUS, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -467,7 +444,6 @@ public class FinanceApi extends APIDriver {
 				try {
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
-
 					JSONArray value = respJson.getJSONObject("result").getJSONArray("orderlist");
 					for (int i = 0; i < value.length(); i++) {
 						String aa = value.getString(i);
@@ -503,7 +479,6 @@ public class FinanceApi extends APIDriver {
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(EARNINGS_SURPRISES_DATA, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
@@ -524,24 +499,18 @@ public class FinanceApi extends APIDriver {
 					cell = cell.toLowerCase();
 					tickerData.put("ticker", cell);
 					Response resp;
-
 					if (loc2.equals("ios")) {
-
 						tickerData.put("loc", "ios");
 						RequestSpecification spec = formParamsSpec(tickerData);
 						resp = RestOperationUtils.post(FETCH_PAST_INTRADAY, null, spec, tickerData);
-
 					} else {
 						RequestSpecification spec = queryParamsSpec(tickerData);
 						resp = RestOperationUtils.get(FETCH_PAST_INTRADAY, spec, tickerData);
 					}
-
 					APIResponse apiResp = new APIResponse(resp);
-
 					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyResponseTime(resp, 5000);
-
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 					systemDate = dateValidationForHistoricalChart("fetchpastintra", cell);
@@ -559,7 +528,6 @@ public class FinanceApi extends APIDriver {
 							break;
 						}
 						if (loc2.equals("ios")) {
-
 							util.verifykeyAvailable(respJson.getJSONObject("result"), "past_intra",
 									"org.json.JSONObject");
 						}
@@ -737,12 +705,10 @@ public class FinanceApi extends APIDriver {
 
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_GRAPH_DATA, spec, tickerData);
-
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -756,22 +722,17 @@ public class FinanceApi extends APIDriver {
 		for (String[] row : tickers) {
 			for (String cell : row) {
 				cell = cell.toLowerCase();
-
 				tickerData.put("ticker", cell);
 				tickerData.put("type", subtype);
-
 				tickerData.put("report_currency", currency);
 				RequestSpecification spec = queryParamsSpec(tickerData);
 				Response resp = RestOperationUtils.get(FETCH_VALUE_DATA, spec, tickerData);
-
 				APIResponse apiResp = new APIResponse(resp);
-
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-
 			}
 		}
 		verify.verifyAll();
@@ -779,7 +740,6 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "new_model_data", description = "FETCH_NEW_MODEL_DATA")
 	public void fetchNewModelData() throws Exception {
-
 		String url = APP_URL + FETCH_NEW_MODEL_DATA;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -803,7 +763,7 @@ public class FinanceApi extends APIDriver {
 					if (result.length() == 0 || result == null)
 						verify.assertTrue(false, "API shows blank data");
 					else
-						verify.assertTrue(true, "verify new model data");
+						verify.assertTrue(true, "Verify new model data");
 				} catch (Exception e) {
 					verify.assertTrue(false, e.toString() + " for ticker " + cell);
 				}
@@ -850,7 +810,6 @@ public class FinanceApi extends APIDriver {
 					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
-
 					String seriesTicker = respJson.getJSONObject("result").get("seriesTicker").toString();
 					verify.assertEqualsActualContainsExpected(cell.toLowerCase(), seriesTicker, "verify series ticker");
 					JSONArray intradayData = respJson.getJSONObject("result").getJSONArray("intradayData");
@@ -897,7 +856,6 @@ public class FinanceApi extends APIDriver {
 						verify.assertTrue(false, "earning_date data is blank : ");
 					else
 						verify.assertTrue(true, "Verify earning_date data : ");
-
 				} catch (Exception e) {
 					verify.verificationFailures.add(e);
 					ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
@@ -970,7 +928,6 @@ public class FinanceApi extends APIDriver {
 						verify.assertTrue(false, "Autocomplete is blank for ticker : " + cell);
 					else
 						verify.assertTrue(true, "verify Autocomplete data for ticker: " + cell);
-
 				} catch (Exception e) {
 					verify.verificationFailures.add(e);
 					ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
@@ -998,7 +955,6 @@ public class FinanceApi extends APIDriver {
 				verify.assertTrue(false, "Result shows blank data : ");
 			else
 				verify.assertTrue(true, "verify company list result : ");
-
 		} catch (Exception e) {
 			verify.verificationFailures.add(e);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());

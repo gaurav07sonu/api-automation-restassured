@@ -35,8 +35,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.sentieo.assertion.APIAssertions;
 
-
-
 public class CommonUtil {
 	APIAssertions verify = new APIAssertions();
 	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
@@ -263,24 +261,24 @@ public class CommonUtil {
 			return true;
 		return false;
 	}
-	
-	public static String encodeFileToBase64Binary(File file){
-        String encodedfile = null;
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int)file.length()];
-            fileInputStreamReader.read(bytes);
-            encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
-            fileInputStreamReader.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return encodedfile;
-    }
+
+	public static String encodeFileToBase64Binary(File file) {
+		String encodedfile = null;
+		try {
+			FileInputStream fileInputStreamReader = new FileInputStream(file);
+			byte[] bytes = new byte[(int) file.length()];
+			fileInputStreamReader.read(bytes);
+			encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
+			fileInputStreamReader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return encodedfile;
+	}
 
 	public long daysDifferenceBetweenTwoTimestamps(long time1, long time2) {
 		final long MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -372,11 +370,10 @@ public class CommonUtil {
 
 		return tickers;
 	}
-	
+
 	public void verifykeyAvailable(JSONObject result, String key, String type) {
 		if (result.has(key)) {
-			verify.verifyEquals(result.get(key).getClass().getName(), type,
-					"Verify data type for key: "+key );
+			verify.verifyEquals(result.get(key).getClass().getName(), type, "Verify data type for key: " + key);
 		} else
 			verify.assertTrue(false, key + " :key not found");
 	}
