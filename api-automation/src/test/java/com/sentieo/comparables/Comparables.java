@@ -1,6 +1,19 @@
 package com.sentieo.comparables;
 
-import static com.sentieo.constants.Constants.*;
+import static com.sentieo.constants.Constants.APP_URL;
+import static com.sentieo.constants.Constants.COMPARABLE_SEARCH;
+import static com.sentieo.constants.Constants.DELETE_RISK_REWARD_VIEWS;
+import static com.sentieo.constants.Constants.FETCH_COMPANY_EVENTS;
+import static com.sentieo.constants.Constants.FETCH_HOLDINGS;
+import static com.sentieo.constants.Constants.FETCH_MAIN_GRAPH;
+import static com.sentieo.constants.Constants.FETCH_SCREENER_MODELS;
+import static com.sentieo.constants.Constants.FETCH_SCREENER_SEARCH;
+import static com.sentieo.constants.Constants.FIN_SETTINGS;
+import static com.sentieo.constants.Constants.MANAGEMENT_INFO;
+import static com.sentieo.constants.Constants.MANAGEMENT_INFO_NEW;
+import static com.sentieo.constants.Constants.SAVE_RISK_REWARD_VIEWS;
+import static com.sentieo.constants.Constants.UPDATE_SCREENER_VIEWS;
+import static com.sentieo.constants.Constants.USER_APP_URL;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -10,14 +23,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
+
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -25,27 +38,26 @@ import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
+import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 
 public class Comparables extends APIDriver {
-
+	CommonUtil util = new CommonUtil();
 	APIAssertions verify = new APIAssertions();
 	InputTicker obj = new InputTicker();
 	List<String[]> tickers = obj.readTickerCSV();
 	static String VIEW = "Automation_View";
 	static String cid = "";
 	String loc2 = "";
-	public static ArrayList<String> tickers1 = new ArrayList<String>(
-			Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr", "awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack",
-					"ovbc", "fhn", "cmg", "psix", "tcbi"));
 
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
 	}
+
 	@BeforeTest(alwaysRun = true)
-	@Parameters({"loc"})
-	public void getLoc(@Optional("loc")String loc) {
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
 		loc2 = loc;
 		System.out.println(loc2);
 	}
@@ -58,8 +70,9 @@ public class Comparables extends APIDriver {
 		RequestSpecification spec = queryParamsSpec(queryParams);
 		Response resp = RestOperationUtils.get(URI, spec, queryParams);
 		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyResponseTime(resp, 5000);
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
@@ -88,7 +101,7 @@ public class Comparables extends APIDriver {
 		}
 	}
 
-	 @Test(groups = { "comp"}, description = "Check fetch live price",priority=0)
+	@Test(groups = { "comp" }, description = "Check fetch live price", priority = 0)
 	public void fetchFINSettings() throws CoreCommonException {
 		String URI = USER_APP_URL + FIN_SETTINGS;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -118,111 +131,68 @@ public class Comparables extends APIDriver {
 		}
 	}
 
-	 @Test(groups = {"sanity","mobile"}, description = "comparable_search",priority=1)
+	@Test(groups = { "sanity", "mobile" }, description = "comparable_search", priority = 1)
 	public void comparablesearch() throws Exception {
+		try
+		{
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
-				for (String cell : row) {
+			for (String cell : row) {
 				Response resp;
 				queryParams.put("tickers", cell);
 				queryParams.put("init", "1");
 				queryParams.put("rival", "1");
-				
-				if(loc2.equals("ios"))
-				{
-				    
+
+				if (loc2.equals("ios")) {
 					queryParams.put("loc", "ios");
 					queryParams.put("pagetype", "riskreward");
-					queryParams.put("model_id", "default");	
-					queryParams.put("appnew_version", "7.4");	
+					queryParams.put("model_id", "default");
+					queryParams.put("appnew_version", "7.4");
+				} else {
+					queryParams.put("pagetype", "company");
+					queryParams.put("currency", "usd");
+					queryParams.put("model_id", "company");
 				}
-				else
-				{				
-				    queryParams.put("pagetype", "company");
-				    queryParams.put("currency", "usd");
-				    queryParams.put("model_id", "company");
-			
-				}
-				
 				RequestSpecification spec = formParamsSpec(queryParams);
-			    resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
+				resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
 				verify.verifyResponseTime(resp, 5000);
-				
-				if(loc2.equals("ios"))
-				{
+				JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
+				if (data.length() == 0 || data == null) {
+					verify.assertTrue(false, "API shows blank data");
+				}
+				if (loc2.equals("ios")) {
 					JSONObject result = respJson.getJSONObject("result");
-					HashMap<String,String> keyMap = new HashMap<String,String>();
+					HashMap<String, String> keyMap = new HashMap<String, String>();
 					keyMap.put("data", "org.json.JSONArray");
 					keyMap.put("all_keys", "org.json.JSONArray");
-					
+
 					for (Map.Entry<String, String> set : keyMap.entrySet()) {
-						verifykeyAvailable(result, set.getKey(), set.getValue());
+						util.verifykeyAvailable(result, set.getKey(), set.getValue());
 						System.out.println(set.getKey() + " = " + set.getValue());
 					}
 				
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-				
-					JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
-					if (data.length() == 0 || data == null)
-					{
-						verify.assertTrue(false, "API shows blank data");
-					}
 				}
 			}
 		}
-		if(loc2.equals("ios"))
-		{
-		comparableSearchWithMultipleTickers();
+		
 		}
+		catch (JSONException je) {
+			verify.assertTrue(false, je.toString());
+		}
+		finally
+		{
 		verify.verifyAll();
 	}
-	 
-    public void comparableSearchWithMultipleTickers() throws Exception
-    {
-    	String ticker = tickers1.toString();
-	    ticker = ticker.replaceAll("\\[", "").replaceAll("\\]", "");
-	    System.out.println(ticker);
-	    HashMap<String, String> queryParams = new HashMap<String, String>();
-	    queryParams.put("tickers", ticker);
-		queryParams.put("init", "1");
-		queryParams.put("rival", "1");
-		queryParams.put("loc", "ios");
-		queryParams.put("pagetype", "riskreward");
-		queryParams.put("model_id", "default");	
-		queryParams.put("appnew_version", "7.4");
-		RequestSpecification spec = formParamsSpec(queryParams);
-	    Response resp = RestOperationUtils.post(COMPARABLE_SEARCH, null, spec, queryParams);
-		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyResponseTime(resp, 5000);
-		JSONObject result = respJson.getJSONObject("result");
-		HashMap<String,String> keyMap = new HashMap<String,String>();
-		keyMap.put("data", "org.json.JSONArray");
-		keyMap.put("all_keys", "org.json.JSONArray");
-		
-		for (Map.Entry<String, String> set : keyMap.entrySet()) {
-			verifykeyAvailable(result, set.getKey(), set.getValue());
-			System.out.println(set.getKey() + " = " + set.getValue());
-		}
-	
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
-	
-		JSONArray data = respJson.getJSONObject("result").getJSONArray("data");
-		if (data.length() == 0 || data == null)
-		{
-			verify.assertTrue(false, "API shows blank data");
-		}
-		
-	    
-    }
+	}
 
-	 @Test(groups = "sanity", description = "managementinfo",priority=2)
+	
+	@Test(groups = "sanity", description = "managementinfo", priority = 2)
 	public void managementinfo() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -239,7 +209,7 @@ public class Comparables extends APIDriver {
 		verify.verifyAll();
 	}
 
-	 @Test(groups = "sanity", description = "fetch_institutional_holdings_snapshot",priority=3)
+	@Test(groups = "sanity", description = "fetch_institutional_holdings_snapshot", priority = 3)
 	public void fetchinstitutionalholdings_snapshot() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -248,8 +218,9 @@ public class Comparables extends APIDriver {
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(FETCH_HOLDINGS, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
@@ -258,7 +229,7 @@ public class Comparables extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "fetch_main_graph",priority=4)
+	@Test(groups = "sanity", description = "fetch_main_graph", priority = 4)
 	public void fetchmaingraph() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -267,8 +238,9 @@ public class Comparables extends APIDriver {
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(FETCH_MAIN_GRAPH, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
@@ -277,7 +249,7 @@ public class Comparables extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "fetch_company_events",priority=5)
+	@Test(groups = "sanity", description = "fetch_company_events", priority = 5)
 	public void fetchcompanyevents() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -294,7 +266,7 @@ public class Comparables extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "managementinfo_new",priority=6)
+	@Test(groups = "sanity", description = "managementinfo_new", priority = 6)
 	public void managementinfo_new() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -310,7 +282,7 @@ public class Comparables extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity", description = "fetchscreenersearch",priority=7)
+	@Test(groups = "sanity", description = "fetchscreenersearch", priority = 7)
 	public void fetchscreenersearch() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		queryParams.put("tickers", "aapl");
@@ -437,11 +409,5 @@ public class Comparables extends APIDriver {
 		}
 
 	}
-	 public void verifykeyAvailable(JSONObject result, String key, String type) {
-			if (result.has(key)) {
-				verify.verifyEquals(result.get(key).getClass().getName(), type,
-						"Verify data type for key: "+key );
-			} else
-				verify.assertTrue(false, key + " :key not found");
-		}
+
 }
