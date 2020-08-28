@@ -31,12 +31,12 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 
 		double timestamp;
 		int digit;
-		//FinanceApi fin = new FinanceApi();
+		// FinanceApi fin = new FinanceApi();
 		CommonUtil util = new CommonUtil();
 		String date = "";
 		String expectedTitle = "";
 		String expectedTitleSP = "";
-		//String systemDate;
+		// String systemDate;
 		JSONArray peNTMValue = null;
 		JSONArray SP500NTMValue = null;
 		String seriesTitleSP = "";
@@ -103,8 +103,7 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 							expectedDate = formatter.format(cal.getTime());
 							verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 						} else
-							verify.compareDates(date, expectedDate,
-									"Verify the Current Date Point for P/E series");
+							verify.compareDates(date, expectedDate, "Verify the Current Date Point for P/E series");
 					}
 				}
 				if ((SP500NTM.length() != 0) && (SP500NTM != null)) {
@@ -113,19 +112,12 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					digit = (int) (timestamp / 1000);
 					util = new CommonUtil();
 					date = util.convertTimestampIntoDate(digit);
-
 					if (!date.contains(expectedDate)) {
 						cal = obj.addDays(new Date(), -1);
 						expectedDate = formatter.format(cal.getTime());
-						if (!date.contains(expectedDate)) {
-							cal = obj.addDays(new Date(), -2);
-							expectedDate = formatter.format(cal.getTime());
-							verify.compareDates(date, expectedDate, "Verify the Current Date Point");
-						} else
-							verify.compareDates(date, expectedDate,
-									"Verify the Current Date Point for PS&P 500 NTM - TWA P/E");
-					}
-
+					} else
+						verify.compareDates(date, expectedDate,
+								"Verify the Current Date Point for PS&P 500 NTM - TWA P/E");
 				}
 
 			}
