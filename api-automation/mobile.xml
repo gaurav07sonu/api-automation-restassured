@@ -21,7 +21,6 @@
 
 		<classes>
 		    <class name ="com.sentieo.finance.InputTicker" />
-		    <class name = "com.sentieo.utils.CommonUtil" />
 			<class name ="com.sentieo.finance.FinanceApi" />
 		    <class name ="com.sentieo.finance.MobileFinanceApi" />			
 			<class name="com.sentieo.statements.Statements" />
