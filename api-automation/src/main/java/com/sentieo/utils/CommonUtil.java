@@ -367,5 +367,29 @@ public class CommonUtil {
 
 		return tickers;
 	}
+	
+	public String getDate(int days) {
+		String str = "";
+		Calendar calNewYork = Calendar.getInstance();
+		calNewYork.add(Calendar.DAY_OF_MONTH, days);
+		DateFormat dateformat;
+		dateformat = new SimpleDateFormat("M/d/yy");
+		calNewYork.setTimeZone(TimeZone.getTimeZone("Australia/Perth"));
+		int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 7)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
+
+		else if (dayOfWeek == 1)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
+		
+		else if (dayOfWeek == 2)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
+
+		else
+			calNewYork.add(Calendar.DAY_OF_MONTH, -days);
+		str = dateformat.format(calNewYork.getTime());
+		return str;
+	}
+
 
 }
