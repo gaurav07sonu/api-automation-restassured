@@ -13,9 +13,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -73,7 +71,7 @@ public class StockPrice50650 extends APIDriver {
 						String date = util.convertTimestampIntoDate(digit);
 						String str = obj.getDate(0);
 						if (!date.contains(str))
-							str = obj.getDate(1);
+							str = obj.getDate(-1);
 						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
 					}
