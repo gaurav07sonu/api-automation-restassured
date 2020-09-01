@@ -72,45 +72,49 @@ public class RevenueDataPoint extends APIDriver {
 					Response resp = RestOperationUtils.get(fetchGraphURI, spec, parameters);
 					APIResponse apiResp = new APIResponse(resp);
 					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					verify.verifyResponseTime(resp, 5000);
-					JSONArray series = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
-							.getJSONArray("series");
-					if (series.length() != 0) {
-						for (int i = 0; i < series.length(); i++) {
-							String reportedQuarter = series.getJSONObject(i).get("x").toString();
-							double timestamp = Double.valueOf(reportedQuarter);
-							int digit = (int) (timestamp / 1000);
-							String date = util.convertTimestampIntoDate(digit);
-							if (date.contains(currentDate)) {
-								if (i != series.length() - 1) {
-									String nextReportedQuarter = series.getJSONObject(i + 1).get("x").toString();
-									timestamp = Double.valueOf(nextReportedQuarter);
-									digit = (int) (timestamp / 1000);
-									String nextReportedDate = util.convertTimestampIntoDate(digit);
-									long time1 = Long.parseLong(reportedQuarter);
-									long time2 = Long.parseLong(nextReportedQuarter);
-									long diff = util.daysDifferenceBetweenTwoTimestamps(time1, time2);
-									int daysDiff = (int) diff;
-									if (periodType.equalsIgnoreCase("Quarterly")) {
-										if (daysDiff <= 50)
-											verify.assertTrue(false,
-													"verify reported quarter :" + "first reported quarter is " + date
-															+ " second reported quarter is " + nextReportedDate);
-									} else {
-										if (daysDiff <= 100)
-											verify.assertTrue(false,
-													"verify reported quarter :" + "first reported quarter is " + date
-															+ " second reported quarter is " + nextReportedDate);
+					if (apiResp.getStatusCode() == 200) {
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+								"Verify the API Response Status");
+						verify.verifyResponseTime(resp, 5000);
+						JSONArray series = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
+								.getJSONArray("series");
+						if (series.length() != 0) {
+							for (int i = 0; i < series.length(); i++) {
+								String reportedQuarter = series.getJSONObject(i).get("x").toString();
+								double timestamp = Double.valueOf(reportedQuarter);
+								int digit = (int) (timestamp / 1000);
+								String date = util.convertTimestampIntoDate(digit);
+								if (date.contains(currentDate)) {
+									if (i != series.length() - 1) {
+										String nextReportedQuarter = series.getJSONObject(i + 1).get("x").toString();
+										timestamp = Double.valueOf(nextReportedQuarter);
+										digit = (int) (timestamp / 1000);
+										String nextReportedDate = util.convertTimestampIntoDate(digit);
+										long time1 = Long.parseLong(reportedQuarter);
+										long time2 = Long.parseLong(nextReportedQuarter);
+										long diff = util.daysDifferenceBetweenTwoTimestamps(time1, time2);
+										int daysDiff = (int) diff;
+										if (periodType.equalsIgnoreCase("Quarterly")) {
+											if (daysDiff <= 50)
+												verify.assertTrue(false,
+														"verify reported quarter :" + "first reported quarter is "
+																+ date + " second reported quarter is "
+																+ nextReportedDate);
+										} else {
+											if (daysDiff <= 100)
+												verify.assertTrue(false,
+														"verify reported quarter :" + "first reported quarter is "
+																+ date + " second reported quarter is "
+																+ nextReportedDate);
+										}
 									}
 								}
-							}
 
-						}
-					} else
-						verify.assertTrue(false, "series data is blank for " + cell.toLowerCase().trim());
+							}
+						} else
+							verify.assertTrue(false, "series data is blank for " + cell.toLowerCase().trim());
+					}
 				}
 			}
 			verify.verifyAll();

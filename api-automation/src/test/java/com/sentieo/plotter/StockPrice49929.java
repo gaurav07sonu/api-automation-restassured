@@ -18,7 +18,7 @@ public class StockPrice49929 extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
@@ -28,7 +28,7 @@ public class StockPrice49929 extends APIDriver {
 		try {
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			String cell = "^ixic,aapl,shs";
-			cell=cell.toLowerCase();
+			cell = cell.toLowerCase();
 			parameters.put("head_name", "Stock Price");
 			parameters.put("graphtype_original", "stock");
 			parameters.put("graphtype", "stock");
@@ -38,43 +38,46 @@ public class StockPrice49929 extends APIDriver {
 			RequestSpecification spec = queryParamsSpec(parameters);
 			Response resp = RestOperationUtils.get(URI, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.verifyResponseTime(resp, 5000);
-			JSONObject firstTickerSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
-			JSONObject secondTickerSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(1);
-			JSONObject thirdTickerSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(2);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject firstTickerSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
+				JSONObject secondTickerSeries = respJson.getJSONObject("result").getJSONArray("series")
+						.getJSONObject(1);
+				JSONObject thirdTickerSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(2);
 
-			String firstSeriesTitle = firstTickerSeries.getString("title").replaceAll(" ", "");
-			String secondSeriesTitle = secondTickerSeries.getString("title").replaceAll(" ", "");
-			String thirdSeriesTitle = thirdTickerSeries.getString("title").replaceAll(" ", "");
+				String firstSeriesTitle = firstTickerSeries.getString("title").replaceAll(" ", "");
+				String secondSeriesTitle = secondTickerSeries.getString("title").replaceAll(" ", "");
+				String thirdSeriesTitle = thirdTickerSeries.getString("title").replaceAll(" ", "");
 
-			String actualFirstSeriesTitle = cell.toUpperCase() + parameters.get("head_name").replaceAll(" ", "");
-			String actualSecondSeriesTitle = cell.toUpperCase() + parameters.get("head_name").replaceAll(" ", "");
-			String actualThirdSeriesTitle = cell.toUpperCase() + parameters.get("head_name").replaceAll(" ", "");
+				String actualFirstSeriesTitle = cell.toUpperCase() + parameters.get("head_name").replaceAll(" ", "");
+				String actualSecondSeriesTitle = cell.toUpperCase() + parameters.get("head_name").replaceAll(" ", "");
+				String actualThirdSeriesTitle = cell.toUpperCase() + parameters.get("head_name").replaceAll(" ", "");
 
-			String actualFirst = actualFirstSeriesTitle.replaceAll("AAPL", "");
-			actualFirst = actualFirst.replaceAll("SHS", "");
-			actualFirst = actualFirst.replaceAll(",", "");
+				String actualFirst = actualFirstSeriesTitle.replaceAll("AAPL", "");
+				actualFirst = actualFirst.replaceAll("SHS", "");
+				actualFirst = actualFirst.replaceAll(",", "");
 
-			String actualSecond = actualSecondSeriesTitle.replaceAll("IXIC", "");
-			actualSecond = actualSecond.replaceAll("SHS", "");
-			actualSecond = actualSecond.replaceAll("\\^", "");
-			actualSecond = actualSecond.replaceAll(",", "");
+				String actualSecond = actualSecondSeriesTitle.replaceAll("IXIC", "");
+				actualSecond = actualSecond.replaceAll("SHS", "");
+				actualSecond = actualSecond.replaceAll("\\^", "");
+				actualSecond = actualSecond.replaceAll(",", "");
 
-			String actualThird = actualThirdSeriesTitle.replaceAll("AAPL", "");
-			actualThird = actualThird.replaceAll("IXIC", "");
-			actualThird = actualThird.replaceAll("\\^", "");
-			actualThird = actualThird.replaceAll(",", "");
+				String actualThird = actualThirdSeriesTitle.replaceAll("AAPL", "");
+				actualThird = actualThird.replaceAll("IXIC", "");
+				actualThird = actualThird.replaceAll("\\^", "");
+				actualThird = actualThird.replaceAll(",", "");
 
-			verify.verifyEquals(actualSecond, secondSeriesTitle, "Verify Series Title");
-			verify.verifyEquals(actualFirst, firstSeriesTitle, "Verify Series Title");
-			verify.verifyEquals(actualThird, thirdSeriesTitle, "Verify Series Title");
+				verify.verifyEquals(actualSecond, secondSeriesTitle, "Verify Series Title");
+				verify.verifyEquals(actualFirst, firstSeriesTitle, "Verify Series Title");
+				verify.verifyEquals(actualThird, thirdSeriesTitle, "Verify Series Title");
 
-			if (secondTickerSeries.length() == 0)
-				verify.assertTrue(false, "series have no data : ");
+				if (secondTickerSeries.length() == 0)
+					verify.assertTrue(false, "series have no data : ");
+			}
 			verify.verifyAll();
 
 		} catch (Exception e) {

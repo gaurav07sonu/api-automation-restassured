@@ -10,7 +10,9 @@ import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -258,24 +260,24 @@ public class CommonUtil {
 			return true;
 		return false;
 	}
-	
-	public static String encodeFileToBase64Binary(File file){
-        String encodedfile = null;
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int)file.length()];
-            fileInputStreamReader.read(bytes);
-            encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
-            fileInputStreamReader.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return encodedfile;
-    }
+
+	public static String encodeFileToBase64Binary(File file) {
+		String encodedfile = null;
+		try {
+			FileInputStream fileInputStreamReader = new FileInputStream(file);
+			byte[] bytes = new byte[(int) file.length()];
+			fileInputStreamReader.read(bytes);
+			encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
+			fileInputStreamReader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return encodedfile;
+	}
 
 	public long daysDifferenceBetweenTwoTimestamps(long time1, long time2) {
 		final long MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -366,6 +368,29 @@ public class CommonUtil {
 			tickers = null;
 
 		return tickers;
+	}
+
+	public String getDate(int days) {
+		String str = "";
+		Calendar calNewYork = Calendar.getInstance();
+		DateFormat dateformat;
+		dateformat = new SimpleDateFormat("M/d/yy");
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 7)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
+
+		else if (dayOfWeek == 1)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
+
+		else if (dayOfWeek == 2)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
+
+		else
+			calNewYork.add(Calendar.DAY_OF_MONTH, days);
+
+		str = dateformat.format(calNewYork.getTime());
+		return str;
 	}
 
 }

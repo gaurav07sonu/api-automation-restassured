@@ -3,9 +3,7 @@ package com.sentieo.plotter;
 import static com.sentieo.constants.Constants.*;
 
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.Map.Entry;
@@ -18,7 +16,6 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.finance.FinanceApi;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -27,11 +24,8 @@ import com.sentieo.utils.CommonUtil;
 
 public class TestDailySeriesData extends APIDriver {
 
-//	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("nvt", "mdlz", "bk", "syy", "ge", "pg", "lm", "ppg", "wen", "aapl"));
-//	public ArrayList<String> tickers = new ArrayList<String>(
-//			Arrays.asList("wen", "blue", "eqt", "tcl:au", "wy", "gmg:au"));
 	String systemDate;
-
+	
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
@@ -40,9 +34,8 @@ public class TestDailySeriesData extends APIDriver {
 	}
 
 	public void keyMultiples(String headName, String graphType, String ticker) throws Exception {
-		SimpleDateFormat formatter = new SimpleDateFormat("M/dd/yy");
-		Date cal = addDays(new Date(), 0);
-		String expectedDate = formatter.format(cal.getTime());
+		CommonUtil obj = new CommonUtil();
+		String expectedDate = obj.getDate(0);
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -94,11 +87,11 @@ public class TestDailySeriesData extends APIDriver {
 		APIResponse apiResp = new APIResponse(resp);
 		int statusCode = apiResp.getStatusCode();
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
 		verify.verifyResponseTime(resp, 5000);
 		if (statusCode == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
 			JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 					.getJSONArray("series");
 			if (values.length() != 0) {
@@ -107,20 +100,9 @@ public class TestDailySeriesData extends APIDriver {
 				int digit = (int) (timestamp / 1000);
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
-				FinanceApi fin = new FinanceApi();
-				if (!date.contains(expectedDate)) {
-					cal = addDays(new Date(), -1);
-					expectedDate = formatter.format(cal.getTime());
-					if (!date.contains(expectedDate)) {
-						cal = addDays(new Date(), -2);
-						expectedDate = formatter.format(cal.getTime());
-						verify.compareDates(date, expectedDate, "Verify the Current Date Point");
-					}
-
-				} else {
-					systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
-					verify.compareDates(date, systemDate, "Verify the Current Date Point");
-				}
+				if (!date.contains(expectedDate))
+					expectedDate = obj.getDate(-1);
+				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {
 			verify.assertTrue(false, "status code is not 200 " + statusCode);
@@ -183,20 +165,6 @@ public class TestDailySeriesData extends APIDriver {
 			keyMultiples("P/Book Value", "price_bookvalue", ticker);
 		}
 		verify.verifyAll();
-	}
-
-	public Date addDays(Date date, Integer days) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		cal.add(Calendar.DAY_OF_MONTH, days);
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		if (dayOfWeek == 7)
-			cal.add(Calendar.DAY_OF_MONTH, -1);
-
-		if (dayOfWeek == 1)
-			cal.add(Calendar.DAY_OF_MONTH, -2);
-		return cal.getTime();
-
 	}
 
 }
