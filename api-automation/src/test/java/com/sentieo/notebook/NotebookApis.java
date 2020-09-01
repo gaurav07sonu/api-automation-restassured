@@ -2989,12 +2989,12 @@ public class NotebookApis extends APIDriver {
 								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("organization");
 								verify.assertTrue(organization.length() > 0, "organization data should be present");
-								}
+								
 								
 								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("debt");
 								verify.assertTrue(debt.length() > 0, "debt data should be present");
-								}
+								}}
 							} else {
 								JSONArray privateentity = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("privateentity");
