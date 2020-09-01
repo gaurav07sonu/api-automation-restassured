@@ -16,7 +16,6 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.finance.FinanceApi;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -102,7 +101,7 @@ public class TestDailySeriesData extends APIDriver {
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
 				if (!date.contains(expectedDate))
-					expectedDate = obj.getDate(0);
+					expectedDate = obj.getDate(-1);
 				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {
