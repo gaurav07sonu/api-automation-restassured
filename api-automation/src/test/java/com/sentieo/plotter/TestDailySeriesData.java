@@ -35,7 +35,7 @@ public class TestDailySeriesData extends APIDriver {
 
 	public void keyMultiples(String headName, String graphType, String ticker) throws Exception {
 		CommonUtil obj = new CommonUtil();
-		String expectedDate = obj.getDate(0);
+		String expectedDate = obj.getDate(0, "keyMultiples");
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -101,7 +101,7 @@ public class TestDailySeriesData extends APIDriver {
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
 				if (!date.contains(expectedDate))
-					expectedDate = obj.getDate(-1);
+					expectedDate = obj.getDate(-1, "keyMultiples");
 				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {
