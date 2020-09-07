@@ -383,8 +383,8 @@ public class CommonUtil {
 		else if (dayOfWeek == 1)
 			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
 
-		else if (dayOfWeek == 2)
-			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
+//		else if (dayOfWeek == 2)
+//			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
 
 		else
 			calNewYork.add(Calendar.DAY_OF_MONTH, days);
