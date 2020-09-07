@@ -1,7 +1,5 @@
 package com.sentieo.statuspage;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -201,8 +199,7 @@ public class Components extends APIDriver {
 		getJobDetails(pageID, componentId, componentName);
 	}
 
-	// @Test(groups = "savedseries", description = "getRedisServiceStatus", priority
-	// = 2)
+	@Test(groups = "savedseries", description = "getRedisServiceStatus", priority = 2)
 	public void getRedisServiceStatus() throws Exception {
 		JedisPool pool = new JedisPool();
 		try {
