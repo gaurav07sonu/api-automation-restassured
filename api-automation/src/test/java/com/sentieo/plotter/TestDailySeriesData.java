@@ -102,6 +102,15 @@ public class TestDailySeriesData extends APIDriver {
 				String date = util.convertTimestampIntoDate(digit);
 				if (!date.contains(expectedDate))
 					expectedDate = obj.getDate(-1, "keyMultiples");
+				
+				if (!date.contains(expectedDate))
+					expectedDate = obj.getDate(-2, "keyMultiples");
+				
+				if (!date.contains(expectedDate))
+					expectedDate = obj.getDate(-3, "keyMultiples");
+				
+				if (!date.contains(expectedDate))
+					expectedDate = obj.getDate(-4, "keyMultiples");
 				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {

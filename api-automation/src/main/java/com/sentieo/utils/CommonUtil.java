@@ -384,7 +384,7 @@ public class CommonUtil {
 			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
 
 		if (testType.contains("keyMultiples"))
-			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
+			calNewYork.add(Calendar.DAY_OF_MONTH, days);
 		else
 			calNewYork.add(Calendar.DAY_OF_MONTH, days);
 

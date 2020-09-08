@@ -15,7 +15,6 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.finance.FinanceApi;
 import com.sentieo.finance.InputTicker;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
@@ -25,7 +24,6 @@ import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 
 public class Volume extends APIDriver {
-	String systemDate;
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
 	InputTicker obj = new InputTicker();
@@ -39,6 +37,8 @@ public class Volume extends APIDriver {
 	@Test(description = "Match stock price plotter series and stream call ")
 	public void volume() throws CoreCommonException {
 		try {
+			CommonUtil obj = new CommonUtil();
+			String expectedDate = obj.getDate(0, "");
 			Calendar calNewYork = Calendar.getInstance();
 			calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
@@ -87,9 +87,21 @@ public class Volume extends APIDriver {
 								int digit = (int) (timestamp / 1000);
 								CommonUtil util = new CommonUtil();
 								String date = util.convertTimestampIntoDate(digit);
-								FinanceApi fin = new FinanceApi();
-								systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", cell);
-								verify.compareDates(date, systemDate, "Verify the Current Date Point");
+
+								if (!date.contains(expectedDate))
+									expectedDate = obj.getDate(-1, "keyMultiples");
+
+								if (!date.contains(expectedDate))
+									expectedDate = obj.getDate(-2, "keyMultiples");
+
+								if (!date.contains(expectedDate))
+									expectedDate = obj.getDate(-3, "keyMultiples");
+
+								if (!date.contains(expectedDate))
+									expectedDate = obj.getDate(-4, "keyMultiples");
+
+								verify.compareDates(date, expectedDate, "Verify the Current Date Point ");
+
 							} else
 								verify.assertTrue(false, "Series shows blank data for " + cell);
 						} else

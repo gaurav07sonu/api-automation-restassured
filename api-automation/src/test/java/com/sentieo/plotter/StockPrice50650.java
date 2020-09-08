@@ -70,8 +70,19 @@ public class StockPrice50650 extends APIDriver {
 						CommonUtil util = new CommonUtil();
 						String date = util.convertTimestampIntoDate(digit);
 						String str = obj.getDate(0, "keyMultiples");
+
 						if (!date.contains(str))
 							str = obj.getDate(-1, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-2, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-3, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-4, "keyMultiples");
+
 						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
 					}

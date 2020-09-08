@@ -87,14 +87,10 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					timestamp = peNTMValue.getDouble(0);
 					digit = (int) (timestamp / 1000);
 					date = util.convertTimestampIntoDate(digit);
-					if (!date.contains(expectedDate)) {
-						expectedDate = obj.getDate(-1, "keyMultiples");
-						if (!date.contains(expectedDate)) {
-							expectedDate = obj.getDate(-2, "keyMultiples");
-							verify.compareDates(date, expectedDate, "Verify the Current Date Point");
-						} else
-							verify.compareDates(date, expectedDate, "Verify the Current Date Point for P/E series");
-					}
+					if (!date.contains(expectedDate))
+						expectedDate = obj.getDate(-1, "");
+					verify.compareDates(date, expectedDate, "Verify the Current Date Point for P/E series");
+
 				}
 				if ((SP500NTM.length() != 0) && (SP500NTM != null)) {
 					SP500NTMValue = SP500NTM.getJSONArray(SP500NTM.length() - 1);
