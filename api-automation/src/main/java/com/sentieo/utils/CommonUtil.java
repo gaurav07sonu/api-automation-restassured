@@ -370,7 +370,7 @@ public class CommonUtil {
 		return tickers;
 	}
 
-	public String getDate(int days) {
+	public String getDate(int days, String testType) {
 		String str = "";
 		Calendar calNewYork = Calendar.getInstance();
 		DateFormat dateformat;
@@ -383,9 +383,8 @@ public class CommonUtil {
 		else if (dayOfWeek == 1)
 			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
 
-		else if (dayOfWeek == 2)
-			calNewYork.add(Calendar.DAY_OF_MONTH, -3);
-
+		if (testType.contains("keyMultiples"))
+			calNewYork.add(Calendar.DAY_OF_MONTH, days);
 		else
 			calNewYork.add(Calendar.DAY_OF_MONTH, days);
 

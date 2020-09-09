@@ -123,13 +123,13 @@ public class APIDriver {
 	protected RequestSpecification RequestSpecificationformParamsSpecStatusPage(String formParams) {
 		// formParams.put("api_key", "39ba3411-aea6-4523-80e4-9b8bdb61f2d3");
 		return given().contentType(ContentType.JSON).accept(ContentType.JSON)
-				.headers("Authorization", "OAuth 39ba3411-aea6-4523-80e4-9b8bdb61f2d3").body(formParams);
+				.headers("Authorization", "OAuth 866239df-c0df-4011-ac76-dfe397a14344").body(formParams);
 
 	}
 
 	 protected JSONArray RequestSpecificationformParamsSpecStatusPage2(String formParams) {
 		// formParams.put("api_key", "39ba3411-aea6-4523-80e4-9b8bdb61f2d3");
-		Response response= given().headers("Authorization", "OAuth 39ba3411-aea6-4523-80e4-9b8bdb61f2d3").when().get(formParams)
+		Response response= given().headers("Authorization", "OAuth 866239df-c0df-4011-ac76-dfe397a14344").when().get(formParams)
 				.then().contentType(ContentType.JSON).extract().response();
 		@SuppressWarnings("rawtypes")
 		ResponseBody body = response.getBody();
