@@ -112,6 +112,7 @@ public class WebandSocialData extends APIDriver {
 	@Test(description = "Plotter Web and Social Data Series", groups = { "website", "strong_ties2" })
 	public void websiteTraffic() throws CoreCommonException {
 		String cell = "";
+		boolean dateStatus = false;
 		CommonUtil obj = new CommonUtil();
 		try {
 			Calendar calNewYork = Calendar.getInstance();
@@ -176,8 +177,11 @@ public class WebandSocialData extends APIDriver {
 								if (!date.contains(str))
 									str = obj.getDate(-8, "");
 
-								verify.assertEqualsActualContainsExpected(date, str,
-										"verify website-traffic latest point for " + cell);
+								if (date.contains(str))
+									dateStatus = true;
+								else
+									verify.assertEqualsActualContainsExpected(date, str,
+											"verify website-traffic latest point for " + cell);
 							} else
 								verify.assertTrue(false, "status code is : " + statuscode + " for " + cell);
 
@@ -189,7 +193,7 @@ public class WebandSocialData extends APIDriver {
 			} else
 				ExtentTestManager.getTest().log(LogStatus.INFO,
 						"Skip test because of data is not updated on  : " + dayofweek + "day");
-
+			verify.assertTrue(dateStatus, "Verify latest date ");
 			verify.verifyAll();
 		} catch (Exception e) {
 			assertEquals(false, "in websiteTraffic Catch " + e.toString() + " for ticker " + cell);
