@@ -190,10 +190,10 @@ public class WebandSocialData extends APIDriver {
 						ExtentTestManager.getTest().log(LogStatus.INFO, cell + " not mapped in Mosaic");
 
 				}
+				verify.assertTrue(dateStatus, "Verify latest date ");
 			} else
 				ExtentTestManager.getTest().log(LogStatus.INFO,
 						"Skip test because of data is not updated on  : " + dayofweek + "day");
-			verify.assertTrue(dateStatus, "Verify latest date ");
 			verify.verifyAll();
 		} catch (Exception e) {
 			assertEquals(false, "in websiteTraffic Catch " + e.toString() + " for ticker " + cell);
