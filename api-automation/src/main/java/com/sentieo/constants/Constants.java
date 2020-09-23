@@ -22,7 +22,7 @@ public class Constants {
 	static {
 
 		String envArg = System.getProperty("env");
-		// String envArg = "app";
+		//String envArg = "app";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -147,7 +147,7 @@ public class Constants {
 	public static final String FETCH_STOCK_META = "/api/stock_meta/";
 	public static final String FETCH_INTRA_HEADER_DATA = "/api/fetch_intra_header_data/";
 	public static final String GET_YEARLY_TABLE = "/api/get_yearly_table/";
-
+	public static final String TM_MAP_TICKER="/api/tm_map_ticker/";
 	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
 	public static final String GET_SPOTFX_DATA = "/api/get_spotfx_data/";
@@ -296,6 +296,10 @@ public class Constants {
 	public static final String GET_DASHBOARD_LIST = "/api/get_dashboard_list/";
 	public static final String UPDATE_DASHBOARD_WIDGET = "/api/update_dashboard_widget/";
 	public static final String INSTAGRAM_MAPPINGS = "/api/get_instagram_mappings/";
+	public static final String DASHBOARD_SHARE="/api/share_entity/";
+	public static final String DASHBOARD_DATA="/api/get_dashboard_data/";
+	public static final String UPDATE_DB_TOKEN_LIST="/api/update_db_token_list/";
+	public static final String CLONE_DASHBOARD="/api/clone_dashboard/";
 
 	// Table x
 
