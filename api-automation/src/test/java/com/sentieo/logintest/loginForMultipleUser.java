@@ -42,7 +42,9 @@ public class loginForMultipleUser extends APIDriver {
 		RequestSpecification spec = formParamsSpec(loginData);
 		Response resp = RestOperationUtils.get(URI, spec, null);
 		APIResponse apiResp = new APIResponse(resp);
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		int statuscode=apiResp.getStatusCode();
+		verify.verifyStatusCode(statuscode, 200);
+		if(statuscode==200) {
 		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 				"Verify the API Response Status");
@@ -53,6 +55,7 @@ public class loginForMultipleUser extends APIDriver {
 			verify.assertEqualsActualContainsExpected(email, userName, msg);
 		} else {
 			verify.assertTrue(false, msg);
+		}
 		}
 		verify.verifyAll();
 	}
