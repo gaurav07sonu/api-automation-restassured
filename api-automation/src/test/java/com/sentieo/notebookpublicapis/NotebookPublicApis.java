@@ -358,7 +358,7 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 409);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("error");
 			String message = (String) response.get("message");
