@@ -2977,9 +2977,9 @@ public class NotebookApis extends APIDriver {
 										verify.assertTrue(false, "Id appearing in name" + privcomp.getJSONObject(0).getString("name"));
 								}
 								if(!moduleType.equalsIgnoreCase("company")) {
-								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("crypto");
-								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
+//								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
+//										.getJSONArray("crypto");
+//								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
 
 								JSONArray entity = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("entity");
