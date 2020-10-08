@@ -19,8 +19,8 @@ public class Constants {
 	public static String X_API_KEY = "";
 	public static String X_USER_KEY = "";
 
-	static {
 
+	static {
 		String envArg = System.getProperty("env");
 		//String envArg = "app";
 		String usernameArg = System.getProperty("username");

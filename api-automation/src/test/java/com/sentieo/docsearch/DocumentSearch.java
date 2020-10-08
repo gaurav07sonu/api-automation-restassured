@@ -43,6 +43,8 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("query", query);
 			queryParams.put("filters", filters);
 			queryParams.put("facets_flag", "false");
+			queryParams.put("allow_entity", "true");
+			queryParams.put("pticker_setting", "true");
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
@@ -312,6 +314,8 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("applied_filter", "doctype");
 				queryParams.put("facets_flag", "false");
 				queryParams.put("filters", filters);
+				queryParams.put("allow_entity", "true");
+				queryParams.put("pticker_setting", "true");
 
 				JSONObject json = new JSONObject(filters);
 				System.out.println(json.getJSONObject("doctype"));
@@ -371,7 +375,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
+//	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
 	public void docsearch_date_filter(String ticker,String sort, String filters) throws CoreCommonException {
 		try {
 			if (!APP_URL.contains("app") && filters.contains("note")) {
@@ -385,6 +389,8 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("filters", filters);
 				queryParams.put("default_sort", "date");
 				queryParams.put("sort", sort); //asc or desc
+				queryParams.put("allow_entity", "true");
+				queryParams.put("pticker_setting", "true");
 				String filter = filters.replace("\"date\":{\"\":{\"\":", "\"date\":{\"one\":{\"two\":");
 				JSONObject json = new JSONObject(filter);
 				String docType = "";
