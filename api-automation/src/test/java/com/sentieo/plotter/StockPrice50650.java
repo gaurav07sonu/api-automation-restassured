@@ -13,10 +13,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.finance.FinanceApi;
-import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -34,7 +31,7 @@ public class StockPrice50650 extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
-	@BeforeMethod(alwaysRun=true)
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
@@ -42,12 +39,13 @@ public class StockPrice50650 extends APIDriver {
 	@Test(description = "Plotter stock price Series")
 	public void stockPriceMissingValuesForGSPCTicker() throws CoreCommonException {
 		try {
+			CommonUtil obj = new CommonUtil();
 			getDateTime();
 			if (dayofweek != 1 && dayofweek != 7) {
 				JSONArray value = null;
 				String URI = APP_URL + FETCH_GRAPH_DATA;
 				String cell = "^gspc";
-				cell=cell.toLowerCase();
+				cell = cell.toLowerCase();
 				parameters.put("head_name", "Stock Price");
 				parameters.put("graphtype_original", "stock");
 				parameters.put("graphtype", "stock");
@@ -57,13 +55,12 @@ public class StockPrice50650 extends APIDriver {
 				RequestSpecification spec = queryParamsSpec(parameters);
 				Response resp = RestOperationUtils.get(URI, spec, parameters);
 				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				int statusCode = apiResp.getStatusCode();
-				if (statusCode == 200) {
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
 					JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 							.getJSONArray("series");
 					if (values.length() != 0) {
@@ -72,22 +69,25 @@ public class StockPrice50650 extends APIDriver {
 						int digit = (int) (timestamp / 1000);
 						CommonUtil util = new CommonUtil();
 						String date = util.convertTimestampIntoDate(digit);
-						FinanceApi fin = new FinanceApi();
-						CommonUtil comm = new CommonUtil();
-						if (hour >= 9 && hour<24)
-							systemDate = comm.getCurrentDate();
-						else
-							systemDate = fin.dateValidationForHistoricalChart("",cell);
-						verify.compareDates(date, systemDate, "Verify the Current Date Point");
+						String str = obj.getDate(0, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-1, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-2, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-3, "keyMultiples");
+
+						if (!date.contains(str))
+							str = obj.getDate(-4, "keyMultiples");
+
+						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
 					}
-				} else {
-					verify.assertTrue(false, "status code is : " + statusCode);
-					verify.verifyAll();
 				}
-			} else {
-				ExtentTestManager.getTest().log(LogStatus.INFO,
-						"Skip test because of data is not updated on  : " + dayofweek + "day");
+				verify.verifyAll();
 			}
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
@@ -109,6 +109,6 @@ public class StockPrice50650 extends APIDriver {
 			morningTime = time.replaceAll("PM", "");
 		String[] hourMin = morningTime.split(":");
 		hour = Integer.parseInt(hourMin[0]);
-		//mins = Integer.parseInt(hourMin[1]);
+		// mins = Integer.parseInt(hourMin[1]);
 	}
 }

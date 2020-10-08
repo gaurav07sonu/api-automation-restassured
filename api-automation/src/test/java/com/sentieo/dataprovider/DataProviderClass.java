@@ -622,8 +622,8 @@ public class DataProviderClass {
 
 	@DataProvider(name = "chainUser")
 	public Object[][] chainUserData() {
-		return new Object[][] { { "10-k", "aapl" }, { "8-k", "aapl" }, { "10-q", "aapl" }, { "10-k", "asna" },
-				{ "8-k", "asna" }, { "10-q", "asna" } };
+		return new Object[][] { { "10-k", "aapl" }, { "8-k", "aapl" }, { "10-q", "aapl" }, { "10-k", "amzn" },
+				{ "8-k", "amzn" }, { "10-q", "amzn" } };
 	}
 
 	@DataProvider(name = "loadGraph")

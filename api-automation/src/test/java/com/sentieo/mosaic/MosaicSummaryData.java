@@ -8,15 +8,11 @@ import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
-import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -78,8 +74,7 @@ public class MosaicSummaryData extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "bonding",
-			"test" }, description = "Fetch Firewall", dataProvider = "searchEstimates", dataProviderClass = DataProviderClass.class)
+	//@Test(groups = { "bonding","test" }, description = "Fetch Firewall", dataProvider = "searchEstimates", dataProviderClass = DataProviderClass.class)
 	public void gnipSearchEstimate(String query, String ticker) throws Exception {
 		String URI = APP_URL + GNIP_SEARCH_ESTIMATE;
 		HashMap<String, String> parameters = new HashMap<String, String>();

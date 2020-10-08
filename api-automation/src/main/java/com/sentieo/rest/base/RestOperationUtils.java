@@ -96,7 +96,7 @@ public class RestOperationUtils {
 		return res;
 	}
 
-	public static Response put(String url, String payload, RequestSpecification spec, BaseRestParameter params)
+	public static Response put(String url, String payload, RequestSpecification spec, Map params)
 			throws CoreCommonException {
 		Response res = null;
 		try {
@@ -229,4 +229,5 @@ public class RestOperationUtils {
 		}
 		return res;
 	}
+	
 }

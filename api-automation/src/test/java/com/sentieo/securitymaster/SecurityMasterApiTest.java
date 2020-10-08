@@ -342,7 +342,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject error = (JSONObject) respJson.get("error");
 			verify.verifyEquals(error.get("message"),
-					"short_name : Ensure this field has no more than 20 characters. ");
+					"Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "Ensure this field has no more than 20 characters.");
@@ -673,7 +673,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "name : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 
 		} catch (JSONException je) {
@@ -715,7 +715,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "short_name : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 
 		} catch (JSONException je) {
@@ -758,7 +758,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
 			verify.verifyEquals(error.get("message"),
-					"short_name : Ensure this field has no more than 20 characters. ");
+					"Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "Ensure this field has no more than 20 characters.");
@@ -918,7 +918,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
 			verify.verifyEquals(error.get("message"),
-					"short_name : Ensure this field has no more than 20 characters. ");
+					"Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "Ensure this field has no more than 20 characters.");
@@ -1469,6 +1469,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			formParams.put("rkd_issue_code", 124);
 			formParams.put("tr_sec_master_sec_code", 1233);
 			formParams.put("ciq_security_id", 214);
+			formParams.put("share_class_figi", "testShareFigi");
 			formParams.put("fact_set_security_id", "00991");
 			formParams.put("datastream_ds_scty_code", "990011");
 			formParams.put("datastream_ds_sec_code", 88773);
@@ -1531,7 +1532,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
 			verify.verifyEquals(error.get("message"),
-					"short_name : Ensure this field has no more than 20 characters. ");
+					"Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "Ensure this field has no more than 20 characters.");
@@ -1573,7 +1574,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "short_name : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "This field may not be blank.");
@@ -1750,7 +1751,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "name : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1789,7 +1790,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "security_type : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1939,7 +1940,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
 			verify.verifyEquals(error.get("message"),
-					"short_name : Ensure this field has no more than 20 characters. ");
+					"Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "Ensure this field has no more than 20 characters.");
@@ -2028,13 +2029,13 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec1 = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp1 = RestOperationUtils.post(QUOTES, null, spec1, formParams);
 			APIResponse apiResp1 = new APIResponse(resp1);
-			verify.verifyStatusCode(apiResp1.getStatusCode(), 400);
+			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
+			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			String id = (String) respJson1.get("id");
+			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
-			JSONArray jArray = respJson1.getJSONObject("response").getJSONArray("msg");
-			verify.verifyEquals(jArray.get(0), "Bad Request Body");
-			verify.verifyEquals(jArray.get(1), "[object has missing required properties ([\"exchange_code\"])]");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2256,14 +2257,15 @@ public class SecurityMasterApiTest extends APIDriver {
 			formParams.put("exchange_mic_code", "US30303M1027");
 			formParams.put("exchange_region", "ind");
 			formParams.put("is_primary_flag", false);
-			formParams.put("exch_symbol", "");
-			formParams.put("sedol", "");
-			formParams.put("ric", "");
-			formParams.put("ciq_symbol", "");
+			formParams.put("exch_symbol", "test");
+			formParams.put("sedol", "test123");
+			formParams.put("figi", "BBG00196W5W2");
+			formParams.put("ric", "123");
+			formParams.put("ciq_symbol", "86test");
 			formParams.put("fact_set_symbol", "");
 			formParams.put("bbg_symbol", "");
 			formParams.put("datastream_infocode", "");
-			formParams.put("datastream_infocode_exchange", "");
+			formParams.put("datastream_infocode_exchange", "test");
 			formParams.put("tr_quote_perm_id", 213);
 			formParams.put("other_names", othernames);
 
@@ -2556,7 +2558,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
 			verify.verifyEquals(error.get("message"),
-					"short_name : Ensure this field has no more than 20 characters. ");
+					"Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "Ensure this field has no more than 20 characters.");
@@ -2598,7 +2600,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "short_name : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("short_name");
 			verify.verifyEquals(jArray.get(0), "This field may not be blank.");
@@ -2640,7 +2642,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "name : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 			JSONArray jArray = error.getJSONObject("detail").getJSONArray("name");
 			verify.verifyEquals(jArray.get(0), "This field may not be blank.");
@@ -2850,7 +2852,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
 			JSONObject error = (JSONObject) respJson1.get("error");
-			verify.verifyEquals(error.get("message"), "security_id : This field may not be blank. ");
+			verify.verifyEquals(error.get("message"), "Invalid Request");
 			verify.verifyEquals(error.get("code"), "Invalid Request");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -3048,7 +3050,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyEquals(respJson1.get("message"), "At least one parameter(isin, ric, company_name, sentieo_ticker, ciq_tickers, old_ciq_tickers, old_market_symbols, figi, bloomberg_ticker, permid, cusip) is needed");
+			verify.verifyEquals(respJson1.get("message"), "At least one parameter(isin, ric, company_name, sentieo_ticker, ciq_tickers, old_ciq_tickers, old_market_symbols, figi, bloomberg_ticker, permid, cusip, crunchbase_uuid) is needed");
 			verify.verifyEquals(respJson1.get("code"), "Missing Parameters");
 
 		} catch (JSONException je) {
@@ -3158,7 +3160,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject status = respJson1.getJSONObject("status");
 			JSONArray jsonArray = status.getJSONArray("msg");
 			verify.verifyEquals(jsonArray.get(0), "Invalid Parameters");
-			verify.verifyEquals(jsonArray.get(1), "only one of these parameters is allowed - ciq_tickers, figi, bloomberg_ticker, permid, ric, isin, cusip");
+			verify.verifyEquals(jsonArray.get(1), "only one of these parameters is allowed - ciq_tickers, figi, bloomberg_ticker, permid, ric, isin, cusip, crunchbase_uuid");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
