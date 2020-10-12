@@ -1038,7 +1038,7 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XAPIKEY, X_API_KEY);
 
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
-			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704deb", fetchSpec, null);
+			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704343", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
 			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 404);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
@@ -1392,6 +1392,7 @@ public class NotebookPublicApis extends APIDriver {
 			updateParams.put("file", listOfFileParams1);
 
 			String updateJson = jsonUtils.toJson(updateParams);
+			
 			Thread.sleep(2000);
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
