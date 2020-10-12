@@ -230,6 +230,7 @@ public class Constants {
 	public static final String LOADTEMPLATE_SENTIEO = "/api/loadtemplate_sentieo/";
 	public static final String SET_MOSAIC_DEFAULT_SETTINGS = "/api/get_or_set_mosaic_default_settings/";
 	public static final String FETCH_SAVED_SERIES = "/api/fetch_saved_series/";
+	public static final String DELETE_GRAPH="/api/deletegraph_rt/";
 
 	// screener
 	public static final String FETCH_SCREENER_SEARCH = "/api/fetch_screener_search/";
