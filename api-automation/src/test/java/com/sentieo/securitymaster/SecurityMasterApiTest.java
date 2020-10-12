@@ -2029,13 +2029,13 @@ public class SecurityMasterApiTest extends APIDriver {
 			RequestSpecification spec1 = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp1 = RestOperationUtils.post(QUOTES, null, spec1, formParams);
 			APIResponse apiResp1 = new APIResponse(resp1);
-			verify.verifyStatusCode(apiResp1.getStatusCode(), 400);
+			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
+			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			String id = (String) respJson1.get("id");
+			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
-			JSONArray jArray = respJson1.getJSONObject("response").getJSONArray("msg");
-			verify.verifyEquals(jArray.get(0), "Bad Request Body");
-			verify.verifyEquals(jArray.get(1), "[object has missing required properties ([\"exchange_code\"])]");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
