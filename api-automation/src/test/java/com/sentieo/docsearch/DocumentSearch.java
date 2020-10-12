@@ -18,7 +18,6 @@ import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
-import com.sentieo.report.Reporter;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;

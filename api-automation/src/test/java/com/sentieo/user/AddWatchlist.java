@@ -9,11 +9,8 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -27,8 +24,8 @@ import com.sentieo.utils.CoreCommonException;
 
 public class AddWatchlist extends APIDriver {
 
-	static String watchID = "";
-	String watchName = "";
+	public static String watchID = "";
+	public static String watchName = "";
 	public static ArrayList<String> watchTickers = new ArrayList<>();
 	public static ArrayList<String> tickers = new ArrayList<String>(
 			Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr", "awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack",
@@ -38,56 +35,21 @@ public class AddWatchlist extends APIDriver {
 					"cohr", "cohu", "apam", "plow", "bdsi", "call", "type", "hwbk", "nke", "yamcy", "aeex", "yahoy",
 					"td", "md", "mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
 
+	public AddWatchlist() {
+		setUp();
+	}
+
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		verify = new APIAssertions();
 	}
 
-
 	@Test(groups = { "sanity", "test" }, description = "initial-loading")
 	public void addWatchlist() throws Exception {
 		try {
 			CommonUtil obj = new CommonUtil();
-			watchName = obj.getRandomString();
-			String URI = USER_APP_URL + ADD_WATCHLIST;
-			HashMap<String, String> parameters = new HashMap<String, String>();
 			List<String> ticker = obj.pickNRandomItems(tickers, 5);
-			String tickers = ticker.toString();
-			tickers = tickers.replaceAll("\\[", "").replaceAll("\\]", "");
-			parameters.put("tickers", tickers);
-			parameters.put("w_name", watchName);
-			RequestSpecification spec = formParamsSpec(parameters);
-			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
-			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			int status = apiResp.getStatusCode();
-			if (status == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				String watchlistStatus = respJson.getJSONObject("response").getJSONArray("msg").toString();
-				watchlistStatus = watchlistStatus.replaceAll("\\[", "").replaceAll("\\]", "").replace("\"", "").trim();
-				String alreadyExists = "Watchlist " + watchName + " already exits";
-				if (watchlistStatus.contains(alreadyExists))
-					ExtentTestManager.getTest().log(LogStatus.INFO, "Watchlist already exits: -" + watchName);
-				else
-					verify.assertEqualsActualContainsExpected(watchlistStatus, "Watchlist successfully added",
-							"verify watchlist is created?");
-				if (watchlistStatus.contains("Watchlist successfully added")) {
-					JSONArray watchlistTickers = respJson.getJSONArray("result").getJSONObject(0)
-							.getJSONArray("tickers");
-					watchID = respJson.getJSONArray("result").getJSONObject(0).getString("id");
-					for (int i = 0; i < watchlistTickers.length(); i++) {
-						String tickerName = watchlistTickers.getString(i);
-						watchTickers.add(tickerName);
-					}
-					verify.assertEquals(watchTickers, ticker, "verify added tickers in watchlist", true);
-					boolean addedWatchStatus = userPortfolio(watchName);
-					verify.assertTrue(addedWatchStatus, "verify watchlist added or not?");
-				}
-
-			}
+			createWatchlist(ticker);
 		} catch (Exception e) {
 			verify.assertTrue(false, "in catch " + e.toString());
 		} finally {
@@ -128,6 +90,17 @@ public class AddWatchlist extends APIDriver {
 
 	@Test(groups = { "sanity", "test" }, description = "delete watchlist")
 	public void deleteWatchlist() throws CoreCommonException {
+		try {
+			deleteUserWatchlist(watchID);
+		} catch (Exception e) {
+			verify.assertTrue(false, e.toString());
+		} finally {
+			verify.verifyAll();
+		}
+
+	}
+
+	public void deleteUserWatchlist(String watchID) throws CoreCommonException {
 		String URI = USER_APP_URL + DELETE_WATCHLIST;
 		try {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -140,20 +113,62 @@ public class AddWatchlist extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "Watchlist successfully deleted",
-					"Verify the API Message");
+			verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0),
+					"Watchlist successfully deleted", "Verify the API Message");
 			int status = apiResp.getStatusCode();
 			if (status == 200) {
 				String id = respJson.getJSONArray("result").getJSONObject(0).getString("id");
-				verify.assertEqualsActualContainsExpected(watchID, id, "verify watchlist id");
+				verify.assertEqualsActualContainsExpected(watchID, id, "Verify watchlist id");
 				boolean addedWatchStatus = userPortfolio(watchName);
-				verify.assertFalse(addedWatchStatus, "verify watchlist deleted or not?");
+				verify.assertFalse(addedWatchStatus, "Verify watchlist deleted or not?");
 			}
 
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
 			verify.verifyAll();
+		}
+	}
+
+	public void createWatchlist(List<String> tickers) throws CoreCommonException {
+		CommonUtil obj = new CommonUtil();
+		watchName = obj.getRandomString();
+		String URI = USER_APP_URL + ADD_WATCHLIST;
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		String ticker = tickers.toString();
+		ticker = ticker.replaceAll("\\[", "").replaceAll("\\]", "");
+		parameters.put("tickers", ticker);
+		parameters.put("w_name", watchName);
+		RequestSpecification spec = formParamsSpec(parameters);
+		Response resp = RestOperationUtils.post(URI, null, spec, parameters);
+		APIResponse apiResp = new APIResponse(resp);
+		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+		verify.verifyResponseTime(resp, 5000);
+		int status = apiResp.getStatusCode();
+		if (status == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			String watchlistStatus = respJson.getJSONObject("response").getJSONArray("msg").toString();
+			watchlistStatus = watchlistStatus.replaceAll("\\[", "").replaceAll("\\]", "").replace("\"", "").trim();
+			String alreadyExists = "Watchlist " + watchName + " already exits";
+			if (watchlistStatus.contains(alreadyExists))
+				ExtentTestManager.getTest().log(LogStatus.INFO, "Watchlist already exits: -" + watchName);
+			else
+				verify.assertEqualsActualContainsExpected(watchlistStatus, "Watchlist successfully added",
+						"verify watchlist is created?");
+			if (watchlistStatus.contains("Watchlist successfully added")) {
+				JSONArray watchlistTickers = respJson.getJSONArray("result").getJSONObject(0).getJSONArray("tickers");
+				watchID = respJson.getJSONArray("result").getJSONObject(0).getString("id");
+				for (int i = 0; i < watchlistTickers.length(); i++) {
+					String tickerName = watchlistTickers.getString(i);
+					watchTickers.add(tickerName);
+				}
+				verify.assertEquals(watchTickers, tickers, "verify added tickers in watchlist", true);
+				boolean addedWatchStatus = userPortfolio(watchName);
+				verify.assertTrue(addedWatchStatus, "verify watchlist added or not?");
+			}
+
 		}
 
 	}

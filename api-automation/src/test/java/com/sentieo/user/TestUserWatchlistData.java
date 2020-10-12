@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -30,21 +28,7 @@ public class TestUserWatchlistData extends APIDriver {
 
 	@Test(groups = { "sanity", "test" }, description = "fetch login 1")
 	public void userPortfolio() throws Exception {
-		HashMap<String, String> tickerData = new HashMap<String, String>();
-		tickerData.put("recur", "0");
-		tickerData.put("counter", "1");
-		String URI = USER_APP_URL + FETCH_USER_PORTFOLIO;
-		RequestSpecification spec = formParamsSpec(tickerData);
-		Response resp = RestOperationUtils.get(URI, spec, null);
-		APIResponse apiResp = new APIResponse(resp);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
-		verify.verifyResponseTime(resp, 5000);
-		verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
-				"Verify the API Message");
-		JSONArray getWatchlists = respJson.getJSONObject("result").getJSONArray("watchlists");
+		JSONArray getWatchlists = getUserWatchlists();
 		for (int i = 0; i < getWatchlists.length(); i++) {
 			JSONArray watchlistKey = getWatchlists.getJSONArray(i);
 			String watchlistName = watchlistKey.get(0).toString();
@@ -93,5 +77,27 @@ public class TestUserWatchlistData extends APIDriver {
 		verify.verifyEquals(portfolio.length(), watchlistPortfolio.length(), "");
 		verify.verifyAll();
 	}
+	public org.json.JSONArray getUserWatchlists() throws Exception {
+		org.json.JSONArray getWatchlists = null;
+		String URI = USER_APP_URL + FETCH_USER_PORTFOLIO;
+		HashMap<String, String> tickerData = new HashMap<String, String>();
+		RequestSpecification spec = formParamsSpec(tickerData);
+		Response resp = RestOperationUtils.get(URI, spec, null);
+		APIResponse apiResp = new APIResponse(resp);
+		int statusCode = apiResp.getStatusCode();
+		verify.verifyStatusCode(statusCode, 200);
+		if (statusCode == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+					"Verify the API Message");
+			getWatchlists = respJson.getJSONObject("result").getJSONArray("watchlists");
+		}
+		verify.verifyAll();
+		return getWatchlists;
+	}
+
 
 }
