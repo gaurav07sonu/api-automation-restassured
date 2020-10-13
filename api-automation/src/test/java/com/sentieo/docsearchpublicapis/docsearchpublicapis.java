@@ -46,7 +46,6 @@ public class docsearchpublicapis extends APIDriver {
 			if (docsub_type == "10-k") { // accepting 10-q in list of doc sub-type if doc sub-type is 10-k//
 				docSubTypeList.add("10-q");
 			}
-			;
 
 			HashMap<String, Object> docTypeParams = new HashMap<String, Object>();
 			docTypeParams.put("name", doc_type);
@@ -55,7 +54,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("tickers", tickers);
@@ -72,8 +71,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
@@ -135,7 +132,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("tickers", "");
@@ -152,8 +149,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
@@ -206,7 +201,6 @@ public class docsearchpublicapis extends APIDriver {
 											// attachment//
 				subtypeList.add("in:note");
 			}
-			;
 
 			List<String> categoriesList = new ArrayList<String>();
 			categoriesList.add("General");
@@ -240,8 +234,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
@@ -285,7 +277,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("tickers", tickers);
@@ -302,8 +294,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results == 0, "Verify the search result count is 0");
@@ -328,7 +318,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("query", query);
@@ -346,8 +336,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is greater than 0");
@@ -372,7 +360,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("query", "abcd1111111112222334455667788");
@@ -390,8 +378,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results == 0, "Verify the search result count is 0");
@@ -416,7 +402,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("date_range_from", date_range_from);
@@ -433,8 +419,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is greater than 0");
@@ -459,7 +443,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("date_range_from", "16-Aug-2022");
@@ -476,8 +460,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results == 0, "Verify the search result count is 0");
@@ -502,7 +484,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("date_range_from", "01-Aug-2020");
@@ -520,8 +502,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is greater than 0");
@@ -546,7 +526,7 @@ public class docsearchpublicapis extends APIDriver {
 			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
 			docTypeList.add(docTypeParams);
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "200");
+			formParams.put("size", "30");
 			formParams.put("sort", "filing_date:desc");
 			formParams.put("start", "0");
 			formParams.put("date_range_from", "16-Aug-2020");
@@ -564,8 +544,6 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-			System.out.println();
 
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results == 0, "Verify the search result count is 0");
@@ -608,8 +586,7 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			System.out.println(respJson);
-
+			
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is greater than 5");
 
