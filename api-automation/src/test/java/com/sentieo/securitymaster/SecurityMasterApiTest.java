@@ -80,7 +80,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			entities.add(respJson.getString("id"));
-			verify.verifyEquals(respJson.getString("short_name"), shortName);
+			verify.verifyEquals(respJson.getString("short_name"), shortName.toLowerCase());
 			verify.verifyResponseTime(resp, 5000);
 			verify.assertTrue(respJson.getString("id").contains("e!"), "Verify entity id format");
 		} catch (JSONException je) {
@@ -191,7 +191,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			entities.add(respJson.getString("id"));
-			verify.verifyEquals(respJson.getString("short_name"), shortName);
+			verify.verifyEquals(respJson.getString("short_name"), shortName.toLowerCase());
 			verify.verifyResponseTime(resp, 5000);
 
 		} catch (JSONException je) {
@@ -459,7 +459,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 201);
 			JSONObject respJsonForChildEntity = new JSONObject(apiRespForChildEntity.getResponseAsString());
 			String childEntityId = (String) respJsonForChildEntity.get("id");
-			verify.verifyEquals(respJsonForChildEntity.getString("short_name"), shortnameForChildEntity);
+			verify.verifyEquals(respJsonForChildEntity.getString("short_name"), shortnameForChildEntity.toLowerCase());
 			verify.verifyResponseTime(respForChildEntity, 5000);
 
 			RequestSpecification spec1 = requestHeadersSpecForPublicApis(headerParams);
@@ -513,7 +513,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			APIResponse apiRespForChildEntity = new APIResponse(respForChildEntity);
 			verify.verifyStatusCode(apiRespForChildEntity.getStatusCode(), 201);
 			JSONObject respJsonForChildEntity = new JSONObject(apiRespForChildEntity.getResponseAsString());
-			verify.verifyEquals(respJsonForChildEntity.getString("short_name"), shortnameForChildEntity);
+			verify.verifyEquals(respJsonForChildEntity.getString("short_name"), shortnameForChildEntity.toLowerCase());
 			verify.verifyResponseTime(respForChildEntity, 5000);
 
 			RequestSpecification spec1 = requestHeadersSpecForPublicApis(headerParams);
@@ -576,7 +576,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			APIResponse apiResp1 = new APIResponse(resp1);
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-			verify.verifyEquals(respJson1.getString("short_name"), shortName);
+			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
 			verify.verifyResponseTime(resp1, 5000);
 
 		} catch (JSONException je) {
