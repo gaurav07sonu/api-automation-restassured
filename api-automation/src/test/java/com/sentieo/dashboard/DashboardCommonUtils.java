@@ -36,6 +36,8 @@ public class DashboardCommonUtils extends APIDriver {
 	static String watchlistID = "";
 	static String saveSearchName = "";
 	static String plotter_name = "";
+	org.json.JSONArray shared_dashboards = null;
+
 
 	public DashboardCommonUtils() {
 		setUp();
@@ -296,9 +298,7 @@ public class DashboardCommonUtils extends APIDriver {
 		return rssID;
 	}
 
-	@SuppressWarnings("unused")
 	public org.json.JSONArray dashboardlist(String option) {
-		org.json.JSONArray shared_dashboards = null;
 		org.json.JSONArray my_dashboards = null;
 		String URI = USER_APP_URL + GET_DASHBOARD_LIST;
 		HashMap<String, String> dashboardData = new HashMap<String, String>();

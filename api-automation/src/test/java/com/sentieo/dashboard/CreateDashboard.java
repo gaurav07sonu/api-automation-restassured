@@ -284,7 +284,7 @@ public class CreateDashboard extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "get dashboard items", priority = 5)
-	public void testLogin() throws CoreCommonException {
+	public void sharedUserAccountLogin() throws CoreCommonException {
 		try {
 			RestAssured.baseURI = APP_URL;
 			String URI = USER_APP_URL + LOGIN_URL;
