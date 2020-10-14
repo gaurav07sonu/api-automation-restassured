@@ -148,7 +148,7 @@ public class CreateDashboard extends APIDriver {
 			watchID = AddWatchlist.watchID;
 			String msg = "Tokens, Active Tokens,  Updated successfully";
 			String watchName = "Update : [<font color=\"red\">" + selectedWatchlist + " watchlist in dashboard : ";
-			watchName = "<span style=\"font-weight: bold;\">"+ watchName + ": </span>";
+			watchName = "<span style=\"font-weight: bold;\">" + watchName + ": </span>";
 			ExtentTestManager.getTest().log(LogStatus.INFO, watchName);
 			HashMap<String, String> dashboardData = new HashMap<String, String>();
 			JSONObject child = new JSONObject();
@@ -191,6 +191,11 @@ public class CreateDashboard extends APIDriver {
 		try {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
 			String plotter_id = obj.getPlotterID();
+
+			String plotter = "<font color=\"red\">" + DashboardCommonUtils.plotter_name;
+			plotter = "<span style=\"font-weight: bold;\">" + plotter + ": </span>";
+			ExtentTestManager.getTest().log(LogStatus.INFO, " Update plotter in dashboard  : " + plotter);
+
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			String value = "{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"name\":\"Plotter\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\",\"widgetTitle\":\"Plotter\",\"linkMode\":\"single\",\"plotter_id\":\""
 					+ plotter_id
@@ -215,6 +220,11 @@ public class CreateDashboard extends APIDriver {
 			String savedSearchID = obj.getRandomSaveSearch();
 			if (savedSearchID.isEmpty() || DashboardCommonUtils.saveSearchName.isEmpty())
 				savedSearchID = obj.getRandomSaveSearch();
+
+			String search = "<font color=\"red\">" + DashboardCommonUtils.saveSearchName;
+			search = "<span style=\"font-weight: bold;\">" + search + ": </span>";
+			ExtentTestManager.getTest().log(LogStatus.INFO, " Update save search in dashboard  : " + search);
+
 			String searchName = "\"" + DashboardCommonUtils.saveSearchName + "\"";
 			savedSearchID = "\"" + savedSearchID + "\"";
 			HashMap<String, String> tickerData = new HashMap<String, String>();

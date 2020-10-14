@@ -232,10 +232,6 @@ public class DashboardCommonUtils extends APIDriver {
 				int rand_int1 = rand.nextInt(loadData.length());
 				String plotter_id = loadData.getJSONObject(rand_int1).getString("plotter_id");
 				plotter_name = loadData.getJSONObject(rand_int1).getString("name");
-				String plotter = "<font color=\"red\">" + plotter_name;
-				plotter = "<span style=\"font-weight: bold;\">" + plotter + ": </span>";
-				ExtentTestManager.getTest().log(LogStatus.INFO, " Update plotter in dashboard  : " + plotter);
-
 				plotterid = plotter_id;
 				return plotterid;
 			}
