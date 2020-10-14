@@ -1373,7 +1373,7 @@ public class NotebookPublicApis extends APIDriver {
 			String noteId = (String) respJsonForNote.get("id");
 
 			// Note Updation
-
+			Thread.sleep(2000);
 			RequestSpecification spec1 = multipartParamSpecForPublicApis(params, headerParams, file);
 			Response resp1 = RestOperationUtils.post(FILE_UPLOAD, null, spec1, params);
 			APIResponse apiResp1 = new APIResponse(resp1);
