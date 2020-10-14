@@ -22,7 +22,6 @@ import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.notebook.NotebookApis;
 import com.sentieo.report.ExtentTestManager;
-import com.sentieo.report.Reporter;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -144,28 +143,28 @@ public class DocSearchRestApi extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
-			if(apiResp.getStatusCode()==200) {
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			JSONObject result = respJson.getJSONObject("result").getJSONObject(doc_id);
-			String docType = result.get("doc_type").toString();
-			String docid = result.getString("doc_id").toString();
-			String docTitle = result.getString("title");
-			String date = result.getString("filingdate");
+			if (apiResp.getStatusCode() == 200) {
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				JSONObject result = respJson.getJSONObject("result").getJSONObject(doc_id);
+				String docType = result.get("doc_type").toString();
+				String docid = result.getString("doc_id").toString();
+				String docTitle = result.getString("title");
+				String date = result.getString("filingdate");
 
-			verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
-			verify.assertEqualsActualContainsExpected(doc_id, docid, "verify docID");
-			boolean status = false;
-			if (docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
-				status = true;
-			else if (title.contains(docTitle) && !docTitle.isEmpty() && !title.isEmpty())
-				status = true;
-			if (!status) {
-				ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
-				ExtentTestManager.getTest().log(LogStatus.INFO, "Expected : " + title);
-			}
-			verify.assertTrue(status, "verify document title");
-			verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
+				verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
+				verify.assertEqualsActualContainsExpected(doc_id, docid, "verify docID");
+				boolean status = false;
+				if (docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
+					status = true;
+				else if (title.contains(docTitle) && !docTitle.isEmpty() && !title.isEmpty())
+					status = true;
+				if (!status) {
+					ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
+					ExtentTestManager.getTest().log(LogStatus.INFO, "Expected : " + title);
+				}
+				verify.assertTrue(status, "verify document title");
+				verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
 			}
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
@@ -211,7 +210,8 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			verify.assertTrue(!respJson.getJSONObject("result").toString().isEmpty(), "Reponse should be present");
-			verify.verifyEquals(apiResp.getResponseHeaderValue("content-encoding"), "gzip", "Verify response encoding should be gzip");
+			verify.verifyEquals(apiResp.getResponseHeaderValue("content-encoding"), "gzip",
+					"Verify response encoding should be gzip");
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -285,7 +285,7 @@ public class DocSearchRestApi extends APIDriver {
 						}
 						if (datacheck)
 							verify.assertTrue(datacheck, "Valid data present in result array");
-					}else
+					} else
 						verify.verifyTrue(result, "Data not present in result");
 				}
 			} else
@@ -336,8 +336,8 @@ public class DocSearchRestApi extends APIDriver {
 						}
 						if (datacheck)
 							verify.assertTrue(datacheck, "Valid data present for : " + key);
-					}else {
-						verify.assertTrue(false," data not present for key : " + key);
+					} else {
+						verify.assertTrue(false, " data not present for key : " + key);
 					}
 				}
 			}
@@ -377,7 +377,7 @@ public class DocSearchRestApi extends APIDriver {
 					}
 					if (datacheck)
 						verify.assertTrue(datacheck, "Valid data present for : " + key);
-				}else
+				} else
 					verify.assertTrue(false, "key data not present " + result.toString());
 			}
 		} catch (Exception e) {
@@ -598,8 +598,7 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(actualErorr, error, "Comparing error message");
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), false,
 						"Verify the API Response Status");
-			}
-			else {
+			} else {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 			}
@@ -750,7 +749,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "search with query and getting snippets count", dataProvider = "fetch_search_term_count", dataProviderClass = DataProviderClass.class)
-	public void fetch_search_term_count(String ticker,String size,String query) throws CoreCommonException {
+	public void fetch_search_term_count(String ticker, String size, String query) throws CoreCommonException {
 
 		try {
 			String URI = APP_URL + FETCH_SEARCH_TERM_COUNT;
@@ -758,11 +757,12 @@ public class DocSearchRestApi extends APIDriver {
 			queryParams.put("tickers", ticker);
 			queryParams.put("applied_filter", "[]");
 			queryParams.put("facets_flag", "false");
-			queryParams.put("filters", "{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"date\":{},\"other\":{}}");
+			queryParams.put("filters",
+					"{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"date\":{},\"other\":{}}");
 			queryParams.put("size", size);
-			queryParams.put("query",query);
-			queryParams.put("default_sort","date");
-			queryParams.put("sort","filing_date:desc");
+			queryParams.put("query", query);
+			queryParams.put("default_sort", "date");
+			queryParams.put("sort", "filing_date:desc");
 
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -807,7 +807,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 1)
 	public void fetch_user_viewed_docs() throws CoreCommonException {
 		try {
@@ -876,7 +876,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 0)
 	public void index_user_viewed_doc() throws CoreCommonException {
 		try {
@@ -922,8 +922,7 @@ public class DocSearchRestApi extends APIDriver {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				verify.verifyEquals(respJson.getJSONObject("result").getInt("save_status"),1,
-						"verify saved status");
+				verify.verifyEquals(respJson.getJSONObject("result").getInt("save_status"), 1, "verify saved status");
 				verify.verifyEquals(respJson.getJSONObject("result").getString("message"), "Successfully Saved",
 						"verify status message");
 			}
@@ -934,45 +933,45 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-
 	@Test(groups = "sanisadssty", description = "fetches meta info like date, file type etc.")
 	public void fetch_files_meta_data() throws CoreCommonException {
 		try {
-			if(!APP_URL.contains("schroders")) {
-			NotebookApis notebook = new NotebookApis();
-			if (NotebookApis.doc_id_sentieoDrive.isEmpty())
-				notebook.get_hierarchy_sentieoDrive();
-			if (!NotebookApis.doc_id_sentieoDrive.isEmpty()) {
-				String URI = USER_APP_URL + FETCH_FILES_META_DATA;
-				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("doc_ids", "[\"" + NotebookApis.doc_id_sentieoDrive + "\"]");
+			if (!APP_URL.contains("schroders")) {
+				NotebookApis notebook = new NotebookApis();
+				if (NotebookApis.doc_id_sentieoDrive.isEmpty())
+					notebook.get_hierarchy_sentieoDrive();
+				if (!NotebookApis.doc_id_sentieoDrive.isEmpty()) {
+					String URI = USER_APP_URL + FETCH_FILES_META_DATA;
+					HashMap<String, String> queryParams = new HashMap<String, String>();
+					queryParams.put("doc_ids", "[\"" + NotebookApis.doc_id_sentieoDrive + "\"]");
 
-				RequestSpecification spec = formParamsSpec(queryParams);
-				Response resp = RestOperationUtils.get(URI, spec, queryParams);
-				APIResponse apiResp = new APIResponse(resp);
+					RequestSpecification spec = formParamsSpec(queryParams);
+					Response resp = RestOperationUtils.get(URI, spec, queryParams);
+					APIResponse apiResp = new APIResponse(resp);
 
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 10000);
-				if (apiResp.getStatusCode() == 200) {
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyResponseTime(resp, 10000);
+					if (apiResp.getStatusCode() == 200) {
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					verify.verifyEquals(
-							respJson.getJSONObject("result").getJSONObject(NotebookApis.doc_id_sentieoDrive)
-									.getJSONObject("docError").getBoolean("error"),
-							false, "Doc should not have any error");
-					verify.assertTrue(!respJson.getJSONObject("result").getJSONObject(NotebookApis.doc_id_sentieoDrive)
-							.getString("doc_type").isEmpty(), "doc type should be present");
-					verify.verifyEquals(
-							respJson.getJSONObject("result").getJSONObject(NotebookApis.doc_id_sentieoDrive)
-									.getString("doc_id"),
-							NotebookApis.doc_id_sentieoDrive, "Doc id should be same as fetched doc");
+						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+								"Verify the API Response Status");
+						verify.verifyEquals(
+								respJson.getJSONObject("result").getJSONObject(NotebookApis.doc_id_sentieoDrive)
+										.getJSONObject("docError").getBoolean("error"),
+								false, "Doc should not have any error");
+						verify.assertTrue(!respJson.getJSONObject("result")
+								.getJSONObject(NotebookApis.doc_id_sentieoDrive).getString("doc_type").isEmpty(),
+								"doc type should be present");
+						verify.verifyEquals(
+								respJson.getJSONObject("result").getJSONObject(NotebookApis.doc_id_sentieoDrive)
+										.getString("doc_id"),
+								NotebookApis.doc_id_sentieoDrive, "Doc id should be same as fetched doc");
+					}
 				}
+			} else {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
 			}
-		}else {
-			ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
-		}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CoreCommonException(e);
@@ -984,30 +983,30 @@ public class DocSearchRestApi extends APIDriver {
 	@Test(groups = "sasdsaanity", description = "load file contents")
 	public void fetch_file_content() throws CoreCommonException {
 		try {
-			if(!APP_URL.contains("schroders")) {
-			NotebookApis notebook = new NotebookApis();
-			if (NotebookApis.doc_id_sentieoDrive.isEmpty())
-				notebook.get_hierarchy_sentieoDrive();
-			if (!NotebookApis.doc_id_sentieoDrive.isEmpty()) {
-				String URI = USER_APP_URL + FETCH_FILE_CONTENT;
-				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("id", NotebookApis.doc_id_sentieoDrive);
-				RequestSpecification spec = formParamsSpec(queryParams);
-				Response resp = RestOperationUtils.get(URI, spec, queryParams);
-				APIResponse apiResp = new APIResponse(resp);
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 5000);
-				if (apiResp.getStatusCode() == 200) {
-					String responseHtml = apiResp.getResponseAsString();
-					verify.assertTrue(!responseHtml.isEmpty(), "verify response is not blank");
-					verify.verifyEquals(apiResp.getResponseHeaderValue("content-type"), "text/html; charset=utf-8",
-							"verify content type");
-				}
+			if (!APP_URL.contains("schroders")) {
+				NotebookApis notebook = new NotebookApis();
+				if (NotebookApis.doc_id_sentieoDrive.isEmpty())
+					notebook.get_hierarchy_sentieoDrive();
+				if (!NotebookApis.doc_id_sentieoDrive.isEmpty()) {
+					String URI = USER_APP_URL + FETCH_FILE_CONTENT;
+					HashMap<String, String> queryParams = new HashMap<String, String>();
+					queryParams.put("id", NotebookApis.doc_id_sentieoDrive);
+					RequestSpecification spec = formParamsSpec(queryParams);
+					Response resp = RestOperationUtils.get(URI, spec, queryParams);
+					APIResponse apiResp = new APIResponse(resp);
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyResponseTime(resp, 5000);
+					if (apiResp.getStatusCode() == 200) {
+						String responseHtml = apiResp.getResponseAsString();
+						verify.assertTrue(!responseHtml.isEmpty(), "verify response is not blank");
+						verify.verifyEquals(apiResp.getResponseHeaderValue("content-type"), "text/html; charset=utf-8",
+								"verify content type");
+					}
+				} else
+					ExtentTestManager.getTest().log(LogStatus.SKIP, "no data in sentieo drive");
 			} else
-				ExtentTestManager.getTest().log(LogStatus.SKIP, "no data in sentieo drive");
-		} else 
-			ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
-		}catch (Exception e) {
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CoreCommonException(e);
 		} finally {
@@ -1019,24 +1018,12 @@ public class DocSearchRestApi extends APIDriver {
 	public void load_user_search() throws CoreCommonException {
 		try {
 			do {
-				String URI = USER_APP_URL + LOAD_USER_SEARCH;
-				HashMap<String, String> queryParams = new HashMap<String, String>();
-				RequestSpecification spec = formParamsSpec(queryParams);
-				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-				APIResponse apiResp = new APIResponse(resp);
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 10000);
-				if (apiResp.getStatusCode() == 200) {
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					if (respJson.getJSONObject("result").getJSONArray("userss").length() > 0) {
-						uss_ids = respJson.getJSONObject("result").getJSONArray("userss").getJSONObject(0)
-								.getString("id");
-						uss_data = respJson.getJSONObject("result").getJSONArray("userss").getJSONObject(0);
-					} else
-						save_user_search();
-				}
+				JSONArray data = load_userSearchs();
+				if (data.length() > 0) {
+					uss_ids = data.getJSONObject(0).getString("id");
+					uss_data = data.getJSONObject(0);
+				} else
+					save_user_search();
 			} while (uss_ids.isEmpty());
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -1111,7 +1098,6 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-
 
 	@Test(groups = "sanity", description = "pdf view for note documents")
 	public void get_docnote_pdf() throws CoreCommonException {
@@ -1232,7 +1218,7 @@ public class DocSearchRestApi extends APIDriver {
 		try {
 			JSONArray notes_array = setNoteTypeDocId();
 			String note_id = "";
-			if (notes_array!= null && notes_array.length() > 0) {
+			if (notes_array != null && notes_array.length() > 0) {
 				note_id = note_id + "\"" + notes_array.getJSONObject(0).getString("id") + "\"";
 				for (int i = 1; i < notes_array.length(); i++)
 					note_id = note_id + ",\"" + notes_array.getJSONObject(i).getString("id") + "\"";
@@ -1263,7 +1249,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetching saved filters")
+	@Test(groups = "feed", description = "fetching saved filters")
 	public void fetch_search_filters() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH_FILTERS;
@@ -1279,8 +1265,8 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				if (respJson.getJSONObject("result") != null) {
-					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters").getJSONObject("rss_parent").getJSONArray("rss")
-							.getJSONObject(0);
+					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters")
+							.getJSONObject("rss_parent").getJSONArray("rss").getJSONObject(0);
 					if (rss != null) {
 						feed_name = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
 								.getJSONObject(0).getString("label");
@@ -1422,8 +1408,8 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	public JSONArray setNoteTypeDocId() throws CoreCommonException {
-		String URI="";
-		if(APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch"))
+		String URI = "";
+		if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch"))
 			URI = APP_URL + FETCH_SEARCH;
 		else
 			URI = USER_APP_URL + FETCH_NOTE_SEARCH;
@@ -1457,4 +1443,31 @@ public class DocSearchRestApi extends APIDriver {
 		}
 		return null;
 	}
+
+	public org.json.JSONArray load_userSearchs() throws CoreCommonException {
+		org.json.JSONArray data = null;
+		try {
+			String URI = USER_APP_URL + LOAD_USER_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 10000);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				data = respJson.getJSONObject("result").getJSONArray("userss");
+				return data;
+			}
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+		return data;
+	}
+	
+
 }
