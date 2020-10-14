@@ -35,6 +35,7 @@ public class DashboardCommonUtils extends APIDriver {
 	static int feedCount = 0;
 	static String watchlistID = "";
 	static String saveSearchName = "";
+	static String plotter_name = "";
 
 	public DashboardCommonUtils() {
 		setUp();
@@ -230,7 +231,11 @@ public class DashboardCommonUtils extends APIDriver {
 				loadData = respJson.getJSONObject("result").getJSONArray("graphobj");
 				int rand_int1 = rand.nextInt(loadData.length());
 				String plotter_id = loadData.getJSONObject(rand_int1).getString("plotter_id");
-				// String plotter_name = loadData.getJSONObject(rand_int1).getString("name");
+				plotter_name = loadData.getJSONObject(rand_int1).getString("name");
+				String plotter = "<font color=\"red\">" + plotter_name;
+				plotter = "<span style=\"font-weight: bold;\">" + plotter + ": </span>";
+				ExtentTestManager.getTest().log(LogStatus.INFO, " Update plotter in dashboard  : " + plotter);
+
 				plotterid = plotter_id;
 				return plotterid;
 			}
@@ -242,6 +247,7 @@ public class DashboardCommonUtils extends APIDriver {
 		verify.verifyAll();
 		return plotterid;
 	}
+
 	public List<Integer> fetch_search_filters() throws CoreCommonException {
 		List<Integer> rssID = new ArrayList<>();
 		String tickers = "";
@@ -326,6 +332,7 @@ public class DashboardCommonUtils extends APIDriver {
 		}
 		return my_dashboards;
 	}
+
 	public void updateWidget(HashMap<String, String> tickerData) throws CoreCommonException {
 		String URI = USER_APP_URL + UPDATE_DASHBOARD_WIDGET;
 		try {
@@ -348,7 +355,7 @@ public class DashboardCommonUtils extends APIDriver {
 		}
 	}
 
-	public void deleteDashboard(String dashboardID,String viewName) throws Exception {
+	public void deleteDashboard(String dashboardID, String viewName) throws Exception {
 		boolean deleteView = true;
 		String URI = USER_APP_URL + DELETE_DASHBOARD;
 		HashMap<String, String> dashboardData = new HashMap<String, String>();
