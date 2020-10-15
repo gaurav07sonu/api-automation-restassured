@@ -98,4 +98,30 @@ public class LoadGraph extends APIDriver {
 			}
 		}
 	}
+
+	public void deleteGraph(String id) {
+		try {
+			String URI = USER_APP_URL + DELETE_GRAPH;
+			HashMap<String, String> plotterData = new HashMap<String, String>();
+			plotterData.put("plotter_id", id);
+			RequestSpecification spec = formParamsSpec(plotterData);
+			Response resp = RestOperationUtils.post(URI, null, spec, plotterData);
+			APIResponse apiResp = new APIResponse(resp);
+			int statusCode = apiResp.getStatusCode();
+			verify.verifyStatusCode(statusCode, 200);
+			if (statusCode == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+						"Verify the API Message");
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
 }
