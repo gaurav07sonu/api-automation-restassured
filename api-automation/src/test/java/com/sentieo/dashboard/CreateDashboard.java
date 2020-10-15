@@ -530,6 +530,10 @@ public class CreateDashboard extends APIDriver {
 						"Verify the API Response Status");
 			} else
 				verify.assertTrue(false, "Search not found");
+			uss_ids = obj.getDeleteSaveSearchID(option);
+			if (!uss_ids.isEmpty())
+				verify.assertTrue(false, "Search is not deleted  : ");
+
 		} catch (Exception e) {
 			verify.assertTrue(false, "In delete_saved_search catch " + e.toString());
 		} finally {
@@ -551,6 +555,9 @@ public class CreateDashboard extends APIDriver {
 
 			} else
 				verify.assertTrue(false, "Watchlist not found : ");
+			watchID = dash.getWatchlistID(watchExpected);
+			if (!watchID.isEmpty())
+				verify.assertTrue(false, "Watchlist is not deleted : ");
 		} catch (Exception e) {
 			verify.assertTrue(false, "In deleteWatchlist catch " + e.toString());
 		} finally {
