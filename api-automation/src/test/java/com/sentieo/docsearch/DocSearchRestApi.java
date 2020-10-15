@@ -1127,32 +1127,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Unsubscribe existing RSS Feed")
-	public void ra__unsubscribe_feed() throws CoreCommonException {
-		try {
-			if (feed_req_id.isEmpty())
-				fetch_search_filters();
-			if (!feed_req_id.isEmpty()) {
-				String URI = APP_URL + UNSUBSCRIBE_FEED;
-				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("feed_req_id", feed_req_id);
 
-				RequestSpecification spec = formParamsSpec(queryParams);
-				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 10000);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-			} else
-				verify.assertTrue(false, "feed id not present");
-		} catch (Exception e) {
-			throw new CoreCommonException(e);
-		} finally {
-			verify.verifyAll();
-		}
-	}
 
 	@Test(groups = "sanity", description = "Requesting for RSS Feed")
 	public void request_feed() throws CoreCommonException {
@@ -1213,6 +1188,33 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
+	@Test(groups = "sanity", description = "Unsubscribe existing RSS Feed")
+	public void ra__unsubscribe_feed() throws CoreCommonException {
+		try {
+			if (feed_req_id.isEmpty())
+				fetch_search_filters();
+			if (!feed_req_id.isEmpty()) {
+				String URI = APP_URL + UNSUBSCRIBE_FEED;
+				HashMap<String, String> queryParams = new HashMap<String, String>();
+				queryParams.put("feed_req_id", feed_req_id);
+
+				RequestSpecification spec = formParamsSpec(queryParams);
+				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 10000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+			} else
+				verify.assertTrue(false, "feed id not present");
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
 	@Test(groups = "sanity", description = "fetching note info from doc")
 	public void fetch_document_note_info() throws CoreCommonException {
 		try {
@@ -1414,10 +1416,10 @@ public class DocSearchRestApi extends APIDriver {
 		else
 			URI = USER_APP_URL + FETCH_NOTE_SEARCH;
 		HashMap<String, String> getDocParams = new HashMap<String, String>();
-		getDocParams.put("query", "attachment");
+		getDocParams.put("query", "");
 		getDocParams.put("facets_flag", "false");
 		getDocParams.put("filters",
-				"{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{\"note\":{\"note-type\":{\"param\":\"note_subtype\",\"values\":[\"note\",\"email\",\"attachment\",\"clipper\",\"starred\",\"plotter\",\"sntclipper\",\"thesis\"]},\"username\":{\"param\":\"note_authors\",\"values\":[]},\"note_origin\":{\"param\":\"note_origin\",\"values\":[\"sentieo\",\"\",\"clipper\"]},\"usertags\":{\"param\":\"usertags\",\"values\":[]},\"note_topic\":{\"param\":\"note_topic\",\"values\":[\"General\",\"Earnings\",\"Transcript\"]}}},\"regions\":{},\"source\":{},\"date\":{},\"other\":{}}");
+				"{\"ticker\":{},\"sector\":{},\"date\":{},\"regions\":{},\"section\":{},\"source\":{},\"language\":{},\"other\":{},\"doctype\":{\"note\":{\"note-type\":{\"param\":\"note_subtype\",\"values\":[\"note\",\"email\",\"attachment\",\"clipper\",\"starred\",\"plotter\",\"sntclipper\",\"thesis\"]},\"note_origin\":{\"param\":\"note_origin\",\"values\":[\"sentieo\",\"\",\"clipper\"]},\"note_topic\":{\"param\":\"note_topic\",\"values\":[\"(Uncategorized)\",\"Earnings\",\"Transcript\"]},\"username\":{\"param\":\"note_authors\",\"values\":[\"autotester\",\"testshare.notes\",\"test.automate\",\"bhaskar\",\"devesh.arora\",\"sanjay.saini\",\"test.usercheck513\"]},\"usertags\":{\"param\":\"usertags\",\"values\":[]}}},\"exchange\":{}}");
 		getDocParams.put("default_sort", "date");
 		getDocParams.put("sort", "filing_date:desc");
 		getDocParams.put("applied_filters", "[\"doctype\"]");

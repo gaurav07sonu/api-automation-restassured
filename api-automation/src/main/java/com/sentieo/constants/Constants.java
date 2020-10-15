@@ -19,10 +19,10 @@ public class Constants {
 	public static String X_API_KEY = "";
 	public static String X_USER_KEY = "";
 
-	static {
 
+	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "app";
+//		String envArg = "testing-nonadmin1";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
