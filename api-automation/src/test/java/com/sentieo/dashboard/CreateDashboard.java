@@ -39,12 +39,13 @@ public class CreateDashboard extends APIDriver {
 	String widgetList = "{\"SavedSearchWidget_1\":{\"configuration\":{\"settings\":{\"size\":15,\"count\":0,\"start\":0,\"endOfResult\":false,\"name\":\"Saved Search\",\"filterObj\":{}},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"SavedSearchWidget_1\"}},\"PlotterWidget_3\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"name\":\"Plotter\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\",\"widgetTitle\":\"Plotter\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PlotterWidget_3\"}},\"PriceMonitorWidget_2\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"wrapPreference\":\"dont-wrap\",\"infiniteScroll\":true,\"infiniteScrollWaiting\":500,\"restrictOuterScroll\":true,\"disableLinking\":true,\"name\":\"Price Monitor\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":2,\"driveBy\":\"local\",\"wrapPreference\":\"dont-wrap\",\"columnOption1\":\"edt-icon\",\"columnOption2\":\"docsearch-icon\",\"updateUserData\":{\"wl_mapping\":{},\"wl_id_mapping\":{},\"selectedRow\":\"{\\\"lastSelectedGroupID\\\":\\\"\\\",\\\"selectedTicker\\\":\\\"\\\"}\",\"watchlistsState\":{},\"viewData\":{},\"marketMonitorLoaded\":false},\"displayDensity\":\"compact\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PriceMonitorWidget_2\"}},\"DocumentWidget_1\":{\"configuration\":{\"settings\":{\"size\":20,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{},\"defaultFilterObj\":{\"bd\":[],\"gbf\":[],\"rr\":[],\"ni\":[],\"tt\":[],\"ef\":[],\"jr\":[],\"ppt\":[],\"nw\":[],\"reg\":[],\"sd\":[]},\"pticker_setting\":true,\"name\":\"All Documents\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"DocumentWidget_1\"}},\"RSSWidget_1\":{\"configuration\":{\"settings\":{\"size\":20,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{\"rss\":{\"\":{\"\":{\"feed_id_599\":{\"value\":[599]}}}}},\"defaultFilterObj\":{\"\":{}},\"pticker_setting\":true,\"name\":\"RSS Feeds\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"RSSWidget_1\"}}}";
 	String widget_order = "[\"SavedSearchWidget_1\",\"PlotterWidget_3\",\"PriceMonitorWidget_2\",\"DocumentWidget_1\",\"RSSWidget_1\"]";
 	static String plotter_id = "";
-	// static String plotter_name = "";
+	static String clonedSearchName = "";
 	static String widget_ID = "";
 	static String savedSearchwidgetID = "";
 	static String db_id = "";
-	static String option = "";
+	static String clonedPlotterName = "";
 	static String watchID = "";
+	static String plotterName = "";
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -190,9 +191,10 @@ public class CreateDashboard extends APIDriver {
 	public void updatePlotterDashboardWidget() throws Exception {
 		try {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
-			String plotter_id = obj.getPlotterID();
+			plotterName = obj.getRandomPlotter();
+			String plotter_id = obj.getPlotterID(plotterName);
 
-			String plotter = "<font color=\"red\">" + DashboardCommonUtils.plotter_name;
+			String plotter = "<font color=\"red\">" + plotterName;
 			plotter = "<span style=\"font-weight: bold;\">" + plotter + ": </span>";
 			ExtentTestManager.getTest().log(LogStatus.INFO, " Update plotter in dashboard  : " + plotter);
 
@@ -273,8 +275,8 @@ public class CreateDashboard extends APIDriver {
 						"Verify the API Message");
 				JSONObject result = respJson.getJSONObject("result");
 				String shared_users = result.getJSONArray("shared_users").getJSONObject(0)
-						.getString("shared_with_display_name");
-				verify.assertEqualsActualContainsExpected(shared_users, "Bhaskar Sentieo", "Verify shared user ");
+						.getString("shared_with_name").toLowerCase().trim();
+				verify.assertEqualsActualContainsExpected(shared_users, "bhaskar", "Verify shared user ");
 			}
 		} catch (Exception e) {
 			verify.assertTrue(false, "in shareDashboard catch " + e.toString());
@@ -464,12 +466,13 @@ public class CreateDashboard extends APIDriver {
 	public void verifyCloneSavedSearch() throws CoreCommonException {
 		try {
 			DocSearchRestApi obj = new DocSearchRestApi();
-			option = DashboardCommonUtils.saveSearchName + " @" + " " + viewName;
+			clonedSearchName = DashboardCommonUtils.saveSearchName + " @" + " " + viewName;
 			org.json.JSONArray data = obj.load_userSearchs();
 			for (int i = 0; i < data.length(); i++) {
 				String saveSearch = data.getJSONObject(i).getString("name");
-				if (saveSearch.equalsIgnoreCase(option)) {
-					verify.assertEqualsActualContainsExpected(saveSearch, option, "Verify search after cloning ");
+				if (saveSearch.equalsIgnoreCase(clonedSearchName)) {
+					verify.assertEqualsActualContainsExpected(saveSearch, clonedSearchName,
+							"Verify search after cloning ");
 					break;
 				} else {
 					if (i == data.length() - 1)
@@ -488,8 +491,8 @@ public class CreateDashboard extends APIDriver {
 	public void verifyClonePlotter() throws CoreCommonException {
 		try {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
-			String option = DashboardCommonUtils.plotter_name + " @" + " " + viewName;
-			boolean result = obj.loadGraphNew(option);
+			clonedPlotterName = plotterName + " @" + " " + viewName;
+			boolean result = obj.loadGraphNew(clonedPlotterName);
 			verify.assertTrue(result, "Verify clone plotter is available ?:");
 		} catch (Exception e) {
 			verify.assertTrue(false, "In verifyClonePlotter catch " + e.toString());
@@ -515,7 +518,7 @@ public class CreateDashboard extends APIDriver {
 	public void delete_saved_search() throws CoreCommonException {
 		try {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
-			String uss_ids = obj.getDeleteSaveSearchID(option);
+			String uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
 			if (!uss_ids.isEmpty()) {
 				String URI = USER_APP_URL + DELETE_SAVED_SEARCH;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -530,7 +533,7 @@ public class CreateDashboard extends APIDriver {
 						"Verify the API Response Status");
 			} else
 				verify.assertTrue(false, "Search not found");
-			uss_ids = obj.getDeleteSaveSearchID(option);
+			uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
 			if (!uss_ids.isEmpty())
 				verify.assertTrue(false, "Search is not deleted  : ");
 
@@ -570,10 +573,10 @@ public class CreateDashboard extends APIDriver {
 	public void deletePlotter() {
 		try {
 			DashboardCommonUtils dash = new DashboardCommonUtils();
-			String plotter_id = dash.getPlotterID();
+			String plotter_id = dash.getPlotterID(clonedPlotterName);
 			LoadGraph obj = new LoadGraph();
 			obj.deleteGraph(plotter_id);
-			boolean result = dash.loadGraphNew(option);
+			boolean result = dash.loadGraphNew(clonedPlotterName);
 			verify.assertFalse(result, "Verify delete plotter :");
 			verify.verifyAll();
 		} catch (Exception e) {
