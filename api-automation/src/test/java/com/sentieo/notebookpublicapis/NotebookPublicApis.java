@@ -1278,6 +1278,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			String updateJson = jsonUtils.toJson(updateParams);
 
+			Thread.sleep(1000);
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
