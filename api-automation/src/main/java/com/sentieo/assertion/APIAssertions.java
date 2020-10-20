@@ -1,13 +1,12 @@
 package com.sentieo.assertion;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.testng.Assert.assertEquals;
-
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -320,6 +319,28 @@ public class APIAssertions extends SentieoSoftAssertion {
 		}
 		return result;
 	}
+	public boolean assertInteger(List<Integer> actual, List<Integer> expected, String stepDetail) {
+		boolean result = false;
+		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
+				+ (actual != null ? actual.toString() : "null") + BREAK_LINE + EXPECT_DECO
+				+ (expected != null ? expected.toString() : "null");
+		try {
+			SoftAssert softAssertion = new SoftAssert();
+			softAssertion.assertEquals(actual.size(), expected.size());
+			softAssertion.assertEquals(actual, expected);
+			softAssertion.assertAll();
+			ExtentTestManager.getTest().log(LogStatus.PASS, message);
+			result = true;
+		} catch (JSONException je) {
+			verificationFailures.add(je);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		} catch (AssertionError e) {
+			verificationFailures.add(e);
+			ExtentTestManager.getTest().log(LogStatus.FAIL, message);
+		}
+		return result;
+	}
+	
 	public boolean assertEquals(List<String> actual, List<String> expected,  String stepDetail, boolean val) {
 		boolean result = false;
 		String message = "verifyEquals: [" + stepDetail + "]" + BREAK_LINE + ACTUAL_DECO
@@ -327,6 +348,8 @@ public class APIAssertions extends SentieoSoftAssertion {
 				+ (expected != null ? expected.toString() : "null");
 		try {
 			SoftAssert softAssertion = new SoftAssert();
+			Collections.sort(actual); 
+			Collections.sort(expected); 
 			softAssertion.assertEquals(actual.size(), expected.size());
 			softAssertion.assertEquals(actual, expected);
 			softAssertion.assertAll();
