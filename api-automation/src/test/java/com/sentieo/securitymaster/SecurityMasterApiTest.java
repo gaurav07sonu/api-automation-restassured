@@ -63,14 +63,14 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -80,7 +80,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			entities.add(respJson.getString("id"));
-			verify.verifyEquals(respJson.getString("short_name"), shortName);
+			verify.verifyEquals(respJson.getString("short_name"), shortname);
 			verify.verifyResponseTime(resp, 5000);
 			verify.assertTrue(respJson.getString("id").contains("e!"), "Verify entity id format");
 		} catch (JSONException je) {
@@ -97,14 +97,14 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			// headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -156,7 +156,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -167,7 +167,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("sentieo_entity_id", 399);
 			formParams.put("datastream_ds_cmpy_code", 32);
 			formParams.put("datastream_ds_comp_code", "");
@@ -191,7 +191,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			entities.add(respJson.getString("id"));
-			verify.verifyEquals(respJson.getString("short_name"), shortName);
+			verify.verifyEquals(respJson.getString("short_name"), shortname);
 			verify.verifyResponseTime(resp, 5000);
 
 		} catch (JSONException je) {
@@ -204,7 +204,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Verify Error when short name is blank", priority = 5)
-	public void testErrorForBlankShortName() throws Exception {
+	public void testErrorForBlankshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -243,7 +243,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "");
-			formParams.put("short_name", "Shortname");
+			formParams.put("short_name", "shortname");
 			String json = jsonUtils.toJson(formParams);
 
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
@@ -273,7 +273,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", "Shortname");
+			formParams.put("short_name", "shortname");
 			String json = jsonUtils.toJson(formParams);
 
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
@@ -296,7 +296,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Verify Error when short name param is not sent", priority = 8)
-	public void testErrorForShortNameNotSent() throws Exception {
+	public void testErrorForshortnameNotSent() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -326,7 +326,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Verify Error when short name value is more than 20 char", priority = 9)
-	public void testErrorForShortNameMoreThanTwentyChar() throws Exception {
+	public void testErrorForshortnameMoreThanTwentyChar() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -427,7 +427,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -435,7 +435,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			String json = jsonUtils.toJson(formParams);
 
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
@@ -445,7 +445,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String parentEntityId = (String) respJson.get("id");
 			entities.add(parentEntityId);
-			String shortnameForChildEntity = "C" + shortName;
+			String shortnameForChildEntity = "c" + shortname;
 			HashMap<String, Object> formParamForChildEntity = new HashMap<String, Object>();
 			formParamForChildEntity.put("name", "API-ChildEntity" + String.valueOf(new Date().getTime()));
 			formParamForChildEntity.put("short_name", shortnameForChildEntity);
@@ -482,7 +482,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -490,7 +490,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			String json = jsonUtils.toJson(formParams);
 
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
@@ -500,7 +500,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			String parentEntityId = (String) respJson.get("id");
 			entities.add(parentEntityId);
-			String shortnameForChildEntity = "C" + shortName;
+			String shortnameForChildEntity = "c" + shortname;
 			HashMap<String, Object> formParamForChildEntity = new HashMap<String, Object>();
 			formParamForChildEntity.put("name", "API-ChildEntity" + String.valueOf(new Date().getTime()));
 			formParamForChildEntity.put("short_name", shortnameForChildEntity);
@@ -538,7 +538,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -554,7 +554,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("sentieo_entity_id", 399);
 			formParams.put("datastream_ds_cmpy_code", 32);
 			formParams.put("datastream_ds_comp_code", "");
@@ -576,7 +576,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			APIResponse apiResp1 = new APIResponse(resp1);
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-			verify.verifyEquals(respJson1.getString("short_name"), shortName);
+			verify.verifyEquals(respJson1.getString("short_name"), shortname);
 			verify.verifyResponseTime(resp1, 5000);
 
 		} catch (JSONException je) {
@@ -593,7 +593,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -609,7 +609,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("name", "API-Entity" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("sentieo_entity_id", 399);
 			formParams.put("datastream_ds_cmpy_code", 32);
 			formParams.put("datastream_ds_comp_code", "");
@@ -651,7 +651,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -689,11 +689,11 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Entity with blank short name", priority = 17)
-	public void testUpdateAnEntityWithBlankShortName() throws Exception {
+	public void testUpdateAnEntityWithBlankshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -731,10 +731,10 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security master Entity with more than 20chars short name", priority = 18)
-	public void testUpdateAnEntityWithTwentyCharShortName() throws Exception {
+	public void testUpdateAnEntityWithTwentyCharshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
-			String shortName = "ShortName" + uuid.toString();
+			String shortname = "shortname" + uuid.toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -749,7 +749,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			String entityId = firstResult.getString("id");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			String json = jsonUtils.toJson(formParams);
 
 			RequestSpecification spec1 = requestHeadersFormSpecForPublicApis(json, headerParams);
@@ -845,7 +845,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -862,7 +862,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("issuer_id", entityId);
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -873,7 +873,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			String id = (String) respJson1.get("id");
 			verify.assertTrue(id.contains("s!"), "Verify security id format");
 			verify.verifyResponseTime(resp1, 5000);
@@ -887,10 +887,10 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with 20chas shortname", priority = 22)
-	public void creationOfASecurityWithTwentyCharsInShortName() throws Exception {
+	public void creationOfASecurityWithTwentyCharsInshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
-			String shortName = "ShortName" + uuid;
+			String shortname = "shortname" + uuid;
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -907,7 +907,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("issuer_id", entityId);
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -935,11 +935,11 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with out short name", priority = 23)
-	public void creationOfASecurityWithoutShortName() throws Exception {
+	public void creationOfASecurityWithoutshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -956,7 +956,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("issuer_id", entityId);
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			// formParams.put("short_name", shortName);
+			// formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -985,7 +985,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1002,7 +1002,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("issuer_id", entityId);
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			// formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -1031,7 +1031,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1049,7 +1049,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			formParams.put("issuer_id", entityId);
 			// formParams.put("name", "API-Security" + String.valueOf(new
 			// Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -1078,7 +1078,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1095,7 +1095,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			// formParams.put("issuer_id", entityId);
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -1124,7 +1124,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1132,7 +1132,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("issuer_id", "12345");
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 
 			String json = jsonUtils.toJson(formParams);
@@ -1157,7 +1157,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a security with used shortname", priority = 28)
-	public void creationOfASecurityWithAlreadyUsedShortName() throws Exception {
+	public void creationOfASecurityWithAlreadyUsedshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1210,7 +1210,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1230,7 +1230,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("issuer_id", entityId);
 			formParams.put("name", "API-Security" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "Equity");
 			formParams.put("is_primary_flag", false);
 			formParams.put("isin", "US30303M1027");
@@ -1260,7 +1260,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			String id = (String) respJson1.get("id");
 			verify.assertTrue(id.contains("s!"), "Verify security id format");
 			verify.verifyResponseTime(resp1, 5000);
@@ -1444,7 +1444,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1462,7 +1462,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			othernames.add("abc");
 			othernames.add("xyz");
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "etf");
 			formParams.put("is_primary_flag", false);
 			formParams.put("isin", "US30303M1027");
@@ -1492,7 +1492,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			APIResponse apiResp1 = new APIResponse(resp1);
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			verify.verifyResponseTime(resp1, 5000);
 
 		} catch (JSONException je) {
@@ -1505,10 +1505,10 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with 20char short name", priority = 37)
-	public void testUpdateASecurityWithtwentyShortName() throws Exception {
+	public void testUpdateASecurityWithtwentyshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
-			String shortName = "ShortName" + uuid.toString();
+			String shortname = "shortname" + uuid.toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1523,7 +1523,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			String securityId = firstResult.getString("id");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -1550,7 +1550,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with blank short name", priority = 38)
-	public void testUpdateASecurityWithBlankShortName() throws Exception {
+	public void testUpdateASecurityWithBlankshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1592,7 +1592,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a security with used short name", priority = 39)
-	public void testUpdateASecurityWithUsedShortName() throws Exception {
+	public void testUpdateASecurityWithUsedshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -1606,10 +1606,10 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONArray entries = respJson.getJSONArray("entries");
 			JSONObject firstResult = (JSONObject) entries.get(0);
 			String securityId = firstResult.getString("id");
-			String shortName = firstResult.getString("short_name");
+			String shortname = firstResult.getString("short_name");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -1619,7 +1619,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyEquals(respJson1.get("short_name"), shortName);
+			verify.verifyEquals(respJson1.get("short_name"), shortname);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1634,7 +1634,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1645,7 +1645,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			othernames.add("abc");
 			othernames.add("xyz");
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("security_type", "etf");
 			formParams.put("is_primary_flag", false);
 			formParams.put("isin", "US30303M1027");
@@ -1865,7 +1865,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "QShortName" + split[0].toString();
+			String shortname = "Qshortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1881,7 +1881,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 			formParams.put("exchange_code", "Equity");
 			
@@ -1894,7 +1894,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			String id = (String) respJson1.get("id");
 			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
@@ -1908,10 +1908,10 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with 20chars shortname", priority = 47)
-	public void creationOfAQuoteWithTwentyCharsInShortName() throws Exception {
+	public void creationOfAQuoteWithTwentyCharsInshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
-			String shortName = "QShortName" + uuid;
+			String shortname = "Qshortname" + uuid;
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1927,7 +1927,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 
@@ -1956,11 +1956,11 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with out short name", priority = 48)
-	public void creationOfAQuoteWithoutShortName() throws Exception {
+	public void creationOfAQuoteWithoutshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -1976,7 +1976,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
-			//formParams.put("short_name", shortName);
+			//formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 
@@ -2006,7 +2006,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2022,7 +2022,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 			//formParams.put("exchange_code", "Equity");
 
@@ -2034,7 +2034,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			String id = (String) respJson1.get("id");
 			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
@@ -2053,7 +2053,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2069,7 +2069,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			//formParams.put("security_id", securityId);
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 
@@ -2100,7 +2100,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2116,7 +2116,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			//formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 
@@ -2148,14 +2148,14 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", "123");
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 
@@ -2181,7 +2181,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Create a quote with used shortname", priority = 53)
-	public void creationOfAQuoteWithAlreadyUsedShortName() throws Exception {
+	public void creationOfAQuoteWithAlreadyUsedshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2198,7 +2198,7 @@ public class SecurityMasterApiTest extends APIDriver {
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
-			formParams.put("short_name", "usedShortName");
+			formParams.put("short_name", "usedshortname");
 			formParams.put("exchange_code", "NASDAQ");
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 
@@ -2234,7 +2234,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2254,7 +2254,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("security_id", securityId);
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			formParams.put("exchange_mic_code", "US30303M1027");
 			formParams.put("exchange_region", "ind");
@@ -2279,7 +2279,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 201);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			String id = (String) respJson1.get("id");
 			verify.assertTrue(id.contains("q!"), "Verify quote id format");
 			verify.verifyResponseTime(resp1, 5000);
@@ -2463,7 +2463,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "UShortName" + split[0].toString();
+			String shortname = "Ushortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2491,7 +2491,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			othernames.add("a");
 			othernames.add("m");
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("name", "API-quote" + String.valueOf(new Date().getTime()));
 			formParams.put("security_id", secId);
 			formParams.put("exchange_code", "Equity");
@@ -2516,7 +2516,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			APIResponse apiResp1 = new APIResponse(resp1);
 			verify.verifyStatusCode(apiResp1.getStatusCode(), 200);
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
-			verify.verifyEquals(respJson1.getString("short_name"), shortName.toLowerCase());
+			verify.verifyEquals(respJson1.getString("short_name"), shortname.toLowerCase());
 			verify.verifyEquals(respJson1.getString("security_id"), secId);
 			verify.verifyResponseTime(resp1, 5000);
 
@@ -2530,10 +2530,10 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a quote with 20char short name", priority = 62)
-	public void testUpdateAQuoteWithtwentyShortName() throws Exception {
+	public void testUpdateAQuoteWithtwentyshortname() throws Exception {
 		try {
 			UUID uuid = UUID.randomUUID();
-			String shortName = "ShortName" + uuid.toString();
+			String shortname = "shortname" + uuid.toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2548,7 +2548,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			String quoteId = firstResult.getString("id");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -2575,7 +2575,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a quote with blank short name", priority = 63)
-	public void testUpdateAQuoteWithBlankShortName() throws Exception {
+	public void testUpdateAQuoteWithBlankshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2659,7 +2659,7 @@ public class SecurityMasterApiTest extends APIDriver {
 	}
 
 	@Test(description = "Update a Quote with used short name", priority = 65)
-	public void testUpdateAQuoteWithUsedShortName() throws Exception {
+	public void testUpdateAQuoteWithUsedshortname() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
@@ -2673,10 +2673,10 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONArray entries = respJson.getJSONArray("entries");
 			JSONObject firstResult = (JSONObject) entries.get(0);
 			String qId = firstResult.getString("id");
-			String shortName = firstResult.getString("short_name");
+			String shortname = firstResult.getString("short_name");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -2687,7 +2687,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject respJson1 = new JSONObject(apiResp1.getResponseAsString());
 			System.out.println(respJson1);
 			verify.verifyResponseTime(resp1, 5000);
-			verify.verifyEquals(respJson1.get("short_name"), shortName);
+			verify.verifyEquals(respJson1.get("short_name"), shortname);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2702,7 +2702,7 @@ public class SecurityMasterApiTest extends APIDriver {
 		try {
 			UUID uuid = UUID.randomUUID();
 			String[] split = uuid.toString().split("-", 10);
-			String shortName = "ShortName" + split[0].toString();
+			String shortname = "shortname" + split[0].toString();
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -2713,7 +2713,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			othernames.add("a");
 			othernames.add("m");
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("short_name", shortName);
+			formParams.put("short_name", shortname);
 			formParams.put("exchange_code", "Equity");
 			formParams.put("exchange_mic_code", "US30303M1027");
 			formParams.put("exchange_region", "ind");

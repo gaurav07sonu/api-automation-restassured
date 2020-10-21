@@ -22,7 +22,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-//		String envArg = "testing-nonadmin1";
+		//String envArg = "app-public-api";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -216,6 +216,9 @@ public class Constants {
 	public static final String SECURITY_MAP_SEARCH = "/sm/sentieo/securities/map/";
 	public static final String MESSAGE = "No object matches the given query";
 	public static final String CODE = "Not Found";
+	
+	//Watchlist
+	public static final String WATCHLISTS = "/watchlists";
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
