@@ -90,22 +90,21 @@ public class KeyMultiples extends APIDriver {
 						if (headName.contains("EV/EBITDA")) {
 							JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 									.getJSONArray("series");
-							verify.assertTrue(values.length() != 0, "Verify series length");
-//							Double ebitdaValue = (Double) values.getJSONArray(values.length() - 1).get(1);
-//							fetchGraphEbitdaValue = new Double(ebitdaValue).toString();
-//							testKeyMultiples(cell);
-//							double currentStockDataEbitdaValue = Double.parseDouble(evEbitdaValue);
-//							double fetchFraphDataEbitdaValue = Double.parseDouble(fetchGraphEbitdaValue);
-//							Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEbitdaValue,
-//									fetchFraphDataEbitdaValue);
-//							if (postivePerChnage > 35) {
-//								verify.assertTrue(false,
-//										"<b>" + "Match current stock data and fetch graph data value for EV/EBITDA :"
-//												+ "<b>" + postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell
-//												+ "<br/>" + " current stock data value is : "
-//												+ currentStockDataEbitdaValue + "<br/>" + "<b>"
-//												+ " fetch graph data value is : " + fetchFraphDataEbitdaValue);
-//							}
+							Double ebitdaValue = (Double) values.getJSONArray(values.length() - 1).get(1);
+							fetchGraphEbitdaValue = new Double(ebitdaValue).toString();
+							testKeyMultiples(cell);
+							double currentStockDataEbitdaValue = Double.parseDouble(evEbitdaValue);
+							double fetchFraphDataEbitdaValue = Double.parseDouble(fetchGraphEbitdaValue);
+							Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEbitdaValue,
+									fetchFraphDataEbitdaValue);
+							if (postivePerChnage > 35) {
+								verify.assertTrue(false,
+										"<b>" + "Match current stock data and fetch graph data value for EV/EBITDA :"
+												+ "<b>" + postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell
+												+ "<br/>" + " current stock data value is : "
+												+ currentStockDataEbitdaValue + "<br/>" + "<b>"
+												+ " fetch graph data value is : " + fetchFraphDataEbitdaValue);
+							}
 						}
 						if (headName.contains("EV/Sales")) {
 							JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
