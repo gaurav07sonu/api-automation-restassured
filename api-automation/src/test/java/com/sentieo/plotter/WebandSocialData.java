@@ -179,6 +179,9 @@ public class WebandSocialData extends APIDriver {
 								
 								if (!date.contains(str))
 									str = obj.getDate(-9, "");
+								
+								if (!date.contains(str))
+									str = obj.getDate(-10, "");
 
 								if (date.contains(str))
 									dateStatus = true;
