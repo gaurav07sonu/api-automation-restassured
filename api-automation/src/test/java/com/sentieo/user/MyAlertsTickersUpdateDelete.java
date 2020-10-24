@@ -12,11 +12,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -63,7 +60,8 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 					"verify presenation settings");
 
 		} catch (Error e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO, "in verifyFollowTicker_GetWatchlistData ticker catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO,
+					"in verifyFollowTicker_GetWatchlistData ticker catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -88,7 +86,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 				verify.assertTrue(unfollow_ticker, "verify ticker unfollow status : ");
 			}
 		} catch (Exception e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO, "in unfollow ticker catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in unfollow ticker catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -116,7 +114,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 				verify.assertTrue(alertSettings.toString(), settings.toString(), "verify ticker settings : ");
 			}
 		} catch (Exception e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO, "in follow ticker catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in follow ticker catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -142,7 +140,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 				verify.assertTrue(true, "verify tickershould not visible in alerts secton after unfollow : ");
 
 		} catch (Error e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO, "in verify unfollow ticker catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in verify unfollow ticker catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -163,7 +161,8 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			if (apiResp.getStatusCode() == 200) {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				JSONObject fetch_alertSettings = respJson.getJSONObject("result").getJSONObject("result").getJSONObject(ticker.toLowerCase());
+				JSONObject fetch_alertSettings = respJson.getJSONObject("result").getJSONObject("result")
+						.getJSONObject(ticker.toLowerCase());
 				String pressSetting = fetch_alertSettings.getJSONArray("press_release").toString();
 
 				String transcriptSettings = fetch_alertSettings.getJSONArray("transcript").toString();
@@ -185,7 +184,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 
 			}
 		} catch (Error e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO,"in verifyCheckTickerSettings catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in verifyCheckTickerSettings catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -198,25 +197,25 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 		HashMap<String, String> querydata = new HashMap<String, String>();
 		String URI = USER_APP_URL + ALERT_NOTIFICATION_CLICK;
 		try {
-
-			CommonUtil util = new CommonUtil();
-			String time = util.getCurrentTimeStamp();
-			querydata.put("timestamp", time);
-			RequestSpecification spec = formParamsSpec(querydata);
-			Response resp = RestOperationUtils.get(URI, spec, querydata);
-			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			if (apiResp.getStatusCode() == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
-						"Verify the API Message");
+			if (URI.contains("app") || URI.contains("staging") || URI.contains("app2")) {
+				CommonUtil util = new CommonUtil();
+				String time = util.getCurrentTimeStamp();
+				querydata.put("timestamp", time);
+				RequestSpecification spec = formParamsSpec(querydata);
+				Response resp = RestOperationUtils.get(URI, spec, querydata);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+							"Verify the API Message");
+				}
 			}
-
 		} catch (Error e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO,"in alertNotificationClick catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in alertNotificationClick catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		} finally {
 			verify.verifyAll();
@@ -250,7 +249,7 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 					verify.assertTrue(false, "All tickers size is zero ");
 			}
 		} catch (Exception e) {
-			ExtentTestManager.getTest().log(LogStatus.INFO,"in getUserWatchlistsData catch "+e.toString());
+			ExtentTestManager.getTest().log(LogStatus.INFO, "in getUserWatchlistsData catch " + e.toString());
 			throw new CoreCommonException(e.getMessage());
 		}
 		return respJson;

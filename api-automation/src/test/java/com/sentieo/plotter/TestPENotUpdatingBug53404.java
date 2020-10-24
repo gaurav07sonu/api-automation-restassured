@@ -1,10 +1,7 @@
 package com.sentieo.plotter;
 
 import static com.sentieo.constants.Constants.*;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 import org.json.JSONArray;
@@ -24,19 +21,14 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 
 	@Test(description = "Check latest data points for daily series", dataProvider = "s&pPE", dataProviderClass = DataProviderClass.class)
 	public void PEIsNotUpdated(String shift, String ticker) throws Exception {
-		TestDailySeriesData obj = new TestDailySeriesData();
-		SimpleDateFormat formatter = new SimpleDateFormat("M/dd/yy");
-		Date cal = obj.addDays(new Date(), 0);
-		String expectedDate = formatter.format(cal.getTime());
-
+		CommonUtil obj = new CommonUtil();
 		double timestamp;
 		int digit;
-		//FinanceApi fin = new FinanceApi();
+		String expectedDate = "";
 		CommonUtil util = new CommonUtil();
 		String date = "";
 		String expectedTitle = "";
 		String expectedTitleSP = "";
-		//String systemDate;
 		JSONArray peNTMValue = null;
 		JSONArray SP500NTMValue = null;
 		String seriesTitleSP = "";
@@ -45,6 +37,10 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
 		if (dayofweek != 1 && dayofweek != 7) {
+			if (dayofweek == 2)
+				expectedDate = obj.getDate(-3, "");
+			else
+				expectedDate = obj.getDate(0, "");
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			ticker = ticker.toLowerCase();
@@ -95,17 +91,10 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					timestamp = peNTMValue.getDouble(0);
 					digit = (int) (timestamp / 1000);
 					date = util.convertTimestampIntoDate(digit);
-					if (!date.contains(expectedDate)) {
-						cal = obj.addDays(new Date(), -1);
-						expectedDate = formatter.format(cal.getTime());
-						if (!date.contains(expectedDate)) {
-							cal = obj.addDays(new Date(), -2);
-							expectedDate = formatter.format(cal.getTime());
-							verify.compareDates(date, expectedDate, "Verify the Current Date Point");
-						} else
-							verify.compareDates(date, expectedDate,
-									"Verify the Current Date Point for P/E series");
-					}
+					if (!date.contains(expectedDate))
+						expectedDate = obj.getDate(-1, "");
+					verify.compareDates(date, expectedDate, "Verify the Current Date Point for P/E series");
+
 				}
 				if ((SP500NTM.length() != 0) && (SP500NTM != null)) {
 					SP500NTMValue = SP500NTM.getJSONArray(SP500NTM.length() - 1);
@@ -113,19 +102,14 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					digit = (int) (timestamp / 1000);
 					util = new CommonUtil();
 					date = util.convertTimestampIntoDate(digit);
-
-					if (!date.contains(expectedDate)) {
-						cal = obj.addDays(new Date(), -1);
-						expectedDate = formatter.format(cal.getTime());
-						if (!date.contains(expectedDate)) {
-							cal = obj.addDays(new Date(), -2);
-							expectedDate = formatter.format(cal.getTime());
-							verify.compareDates(date, expectedDate, "Verify the Current Date Point");
-						} else
-							verify.compareDates(date, expectedDate,
-									"Verify the Current Date Point for PS&P 500 NTM - TWA P/E");
-					}
-
+					if (!date.contains(expectedDate))
+						expectedDate = obj.getDate(-1, "");
+					
+					else if (!date.contains(expectedDate))
+						expectedDate = obj.getDate(0, "");
+					else
+						verify.compareDates(date, expectedDate,
+								"Verify the Current Date Point for PS&P 500 NTM - TWA P/E");
 				}
 
 			}

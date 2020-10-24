@@ -19,15 +19,15 @@ public class Constants {
 	public static String X_API_KEY = "";
 	public static String X_USER_KEY = "";
 
+
 	static {
 		String envArg = System.getProperty("env");
-		// String envArg = "app2";
+		//String envArg = "app-public-api";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		InputStream inputStream = cl.getResourceAsStream("env_details.yaml");
-
 		for (Object object : yaml.loadAll(inputStream)) {
 			if (((Configuration) object).getEnvName().equals(envArg)) {
 				APP_URL = ((Configuration) object).getAppURL();
@@ -148,6 +148,7 @@ public class Constants {
 	public static final String FETCH_INTRA_HEADER_DATA = "/api/fetch_intra_header_data/";
 	public static final String GET_YEARLY_TABLE = "/api/get_yearly_table/";
 
+	public static final String TM_MAP_TICKER="/api/tm_map_ticker/";
 	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
 	public static final String GET_SPOTFX_DATA = "/api/get_spotfx_data/";
@@ -216,6 +217,9 @@ public class Constants {
 	public static final String SECURITY_MAP_SEARCH = "/sm/sentieo/securities/map/";
 	public static final String MESSAGE = "No object matches the given query";
 	public static final String CODE = "Not Found";
+	
+	//Watchlist
+	public static final String WATCHLISTS = "/watchlists";
 
 	// plotter //mosaic
 	public static final String GET_GTRENDS = "/api/get_gtrends/";
@@ -230,6 +234,7 @@ public class Constants {
 	public static final String LOADTEMPLATE_SENTIEO = "/api/loadtemplate_sentieo/";
 	public static final String SET_MOSAIC_DEFAULT_SETTINGS = "/api/get_or_set_mosaic_default_settings/";
 	public static final String FETCH_SAVED_SERIES = "/api/fetch_saved_series/";
+	public static final String DELETE_GRAPH="/api/deletegraph_rt/";
 
 	// screener
 	public static final String FETCH_SCREENER_SEARCH = "/api/fetch_screener_search/";
@@ -296,6 +301,10 @@ public class Constants {
 	public static final String GET_DASHBOARD_LIST = "/api/get_dashboard_list/";
 	public static final String UPDATE_DASHBOARD_WIDGET = "/api/update_dashboard_widget/";
 	public static final String INSTAGRAM_MAPPINGS = "/api/get_instagram_mappings/";
+	public static final String DASHBOARD_SHARE="/api/share_entity/";
+	public static final String DASHBOARD_DATA="/api/get_dashboard_data/";
+	public static final String UPDATE_DB_TOKEN_LIST="/api/update_db_token_list/";
+	public static final String CLONE_DASHBOARD="/api/clone_dashboard/";
 
 	// Table x
 

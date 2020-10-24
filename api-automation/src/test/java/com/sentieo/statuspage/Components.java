@@ -1,6 +1,8 @@
 package com.sentieo.statuspage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.testng.annotations.Test;
@@ -11,10 +13,12 @@ import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
 
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisConnectionException;
+
 import org.json.simple.JSONArray;
 
 public class Components extends APIDriver {
-	String incidentID = "";
 
 	public void createComponent(String pageID, String description, String status, String componentName)
 			throws CoreCommonException {
@@ -35,10 +39,6 @@ public class Components extends APIDriver {
 
 	public void updateComponent(String pageID, String componentId, String description, String componentUpdatedStatus,
 			String componentName) throws Exception {
-		// String pageID = "ymxz3l6qgd7y";
-		// String componentId = "trp1ljjq75tp";
-		// String componentUpdatedStatus="partial_outage";
-		// String componentName="Sentieo login api";
 		String URI = "https://api.statuspage.io/v1/pages/" + pageID + "/components/" + componentId;
 		JSONObject child = new JSONObject();
 		child.put("description", description);
@@ -68,8 +68,6 @@ public class Components extends APIDriver {
 	public String createIncident(String pageID, String componentId, String incidentName, String description)
 			throws Exception {
 		String incidentID = "";
-		// String pageID = "ymxz3l6qgd7y";
-//		String componentId = "trp1ljjq75tp";
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		String URI = "https://api.statuspage.io/v1/pages/" + pageID + "/incidents";
 		JSONObject child = new JSONObject();
@@ -92,6 +90,7 @@ public class Components extends APIDriver {
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
 			incidentID = respJson.getString("id");
 			return incidentID;
 		} catch (Exception e) {
@@ -102,19 +101,17 @@ public class Components extends APIDriver {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void updateIncident(String name, String incident_id, String status) throws CoreCommonException {
+	public void updateIncident(String incident_id, String status, String componentId, String pageID, String body)
+			throws CoreCommonException {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		String pageID = "ymxz3l6qgd7y";
 		String URI = "https://api.statuspage.io/v1/pages/" + pageID + "/incidents/" + incident_id;
 		JSONObject child = new JSONObject();
 		JSONObject child2 = new JSONObject();
 		JSONArray array = new JSONArray();
-		String componentId = "trp1ljjq75tp";
-		//child.put("name", name);
 		child.put("status", status);
 		// child.put("impact_override", "minor");
 		child.put("deliver_notifications", true);
-		child.put("body", "looking for the issue ");
+		child.put("body", body);
 		// child.put("incidentId", incident_id);
 		child2.put("component_id", "operational");
 		child.put("components", child2);
@@ -131,8 +128,9 @@ public class Components extends APIDriver {
 	}
 
 	public String getIncidents(String page_id, String componentName) throws CoreCommonException {
+		String incidentID = "";
 		try {
-			String incidentID = "";
+			System.out.println();
 			String URI = "https://api.statuspage.io/v1/pages/" + page_id + "/incidents/unresolved/";
 			org.json.JSONArray arraydat = RequestSpecificationformParamsSpecStatusPage2(URI);
 			for (int i = 0; i < arraydat.length(); i++) {
@@ -153,7 +151,9 @@ public class Components extends APIDriver {
 
 	}
 
-	public void getJobDetails() throws Exception {
+	public void getJobDetails(String pageID, String componentId, String componentName) throws Exception {
+		List<String> offlineSlaves = new ArrayList<String>();
+		String incidentID = "";
 		String URI = "https://deploy-test.sentieo.com/computer/api/json";
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		queryParams.put("pretty", "true");
@@ -161,42 +161,76 @@ public class Components extends APIDriver {
 		Response resp = RestOperationUtils.get(URI, spec, queryParams);
 		APIResponse apiResp = new APIResponse(resp);
 		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		System.out.println(respJson);
 		org.json.JSONArray arr = respJson.getJSONArray("computer");
+		incidentID = getIncidents(pageID, componentName);
 		for (int i = 0; i < arr.length(); i++) {
 			String displayName = arr.getJSONObject(i).getString("displayName");
 			boolean status = arr.getJSONObject(i).getBoolean("offline");
-			if (status) {
-				incidentID = createIncident("ymxz3l6qgd7y", "trp1ljjq75tp", "jenkins_Windows_slave", displayName);
-				System.out.println(incidentID);
-				updateComponent("ymxz3l6qgd7y", "w7f5gfgfxmy8", displayName, "partial_outage",
-						"Jenkins-Slave-Component");
-			} else {
-				updateIncident("jenkins_Windows_slave", incidentID, "resolved");
-				updateComponent("ymxz3l6qgd7y", "w7f5gfgfxmy8", displayName, "operational", "Jenkins-Slave-Component");
-
+			if (status)
+				offlineSlaves.add(displayName);
+			if (offlineSlaves.size() != 0) {
+				if (i == arr.length() - 1) {
+					if (incidentID.isEmpty()) {
+						incidentID = createIncident(pageID, componentId, offlineSlaves.toString() + " is offline ",
+								"Description");
+						updateComponent(pageID, componentId, offlineSlaves.toString() + " is offline ",
+								"partial_outage", componentName);
+					} else
+						updateIncident(incidentID, "identified", componentId, pageID,
+								"We are investigating reports of degraded performance.");
+				}
+			}
+		}
+		if (offlineSlaves.size() != 0) {
+			incidentID = getIncidents(pageID, componentName);
+			if (!incidentID.isEmpty()) {
+				updateIncident(incidentID, "resolved", componentId, pageID, "This incident has been resolved.");
+				updateComponent(pageID, componentId, offlineSlaves.toString(), "operational", componentName);
 			}
 		}
 
 	}
 
 	@Test(groups = "savedseries", description = "fetch_saved_series", priority = 1)
-	public void getName() throws Exception {
-//		String pageID = "ymxz3l6qgd7y";
-//		String componentId = "trp1ljjq75tp";
-//		// getJobDetails();
-//		// updateComponent("Checking for status");
-//		// String incidentID=createIncident("Checking for status", "", "description");
-//		String headerData = "Checking for status" + " is down again";
-//		// updateIncident(headerData,"b0b0lfcq4wj2","Monitoring");
-//		updateComponent("ymxz3l6qgd7y", "trp1ljjq75tp", "testing method check", "operational", "Sentieo login api");
-////		createComponent("ymxz3l6qgd7y", "created throught api", "operational", "Jenkins-Slave-Component");
-//		//String id=createIncident(pageID, componentId, "Incident_api", "test description");
-//		//updateIncident("Incident_api", "y657l91bq29d", "resolved");
-		// getJobDetails();
-		//String componentName = "Jenkins-Slave-Component";
-		String componentName="Sentieo servers";
-		String id=getIncidents("ymxz3l6qgd7y",componentName);
-		updateIncident("", id, "resolved");
+	public void jenkinsJobDetails() throws Exception {
+		String pageID = "cq92sczrvxp0";
+		String componentId = "tm3x5znyzd0k";
+		String componentName = "Automation-Jenkins-Slaves";
+		getJobDetails(pageID, componentId, componentName);
+	}
+
+	@Test(groups = "savedseries", description = "getRedisServiceStatus", priority = 2)
+	public void getRedisServiceStatus() throws Exception {
+		JedisPool pool = new JedisPool();
+		try {
+			String incidentID = "";
+			System.out.println();
+			pool.getResource();
+			System.out.println("Is connected");
+			pool.close();
+			incidentID = getIncidents("cq92sczrvxp0", "Redis-Service-Status");
+			if (!incidentID.isEmpty()) {
+				updateIncident(incidentID, "resolved", "bm9g7lr0942d", "cq92sczrvxp0",
+						"This incident has been resolved.");
+				updateComponent("cq92sczrvxp0", "bm9g7lr0942d", " All services Operational", "operational",
+						"Redis-Service-Status");
+			}
+
+		} catch (JedisConnectionException e) {
+			System.out.println(" Not connected");
+			System.out.println(e.toString());
+			writeRedisstatus("cq92sczrvxp0", "bm9g7lr0942d", "Redis-Service-Status");
+		}
+	}
+
+	public void writeRedisstatus(String pageID, String componentId, String componentName) throws Exception {
+		String incidentID = "";
+		incidentID = getIncidents(pageID, componentName);
+		if (incidentID.isEmpty()) {
+			incidentID = createIncident(pageID, componentId, "Redis-Servcie-Down", "Redis - Component is down : ");
+			updateComponent(pageID, componentId, " is offline ", "partial_outage", componentName);
+		} else
+			updateIncident(incidentID, "identified", componentId, pageID,
+					"We are investigating reports of degraded performance.");
 	}
 }

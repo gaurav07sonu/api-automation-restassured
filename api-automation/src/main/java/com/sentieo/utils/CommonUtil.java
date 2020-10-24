@@ -377,5 +377,27 @@ public class CommonUtil {
 		} else
 			verify.assertTrue(false, key + " :key not found");
 	}
+	
+	public String getDate(int days, String testType) {
+		String str = "";
+		Calendar calNewYork = Calendar.getInstance();
+		DateFormat dateformat;
+		dateformat = new SimpleDateFormat("M/d/yy");
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 7)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
+
+		else if (dayOfWeek == 1)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
+
+		if (testType.contains("keyMultiples"))
+			calNewYork.add(Calendar.DAY_OF_MONTH, days);
+		else
+			calNewYork.add(Calendar.DAY_OF_MONTH, days);
+
+		str = dateformat.format(calNewYork.getTime());
+		return str;
+	}
 
 }
