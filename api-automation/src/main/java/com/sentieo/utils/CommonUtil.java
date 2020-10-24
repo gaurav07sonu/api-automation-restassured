@@ -28,12 +28,15 @@ import java.util.TimeZone;
 import org.apache.commons.codec.binary.Base64;
 import java.util.concurrent.TimeUnit;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+//import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.sentieo.assertion.APIAssertions;
 
 public class CommonUtil {
+	APIAssertions verify = new APIAssertions();
 	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
 			+ "test" + File.separator + "resources";
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
@@ -368,6 +371,13 @@ public class CommonUtil {
 		return tickers;
 	}
 
+	public void verifykeyAvailable(JSONObject result, String key, String type) {
+		if (result.has(key)) {
+			verify.verifyEquals(result.get(key).getClass().getName(), type, "Verify data type for key: " + key);
+		} else
+			verify.assertTrue(false, key + " :key not found");
+	}
+	
 	public String getDate(int days, String testType) {
 		String str = "";
 		Calendar calNewYork = Calendar.getInstance();

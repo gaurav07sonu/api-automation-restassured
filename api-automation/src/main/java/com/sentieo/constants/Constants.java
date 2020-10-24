@@ -147,6 +147,7 @@ public class Constants {
 	public static final String FETCH_STOCK_META = "/api/stock_meta/";
 	public static final String FETCH_INTRA_HEADER_DATA = "/api/fetch_intra_header_data/";
 	public static final String GET_YEARLY_TABLE = "/api/get_yearly_table/";
+
 	public static final String TM_MAP_TICKER="/api/tm_map_ticker/";
 	// market-summary
 	public static final String FDS_INDICES_CHANGE = "/api/fds_indices_change/";
@@ -308,5 +309,11 @@ public class Constants {
 	// Table x
 
 	public static final String CHAIN_USER_DATA = "/api/tablex_fetch_chain_user_data/";
+
+	// Mobile fin APIs
+	public static final String MOBILE_STOCK_DATA = "/api/mobile_stock_data/";
+	public static final String MOBILE_FIN_MODEL_YEARLY_NEW = "/api/mobile_fin_model_yearly_new/";
+	public static final String FETCH_MOBILE_LIVE_PRICE = "/api/fetch_mobile_live_price/";
+	public static final String XBRL_TABLE_WITH_CHANGE = "/api/xbrl_table_with_change/";
 
 }
