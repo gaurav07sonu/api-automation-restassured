@@ -47,6 +47,7 @@
 				<exclude name="com.sentieo.securitymaster"></exclude>
 				<exclude name="com.sentieo.statuspage"></exclude>
 				<exclude name="com.sentieo.dashboard"></exclude>
+				<exclude name="com.sentieo.mobile"></exclude>
 			</package>
 		</packages>
 	</test>
