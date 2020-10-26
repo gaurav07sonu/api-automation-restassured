@@ -668,4 +668,14 @@ public class DataProviderClass {
 		return new Object[][] { { "all_list" }, { "likes_list" } , { "comments_list" }, { "posts_list" }
 		, { "followers_list" }, { "likes_list/posts_list" }, { "comments_list/posts_list" }};
 	}
+	
+	@DataProvider(name = "returnsData")
+	public Object[][] returnsRebalance() {
+		return new Object[][] { { "eq_wtd", "never" }, { "eq_wtd", "daily" }
+		, { "eq_wtd", "weekly" }, { "eq_wtd", "monthly" },{ "eq_wtd", "quarterly" }
+		,{ "eq_wtd", "yearly" },{ "mkt_cap", "never" }, { "mkt_cap", "daily" }
+		, { "mkt_cap", "weekly" }, { "mkt_cap", "monthly" },{ "mkt_cap", "quarterly" }
+		,{ "mkt_cap", "yearly" } };
+	}
+
 }

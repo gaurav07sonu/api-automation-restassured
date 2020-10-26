@@ -38,7 +38,7 @@ public class Volume extends APIDriver {
 	public void volume() throws CoreCommonException {
 		try {
 			CommonUtil obj = new CommonUtil();
-			String expectedDate = obj.getDate(0, "");
+			String expectedDate = obj.getDate(0);
 			Calendar calNewYork = Calendar.getInstance();
 			calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 			int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
@@ -89,16 +89,7 @@ public class Volume extends APIDriver {
 								String date = util.convertTimestampIntoDate(digit);
 
 								if (!date.contains(expectedDate))
-									expectedDate = obj.getDate(-1, "keyMultiples");
-
-								if (!date.contains(expectedDate))
-									expectedDate = obj.getDate(-2, "keyMultiples");
-
-								if (!date.contains(expectedDate))
-									expectedDate = obj.getDate(-3, "keyMultiples");
-
-								if (!date.contains(expectedDate))
-									expectedDate = obj.getDate(-4, "keyMultiples");
+									expectedDate = obj.getDate(-1);
 
 								verify.compareDates(date, expectedDate, "Verify the Current Date Point ");
 

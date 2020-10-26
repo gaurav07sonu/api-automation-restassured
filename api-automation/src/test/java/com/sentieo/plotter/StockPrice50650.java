@@ -1,12 +1,7 @@
 package com.sentieo.plotter;
 
 import static com.sentieo.constants.Constants.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -40,7 +35,6 @@ public class StockPrice50650 extends APIDriver {
 	public void stockPriceMissingValuesForGSPCTicker() throws CoreCommonException {
 		try {
 			CommonUtil obj = new CommonUtil();
-			getDateTime();
 			if (dayofweek != 1 && dayofweek != 7) {
 				JSONArray value = null;
 				String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -69,19 +63,10 @@ public class StockPrice50650 extends APIDriver {
 						int digit = (int) (timestamp / 1000);
 						CommonUtil util = new CommonUtil();
 						String date = util.convertTimestampIntoDate(digit);
-						String str = obj.getDate(0, "keyMultiples");
+						String str = obj.getDate(0);
 
 						if (!date.contains(str))
-							str = obj.getDate(-1, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-2, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-3, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-4, "keyMultiples");
+							str = obj.getDate(-1);
 
 						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
@@ -92,23 +77,5 @@ public class StockPrice50650 extends APIDriver {
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
-	}
-
-	public void getDateTime() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		SimpleDateFormat sdf = new SimpleDateFormat("kk:mm aa");
-		sdf.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-		Calendar calNewYork = Calendar.getInstance();
-		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-		dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-		time = sdf.format(calendar.getTime());
-		if (time.contains("AM"))
-			morningTime = time.replaceAll("AM", "");
-		else
-			morningTime = time.replaceAll("PM", "");
-		String[] hourMin = morningTime.split(":");
-		hour = Integer.parseInt(hourMin[0]);
-		// mins = Integer.parseInt(hourMin[1]);
 	}
 }
