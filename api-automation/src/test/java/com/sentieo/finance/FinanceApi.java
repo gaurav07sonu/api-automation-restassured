@@ -515,22 +515,23 @@ public class FinanceApi extends APIDriver {
 							"Verify the API Response Status");
 					systemDate = dateValidationForHistoricalChart("fetchpastintra", cell);
 					systemDate = systemDate.replaceAll("/", "");
-					JSONArray values = respJson.getJSONObject("result").getJSONObject("past_intra")
-							.getJSONArray(systemDate);
-					if (values != null) {
-						JSONArray value = values.getJSONArray(values.length() - 1);
-						while (isMarketClosed()) {
-							double timestamp = value.getDouble(0);
-							int digit = (int) (timestamp / 1000);
-							String date = convertTimestampIntoDate(digit);
-							String systemDate1 = dateValidationForHistoricalChart("", cell);
-							verify.compareDates(date, systemDate1, "Verify the Current Date Point");
-							break;
+					JSONObject pastIntraObject = respJson.getJSONObject("result").getJSONObject("past_intra");
+					if (pastIntraObject.has(systemDate)) {
+						JSONArray values = pastIntraObject.getJSONArray(systemDate);
+						if (values != null) {
+							JSONArray value = values.getJSONArray(values.length() - 1);
+							while (isMarketClosed()) {
+								double timestamp = value.getDouble(0);
+								int digit = (int) (timestamp / 1000);
+								String date = convertTimestampIntoDate(digit);
+								String systemDate1 = dateValidationForHistoricalChart("", cell);
+								verify.compareDates(date, systemDate1, "Verify the Current Date Point");
+								break;
+							}
 						}
-						if (loc2.equals("ios")) {
-							util.verifykeyAvailable(respJson.getJSONObject("result"), "past_intra",
-									"org.json.JSONObject");
-						}
+					}
+					if (loc2.equals("ios")) {
+						util.verifykeyAvailable(respJson.getJSONObject("result"), "past_intra", "org.json.JSONObject");
 					}
 				}
 			}
