@@ -25,7 +25,7 @@ import com.sentieo.utils.CommonUtil;
 public class TestDailySeriesData extends APIDriver {
 
 	String systemDate;
-	
+
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
@@ -102,6 +102,13 @@ public class TestDailySeriesData extends APIDriver {
 				String date = util.convertTimestampIntoDate(digit);
 				if (!date.contains(expectedDate))
 					expectedDate = obj.getDate(-1);
+
+				if (!date.contains(expectedDate))
+					expectedDate = obj.getDate(-2);
+
+				if (!date.contains(expectedDate))
+					expectedDate = obj.getDate(-3);
+
 				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {
