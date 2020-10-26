@@ -91,6 +91,12 @@ public class Volume extends APIDriver {
 								if (!date.contains(expectedDate))
 									expectedDate = obj.getDate(-1);
 
+								if (!date.contains(expectedDate))
+									expectedDate = obj.getDate(-2);
+
+								if (!date.contains(expectedDate))
+									expectedDate = obj.getDate(-3);
+
 								verify.compareDates(date, expectedDate, "Verify the Current Date Point ");
 
 							} else
