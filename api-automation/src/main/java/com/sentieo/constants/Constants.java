@@ -22,7 +22,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "app-public-api";
+		//String envArg = "mobile-api";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -316,4 +316,11 @@ public class Constants {
 	public static final String FETCH_MOBILE_LIVE_PRICE = "/api/fetch_mobile_live_price/";
 	public static final String XBRL_TABLE_WITH_CHANGE = "/api/xbrl_table_with_change/";
 
+	
+	//Mobile Main Apis
+	public static final String SET_CSRF_COOKIE = "/api/set_csrf_cookie/";
+	public static final String CHECK_AUTOUPDATE = "/api/check_autoupdate/";
+	public static final String LOGIN_1 = "/api/login_1/";
+	
+	public static final String FETCH_DOCS_MOBILE = "/api/fetch_docs/";
 }
