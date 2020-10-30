@@ -1295,17 +1295,6 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the note title");
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "updatingASpecificNote.json");
-			
-
-			//note deletion
-			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
-			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteSpec, null);
-			APIResponse deletedApiResp = new APIResponse(deleteResp);
-
-			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
-			verify.verifyResponseTime(deleteResp, 5000);
-
-
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2945,6 +2934,118 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
+	@Test(description = "Create a note with space as char in content")
+	public void createANoteWithSpaceAsCharInContent() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", " ");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Update a private note with space as char in Content")
+	public void updatingAPrivateNoteWithSpaceAsCharInContent() throws Exception {
+		try {
+
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Note Updation
+			List<String> tags = new ArrayList<String>();
+			tags.add("abc");
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("aapl");
+			tickers.add("fb");
+
+			String updatedTitle = "Updated Title of Note - " + noteId;
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+			updateParams.put("title", updatedTitle);
+			updateParams.put("content", " ");
+			updateParams.put("category", "general");
+			updateParams.put("tags", tags);
+			updateParams.put("tickers", tickers);
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			
+			
+			//note deletion
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
 	
 
 	public JSONObject getNoteDetail(String noteID) throws CoreCommonException {
