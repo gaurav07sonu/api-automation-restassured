@@ -2934,7 +2934,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Create a note with space as char in content")
+	@Test(description = "Create a note with space as char in content", enabled = false)
 	public void createANoteWithSpaceAsCharInContent() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2979,7 +2979,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Update a private note with space as char in Content")
+	@Test(description = "Update a private note with space as char in Content", enabled = false)
 	public void updatingAPrivateNoteWithSpaceAsCharInContent() throws Exception {
 		try {
 
