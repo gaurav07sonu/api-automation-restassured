@@ -365,7 +365,7 @@ public class DataProviderClass {
 	@DataProvider(name = "test_doctype_notes_publicapi")
 	public Object[][] test_doctype_notes_publicapi() {
 		Object[][] groupArray = null;
-		groupArray = new String[][] {{"attachment", "gaurav.anand"}, {"note", "akash.aggarwal"}
+		groupArray = new String[][] {{"attachment", "testing.akash"}
 		};
 		return groupArray;
 	}
