@@ -1,0 +1,265 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "required": [
+        "counter",
+        "result",
+        "response"
+    ],
+    "properties": {
+        "counter": {
+            "$id": "#/properties/counter",
+            "type": "integer",
+            "title": "The counter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "result": {
+            "$id": "#/properties/result",
+            "type": "object",
+            "title": "The result schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "sentieoanalytics": "1",
+                    "upgrade": "1",
+                    "subtitle": "Sentieo Version 7.4",
+                    "title": "Update Required",
+                    "forceupgrade": "1",
+                    "details": [
+                        {
+                            "points": [
+                                "1. Watchlist Search : You can now search through watchlists on our Mobile apps  in Document Search.",
+                                "2. We've improved our process for making new document sources accessible in our Mobile apps so you'll start to see minimal wait time when new document sources are added to the Sentieo platform",
+                                "3. Accessibility to your Internal research and collaboration.",
+                                "4. Document Search : Search Snippets are more intutive"
+                            ],
+                            "heading": "Features"
+                        },
+                        {
+                            "points": [
+                                "1. Improvement to international stock intraday's",
+                                "2. Improved search for Private Company data",
+                                "3. Some document types are heavy; To help users manage data consumption and storage space, we added warning messages when those document types are selected for off-line syncing on our iPad app."
+                            ],
+                            "heading": "Improvements"
+                        }
+                    ]
+                }
+            ],
+            "required": [
+                "sentieoanalytics",
+                "upgrade",
+                "subtitle",
+                "title",
+                "forceupgrade",
+                "details"
+            ],
+            "properties": {
+                "sentieoanalytics": {
+                    "$id": "#/properties/result/properties/sentieoanalytics",
+                    "type": "string",
+                    "title": "The sentieoanalytics schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "upgrade": {
+                    "$id": "#/properties/result/properties/upgrade",
+                    "type": "string",
+                    "title": "The upgrade schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "subtitle": {
+                    "$id": "#/properties/result/properties/subtitle",
+                    "type": "string",
+                    "title": "The subtitle schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Sentieo Version 7.4"
+                    ]
+                },
+                "title": {
+                    "$id": "#/properties/result/properties/title",
+                    "type": "string",
+                    "title": "The title schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Update Required"
+                    ]
+                },
+                "forceupgrade": {
+                    "$id": "#/properties/result/properties/forceupgrade",
+                    "type": "string",
+                    "title": "The forceupgrade schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "details": {
+                    "$id": "#/properties/result/properties/details",
+                    "type": "array",
+                    "title": "The details schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "points": [
+                                    "1. Watchlist Search : You can now search through watchlists on our Mobile apps  in Document Search.",
+                                    "2. We've improved our process for making new document sources accessible in our Mobile apps so you'll start to see minimal wait time when new document sources are added to the Sentieo platform",
+                                    "3. Accessibility to your Internal research and collaboration.",
+                                    "4. Document Search : Search Snippets are more intutive"
+                                ],
+                                "heading": "Features"
+                            },
+                            {
+                                "points": [
+                                    "1. Improvement to international stock intraday's",
+                                    "2. Improved search for Private Company data",
+                                    "3. Some document types are heavy; To help users manage data consumption and storage space, we added warning messages when those document types are selected for off-line syncing on our iPad app."
+                                ],
+                                "heading": "Improvements"
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/result/properties/details/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/result/properties/details/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "points": [
+                                            "1. Watchlist Search : You can now search through watchlists on our Mobile apps  in Document Search.",
+                                            "2. We've improved our process for making new document sources accessible in our Mobile apps so you'll start to see minimal wait time when new document sources are added to the Sentieo platform",
+                                            "3. Accessibility to your Internal research and collaboration.",
+                                            "4. Document Search : Search Snippets are more intutive"
+                                        ],
+                                        "heading": "Features"
+                                    }
+                                ],
+                                "required": [
+                                    "points",
+                                    "heading"
+                                ],
+                                "properties": {
+                                    "points": {
+                                        "$id": "#/properties/result/properties/details/items/anyOf/0/properties/points",
+                                        "type": "array",
+                                        "title": "The points schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "examples": [
+                                            [
+                                                "1. Watchlist Search : You can now search through watchlists on our Mobile apps  in Document Search.",
+                                                "2. We've improved our process for making new document sources accessible in our Mobile apps so you'll start to see minimal wait time when new document sources are added to the Sentieo platform"
+                                            ]
+                                        ],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/result/properties/details/items/anyOf/0/properties/points/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/result/properties/details/items/anyOf/0/properties/points/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "1. Watchlist Search : You can now search through watchlists on our Mobile apps  in Document Search.",
+                                                        "2. We've improved our process for making new document sources accessible in our Mobile apps so you'll start to see minimal wait time when new document sources are added to the Sentieo platform"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "heading": {
+                                        "$id": "#/properties/result/properties/details/items/anyOf/0/properties/heading",
+                                        "type": "string",
+                                        "title": "The heading schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "Features"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "response": {
+            "$id": "#/properties/response",
+            "type": "object",
+            "title": "The response schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "status": true,
+                    "msg": []
+                }
+            ],
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "$id": "#/properties/response/properties/status",
+                    "type": "boolean",
+                    "title": "The status schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        true
+                    ]
+                },
+                "msg": {
+                    "$id": "#/properties/response/properties/msg",
+                    "type": "array",
+                    "title": "The msg schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/response/properties/msg/items"
+                    }
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}
