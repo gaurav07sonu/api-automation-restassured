@@ -63,7 +63,21 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;//= respJson.getJSONObject("result").getInt("total_results");
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
+				
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -131,7 +145,20 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -262,7 +289,20 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
@@ -334,7 +374,20 @@ public class DocumentSearch extends APIDriver {
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 
-					int total_results = respJson.getJSONObject("result").getInt("total_results");
+					int total_results = 0 ;
+					
+					try {
+						Object total_result = respJson.getJSONObject("result").get("total_results");
+						if(total_result instanceof Integer) {
+							total_results = (int) total_result;
+						}else {
+							String checktest = (String) total_result;
+							checktest = checktest.replaceAll("[^0-9]", "");
+							total_results = Integer.valueOf(checktest);
+						}					
+					} catch (Exception e) {
+						verify.assertTrue(false, "total result object incorrect : " + e.toString());
+					}
 					verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
 					JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
@@ -410,7 +463,20 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -505,7 +571,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
@@ -573,7 +652,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
@@ -640,8 +732,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -707,8 +811,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -776,8 +892,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {

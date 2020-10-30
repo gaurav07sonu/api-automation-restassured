@@ -1313,7 +1313,7 @@ public class DocSearchRestApi extends APIDriver {
 	@Test(groups = "sanity", description = "fetching note results in Single tenants only", dataProvider = "fetch_note_search", dataProviderClass = DataProviderClass.class)
 	public void fetch_note_search(String note_type, String filing_type, String filters) throws CoreCommonException {
 
-		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")) {
+		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
 		} else {
 			try {
@@ -1349,7 +1349,7 @@ public class DocSearchRestApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "Showing content of note docs in Single tenants only", dataProvider = "fetch_transform_note_content", dataProviderClass = DataProviderClass.class)
 	public void fetch_transform_note_content(String doc_type, String id) throws CoreCommonException {
-		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")) {
+		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging") || APP_URL.contains("sandbox")) {
 			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
 		} else {
 			try {
@@ -1411,7 +1411,7 @@ public class DocSearchRestApi extends APIDriver {
 
 	public JSONArray setNoteTypeDocId() throws CoreCommonException {
 		String URI = "";
-		if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch"))
+		if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch") || APP_URL.contains("staging") || APP_URL.contains("sandbox"))
 			URI = APP_URL + FETCH_SEARCH;
 		else
 			URI = USER_APP_URL + FETCH_NOTE_SEARCH;
@@ -1432,7 +1432,20 @@ public class DocSearchRestApi extends APIDriver {
 			JSONObject respJsonDoc = new JSONObject(apiRespDoc.getResponseAsString());
 			verify.verifyEquals(respJsonDoc.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			if (respJsonDoc.getJSONObject("result").getInt("total_results") > 0) {
+			int total_results = 0 ;
+			try {
+				Object total_result = respJsonDoc.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}
+			if (total_results > 0) {
 				JSONArray notes_array = respJsonDoc.getJSONObject("result").getJSONArray("docs");
 				for (int i = 0; i < notes_array.length(); i++) {
 					if (notes_array.getJSONObject(i).getString("title").contains(".pdf")) {
