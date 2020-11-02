@@ -1,6 +1,8 @@
 package com.sentieo.plotter;
 
 import static com.sentieo.constants.Constants.*;
+
+import java.util.Calendar;
 import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,6 +36,7 @@ public class StockPrice50650 extends APIDriver {
 	@Test(description = "Plotter stock price Series")
 	public void stockPriceMissingValuesForGSPCTicker() throws CoreCommonException {
 		try {
+			Calendar calNewYork = Calendar.getInstance();
 			CommonUtil obj = new CommonUtil();
 			if (dayofweek != 1 && dayofweek != 7) {
 				JSONArray value = null;
@@ -64,9 +67,15 @@ public class StockPrice50650 extends APIDriver {
 						CommonUtil util = new CommonUtil();
 						String date = util.convertTimestampIntoDate(digit);
 						String str = obj.getDate(0);
-
-						if (!date.contains(str))
-							str = obj.getDate(-1);
+						if (!date.contains(str)) {
+							int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+							if (dayOfWeek == 1)
+								str = obj.getDate(-2);
+							else if (dayOfWeek == 2)
+								str = obj.getDate(-3);
+							else
+								str = obj.getDate(-1);
+						}
 
 						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
