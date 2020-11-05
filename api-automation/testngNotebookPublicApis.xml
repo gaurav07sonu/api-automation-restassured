@@ -16,6 +16,7 @@
 					<exclude name="addingDeletingTickerInPrivateNote"/>
 					<exclude name="updatingAPrivateNoteCreatedViaAPI"/>
 					<exclude name="testSoftDeleteAndRestoreOfNote"/>
+					<exclude name="updatingAPrivateNoteWithSpaceAsCharInContent"></exclude>
 				</methods>
 			</class>
 		</classes>

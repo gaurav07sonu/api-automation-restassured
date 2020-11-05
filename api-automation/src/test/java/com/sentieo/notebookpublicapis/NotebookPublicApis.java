@@ -67,7 +67,7 @@ public class NotebookPublicApis extends APIDriver {
 	 * 
 	 * This upload has /files as a URL
 	 */
-	@Test(description = "Upload File")
+	@Test(description = "Upload File", priority = 1)
 	public void uploadAFile() throws Exception {
 		try {
 
@@ -100,7 +100,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Upload File without xapikey")
+	@Test(description = "Upload File without xapikey", priority = 2)
 	public void uploadAFileWithoutXApikey() throws Exception {
 		try {
 
@@ -136,7 +136,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all notes in notebook")
+	@Test(description = "Fetch all notes in notebook", priority = 3)
 	public void fetchAllNotes() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -160,7 +160,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all notes without xapikey")
+	@Test(description = "Fetch all notes without xapikey", priority = 4)
 	public void fetchAllNotesWithoutXapiKey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -185,7 +185,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all notes with filters")
+	@Test(description = "Fetch all notes with filters", priority = 5)
 	public void fetchAllNotesWithFilters() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -216,7 +216,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note")
+	@Test(description = "Create a note", priority = 6)
 	public void createANote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -261,7 +261,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without refId")
+	@Test(description = "Create a note without refId", priority = 7)
 	public void createANoteWithoutXapikey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -295,7 +295,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without refId")
+	@Test(description = "Create a note without refId", priority = 8)
 	public void createANoteWithOutRefID() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -339,7 +339,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with already used refId")
+	@Test(description = "Create a note with already used refId", priority = 9)
 	public void createANoteWithAlreadyUsedRefId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -377,7 +377,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without Type")
+	@Test(description = "Create a note without Type", priority = 10)
 	public void createANoteWithoutType() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -412,7 +412,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with type as blank")
+	@Test(description = "Create a note with type as blank", priority = 11)
 	public void createANoteWithTypeAsBlank() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -449,7 +449,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with type has incorrect value")
+	@Test(description = "Create a note with type has incorrect value", priority = 12)
 	public void createANoteWithTypeIncorrectValue() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -486,7 +486,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with type in Capital case")
+	@Test(description = "Create a note with type in Capital case", priority = 13)
 	public void createANoteWithTypeInCapitalCase() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -523,7 +523,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without title")
+	@Test(description = "Create a note without title", priority = 14)
 	public void createANoteWithoutTitle() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -568,7 +568,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with non ascii char in title")
+	@Test(description = "Create a note with non ascii char in title", priority = 15)
 	public void createANoteWithNonAsciiCharacterinTitle() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -614,7 +614,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without content Param")
+	@Test(description = "Create a note without content Param", priority = 16)
 	public void createANoteWithoutContentParam() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -657,7 +657,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with created_at as old date")
+	@Test(description = "Create a note with created_at as old date", priority = 17)
 	public void createANoteWithcreatedAtAsOldDate() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -704,7 +704,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create an attachment note")
+	@Test(description = "Create an attachment note", priority = 18)
 	public void createAnAttachmentNote() throws Exception {
 		try {
 
@@ -784,7 +784,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Test attachment note creation with invalid file id")
+	@Test(description = "Test attachment note creation with invalid file id", priority = 19)
 	public void createAnAttachmentNoteWithInvalidFileId() throws Exception {
 		try {
 
@@ -853,7 +853,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Test attachment note creation with different content type")
+	@Test(description = "Test attachment note creation with different content type", priority = 20)
 	public void createAnAttachmentNoteWithDifferentContentType() throws Exception {
 		try {
 
@@ -921,7 +921,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note")
+	@Test(description = "Fetch a note", priority = 21)
 	public void fetchSingleNote() throws Exception {
 		try {
 			// note creation
@@ -972,7 +972,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note without xuserkey")
+	@Test(description = "Fetch a note without xuserkey", priority = 22)
 	public void fetchSingleNoteWithoutXapiKey() throws Exception {
 		try {
 			// note creation
@@ -999,7 +999,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note with invalid noteID")
+	@Test(description = "Fetch a note with invalid noteID", priority = 23)
 	public void fetchSingleNoteWithInvalidNoteID() throws Exception {
 		try {
 			// note creation
@@ -1029,7 +1029,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note with valid noteID but of different account")
+	@Test(description = "Fetch a note with valid noteID but of different account", priority = 24)
 	public void fetchSingleNoteWithValidNoteIDOfAnotherAccount() throws Exception {
 		try {
 			// note creation
@@ -1059,7 +1059,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "fetch a highlight note")
+	@Test(description = "fetch a highlight note", priority = 25)
 	public void fetchHighlightNote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -1095,7 +1095,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a private note schroders")
+	@Test(description = "Update a private note schroders", priority = 26)
 	public void updatingAPrivateNoteCreatedViaAPISchroders() throws Exception {
 		try {
 
@@ -1171,7 +1171,7 @@ public class NotebookPublicApis extends APIDriver {
 	}
 	
 	
-	@Test(description = "Update a private note")
+	@Test(description = "Update a private note", priority = 27)
 	public void updatingAPrivateNoteCreatedViaAPI() throws Exception {
 		try {
 
@@ -1239,16 +1239,16 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update an attachment note")
+	@Test(description = "Update an attachment note", priority = 28)
 	public void updatingAnAttachmentNote() throws Exception {
 		try {
 
-			// note Creation
+			// note fetch
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 			HashMap<String, String> filters = new HashMap<String, String>();
-			filters.put("limit", "1");
+			filters.put("limit", "5");
 			filters.put("filter", "type eq attachment");
 
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
@@ -1257,9 +1257,8 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
-			JSONObject firstElment = (JSONObject) entries.get(0);
+			JSONObject firstElment = (JSONObject) entries.get(3);
 			String noteId = (String) firstElment.get("id");
-
 			// Note Updation
 			List<String> tags = new ArrayList<String>();
 			tags.add("abc");
@@ -1278,7 +1277,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			String updateJson = jsonUtils.toJson(updateParams);
 
-			Thread.sleep(1000);
+			Thread.sleep(4000);
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
@@ -1304,7 +1303,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update an attachment note and do file versioning")
+	@Test(description = "Update an attachment note and do file versioning", priority = 29)
 	public void updatingAnAttachmentNoteAndDoFileVersion() throws Exception {
 		try {
 
@@ -1410,7 +1409,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Update a note with invalid Id")
+	@Test(description = "Update a note with invalid Id", priority = 30)
 	public void updatingANoteWithInvalidId() throws Exception {
 		try {
 
@@ -1452,7 +1451,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Delete a note")
+	@Test(description = "Delete a note", priority = 31)
 	public void deletingANote() throws Exception {
 		try {
 
@@ -1493,7 +1492,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Delete a note with invalid id")
+	@Test(description = "Delete a note with invalid id", priority = 32)
 	public void deletingANoteWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -1519,7 +1518,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker in a private note schroders")
+	@Test(description = "Add and delete ticker in a private note schroders", priority = 33)
 	public void addingDeletingTickerInPrivateNoteSchroders() throws Exception {
 		try {
 			// note Creation
@@ -1599,7 +1598,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Add and delete ticker in a private note")
+	@Test(description = "Add and delete ticker in a private note", priority = 34)
 	public void addingDeletingTickerInPrivateNote() throws Exception {
 		try {
 			// note Creation
@@ -1668,7 +1667,7 @@ public class NotebookPublicApis extends APIDriver {
 
 
 
-	@Test(description = "Add and delete ticker in a note in attachment note")
+	@Test(description = "Add and delete ticker in a note in attachment note", priority = 35)
 	public void addingDeletingTickerInAttachmentNote() throws Exception {
 		try {
 			// note Creation
@@ -1677,7 +1676,7 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
-			filters.put("limit", "1");
+			filters.put("limit", "5");
 			filters.put("filter", "type eq attachment");
 
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
@@ -1686,7 +1685,7 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
-			JSONObject firstElment = (JSONObject) entries.get(0);
+			JSONObject firstElment = (JSONObject) entries.get(3);
 			String noteId = (String) firstElment.get("id");
 
 			// Adding Ticker
@@ -1718,7 +1717,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker with invalid Id")
+	@Test(description = "Add and delete ticker with invalid Id", priority = 36)
 	public void addingDeletingTickerWithInvalidId() throws Exception {
 		try {
 			// note Creation
@@ -1766,7 +1765,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in a private note schroders")
+	@Test(description = "Add and delete tag in a private note schroders", priority = 37)
 	public void addingDeletingTagInPrivateNoteSchroders() throws Exception {
 		try {
 			// note Creation
@@ -1838,7 +1837,7 @@ public class NotebookPublicApis extends APIDriver {
 	}
 	
 	
-	@Test(description = "Add and delete tag in a private note")
+	@Test(description = "Add and delete tag in a private note", priority = 38)
 	public void addingDeletingTagInPrivateNote() throws Exception {
 		try {
 			// note Creation
@@ -1898,7 +1897,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in a Attachment note")
+	@Test(description = "Add and delete tag in a Attachment note", priority = 39)
 	public void addingDeletingTagInAttachmentNote() throws Exception {
 		try {
 			// note Creation
@@ -1907,7 +1906,7 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
-			filters.put("limit", "1");
+			filters.put("limit", "6");
 			filters.put("filter", "type eq attachment");
 
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
@@ -1916,7 +1915,7 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
-			JSONObject firstElment = (JSONObject) entries.get(0);
+			JSONObject firstElment = (JSONObject) entries.get(3);
 			String noteId = (String) firstElment.get("id");
 
 			// Adding Tag
@@ -1948,7 +1947,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in with invalid note id")
+	@Test(description = "Add and delete tag in with invalid note id", priority = 40)
 	public void addingAndDeletingTagWithInvalidId() throws Exception {
 		try {
 			// note Creation
@@ -1995,7 +1994,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note")
+	@Test(description = "Add attachment in a note", priority = 41)
 	public void addingAttachmentInaNote() throws Exception {
 		try {
 			// note Creation
@@ -2069,7 +2068,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
 			verify.verifyResponseTime(deleteNoteResp, 5000);
-
+			Thread.sleep(5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2079,7 +2078,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with created and updated date")
+	@Test(description = "Add attachment in a note with created and updated date", priority = 42)
 	public void addingAttachmentInaNoteWithCreatedAndUpdatedDate() throws Exception {
 		try {
 			// note Creation
@@ -2165,7 +2164,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with Incorrect date format")
+	@Test(description = "Add attachment in a note with Incorrect date format", priority = 42)
 	public void addingAttachmentInaNoteWithIncorrectDate() throws Exception {
 		try {
 			// note Creation
@@ -2253,7 +2252,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with invalid note id")
+	@Test(description = "Add attachment in a note with invalid note id", priority = 43)
 	public void addingAttachmentInaNoteWithInvalidNoteId() throws Exception {
 		try {
 			// note Creation
@@ -2316,7 +2315,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with invalid File Id")
+	@Test(description = "Add attachment in a note with invalid File Id", priority = 44)
 	public void addingAttachmentInaNoteUsingInvalidFileId() throws Exception {
 		try {
 			// note Creation
@@ -2402,7 +2401,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with contenttype mismatch")
+	@Test(description = "Add attachment in a note with contenttype mismatch", priority = 45)
 	public void addingAttachmentInaNoteContenTypeMismatch() throws Exception {
 		try {
 			// note Creation
@@ -2488,7 +2487,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with file extension mismatch")
+	@Test(description = "Add attachment in a note with file extension mismatch", priority = 46)
 	public void addingAttachmentInaNoteFileExtensionMismatch() throws Exception {
 		try {
 			// note Creation
@@ -2574,7 +2573,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all the comments from a note")
+	@Test(description = "Fetch all the comments from a note", priority = 47)
 	public void fetchCommentsAddedInANote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2612,7 +2611,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all the comments from a note for invalid Id")
+	@Test(description = "Fetch all the comments from a note for invalid Id", priority = 48)
 	public void fetchCommentsAddedInANoteForInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2640,7 +2639,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "fetch Highlight created in a note")
+	@Test(description = "fetch Highlight created in a note", priority = 49)
 	public void fetchHighlightsCreatedInANote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2676,7 +2675,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "fetch Highlight created in a note for invalid id")
+	@Test(description = "fetch Highlight created in a note for invalid id", priority = 50)
 	public void fetchHighlightsCreatedInANoteForInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2704,7 +2703,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Add Gif,Png,Jpeg,Bitmap image in a note Content", dataProvider = "notebookImageData", dataProviderClass = DataProviderClass.class)
+	@Test(description = "Add Gif,Png,Jpeg,Bitmap image in a note Content", dataProvider = "notebookImageData", dataProviderClass = DataProviderClass.class, priority = 51)
 	public void addImageInNoteContentAndDownload(String imageData[]) throws Exception {
 		try {
 			
@@ -2764,7 +2763,7 @@ public class NotebookPublicApis extends APIDriver {
 
 	
 	
-	@Test(description = "Verify error for invalid image id")
+	@Test(description = "Verify error for invalid image id", priority = 52)
 	public void testErrorMessageForInvalidImageId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2824,7 +2823,7 @@ public class NotebookPublicApis extends APIDriver {
 	}
 	
 	
-	@Test(description = "Test Large File upload")
+	@Test(description = "Test Large File upload", priority = 53)
 	public void testLargeFileUpload() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2868,7 +2867,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Soft delete and Restore a note")
+	@Test(description = "Soft delete and Restore a note", priority = 54)
 	public void testSoftDeleteAndRestoreOfNote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2934,7 +2933,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Create a note with space as char in content")
+	@Test(description = "Create a note with space as char in content", priority = 55)
 	public void createANoteWithSpaceAsCharInContent() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2979,7 +2978,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Update a private note with space as char in Content")
+	@Test(description = "Update a private note with space as char in Content", priority = 56)
 	public void updatingAPrivateNoteWithSpaceAsCharInContent() throws Exception {
 		try {
 
