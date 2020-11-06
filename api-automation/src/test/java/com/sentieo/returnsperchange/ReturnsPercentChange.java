@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
@@ -26,6 +28,7 @@ public class ReturnsPercentChange extends APIDriver {
 	String endString = "";
 	BigDecimal perChangeCriteria = new BigDecimal(60);
 	static List<String> failedTickers = new ArrayList<String>();
+	static Map<String, String> actionMap = new HashMap<String, String>();
 
 	@BeforeClass(alwaysRun = true)
 	public void initVerify() {
@@ -41,7 +44,8 @@ public class ReturnsPercentChange extends APIDriver {
 	@Test(description = "Verify Data", priority = 1)
 	public void verifyReturnsPerecentChange() throws CoreCommonException {
 		if (failedTickers.size() != 0)
-			verify.assertFalse(true, "Returns update more than 60 % for these tickers " + failedTickers);
+			verify.assertFalse(true, "Returns update more than 60 % for tickers " + failedTickers
+					+ " with rebalance options:" +actionMap);
 		else
 			verify.assertTrue(true, "Verify Returns per change");
 		verify.verifyAll();
@@ -96,11 +100,17 @@ public class ReturnsPercentChange extends APIDriver {
 						per = per * 100;
 						String returnsPER = BigDecimal.valueOf(per).toPlainString();
 						BigDecimal bigDecimalCurrency = new BigDecimal(returnsPER);
-						if (bigDecimalCurrency.compareTo(perChangeCriteria) == 1)
+						if (bigDecimalCurrency.compareTo(perChangeCriteria) == 1) {
 							failedTickers.add(returnsTickers.get(i));
-						else if (bigDecimalCurrency.compareTo(perChangeCriteria) == 0)
+							actionMap.put("abs_weight_method", abs_weight_method);
+							actionMap.put("abs_rebalance", abs_rebalance);
+						} else if (bigDecimalCurrency.compareTo(perChangeCriteria) == 0) {
 							failedTickers.add(returnsTickers.get(i));
+							actionMap.put("abs_weight_method", abs_weight_method);
+							actionMap.put("abs_rebalance", abs_rebalance);
+						}
 					}
+
 				}
 			}
 		} catch (Exception e) {
@@ -110,5 +120,4 @@ public class ReturnsPercentChange extends APIDriver {
 		}
 	}
 
-	
 }
