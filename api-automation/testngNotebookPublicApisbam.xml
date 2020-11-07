@@ -13,6 +13,9 @@
 			<class name="com.sentieo.notebookpublicapis.NotebookPublicApis">
 				<methods>
 					<exclude name="testLargeFileUpload"/>
+					<exclude name="addingDeletingTagInPrivateNoteSchroders" />
+					<exclude name="addingDeletingTickerInPrivateNoteSchroders" />
+					<exclude name="updatingAPrivateNoteCreatedViaAPISchroders" />
 				</methods>
 			</class>
 		</classes>
