@@ -140,7 +140,7 @@ public class FinanceApi extends APIDriver {
 								"Verify that Requested ticker Visible in the API");
 						verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
 								"Verify the API Message");
-						verify.jsonSchemaValidation(resp, "finance" + File.separator + "fetchCurrentStockData.json");
+						//verify.jsonSchemaValidation(resp, "finance" + File.separator + "fetchCurrentStockData.json");
 					}
 				}
 			}
@@ -546,6 +546,7 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "fetch2", description = "fetch_main_graph")
 	public void fetchmaingraph() throws Exception {
+		CommonUtil obj = new CommonUtil();
 		String systemDate = "";
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		for (String[] row : tickers) {
@@ -567,7 +568,7 @@ public class FinanceApi extends APIDriver {
 						double timestamp = value.getDouble(0);
 						int digit = (int) (timestamp / 1000);
 						String date = convertTimestampIntoDate(digit);
-						systemDate = dateValidationForHistoricalChart("", cell);
+						systemDate = obj.getDate(-1);
 						verify.compareDates(date, systemDate, "Verify the Current Date Point");
 						break;
 					}
