@@ -129,7 +129,7 @@ envName: "tigerprod"
 appURL: "https://tigerglobal.sentieo.com"
 userAppUrl: "https://user-tigerglobal.sentieo.com"
 userName: "tiger.test"
-password: "Sentieo@123"
+password: "Sentieo@321"
 ---
 envName: "psp"
 appURL: "https://psptest.sentieo.com"
