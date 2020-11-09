@@ -632,6 +632,8 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("applied_filter", "[\"language\"]");
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
+			queryParams.put("allow_entity", "true");
+			queryParams.put("pticker_setting", "true");
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));

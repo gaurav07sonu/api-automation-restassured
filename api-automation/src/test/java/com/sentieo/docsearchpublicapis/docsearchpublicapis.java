@@ -1,18 +1,22 @@
 package com.sentieo.docsearchpublicapis;
 
-import static com.sentieo.constants.Constants.*;
+import static com.sentieo.constants.Constants.PUBLIC_API_URL;
+import static com.sentieo.constants.Constants.SEARCH;
+import static com.sentieo.constants.Constants.XAPIKEY1;
+import static com.sentieo.constants.Constants.XUSERKEY1;
+import static com.sentieo.constants.Constants.X_API_KEY;
+import static com.sentieo.constants.Constants.X_USER_KEY;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
+
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -22,7 +26,6 @@ import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.utils.CoreCommonException;
 import com.sentieo.utils.JSONUtils;
 
 public class docsearchpublicapis extends APIDriver {
