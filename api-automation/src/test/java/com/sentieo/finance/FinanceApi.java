@@ -615,14 +615,14 @@ public class FinanceApi extends APIDriver {
 								.getJSONArray("series");
 						JSONArray value = values.getJSONArray(values.length() - 1);
 						if (verifyTickerName.contains(cell.toUpperCase())) {
-							while (isMarketClosed()) {
+//							while (isMarketClosed()) {
 								double timestamp = value.getDouble(0);
 								int digit = (int) (timestamp / 1000);
 								String date = convertTimestampIntoDate(digit);
 								String systemDate = obj.getDate(-1);
 								verify.compareDates(date, systemDate, "Verify the Current Date Point");
 								break;
-							}
+							//}
 						}
 					} catch (JSONException je) {
 						verify.verificationFailures.add(je);
