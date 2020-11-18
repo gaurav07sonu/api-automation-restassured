@@ -583,6 +583,7 @@ public class FinanceApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "fetch_graph_data", dataProvider = "fetch_yearly_data", dataProviderClass = DataProviderClass.class)
 	public void fetchgraphdata(String ratio) throws Exception {
+		CommonUtil obj = new CommonUtil();
 		Calendar calNewYork = Calendar.getInstance();
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
 		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
@@ -618,7 +619,7 @@ public class FinanceApi extends APIDriver {
 								double timestamp = value.getDouble(0);
 								int digit = (int) (timestamp / 1000);
 								String date = convertTimestampIntoDate(digit);
-								String systemDate = getCurrentUSDate();
+								String systemDate = obj.getDate(-1);
 								verify.compareDates(date, systemDate, "Verify the Current Date Point");
 								break;
 							}
