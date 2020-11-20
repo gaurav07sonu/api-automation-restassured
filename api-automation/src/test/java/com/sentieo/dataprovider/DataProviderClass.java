@@ -688,4 +688,140 @@ public class DataProviderClass {
 		,{ "mkt_cap", "yearly" } };
 	}
 
+	@DataProvider(name = "test_entity_numbersearch_invalid")
+	public Object[][] test_entity_numbersearch_invalid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"abcd"},{"^&*(%"},{"1234abcd"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "test_entity_numbersearch_valid")
+	public Object[][] test_entity_numbersearch_valid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"100"},{"500.1"},{"-200"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "test_entity_datesearch_valid")
+	public Object[][] test_entity_datesearch_valid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"2020-10-01T00:00:00"},{"2020-09-09T00:00:00"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "test_entity_datesearch_invalid")
+	public Object[][] test_entity_datesearch_invalid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"2020-0909"},{"2020-15-01"},{"2020-Sep-09"},{"2020/Sep/09"},{"2020/09/09"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "test_entity_singlelinesearch_valid")
+	public Object[][] test_entity_singlelinesearch_valid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"This note is under test."},{"My name is Gaurav"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "test_entity_multilinesearch_valid")
+	public Object[][] test_entity_multilinesearch_valid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"This note is under test. Please ignore this."}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "test_entity_dropdownsearch_valid")
+	public Object[][] test_entity_dropdownsearch_valid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"Gaurav1"},{"Gaurav2"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "TestEntityNumberRangeValid")
+	public Object[][] TestEntityNumberRangeValid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"-100","600"}, {"100","600"},{"500","600"},{"-10000","1"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "TestEntityNumberRangeInvalid")
+	public Object[][] TestEntityNumberRangeInvalid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"1","99"},{"101","500"}, {"-10000","-500"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "EntityNumberRangeScenarioValid1")
+	public Object[][] EntityNumberRangeScenarioValid1() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"1","101"}, {"-500","101"},{"100","500.1"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "EntityNumberRangeScenarioInvalid1")
+	public Object[][] EntityNumberRangeScenarioInvalid1() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"600","100"}, {"500","100"},{"1","-1"},{"1000","100"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "EntityNumberRangeScenarioValid2")
+	public Object[][] EntityNumberRangeScenarioValid2() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"99","502"}, {"-500","-200"},{"500","500.1"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "EntityNumberRangeScenarioInvalid2")
+	public Object[][] EntityNumberRangeScenarioInvalid2() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"100","100"}, {"1000","100"},{"1","-1"},{"500","500"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "EntityNumberRangeScenarioValid3")
+	public Object[][] EntityNumberRangeScenarioValid3() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"100"},{"-500"},{"500.1"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "EntityNumberRangeScenarioValid4")
+	public Object[][] EntityNumberRangeScenarioValid4() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"100"},{"500.1"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "TestEntityDateRangeValid")
+	public Object[][] TestEntityDateRangeValid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"2020-09-09T00:00:00","2020-10-01T00:00:00"}, {"2012-01-01T00:00:00","2022-10-01T00:00:00"},
+									 {"2012-10-01T00:00:00","2022-10-01T00:00:00"}
+		};
+		return groupArray;
+	}
+
+	@DataProvider(name = "TestEntityDateRangeInvalid")
+	public Object[][] TestEntityDateRangeInvalid() {
+		Object[][] groupArray = null;
+		groupArray = new String[][] {{"2020-01-09T00:00:00","2020-05-01T00:00:00"}, {"2020-11-01T00:00:00","2018-10-01T00:00:00"}
+		};
+		return groupArray;
+	}
 }
