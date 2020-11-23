@@ -4,14 +4,20 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-		<!--  <listener
-			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" /> -->
+		<listener
+			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
 
-	<test name="mobile apis" preserve-order="true">
+	<test name="Mobile APIs" preserve-order="true">
+		<parameter name="loc" value="ios" />
+		<groups>
+			<run>
+				<include name="mobile" />
+			</run>
+		</groups>
 		<classes>
-			<class name="com.sentieo.mobile.MobileLoginTest">
-			</class>
+			<class name="com.sentieo.mobile.MobileLoginTest" />
+			<class name="com.sentieo.notebook.NotebookApis" />
 		</classes>
 	</test>
 </suite>

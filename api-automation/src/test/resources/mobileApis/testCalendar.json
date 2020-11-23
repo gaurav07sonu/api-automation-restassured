@@ -1,0 +1,323 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "counter": 1,
+            "response": {
+                "status": true
+            },
+            "result": [
+                {
+                    "confirmed": true,
+                    "verified_data": {},
+                    "extra": {
+                        "per_end_dt": "2019-09-30T00:00:00"
+                    },
+                    "company": "China Telecom Corporation Limited (ADR)",
+                    "market_time": "",
+                    "quarter_year": "Q3 2019",
+                    "docType": "",
+                    "source": "rkd",
+                    "done": false,
+                    "obj_id": "5f9a6e91cf3ddd5705ac549e",
+                    "date": "2019-12-27T00:00:00",
+                    "quarter": "",
+                    "ticker": "cha",
+                    "created_at": "2020-10-29T07:26:09.241000"
+                }
+            ]
+        }
+    ],
+    "required": [
+        "counter",
+        "response",
+        "result"
+    ],
+    "properties": {
+        "counter": {
+            "$id": "#/properties/counter",
+            "type": "integer",
+            "title": "The counter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                1
+            ]
+        },
+        "response": {
+            "$id": "#/properties/response",
+            "type": "object",
+            "title": "The response schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "status": true
+                }
+            ],
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "$id": "#/properties/response/properties/status",
+                    "type": "boolean",
+                    "title": "The status schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        true
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "result": {
+            "$id": "#/properties/result",
+            "type": "array",
+            "title": "The result schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                [
+                    {
+                        "confirmed": true,
+                        "verified_data": {},
+                        "extra": {
+                            "per_end_dt": "2019-09-30T00:00:00"
+                        },
+                        "company": "China Telecom Corporation Limited (ADR)",
+                        "market_time": "",
+                        "quarter_year": "Q3 2019",
+                        "docType": "",
+                        "source": "rkd",
+                        "done": false,
+                        "obj_id": "5f9a6e91cf3ddd5705ac549e",
+                        "date": "2019-12-27T00:00:00",
+                        "quarter": "",
+                        "ticker": "cha",
+                        "created_at": "2020-10-29T07:26:09.241000"
+                    }
+                ]
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/result/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/result/items/anyOf/0",
+                        "type": "object",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": {},
+                        "examples": [
+                            {
+                                "confirmed": true,
+                                "verified_data": {},
+                                "extra": {
+                                    "per_end_dt": "2019-09-30T00:00:00"
+                                },
+                                "company": "China Telecom Corporation Limited (ADR)",
+                                "market_time": "",
+                                "quarter_year": "Q3 2019",
+                                "docType": "",
+                                "source": "rkd",
+                                "done": false,
+                                "obj_id": "5f9a6e91cf3ddd5705ac549e",
+                                "date": "2019-12-27T00:00:00",
+                                "quarter": "",
+                                "ticker": "cha",
+                                "created_at": "2020-10-29T07:26:09.241000"
+                            }
+                        ],
+                        "required": [
+                            "confirmed",
+                            "verified_data",
+                            "extra",
+                            "company",
+                            "market_time",
+                            "quarter_year",
+                            "docType",
+                            "source",
+                            "done",
+                            "obj_id",
+                            "date",
+                            "quarter",
+                            "ticker",
+                            "created_at"
+                        ],
+                        "properties": {
+                            "confirmed": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/confirmed",
+                                "type": "boolean",
+                                "title": "The confirmed schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": false,
+                                "examples": [
+                                    true
+                                ]
+                            },
+                            "verified_data": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/verified_data",
+                                "type": "object",
+                                "title": "The verified_data schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {}
+                                ],
+                                "required": [],
+                                "additionalProperties": true
+                            },
+                            "extra": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/extra",
+                                "type": "object",
+                                "title": "The extra schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "per_end_dt": "2019-09-30T00:00:00"
+                                    }
+                                ],
+                                "required": [
+                                    "per_end_dt"
+                                ],
+                                "properties": {
+                                    "per_end_dt": {
+                                        "$id": "#/properties/result/items/anyOf/0/properties/extra/properties/per_end_dt",
+                                        "type": "string",
+                                        "title": "The per_end_dt schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "2019-09-30T00:00:00"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            },
+                            "company": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/company",
+                                "type": "string",
+                                "title": "The company schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "China Telecom Corporation Limited (ADR)"
+                                ]
+                            },
+                            "market_time": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/market_time",
+                                "type": "string",
+                                "title": "The market_time schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "quarter_year": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/quarter_year",
+                                "type": "string",
+                                "title": "The quarter_year schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "Q3 2019"
+                                ]
+                            },
+                            "docType": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/docType",
+                                "type": "string",
+                                "title": "The docType schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "source": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/source",
+                                "type": "string",
+                                "title": "The source schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "rkd"
+                                ]
+                            },
+                            "done": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/done",
+                                "type": "boolean",
+                                "title": "The done schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": false,
+                                "examples": [
+                                    false
+                                ]
+                            },
+                            "obj_id": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/obj_id",
+                                "type": "string",
+                                "title": "The obj_id schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "5f9a6e91cf3ddd5705ac549e"
+                                ]
+                            },
+                            "date": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/date",
+                                "type": "string",
+                                "title": "The date schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "2019-12-27T00:00:00"
+                                ]
+                            },
+                            "quarter": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/quarter",
+                                "type": "string",
+                                "title": "The quarter schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "ticker": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/ticker",
+                                "type": "string",
+                                "title": "The ticker schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "cha"
+                                ]
+                            },
+                            "created_at": {
+                                "$id": "#/properties/result/items/anyOf/0/properties/created_at",
+                                "type": "string",
+                                "title": "The created_at schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "2020-10-29T07:26:09.241000"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": true
+}
