@@ -79,7 +79,6 @@ public class NotebookPublicApis extends APIDriver {
 			HashMap<String, Object> params = new HashMap<String, Object>();
 			params.put("files", file);
 			params.put("file", fileName);
-
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -87,7 +86,6 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
 			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "uploadFile.json");
@@ -135,7 +133,6 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
-
 	@Test(description = "Fetch all notes in notebook", priority = 3)
 	public void fetchAllNotes() throws Exception {
 		try {
@@ -3037,6 +3034,40 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
 			verify.verifyResponseTime(deleteResp, 5000);
 
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Upload an empty file", priority = 57)
+	public void uploadAnEmptyFile() throws Exception {
+		try {
+
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "emptyFile.txt";
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			
+			verify.verifyResponseTime(resp, 5000);
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "uploadFile.json");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);

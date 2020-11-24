@@ -9,6 +9,9 @@ public class Configuration {
 	private String publicApiUrl;
 	private String xapikey;
 	private String xuserkey;
+	private String appVersion;
+	private String iosVersion;
+	private String deviceName;
 
 	public String getAppURL() {
 		return appURL;
@@ -72,6 +75,30 @@ public class Configuration {
 
 	public void setXuserkey(String xuserkey) {
 		this.xuserkey = xuserkey;
+	}
+
+	public String getAppVersion() {
+		return appVersion;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
+	}
+
+	public String getIosVersion() {
+		return iosVersion;
+	}
+
+	public void setIosVersion(String iosVersion) {
+		this.iosVersion = iosVersion;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 
 }

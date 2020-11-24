@@ -18,11 +18,14 @@ public class Constants {
 	public static String PUBLIC_API_URL = "";
 	public static String X_API_KEY = "";
 	public static String X_USER_KEY = "";
+	public static String DEVICE_NAME = "";
+	public static String IOS_VERSION = "";
+	public static String APP_VERSION = "";
 
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "mobile-api";
+		//String envArg = "mobile-api-app";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -37,6 +40,9 @@ public class Constants {
 				PUBLIC_API_URL = ((Configuration) object).getPublicApiUrl();
 				X_API_KEY = ((Configuration) object).getXapikey();
 				X_USER_KEY = ((Configuration) object).getXuserkey();
+				APP_VERSION = ((Configuration) object).getAppVersion();
+				IOS_VERSION = ((Configuration) object).getIosVersion();
+				DEVICE_NAME = ((Configuration) object).getDeviceName();
 				System.out.println(APP_URL);
 				System.out.println(USER_APP_URL);
 				System.out.println(PUBLIC_API_URL);

@@ -49,8 +49,8 @@ public class APIDriver {
 	protected RequestSpecification formParamsSpecMobile(HashMap<String, String> formParams) {
 		formParams.put("csrfmiddlewaretoken", "a");
 		return given().contentType("application/x-www-form-urlencoded; charset=UTF-8").accept(ContentType.JSON)
-				.cookie("csrftoken", "a").cookie("apid", apid).cookie("usid", usid).cookie("app_version", "7.2")
-				.cookie("device_name", "iphone").cookie("ios_version", "13.2.2").formParameters(formParams);
+				.cookie("csrftoken", "a").cookie("apid", apid).cookie("usid", usid).cookie("app_version", APP_VERSION)
+				.cookie("device_name", DEVICE_NAME).cookie("ios_version", IOS_VERSION).formParameters(formParams);
 	}
 
 	protected RequestSpecification queryParamsSpec(HashMap<String, String> queryParams) {
