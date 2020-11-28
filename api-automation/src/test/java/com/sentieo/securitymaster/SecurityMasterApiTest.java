@@ -3178,15 +3178,17 @@ public class SecurityMasterApiTest extends APIDriver {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
-
+			
 			for (String eId : entities) {
 				Thread.sleep(2000);
 				RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 				Response resp = RestOperationUtils.delete(ENTITY + "/" + eId, null, spec, null);
 				APIResponse apiResp = new APIResponse(resp);
 				System.out.println("Deleted Entity : " + eId);
+				if (apiResp.getStatusCode() != 204) {
+					continue;
+				}
 				verify.verifyStatusCode(apiResp.getStatusCode(), 204);
-				verify.verifyResponseTime(resp, 5000);
 			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());

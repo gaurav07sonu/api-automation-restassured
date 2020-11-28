@@ -20,6 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.jayway.restassured.response.Response;
@@ -27,6 +30,7 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
+import com.sentieo.mobile.MobileCalendar;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -47,7 +51,9 @@ public class NotebookApis extends APIDriver {
 
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
+	MobileCalendar mobileCal = null;
 	String URI = null;
+	String locMobile = "";
 	static String tagName = "";
 	static String note_id = "";
 	static String ticker = "";
@@ -68,6 +74,7 @@ public class NotebookApis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
+		mobileCal = new MobileCalendar();
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -78,6 +85,12 @@ public class NotebookApis extends APIDriver {
 	@BeforeClass(alwaysRun = true)
 	public void setTickers() {
 		tickers = CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
+	}
+	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
 	}
 
 	@Test(groups = "sanity", priority = 0, description = "Create private note")
@@ -2265,7 +2278,7 @@ public class NotebookApis extends APIDriver {
 	APIResponse apiResp = null;
 	Response resp = null;
 
-	@Test(groups = "sanity", priority = 47, description = "fetch Calendar")
+	@Test(groups = {"sanity","mobile"}, priority = 47, description = "fetch Calendar")
 	public void fetchCalendar() throws Exception {
 		String URI = USER_APP_URL + FETCHCALENDAR;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2277,10 +2290,19 @@ public class NotebookApis extends APIDriver {
 			parameters.put("watch", "All Watchlist Tickers");
 			parameters.put("startDate", year + "-" + current_month + "-1");
 			parameters.put("endDate", year + "-" + current_month + "-" + last_date);
-			RequestSpecification spec = formParamsSpec(parameters);
-			resp = RestOperationUtils.post(URI, null, spec, parameters);
-			apiResp = new APIResponse(resp);
-			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			if (locMobile.equals("ios")) {
+				parameters.put("loc", locMobile);
+				RequestSpecification spec = formParamsSpecMobile(parameters);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
+				mobileCal.testCalendarAssertions(apiResp, resp);
+			}else {
+				RequestSpecification spec = formParamsSpec(parameters);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			}
+			
 		} catch (Error je) {
 			je.printStackTrace();
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());

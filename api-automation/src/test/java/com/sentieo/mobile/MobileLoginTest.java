@@ -1,6 +1,13 @@
 package com.sentieo.mobile;
 
-import static com.sentieo.constants.Constants.*;
+import static com.sentieo.constants.Constants.APP_URL;
+import static com.sentieo.constants.Constants.CHECK_AUTOUPDATE;
+import static com.sentieo.constants.Constants.CHECK_DOMAIN;
+import static com.sentieo.constants.Constants.EMAIL;
+import static com.sentieo.constants.Constants.LOGIN_URL;
+import static com.sentieo.constants.Constants.PASSWORD;
+import static com.sentieo.constants.Constants.SET_CSRF_COOKIE;
+import static com.sentieo.constants.Constants.USER_APP_URL;
 
 import java.io.File;
 import java.util.HashMap;
@@ -24,13 +31,13 @@ import com.sentieo.rest.base.RestOperationUtils;
 public class MobileLoginTest extends APIDriver {
 	String userName;
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		verify = new APIAssertions();
 		RestAssured.baseURI = USER_APP_URL;
 	}
 
-	@Test(groups = "sanity", description = "set csrf token", enabled = true)
+	@Test(groups = "mobile", description = "set csrf token", priority = 1)
 	public void testSetCsrfToken() throws Exception {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -58,7 +65,7 @@ public class MobileLoginTest extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Login test", enabled = true)
+	@Test(groups = "mobile", description = "Login test", priority = 2)
 	public void testMobileLogin() throws Exception {
 		try {
 			HashMap<String, String> loginData = new HashMap<String, String>();
@@ -91,7 +98,7 @@ public class MobileLoginTest extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "test auto update", enabled = true)
+	@Test(groups = "mobile", description = "test auto update", priority = 3)
 	public void testAutoUpdate() throws Exception {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -115,7 +122,7 @@ public class MobileLoginTest extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Check Domain")
+	@Test(groups = "mobile", description = "Check Domain", priority = 4)
 	public void testCheckDomain() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
