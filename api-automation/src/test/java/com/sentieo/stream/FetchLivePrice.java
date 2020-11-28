@@ -26,7 +26,7 @@ public class FetchLivePrice extends APIDriver {
 			Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr", "awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack",
 					"ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue","gnciq", "nem","nee", "lb", "bluu", "tipt",
 					"med", "hmta", "atec", "pnqi", "wnrp", "amswa", "met", "hmtv", "hm-b:ss", "tgls", "ssa:ln", "ghdx",
-					"aks", "k", "drw", "dri", "drh", "drn", "tglo", "drd", "glw", "ads:gr", "qcom", "gpor",
+					"aks", "k", "drw", "dri", "drh", "drn", "tglo", "drd", "glw", "ads:gr", "qcom",
 					"cohr", "cohu", "apam", "plow", "bdsi", "call", "type", "hwbk", "nke", "yamcy", "aeex", "yahoy",
 					"td", "md", "mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
 
