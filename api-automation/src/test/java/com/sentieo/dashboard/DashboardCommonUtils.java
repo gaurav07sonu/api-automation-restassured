@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 
@@ -35,9 +36,7 @@ public class DashboardCommonUtils extends APIDriver {
 	static int feedCount = 0;
 	static String watchlistID = "";
 	static String saveSearchName = "";
-	static String plotter_name = "";
 	org.json.JSONArray shared_dashboards = null;
-
 
 	public DashboardCommonUtils() {
 		setUp();
@@ -212,14 +211,12 @@ public class DashboardCommonUtils extends APIDriver {
 
 	}
 
-	public String getPlotterID() throws Exception {
-		String plotterid = "";
+	public JSONArray getPlotteData() throws Exception {
 		org.json.JSONArray loadData = null;
 		String URI = USER_APP_URL + LOADGRAPH_NEW;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		tickerData.put("sort_flag", "recent");
 		try {
-			Random rand = new Random();
 			RequestSpecification spec = formParamsSpec(tickerData);
 			Response resp = RestOperationUtils.post(URI, null, spec, tickerData);
 			APIResponse apiResp = new APIResponse(resp);
@@ -231,19 +228,37 @@ public class DashboardCommonUtils extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				loadData = respJson.getJSONObject("result").getJSONArray("graphobj");
-				int rand_int1 = rand.nextInt(loadData.length());
-				String plotter_id = loadData.getJSONObject(rand_int1).getString("plotter_id");
-				plotter_name = loadData.getJSONObject(rand_int1).getString("name");
-				plotterid = plotter_id;
-				return plotterid;
+				return loadData;
 			}
-
 		} catch (Exception e) {
 			verify.verificationFailures.add(e);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+		} finally {
+			verify.verifyAll();
 		}
-		verify.verifyAll();
+		return loadData;
+	}
+
+	public String getPlotterID(String option) throws Exception {
+		String plotterid = "";
+		org.json.JSONArray loadData = getPlotteData();
+		for (int i = 0; i < loadData.length(); i++) {
+			String plotter_name = loadData.getJSONObject(i).getString("name");
+			if (plotter_name.toLowerCase().trim().equalsIgnoreCase(option.toLowerCase().trim())) {
+				plotterid = loadData.getJSONObject(i).getString("plotter_id");
+				return plotterid;
+			}
+		}
 		return plotterid;
+
+	}
+
+	public String getRandomPlotter() throws Exception {
+		org.json.JSONArray loadData = getPlotteData();
+		Random rand = new Random();
+		int rand_int1 = rand.nextInt(loadData.length());
+		String plotter_name = loadData.getJSONObject(rand_int1).getString("name");
+		return plotter_name;
 	}
 
 	public List<Integer> fetch_search_filters() throws CoreCommonException {

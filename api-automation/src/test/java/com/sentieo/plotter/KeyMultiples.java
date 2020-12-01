@@ -19,7 +19,6 @@ import com.sentieo.finance.InputTicker;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 
 public class KeyMultiples extends APIDriver {
@@ -49,7 +48,6 @@ public class KeyMultiples extends APIDriver {
 	@Test(description = "Match stock price plotter series and stream call ", dataProvider = "fetch_data", dataProviderClass = DataProviderClass.class)
 	public void fetchGraph(String headName, String ratio, String dataSource) throws CoreCommonException {
 		try {
-			CommonUtil com = new CommonUtil();
 			gethHeadName = headName;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			String fetchGraphURI = APP_URL + FETCH_GRAPH_DATA;
@@ -87,47 +85,10 @@ public class KeyMultiples extends APIDriver {
 						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 								"Verify the API Response Status");
 						verify.verifyResponseTime(resp, 5000);
-						if (headName.contains("EV/EBITDA")) {
-							JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
-									.getJSONArray("series");
-							Double ebitdaValue = (Double) values.getJSONArray(values.length() - 1).get(1);
-							fetchGraphEbitdaValue = new Double(ebitdaValue).toString();
-							testKeyMultiples(cell);
-							double currentStockDataEbitdaValue = Double.parseDouble(evEbitdaValue);
-							double fetchFraphDataEbitdaValue = Double.parseDouble(fetchGraphEbitdaValue);
-							Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEbitdaValue,
-									fetchFraphDataEbitdaValue);
-							if (postivePerChnage > 35) {
-								verify.assertTrue(false,
-										"<b>" + "Match current stock data and fetch graph data value for EV/EBITDA :"
-												+ "<b>" + postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell
-												+ "<br/>" + " current stock data value is : "
-												+ currentStockDataEbitdaValue + "<br/>" + "<b>"
-												+ " fetch graph data value is : " + fetchFraphDataEbitdaValue);
-							}
-						}
-						if (headName.contains("EV/Sales")) {
-							JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
-									.getJSONArray("series");
-							Double evValue = (Double) values.getJSONArray(values.length() - 1).get(1);
-							DecimalFormat df2 = new DecimalFormat("#.#");
-							evValue = Double.valueOf(df2.format(evValue));
-							fetchGraphEvSalesValue = new Double(evValue).toString();
-							testKeyMultiples(cell);
-							double currentStockDataEVSalesValue = Double.parseDouble(evSalesValue);
-							double fetchFraphDataEVSalesvalue = Double.parseDouble(fetchGraphEvSalesValue);
-							Double postivePerChnage = com.getpostivePercentageChange(currentStockDataEVSalesValue,
-									fetchFraphDataEVSalesvalue);
-							if (postivePerChnage > 35) {
-								verify.assertTrue(false,
-										"<b>" + "Match current stock data and fetch graph data value for EV/Sales : "
-												+ "<b>" + postivePerChnage + "<br/>" + "<b>" + " for ticker : " + cell
-												+ "<br/>" + " current stock data value is : "
-												+ currentStockDataEVSalesValue + "<br/>" + "<b>"
-												+ " fetch graph data value is : " + fetchFraphDataEVSalesvalue);
-							}
 
-						}
+						JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
+								.getJSONArray("series");
+						verify.assertTrue(values.length() != 0, "Verify series length");
 					}
 				}
 			}

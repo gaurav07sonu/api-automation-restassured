@@ -154,31 +154,34 @@ public class WebandSocialData extends APIDriver {
 								int digit = (int) (timestamp / 1000);
 								CommonUtil util = new CommonUtil();
 								String date = util.convertTimestampIntoDate(digit);
-								String str = obj.getDate(-1, "");
+								String str = obj.getDate(-1);
 
 								if (!date.contains(str))
-									str = obj.getDate(-2, "");
+									str = obj.getDate(-2);
 
 								if (!date.contains(str))
-									str = obj.getDate(-3, "");
+									str = obj.getDate(-3);
 
 								if (!date.contains(str))
-									str = obj.getDate(-4, "");
+									str = obj.getDate(-4);
 
 								if (!date.contains(str))
-									str = obj.getDate(-5, "");
+									str = obj.getDate(-5);
 
 								if (!date.contains(str))
-									str = obj.getDate(-6, "");
+									str = obj.getDate(-6);
 
 								if (!date.contains(str))
-									str = obj.getDate(-7, "");
+									str = obj.getDate(-7);
 
 								if (!date.contains(str))
-									str = obj.getDate(-8, "");
+									str = obj.getDate(-8);
 								
 								if (!date.contains(str))
-									str = obj.getDate(-9, "");
+									str = obj.getDate(-9);
+								
+								if (!date.contains(str))
+									str = obj.getDate(-10);
 
 								if (date.contains(str))
 									dateStatus = true;
@@ -242,17 +245,17 @@ public class WebandSocialData extends APIDriver {
 							int digit = (int) (timestamp / 1000);
 							CommonUtil util = new CommonUtil();
 							String date = util.convertTimestampIntoDate(digit);
-							String str = obj.getDate(2, "");
+							String str = obj.getDate(2);
 							if (!date.contains(str))
-								str = obj.getDate(3, "");
+								str = obj.getDate(3);
 							if (!date.contains(str))
-								str = obj.getDate(6, "");
+								str = obj.getDate(6);
 
 							if (!date.contains(str))
-								str = obj.getDate(7, "");
+								str = obj.getDate(7);
 
 							if (!date.contains(str))
-								str = obj.getDate(8, "");
+								str = obj.getDate(8);
 
 							verify.assertEqualsActualContainsExpected(date, str,
 									"verify instagram latest point for query " + query_param + " and ticker is "
