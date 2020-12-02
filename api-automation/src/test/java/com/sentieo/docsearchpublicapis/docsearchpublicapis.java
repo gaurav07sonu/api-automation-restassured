@@ -79,15 +79,23 @@ public class docsearchpublicapis extends APIDriver {
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
-			boolean tickerCheck = true;
+			boolean tickerCheck = false;
 			if (total_results != 0) {
 				if (documentResults_size.length() != 0) {
 					for (int i = 0; i < documentResults_size.length(); i++) {
 						JSONArray ticker = documentResults_size.getJSONObject(i).getJSONArray("tickers");
-						if (!ticker.toString().contains(tickers.toLowerCase()))
-							tickerCheck = false;
+						if (ticker.isNull(i)) {
+							tickerCheck = true;
+						} else {
+							for (int j = 0; j < ticker.length(); j++) {
+								String ticker1 = ticker.getString(j);
+								if (ticker1.toLowerCase().contains(tickers.toLowerCase())) {
+									tickerCheck = true;
+									break;
+								}
+							}
+						}
 					}
-
 					verify.assertTrue(tickerCheck, "verifying ticker visibility in doc ");
 				}
 			}
