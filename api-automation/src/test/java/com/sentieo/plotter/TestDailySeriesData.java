@@ -3,7 +3,6 @@ package com.sentieo.plotter;
 import static com.sentieo.constants.Constants.*;
 
 import java.lang.reflect.Method;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -17,7 +16,6 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.finance.FinanceApi;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -26,9 +24,6 @@ import com.sentieo.utils.CommonUtil;
 
 public class TestDailySeriesData extends APIDriver {
 
-//	public ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("nvt", "mdlz", "bk", "syy", "ge", "pg", "lm", "ppg", "wen", "aapl"));
-//	public ArrayList<String> tickers = new ArrayList<String>(
-//			Arrays.asList("wen", "blue", "eqt", "tcl:au", "wy", "gmg:au"));
 	String systemDate;
 
 	@BeforeMethod(alwaysRun = true)
@@ -39,6 +34,9 @@ public class TestDailySeriesData extends APIDriver {
 	}
 
 	public void keyMultiples(String headName, String graphType, String ticker) throws Exception {
+		CommonUtil obj = new CommonUtil();
+		Calendar calNewYork = Calendar.getInstance();
+		String expectedDate = obj.getDate(0);
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -47,11 +45,10 @@ public class TestDailySeriesData extends APIDriver {
 		parameters.put("graphtype_original", graphType);
 		parameters.put("ratio", graphType);
 		parameters.put("ticker", ticker);
-		
-		
+
 		if (headName.contains("Enterprise Value") || headName.contains("Market Cap"))
 			parameters.put("graphtype", "newratio");
-		
+
 		else if (headName.contains("P/Cash Flow")) {
 			parameters.put("ratio_name", "NTM Rolling");
 			parameters.put("shift", "blended");
@@ -91,11 +88,11 @@ public class TestDailySeriesData extends APIDriver {
 		APIResponse apiResp = new APIResponse(resp);
 		int statusCode = apiResp.getStatusCode();
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-		JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-		verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-				"Verify the API Response Status");
 		verify.verifyResponseTime(resp, 5000);
 		if (statusCode == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+					"Verify the API Response Status");
 			JSONArray values = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0)
 					.getJSONArray("series");
 			if (values.length() != 0) {
@@ -104,16 +101,23 @@ public class TestDailySeriesData extends APIDriver {
 				int digit = (int) (timestamp / 1000);
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
-				FinanceApi fin = new FinanceApi();
-				systemDate = fin.dateValidationForHistoricalChart("fetch_main_graph", ticker);
-				verify.compareDates(date, systemDate, "Verify the Current Date Point");
+				int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+				if (!date.contains(expectedDate)) {
+					if (dayOfWeek == 1)
+						expectedDate = obj.getDate(-2);
+					else if (dayOfWeek == 2)
+						expectedDate = obj.getDate(-3);
+					else
+						expectedDate = obj.getDate(-1);
+				}
+				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {
 			verify.assertTrue(false, "status code is not 200 " + statusCode);
 		}
 	}
 
-	 @Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
+	@Test(description = "Check latest data points for daily series", dataProvider = "plotterDailySeries", dataProviderClass = DataProviderClass.class, priority = 0)
 	public void keyMultiplesNTM(String headName, String graphType) throws Exception {
 		Calendar calNewYork = Calendar.getInstance();
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
@@ -131,7 +135,7 @@ public class TestDailySeriesData extends APIDriver {
 		}
 	}
 
-	 @Test(description = "Check latest data points for Tangible Book Value perShare", priority = 1)
+	@Test(description = "Check latest data points for Tangible Book Value perShare", priority = 1)
 	public void keyMultiplesTangibleBookValueNTM() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -141,8 +145,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	 @Test(description = "Check latest data points for EV/GROSS PROFIT", priority=
-	 2)
+	@Test(description = "Check latest data points for EV/GROSS PROFIT", priority = 2)
 	public void keyMultiplesEVGROSSPROFIT() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();
@@ -162,7 +165,7 @@ public class TestDailySeriesData extends APIDriver {
 		verify.verifyAll();
 	}
 
-	 @Test(description = "Check latest data points for P/Book Value", priority = 4)
+	@Test(description = "Check latest data points for P/Book Value", priority = 4)
 	public void keyMultiplesP_BookValue() throws Exception {
 		for (Entry<Integer, String> tickerValue : CommonUtil.randomTickers.entrySet()) {
 			String ticker = tickerValue.getValue();

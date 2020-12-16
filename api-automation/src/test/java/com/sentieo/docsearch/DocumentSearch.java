@@ -18,7 +18,6 @@ import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
 import com.sentieo.report.ExtentTestManager;
-import com.sentieo.report.Reporter;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
@@ -41,8 +40,10 @@ public class DocumentSearch extends APIDriver {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("tickers", ticker);
 			queryParams.put("query", query);
-			 queryParams.put("filters", filters);
+			queryParams.put("filters", filters);
 			queryParams.put("facets_flag", "false");
+			queryParams.put("allow_entity", "true");
+			queryParams.put("pticker_setting", "true");
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
@@ -62,7 +63,21 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;//= respJson.getJSONObject("result").getInt("total_results");
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
+				
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -101,6 +116,119 @@ public class DocumentSearch extends APIDriver {
 	}
 	
 	
+	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
+	public void test_doctype_query_mobile(String ticker, String query, String filters) throws CoreCommonException {
+		try {
+			String URI = APP_URL + FETCH_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("tickers", ticker);
+			queryParams.put("query", query);
+			queryParams.put("filters", filters);
+			queryParams.put("facets_flag", "false");
+			queryParams.put("loc", "ios");
+
+			JSONObject json = new JSONObject(filters);
+			System.out.println(json.getJSONObject("doctype"));
+			String docType = "";
+			Iterator<String> keys = json.getJSONObject("doctype").keys();
+			while (keys.hasNext()) {
+				docType = keys.next();
+				System.out.println(docType);
+			}
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			if (apiResp.getStatusCode() == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyResponseTime(resp, 10000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+
+				int total_results = 0 ;
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
+				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
+				boolean tickerCheck = true;
+				if (total_results != 0) {
+					if (documentResults_size.length() != 0) {
+						for (int i = 0; i < documentResults_size.length(); i++) {
+							JSONArray tickers = documentResults_size.getJSONObject(i).getJSONArray("tickers");
+							if (!tickers.toString().contains(ticker.toLowerCase()))
+								tickerCheck = false;
+						}
+
+						verify.assertTrue(tickerCheck, "verifying ticker visibility in doc ");
+					}
+				}
+
+				boolean doctypeCheck = true;
+				if (total_results != 0) {
+					if (documentResults_size.length() != 0) {
+						for (int i = 0; i < documentResults_size.length(); i++) {
+							String doc_type = documentResults_size.getJSONObject(i).getString("doc_type");
+							System.out.println(doc_type.toString().contains(docType.toLowerCase()));
+							if (!doc_type.toString().contains(docType.toLowerCase()))
+								doctypeCheck = false;
+						}
+
+						verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "sanity", description = "verifying with invalid filter data", dataProvider = "test_invalid_filters", dataProviderClass = DataProviderClass.class)
+	public void test_invalid_filters_mobile(String filters) throws CoreCommonException {
+		try {
+			String URI = APP_URL + FETCH_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			queryParams.put("tickers", "aapl");
+			queryParams.put("filters", filters);
+			queryParams.put("output", "Error: Filter Object format is wrong");
+			queryParams.put("facets_flag", "false");
+			queryParams.put("loc", "ios");
+
+			RequestSpecification spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String result= respJson.getJSONObject("result").getString("output");
+			if ((apiResp.getStatusCode() == 200)){
+				verify.verifyResponseTime(resp, 10000);
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");				
+				verify.verifyEquals(result, "Error: Filter Object format is wrong", "Verifying the Error message");
+				}
+			
+			
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	
 	@Test(groups = "sanity", description = "verifying with invalid filter data", dataProvider = "test_invalid_filters", dataProviderClass = DataProviderClass.class)
 	public void test_invalid_filters(String filters) throws CoreCommonException {
 		try {
@@ -131,7 +259,6 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
 
 	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_watchlist", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_watchlist(String watchlist_tickers, String filters) throws CoreCommonException {
@@ -162,7 +289,20 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
@@ -213,6 +353,8 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("applied_filter", "doctype");
 				queryParams.put("facets_flag", "false");
 				queryParams.put("filters", filters);
+				queryParams.put("allow_entity", "true");
+				queryParams.put("pticker_setting", "true");
 
 				JSONObject json = new JSONObject(filters);
 				System.out.println(json.getJSONObject("doctype"));
@@ -232,7 +374,20 @@ public class DocumentSearch extends APIDriver {
 					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 							"Verify the API Response Status");
 
-					int total_results = respJson.getJSONObject("result").getInt("total_results");
+					int total_results = 0 ;
+					
+					try {
+						Object total_result = respJson.getJSONObject("result").get("total_results");
+						if(total_result instanceof Integer) {
+							total_results = (int) total_result;
+						}else {
+							String checktest = (String) total_result;
+							checktest = checktest.replaceAll("[^0-9]", "");
+							total_results = Integer.valueOf(checktest);
+						}					
+					} catch (Exception e) {
+						verify.assertTrue(false, "total result object incorrect : " + e.toString());
+					}
 					verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
 					JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
@@ -272,7 +427,7 @@ public class DocumentSearch extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
+//	@Test(groups = "sanity", description = "doc type and date as filter combinations", dataProvider = "doctype_date_filters_combination", dataProviderClass = DataProviderClass.class)
 	public void docsearch_date_filter(String ticker,String sort, String filters) throws CoreCommonException {
 		try {
 			if (!APP_URL.contains("app") && filters.contains("note")) {
@@ -286,6 +441,8 @@ public class DocumentSearch extends APIDriver {
 				queryParams.put("filters", filters);
 				queryParams.put("default_sort", "date");
 				queryParams.put("sort", sort); //asc or desc
+				queryParams.put("allow_entity", "true");
+				queryParams.put("pticker_setting", "true");
 				String filter = filters.replace("\"date\":{\"\":{\"\":", "\"date\":{\"one\":{\"two\":");
 				JSONObject json = new JSONObject(filter);
 				String docType = "";
@@ -306,7 +463,20 @@ public class DocumentSearch extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 
-				int total_results = respJson.getJSONObject("result").getInt("total_results");
+				int total_results = 0 ;
+				
+				try {
+					Object total_result = respJson.getJSONObject("result").get("total_results");
+					if(total_result instanceof Integer) {
+						total_results = (int) total_result;
+					}else {
+						String checktest = (String) total_result;
+						checktest = checktest.replaceAll("[^0-9]", "");
+						total_results = Integer.valueOf(checktest);
+					}					
+				} catch (Exception e) {
+					verify.assertTrue(false, "total result object incorrect : " + e.toString());
+				}
 				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 				boolean tickerCheck = true;
@@ -401,7 +571,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
@@ -449,6 +632,8 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("applied_filter", "[\"language\"]");
 			queryParams.put("facets_flag", "false");
 			queryParams.put("filters", filters);
+			queryParams.put("allow_entity", "true");
+			queryParams.put("pticker_setting", "true");
 
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
@@ -469,7 +654,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}
 			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
@@ -536,8 +734,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -603,8 +813,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {
@@ -672,8 +894,20 @@ public class DocumentSearch extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 
-			int total_results = respJson.getJSONObject("result").getInt("total_results");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+			int total_results = 0 ;
+			
+			try {
+				Object total_result = respJson.getJSONObject("result").get("total_results");
+				if(total_result instanceof Integer) {
+					total_results = (int) total_result;
+				}else {
+					String checktest = (String) total_result;
+					checktest = checktest.replaceAll("[^0-9]", "");
+					total_results = Integer.valueOf(checktest);
+				}					
+			} catch (Exception e) {
+				verify.assertTrue(false, "total result object incorrect : " + e.toString());
+			}			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
 			boolean tickerCheck = true;
 			if (total_results != 0) {

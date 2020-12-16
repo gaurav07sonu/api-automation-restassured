@@ -20,6 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.jayway.restassured.response.Response;
@@ -27,6 +30,7 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
+import com.sentieo.mobile.MobileCalendar;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -47,7 +51,9 @@ public class NotebookApis extends APIDriver {
 
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
+	MobileCalendar mobileCal = null;
 	String URI = null;
+	String locMobile = "";
 	static String tagName = "";
 	static String note_id = "";
 	static String ticker = "";
@@ -68,6 +74,7 @@ public class NotebookApis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
+		mobileCal = new MobileCalendar();
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -78,6 +85,12 @@ public class NotebookApis extends APIDriver {
 	@BeforeClass(alwaysRun = true)
 	public void setTickers() {
 		tickers = CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
+	}
+	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
 	}
 
 	@Test(groups = "sanity", priority = 0, description = "Create private note")
@@ -2265,7 +2278,7 @@ public class NotebookApis extends APIDriver {
 	APIResponse apiResp = null;
 	Response resp = null;
 
-	@Test(groups = "sanity", priority = 47, description = "fetch Calendar")
+	@Test(groups = {"sanity","mobile"}, priority = 47, description = "fetch Calendar")
 	public void fetchCalendar() throws Exception {
 		String URI = USER_APP_URL + FETCHCALENDAR;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2277,10 +2290,19 @@ public class NotebookApis extends APIDriver {
 			parameters.put("watch", "All Watchlist Tickers");
 			parameters.put("startDate", year + "-" + current_month + "-1");
 			parameters.put("endDate", year + "-" + current_month + "-" + last_date);
-			RequestSpecification spec = formParamsSpec(parameters);
-			resp = RestOperationUtils.post(URI, null, spec, parameters);
-			apiResp = new APIResponse(resp);
-			verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			if (locMobile.equals("ios")) {
+				parameters.put("loc", locMobile);
+				RequestSpecification spec = formParamsSpecMobile(parameters);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
+				mobileCal.testCalendarAssertions(apiResp, resp);
+			}else {
+				RequestSpecification spec = formParamsSpec(parameters);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
+				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
+			}
+			
 		} catch (Error je) {
 			je.printStackTrace();
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2767,7 +2789,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 	
-	@Test(groups = "sandity", priority = 62, description = "fetch sentieo drive data")
+	@Test(groups = "sanity", priority = 62, description = "fetch sentieo drive data")
 	public void get_hierarchy_sentieoDrive() throws CoreCommonException {
 		try {
 			if(!APP_URL.contains("schroders")) {
@@ -2977,22 +2999,23 @@ public class NotebookApis extends APIDriver {
 										verify.assertTrue(false, "Id appearing in name" + privcomp.getJSONObject(0).getString("name"));
 								}
 								if(!moduleType.equalsIgnoreCase("company")) {
-								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("crypto");
-								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
+//								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
+//										.getJSONArray("crypto");
+//								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
 
 								JSONArray entity = respJson.getJSONObject("result").getJSONObject("data")
 										.getJSONArray("entity");
 								verify.assertTrue(entity.length() > 0, "entity data should be present");
 
-								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("organization");
-								if(!tickername.equalsIgnoreCase("8"))
-								verify.assertTrue(organization.length() > 0, "organization data should be present");
-
-								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("debt");
-								verify.assertTrue(debt.length() > 0, "debt data should be present");
+//								if(!(tickername.equalsIgnoreCase("8") && tickername.equalsIgnoreCase("AA"))) {
+//								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
+//										.getJSONArray("organization");
+//								verify.assertTrue(organization.length() > 0, "organization data should be present");
+//								
+//								
+//								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
+//										.getJSONArray("debt");
+//								verify.assertTrue(debt.length() > 0, "debt data should be present");
 								}
 							} else {
 								JSONArray privateentity = respJson.getJSONObject("result").getJSONObject("data")

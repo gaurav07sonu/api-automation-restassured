@@ -1,5 +1,6 @@
 package com.sentieo.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -26,12 +28,15 @@ import java.util.TimeZone;
 import org.apache.commons.codec.binary.Base64;
 import java.util.concurrent.TimeUnit;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+//import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.sentieo.assertion.APIAssertions;
 
 public class CommonUtil {
+	APIAssertions verify = new APIAssertions();
 	public static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
 			+ "test" + File.separator + "resources";
 	public static HashMap<Integer, String> randomTickers = new HashMap<Integer, String>();
@@ -157,6 +162,9 @@ public class CommonUtil {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "gross.csv");
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
+			} else if (testMethod.getName().contains("verifyReturnsPerecentChange")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "ReturnsFrequency.csv");
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
@@ -256,24 +264,24 @@ public class CommonUtil {
 			return true;
 		return false;
 	}
-	
-	public static String encodeFileToBase64Binary(File file){
-        String encodedfile = null;
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int)file.length()];
-            fileInputStreamReader.read(bytes);
-            encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
-            fileInputStreamReader.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return encodedfile;
-    }
+
+	public static String encodeFileToBase64Binary(File file) {
+		String encodedfile = null;
+		try {
+			FileInputStream fileInputStreamReader = new FileInputStream(file);
+			byte[] bytes = new byte[(int) file.length()];
+			fileInputStreamReader.read(bytes);
+			encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
+			fileInputStreamReader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return encodedfile;
+	}
 
 	public long daysDifferenceBetweenTwoTimestamps(long time1, long time2) {
 		final long MILLIS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -314,4 +322,109 @@ public class CommonUtil {
 		}
 		return null;
 	}
+
+	// get complete data into list from file
+	public List<String> readFile(String fileName) {
+		BufferedReader reader;
+		List<String> returnList = new ArrayList<String>();
+		try {
+			reader = new BufferedReader(new FileReader(RESOURCE_PATH + File.separator + fileName));
+			String line = reader.readLine();
+			while (line != null) {
+				// read next line
+				line = reader.readLine();
+				returnList.add(line);
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return returnList;
+	}
+
+	public List<String> getDay(String fileName) {
+		List<String> abd = null;
+		List<String> abcd = readFile(fileName);
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_YEAR);
+		abd = revampValues(day, abcd);
+		if (abd == null) {
+			if (day != 0) {
+				int newDay = (day % 9 == 0) ? 9 : (day % 9);
+				abd = revampValues(newDay, abcd);
+			}
+		} else {
+			return abd;
+		}
+
+		return abd;
+	}
+
+	public List<String> revampValues(int day, List<String> tickers) {
+		int getMOdulus = day % 50;
+		int min_index = getMOdulus * 50;
+		int max_index = (getMOdulus + 1) * 50;
+		if (tickers.size() > min_index && tickers.size() > max_index) {
+			tickers = tickers.subList(min_index, max_index);
+			// returnArray = convertListIntoArray(abcd);
+			return tickers;
+		} else
+			tickers = null;
+
+		return tickers;
+	}
+
+	public void verifykeyAvailable(JSONObject result, String key, String type) {
+		if (result.has(key)) {
+			verify.verifyEquals(result.get(key).getClass().getName(), type, "Verify data type for key: " + key);
+		} else
+			verify.assertTrue(false, key + " :key not found");
+	}
+
+	public String getDate(int days) {
+		String str = "";
+		Calendar calNewYork = Calendar.getInstance();
+		DateFormat dateformat;
+		dateformat = new SimpleDateFormat("M/d/yy");
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 7)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -1);
+
+		else if (dayOfWeek == 1)
+			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
+
+		else
+			calNewYork.add(Calendar.DAY_OF_MONTH, days);
+
+		str = dateformat.format(calNewYork.getTime());
+		return str;
+	}
+
+	public List<String> getReturnsTickers() {
+		List<String> AllTickers = new ArrayList<String>();
+		List<String[]> tickers = readTickerCSV("ReturnsFrequency.csv");
+		for (String[] row : tickers) {
+			int highlightLabelRandom = new Random().nextInt(tickers.size());
+			String[] cell = tickers.get(highlightLabelRandom);
+			for (String tickerName : cell) {
+				AllTickers.add(tickerName);
+				if (AllTickers.size() >= 50)
+					return AllTickers;
+			}
+		}
+		return AllTickers;
+	}
+
+	public long getTimeStamp(int days) {
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		cal.add(Calendar.DATE, days);
+		Date todate1 = cal.getTime();
+		dateFormat.format(todate1);
+		long time = todate1.getTime();
+		return time;
+	}
+
 }

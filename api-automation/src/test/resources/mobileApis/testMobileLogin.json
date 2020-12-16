@@ -1,0 +1,247 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "counter": 0,
+            "device_name": "iphone",
+            "autoshare_flag": false,
+            "result": {
+                "email": "test.mobile02@testing.sentieo.com",
+                "username": "test.mobile02",
+                "auth": "1ead338d39ff3bdd0a2ade95549e30279c1904a4aa10ee16baca60ac2eabbdcf",
+                "apid": "a749f6be1915908e00053e8883dc614a5591784ff82bea51518a907fa78c3b51"
+            },
+            "response": {
+                "status": true,
+                "is_sentieo_data_user": false,
+                "usid": "1ead338d39ff3bdd0a2ade95549e30279c1904a4aa10ee16baca60ac2eabbdcf",
+                "is_customer": false,
+                "apid": "a749f6be1915908e00053e8883dc614a5591784ff82bea51518a907fa78c3b51",
+                "is_sentieo_data_admin": false,
+                "msg": "Login successful.",
+                "blocked": false
+            }
+        }
+    ],
+    "required": [
+        "counter",
+        "device_name",
+        "autoshare_flag",
+        "result",
+        "response"
+    ],
+    "properties": {
+        "counter": {
+            "$id": "#/properties/counter",
+            "type": "integer",
+            "title": "The counter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "device_name": {
+            "$id": "#/properties/device_name",
+            "type": "string",
+            "title": "The device_name schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "iphone"
+            ]
+        },
+        "autoshare_flag": {
+            "$id": "#/properties/autoshare_flag",
+            "type": "boolean",
+            "title": "The autoshare_flag schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "result": {
+            "$id": "#/properties/result",
+            "type": "object",
+            "title": "The result schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "email": "test.mobile02@testing.sentieo.com",
+                    "username": "test.mobile02",
+                    "auth": "1ead338d39ff3bdd0a2ade95549e30279c1904a4aa10ee16baca60ac2eabbdcf",
+                    "apid": "a749f6be1915908e00053e8883dc614a5591784ff82bea51518a907fa78c3b51"
+                }
+            ],
+            "required": [
+                "email",
+                "username",
+                "auth",
+                "apid"
+            ],
+            "properties": {
+                "email": {
+                    "$id": "#/properties/result/properties/email",
+                    "type": "string",
+                    "title": "The email schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "test.mobile02@testing.sentieo.com"
+                    ]
+                },
+                "username": {
+                    "$id": "#/properties/result/properties/username",
+                    "type": "string",
+                    "title": "The username schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "test.mobile02"
+                    ]
+                },
+                "auth": {
+                    "$id": "#/properties/result/properties/auth",
+                    "type": "string",
+                    "title": "The auth schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1ead338d39ff3bdd0a2ade95549e30279c1904a4aa10ee16baca60ac2eabbdcf"
+                    ]
+                },
+                "apid": {
+                    "$id": "#/properties/result/properties/apid",
+                    "type": "string",
+                    "title": "The apid schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "a749f6be1915908e00053e8883dc614a5591784ff82bea51518a907fa78c3b51"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "response": {
+            "$id": "#/properties/response",
+            "type": "object",
+            "title": "The response schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "status": true,
+                    "is_sentieo_data_user": false,
+                    "usid": "1ead338d39ff3bdd0a2ade95549e30279c1904a4aa10ee16baca60ac2eabbdcf",
+                    "is_customer": false,
+                    "apid": "a749f6be1915908e00053e8883dc614a5591784ff82bea51518a907fa78c3b51",
+                    "is_sentieo_data_admin": false,
+                    "msg": "Login successful.",
+                    "blocked": false
+                }
+            ],
+            "required": [
+                "status",
+                "is_sentieo_data_user",
+                "usid",
+                "is_customer",
+                "apid",
+                "is_sentieo_data_admin",
+                "msg",
+                "blocked"
+            ],
+            "properties": {
+                "status": {
+                    "$id": "#/properties/response/properties/status",
+                    "type": "boolean",
+                    "title": "The status schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        true
+                    ]
+                },
+                "is_sentieo_data_user": {
+                    "$id": "#/properties/response/properties/is_sentieo_data_user",
+                    "type": "boolean",
+                    "title": "The is_sentieo_data_user schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                },
+                "usid": {
+                    "$id": "#/properties/response/properties/usid",
+                    "type": "string",
+                    "title": "The usid schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1ead338d39ff3bdd0a2ade95549e30279c1904a4aa10ee16baca60ac2eabbdcf"
+                    ]
+                },
+                "is_customer": {
+                    "$id": "#/properties/response/properties/is_customer",
+                    "type": "boolean",
+                    "title": "The is_customer schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                },
+                "apid": {
+                    "$id": "#/properties/response/properties/apid",
+                    "type": "string",
+                    "title": "The apid schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "a749f6be1915908e00053e8883dc614a5591784ff82bea51518a907fa78c3b51"
+                    ]
+                },
+                "is_sentieo_data_admin": {
+                    "$id": "#/properties/response/properties/is_sentieo_data_admin",
+                    "type": "boolean",
+                    "title": "The is_sentieo_data_admin schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                },
+                "msg": {
+                    "$id": "#/properties/response/properties/msg",
+                    "type": "string",
+                    "title": "The msg schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Login successful."
+                    ]
+                },
+                "blocked": {
+                    "$id": "#/properties/response/properties/blocked",
+                    "type": "boolean",
+                    "title": "The blocked schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

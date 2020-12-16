@@ -4,13 +4,21 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-		<listener
+		 <listener
 			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
 
 	<test name="notebookPublic" preserve-order="true">
-		<packages>
-			<package name="com.sentieo.notebookpublicapis" />
-		</packages>
+		<classes>
+			<class name="com.sentieo.notebookpublicapis.NotebookPublicApis">
+				<methods>
+					<exclude name="addingDeletingTagInPrivateNote"/>
+					<exclude name="addingDeletingTickerInPrivateNote"/>
+					<exclude name="updatingAPrivateNoteCreatedViaAPI"/>
+					<exclude name="testSoftDeleteAndRestoreOfNote"/>
+					<exclude name="updatingAPrivateNoteWithSpaceAsCharInContent"></exclude>
+				</methods>
+			</class>
+		</classes>
 	</test>
 </suite>

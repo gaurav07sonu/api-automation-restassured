@@ -60,18 +60,20 @@ public class IncomeStatement extends APIDriver {
 					RequestSpecification spec = queryParamsSpec(parameters);
 					Response resp = RestOperationUtils.get(URI, spec, parameters);
 					APIResponse apiResp = new APIResponse(resp);
-					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-							"Verify the API Response Status");
-					verify.verifyResponseTime(resp, 5000);
-					JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
-					String title = getSeries.getString("title").replaceAll(" ", "");
-					String actualTitle = cell.toUpperCase() + parameters.get("periodtype")
-							+ parameters.get("head_name").replaceAll(" ", "")
-							+ parameters.get("datasource").toUpperCase();
-					verify.verifyEquals(actualTitle, title, "Verify Series Title");
-					verify.verifyAll();
+					if (apiResp.getStatusCode() == 200) {
+						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+						verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+								"Verify the API Response Status");
+						verify.verifyResponseTime(resp, 5000);
+						JSONObject getSeries = respJson.getJSONObject("result").getJSONArray("series").getJSONObject(0);
+						String title = getSeries.getString("title").replaceAll(" ", "");
+						String actualTitle = cell.toUpperCase() + parameters.get("periodtype")
+								+ parameters.get("head_name").replaceAll(" ", "")
+								+ parameters.get("datasource").toUpperCase();
+						verify.verifyEquals(actualTitle, title, "Verify Series Title");
+						verify.verifyAll();
+					}
 				}
 			}
 		} catch (Exception e) {

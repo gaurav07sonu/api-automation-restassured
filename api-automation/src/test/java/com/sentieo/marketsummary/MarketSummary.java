@@ -3,10 +3,8 @@ package com.sentieo.marketsummary;
 import static com.sentieo.constants.Constants.*;
 import java.util.HashMap;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.sentieo.assertion.APIAssertions;
@@ -33,8 +31,8 @@ public class MarketSummary extends APIDriver {
 
 			Response resp = RestOperationUtils.get(FDS_INDICES_CHANGE, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");

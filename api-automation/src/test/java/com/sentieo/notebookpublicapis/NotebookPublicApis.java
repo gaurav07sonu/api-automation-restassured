@@ -2,6 +2,7 @@ package com.sentieo.notebookpublicapis;
 
 import static com.sentieo.constants.Constants.FETCH_NOTE_HTML;
 import static com.sentieo.constants.Constants.FILE_UPLOAD;
+import static com.sentieo.constants.Constants.LARGE_FILE_UPLOAD;
 import static com.sentieo.constants.Constants.NOTES;
 import static com.sentieo.constants.Constants.PUBLIC_API_URL;
 import static com.sentieo.constants.Constants.USER_APP_URL;
@@ -39,6 +40,11 @@ import com.sentieo.utils.CoreCommonException;
 import com.sentieo.utils.FileUtil;
 import com.sentieo.utils.JSONUtils;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+
 /**
  * 
  * @author Akash
@@ -61,7 +67,7 @@ public class NotebookPublicApis extends APIDriver {
 	 * 
 	 * This upload has /files as a URL
 	 */
-	@Test(description = "Upload File")
+	@Test(description = "Upload File", priority = 1)
 	public void uploadAFile() throws Exception {
 		try {
 
@@ -73,7 +79,6 @@ public class NotebookPublicApis extends APIDriver {
 			HashMap<String, Object> params = new HashMap<String, Object>();
 			params.put("files", file);
 			params.put("file", fileName);
-
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
@@ -81,7 +86,6 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
 			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "uploadFile.json");
@@ -94,7 +98,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Upload File without xapikey")
+	@Test(description = "Upload File without xapikey", priority = 2)
 	public void uploadAFileWithoutXApikey() throws Exception {
 		try {
 
@@ -129,8 +133,7 @@ public class NotebookPublicApis extends APIDriver {
 			Thread.sleep(1000);
 		}
 	}
-
-	@Test(description = "Fetch all notes in notebook")
+	@Test(description = "Fetch all notes in notebook", priority = 3)
 	public void fetchAllNotes() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -154,7 +157,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all notes without xapikey")
+	@Test(description = "Fetch all notes without xapikey", priority = 4)
 	public void fetchAllNotesWithoutXapiKey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -179,7 +182,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all notes with filters")
+	@Test(description = "Fetch all notes with filters", priority = 5)
 	public void fetchAllNotesWithFilters() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -210,7 +213,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note")
+	@Test(description = "Create a note", priority = 6)
 	public void createANote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -235,6 +238,17 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -244,7 +258,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without refId")
+	@Test(description = "Create a note without refId", priority = 7)
 	public void createANoteWithoutXapikey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -278,7 +292,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without refId")
+	@Test(description = "Create a note without refId", priority = 8)
 	public void createANoteWithOutRefID() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -302,6 +316,17 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -311,7 +336,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with already used refId")
+	@Test(description = "Create a note with already used refId", priority = 9)
 	public void createANoteWithAlreadyUsedRefId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -330,7 +355,7 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 409);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONObject response = (JSONObject) respJson.get("error");
 			String message = (String) response.get("message");
@@ -349,7 +374,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without Type")
+	@Test(description = "Create a note without Type", priority = 10)
 	public void createANoteWithoutType() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -384,7 +409,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with type as blank")
+	@Test(description = "Create a note with type as blank", priority = 11)
 	public void createANoteWithTypeAsBlank() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -421,7 +446,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with type has incorrect value")
+	@Test(description = "Create a note with type has incorrect value", priority = 12)
 	public void createANoteWithTypeIncorrectValue() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -458,7 +483,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with type in Capital case")
+	@Test(description = "Create a note with type in Capital case", priority = 13)
 	public void createANoteWithTypeInCapitalCase() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -495,7 +520,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without title")
+	@Test(description = "Create a note without title", priority = 14)
 	public void createANoteWithoutTitle() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -520,6 +545,17 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("title"), "", "Verify title of the note");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -529,7 +565,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with non ascii char in title")
+	@Test(description = "Create a note with non ascii char in title", priority = 15)
 	public void createANoteWithNonAsciiCharacterinTitle() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -555,6 +591,17 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.verifyEquals(respJson.get("title"), "ÄÂ¿Ð", "Verify title of the note");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -564,7 +611,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note without content Param")
+	@Test(description = "Create a note without content Param", priority = 16)
 	public void createANoteWithoutContentParam() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -587,6 +634,17 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -596,7 +654,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create a note with created_at as old date")
+	@Test(description = "Create a note with created_at as old date", priority = 17)
 	public void createANoteWithcreatedAtAsOldDate() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -623,6 +681,17 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(respJson.get("created_at"), "2010-04-14T07:55:41", "Verify created_at");
 			verify.verifyEquals(respJson.get("updated_at"), "2010-04-14T07:55:41", "Verify created_at");
 			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -632,7 +701,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Create an attachment note")
+	@Test(description = "Create an attachment note", priority = 18)
 	public void createAnAttachmentNote() throws Exception {
 		try {
 
@@ -691,6 +760,18 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyResponseTime(respForNote, 5000);
 			verify.verifyEquals(respJsonForNote.get("type"), "attachment", "Verify the API note type");
 			verify.jsonSchemaValidation(respForNote, "notebookPublicApi" + File.separator + "createAnAttachment.json");
+			
+			
+			String noteId = (String) respJsonForNote.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -700,7 +781,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Test attachment note creation with invalid file id")
+	@Test(description = "Test attachment note creation with invalid file id", priority = 19)
 	public void createAnAttachmentNoteWithInvalidFileId() throws Exception {
 		try {
 
@@ -769,7 +850,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Test attachment note creation with different content type")
+	@Test(description = "Test attachment note creation with different content type", priority = 20)
 	public void createAnAttachmentNoteWithDifferentContentType() throws Exception {
 		try {
 
@@ -837,7 +918,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note")
+	@Test(description = "Fetch a note", priority = 21)
 	public void fetchSingleNote() throws Exception {
 		try {
 			// note creation
@@ -858,15 +939,27 @@ public class NotebookPublicApis extends APIDriver {
 			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
 			APIResponse apiResp = new APIResponse(resp);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			
 			String noteId = (String) respJson.get("id");
 
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
 			Response fetchResp = RestOperationUtils.get(NOTES + "/" + noteId, fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
-
+			
 			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(fetchResp, 5000);
 			verify.jsonSchemaValidation(fetchResp, "notebookPublicApi" + File.separator + "fetchSingleNote.json");
+			
+			
+			
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -876,7 +969,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note without xuserkey")
+	@Test(description = "Fetch a note without xuserkey", priority = 22)
 	public void fetchSingleNoteWithoutXapiKey() throws Exception {
 		try {
 			// note creation
@@ -903,7 +996,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note with invalid noteID")
+	@Test(description = "Fetch a note with invalid noteID", priority = 23)
 	public void fetchSingleNoteWithInvalidNoteID() throws Exception {
 		try {
 			// note creation
@@ -933,7 +1026,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch a note with valid noteID but of different account")
+	@Test(description = "Fetch a note with valid noteID but of different account", priority = 24)
 	public void fetchSingleNoteWithValidNoteIDOfAnotherAccount() throws Exception {
 		try {
 			// note creation
@@ -942,7 +1035,7 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XAPIKEY, X_API_KEY);
 
 			RequestSpecification fetchSpec = requestHeadersSpecForPublicApis(headerParams);
-			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704deb", fetchSpec, null);
+			Response fetchResp = RestOperationUtils.get(NOTES + "/" + "5e9415a2c0af3116e3704343", fetchSpec, null);
 			APIResponse fetchApiResp = new APIResponse(fetchResp);
 			verify.verifyStatusCode(fetchApiResp.getStatusCode(), 404);
 			JSONObject respJsonForNote = new JSONObject(fetchApiResp.getResponseAsString());
@@ -963,7 +1056,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "fetch a highlight note")
+	@Test(description = "fetch a highlight note", priority = 25)
 	public void fetchHighlightNote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -999,7 +1092,83 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update a private note")
+	@Test(description = "Update a private note schroders", priority = 26)
+	public void updatingAPrivateNoteCreatedViaAPISchroders() throws Exception {
+		try {
+
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Note Updation
+			List<String> tags = new ArrayList<String>();
+			tags.add("abc");
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("aapl");
+			tickers.add("fb");
+
+			String updatedTitle = "Updated Title of Note - " + noteId;
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+			updateParams.put("title", updatedTitle);
+			updateParams.put("content", "<p>THIS IS a typed note. And We are now editing this note</p>");
+			updateParams.put("category", "general");
+			updateParams.put("tags", tags);
+			updateParams.put("tickers", tickers);
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 403);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+
+			
+
+			// Note Deleting
+
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	
+	@Test(description = "Update a private note", priority = 27)
 	public void updatingAPrivateNoteCreatedViaAPI() throws Exception {
 		try {
 
@@ -1045,15 +1214,18 @@ public class NotebookPublicApis extends APIDriver {
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyResponseTime(updateResp, 5000);
-			JSONObject response = (JSONObject) updateRespJson.get("error");
-			Object message = response.get("message");
-			Object code = response.get("code");
+			
+			
+			//note deletion
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteResp);
 
-			verify.verifyEquals(code, "ACCESS DENIED");
-			verify.verifyEquals(message, "Update not allowed Note Read only");
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1064,16 +1236,16 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update an attachment note")
+	@Test(description = "Update an attachment note", priority = 28)
 	public void updatingAnAttachmentNote() throws Exception {
 		try {
 
-			// note Creation
+			// note fetch
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
 			HashMap<String, String> filters = new HashMap<String, String>();
-			filters.put("limit", "1");
+			filters.put("limit", "5");
 			filters.put("filter", "type eq attachment");
 
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
@@ -1082,9 +1254,8 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
-			JSONObject firstElment = (JSONObject) entries.get(0);
+			JSONObject firstElment = (JSONObject) entries.get(3);
 			String noteId = (String) firstElment.get("id");
-
 			// Note Updation
 			List<String> tags = new ArrayList<String>();
 			tags.add("abc");
@@ -1103,6 +1274,7 @@ public class NotebookPublicApis extends APIDriver {
 
 			String updateJson = jsonUtils.toJson(updateParams);
 
+			Thread.sleep(4000);
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
@@ -1119,7 +1291,6 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(updateRespJson.get("title"), updatedTitle, "Verify the note title");
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "updatingASpecificNote.json");
-
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1129,7 +1300,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Update an attachment note and do file versioning")
+	@Test(description = "Update an attachment note and do file versioning", priority = 29)
 	public void updatingAnAttachmentNoteAndDoFileVersion() throws Exception {
 		try {
 
@@ -1188,7 +1359,7 @@ public class NotebookPublicApis extends APIDriver {
 			String noteId = (String) respJsonForNote.get("id");
 
 			// Note Updation
-
+			Thread.sleep(2000);
 			RequestSpecification spec1 = multipartParamSpecForPublicApis(params, headerParams, file);
 			Response resp1 = RestOperationUtils.post(FILE_UPLOAD, null, spec1, params);
 			APIResponse apiResp1 = new APIResponse(resp1);
@@ -1207,7 +1378,8 @@ public class NotebookPublicApis extends APIDriver {
 			updateParams.put("file", listOfFileParams1);
 
 			String updateJson = jsonUtils.toJson(updateParams);
-
+			
+			Thread.sleep(2000);
 			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
 			APIResponse updateApiResp = new APIResponse(updateResp);
@@ -1215,6 +1387,16 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyResponseTime(updateResp, 5000);
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "updatingASpecificNote.json");
+			
+
+			//note deletion
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1224,7 +1406,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Update a note with invalid Id")
+	@Test(description = "Update a note with invalid Id", priority = 30)
 	public void updatingANoteWithInvalidId() throws Exception {
 		try {
 
@@ -1266,7 +1448,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Delete a note")
+	@Test(description = "Delete a note", priority = 31)
 	public void deletingANote() throws Exception {
 		try {
 
@@ -1307,7 +1489,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Delete a note with invalid id")
+	@Test(description = "Delete a note with invalid id", priority = 32)
 	public void deletingANoteWithInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -1333,13 +1515,16 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker in a private note")
-	public void addingDeletingTickerInPrivateNote() throws Exception {
+	@Test(description = "Add and delete ticker in a private note schroders", priority = 33)
+	public void addingDeletingTickerInPrivateNoteSchroders() throws Exception {
 		try {
 			// note Creation
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
 			headerParams.put(XUSERKEY, X_USER_KEY);
+			
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("fb");
 
 			HashMap<String, Object> formParams = new HashMap<String, Object>();
 			formParams.put("ref", new Date().toString().trim());
@@ -1347,6 +1532,7 @@ public class NotebookPublicApis extends APIDriver {
 			formParams.put("title", "PrivateNote" + new Date().getTime());
 			formParams.put("content", "<p>THIS IS a typed note</p>");
 			formParams.put("category", "meeting");
+			formParams.put("tickers", tickers);
 
 			String json = jsonUtils.toJson(formParams);
 
@@ -1361,7 +1547,7 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 403);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyResponseTime(updateResp, 5000);
 			JSONObject response = (JSONObject) updateRespJson.get("error");
@@ -1370,6 +1556,102 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyEquals(code, "ACCESS DENIED");
 			verify.verifyEquals(message, "Update not allowed Note Read only");
+			
+			
+			//deleting a ticker
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+
+		
+			JSONObject deleteRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 403);
+			verify.verifyResponseTime(deleteResp, 5000);
+			JSONObject responseDelete = (JSONObject) deleteRespJson.get("error");
+			Object deleteMessage = responseDelete.get("message");
+			Object deleteCode = responseDelete.get("code");
+
+			verify.verifyEquals(deleteCode, "ACCESS DENIED");
+			verify.verifyEquals(deleteMessage, "Update not allowed Note Read only");
+			
+			
+
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Add and delete ticker in a private note", priority = 34)
+	public void addingDeletingTickerInPrivateNote() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+			
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("fb");
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+			formParams.put("tickers", tickers);
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding Ticker
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONArray tickerArray =  updateRespJson.getJSONArray("tickers");
+			verify.verifyEquals(tickerArray.get(0), "fb");
+			
+	
+			
+			//deleting a ticker
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tickers" + "/" + "fb", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			JSONObject deleteRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -1380,7 +1662,9 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker in a note in attachment note")
+
+
+	@Test(description = "Add and delete ticker in a note in attachment note", priority = 35)
 	public void addingDeletingTickerInAttachmentNote() throws Exception {
 		try {
 			// note Creation
@@ -1389,7 +1673,7 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
-			filters.put("limit", "1");
+			filters.put("limit", "5");
 			filters.put("filter", "type eq attachment");
 
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
@@ -1398,7 +1682,7 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
-			JSONObject firstElment = (JSONObject) entries.get(0);
+			JSONObject firstElment = (JSONObject) entries.get(3);
 			String noteId = (String) firstElment.get("id");
 
 			// Adding Ticker
@@ -1430,7 +1714,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete ticker with invalid Id")
+	@Test(description = "Add and delete ticker with invalid Id", priority = 36)
 	public void addingDeletingTickerWithInvalidId() throws Exception {
 		try {
 			// note Creation
@@ -1478,7 +1762,79 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in a private note")
+	@Test(description = "Add and delete tag in a private note schroders", priority = 37)
+	public void addingDeletingTagInPrivateNoteSchroders() throws Exception {
+		try {
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Adding Tag
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 403);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			JSONObject response = (JSONObject) updateRespJson.get("error");
+			Object message = response.get("message");
+			Object code = response.get("code");
+
+			verify.verifyEquals(code, "ACCESS DENIED");
+			verify.verifyEquals(message, "Update not allowed Note Read only");
+			
+			//deleting tag
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			JSONObject deleteRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 403);
+			verify.verifyResponseTime(deleteResp, 5000);
+			JSONObject responseDelete = (JSONObject) deleteRespJson.get("error");
+			Object deleteMessage = responseDelete.get("message");
+			Object deleteCode = responseDelete.get("code");
+
+			verify.verifyEquals(deleteCode, "ACCESS DENIED");
+			verify.verifyEquals(deleteMessage, "Update not allowed Note Read only");
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
+			
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	
+	@Test(description = "Add and delete tag in a private note", priority = 38)
 	public void addingDeletingTagInPrivateNote() throws Exception {
 		try {
 			// note Creation
@@ -1506,15 +1862,29 @@ public class NotebookPublicApis extends APIDriver {
 			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
 					updateSpec, null);
 			APIResponse updateApiResp = new APIResponse(updateResp);
-			verify.verifyStatusCode(updateApiResp.getStatusCode(), 400);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyResponseTime(updateResp, 5000);
-			JSONObject response = (JSONObject) updateRespJson.get("error");
-			Object message = response.get("message");
-			Object code = response.get("code");
+			JSONArray tagsArray =  updateRespJson.getJSONArray("tags");
+			verify.verifyEquals(tagsArray.get(0), "mynote");
+			
+			
+			//deleting a tag
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId + "/" + "tags" + "/" + "mynote", null,
+					deleteSpec, null);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
 
-			verify.verifyEquals(code, "ACCESS DENIED");
-			verify.verifyEquals(message, "Update not allowed Note Read only");
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1524,7 +1894,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in a Attachment note")
+	@Test(description = "Add and delete tag in a Attachment note", priority = 39)
 	public void addingDeletingTagInAttachmentNote() throws Exception {
 		try {
 			// note Creation
@@ -1533,7 +1903,7 @@ public class NotebookPublicApis extends APIDriver {
 			headerParams.put(XUSERKEY, X_USER_KEY);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
-			filters.put("limit", "1");
+			filters.put("limit", "6");
 			filters.put("filter", "type eq attachment");
 
 			RequestSpecification spec = queryParamsSpecForPublicApis(filters, headerParams);
@@ -1542,7 +1912,7 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			JSONArray entries = respJson.getJSONArray("entries");
-			JSONObject firstElment = (JSONObject) entries.get(0);
+			JSONObject firstElment = (JSONObject) entries.get(3);
 			String noteId = (String) firstElment.get("id");
 
 			// Adding Tag
@@ -1574,7 +1944,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add and delete tag in with invalid note id")
+	@Test(description = "Add and delete tag in with invalid note id", priority = 40)
 	public void addingAndDeletingTagWithInvalidId() throws Exception {
 		try {
 			// note Creation
@@ -1621,7 +1991,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note")
+	@Test(description = "Add attachment in a note", priority = 41)
 	public void addingAttachmentInaNote() throws Exception {
 		try {
 			// note Creation
@@ -1687,6 +2057,15 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(updateRespJson.get("message"), "Attachments Added Successfully", "Verify the message");
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "addingAttachmentInaNote.json");
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+			Thread.sleep(5000);
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1696,7 +2075,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with created and updated date")
+	@Test(description = "Add attachment in a note with created and updated date", priority = 42)
 	public void addingAttachmentInaNoteWithCreatedAndUpdatedDate() throws Exception {
 		try {
 			// note Creation
@@ -1764,6 +2143,15 @@ public class NotebookPublicApis extends APIDriver {
 			verify.verifyEquals(updateRespJson.get("message"), "Attachments Added Successfully", "Verify the message");
 			verify.jsonSchemaValidation(updateResp,
 					"notebookPublicApi" + File.separator + "addingAttachmentInaNote.json");
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1773,7 +2161,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with Incorrect date format")
+	@Test(description = "Add attachment in a note with Incorrect date format", priority = 42)
 	public void addingAttachmentInaNoteWithIncorrectDate() throws Exception {
 		try {
 			// note Creation
@@ -1843,6 +2231,15 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyEquals(message, "Bad Format of Date try sending in format %Y-%m-%dT%H:%M:%S");
 			verify.verifyEquals(code, "INVALID REQUEST");
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1852,7 +2249,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with invalid note id")
+	@Test(description = "Add attachment in a note with invalid note id", priority = 43)
 	public void addingAttachmentInaNoteWithInvalidNoteId() throws Exception {
 		try {
 			// note Creation
@@ -1915,7 +2312,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with invalid File Id")
+	@Test(description = "Add attachment in a note with invalid File Id", priority = 44)
 	public void addingAttachmentInaNoteUsingInvalidFileId() throws Exception {
 		try {
 			// note Creation
@@ -1982,6 +2379,16 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyEquals(message, "Invalid file_id");
 			verify.verifyEquals(code, "INVALID REQUEST");
+			
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -1991,7 +2398,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with contenttype mismatch")
+	@Test(description = "Add attachment in a note with contenttype mismatch", priority = 45)
 	public void addingAttachmentInaNoteContenTypeMismatch() throws Exception {
 		try {
 			// note Creation
@@ -2059,6 +2466,15 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyEquals(message, "Content-type mismatch with uploaded file");
 			verify.verifyEquals(code, "INVALID REQUEST");
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2068,7 +2484,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Add attachment in a note with file extension mismatch")
+	@Test(description = "Add attachment in a note with file extension mismatch", priority = 46)
 	public void addingAttachmentInaNoteFileExtensionMismatch() throws Exception {
 		try {
 			// note Creation
@@ -2136,6 +2552,15 @@ public class NotebookPublicApis extends APIDriver {
 
 			verify.verifyEquals(message, "File extension mismatch with uploaded file");
 			verify.verifyEquals(code, "INVALID REQUEST");
+			
+			//note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2145,7 +2570,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all the comments from a note")
+	@Test(description = "Fetch all the comments from a note", priority = 47)
 	public void fetchCommentsAddedInANote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2183,7 +2608,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Fetch all the comments from a note for invalid Id")
+	@Test(description = "Fetch all the comments from a note for invalid Id", priority = 48)
 	public void fetchCommentsAddedInANoteForInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2211,7 +2636,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "fetch Highlight created in a note")
+	@Test(description = "fetch Highlight created in a note", priority = 49)
 	public void fetchHighlightsCreatedInANote() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2247,7 +2672,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 
-	@Test(description = "fetch Highlight created in a note for invalid id")
+	@Test(description = "fetch Highlight created in a note for invalid id", priority = 50)
 	public void fetchHighlightsCreatedInANoteForInvalidId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2275,7 +2700,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Add Gif,Png,Jpeg,Bitmap image in a note Content", dataProvider = "notebookImageData", dataProviderClass = DataProviderClass.class)
+	@Test(description = "Add Gif,Png,Jpeg,Bitmap image in a note Content", dataProvider = "notebookImageData", dataProviderClass = DataProviderClass.class, priority = 51)
 	public void addImageInNoteContentAndDownload(String imageData[]) throws Exception {
 		try {
 			
@@ -2335,7 +2760,7 @@ public class NotebookPublicApis extends APIDriver {
 
 	
 	
-	@Test(description = "Verify error for invalid image id")
+	@Test(description = "Verify error for invalid image id", priority = 52)
 	public void testErrorMessageForInvalidImageId() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
@@ -2394,6 +2819,265 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
+	
+	@Test(description = "Test Large File upload", priority = 53)
+	public void testLargeFileUpload() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources("notebookPublicApi" + File.separator + "largeFile.pdf");
+			
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("filename", "samplePdf.pdf");
+			String json = jsonUtils.toJson(formParams);
+			
+			//hitting file_url API
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(LARGE_FILE_UPLOAD, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson);
+			String upload_url = respJson.getString("upload_url");
+			String[] split = upload_url.split("/attachments");
+			String id =  respJson.getString("id");
+			String filename =  respJson.getString("filename");
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(filename, "samplePdf.pdf");
+			
+			OkHttpClient client = new OkHttpClient().newBuilder().build();
+			MediaType mediaType = MediaType.parse("application/pdf");
+			RequestBody body = RequestBody.create(mediaType, file);
+			Request request = new Request.Builder().url(upload_url).method("PUT", body)
+					.addHeader("Content-Type", "application/pdf").build();
+			client.newCall(request).execute();
+			verify.verifyStatusCode(client.newCall(request).execute().networkResponse().code(), 200);
+		}catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Soft delete and Restore a note", priority = 54)
+	public void testSoftDeleteAndRestoreOfNote() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+			
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+			
+			//active : 0 (soft delete)
+			HashMap<String, Object> deleteParams = new HashMap<String, Object>();
+			deleteParams.put("active", 0);
+			String deleteJson = jsonUtils.toJson(deleteParams);
+			
+			RequestSpecification deleteSpec = requestHeadersFormSpecForPublicApis(deleteJson, headerParams);
+			Response deleteResp = RestOperationUtils.post(NOTES + "/" + noteId , null, deleteSpec, deleteParams);
+			APIResponse deleteApiResp = new APIResponse(deleteResp);
+			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 200);
+			JSONObject deleteRespJson = new JSONObject(deleteApiResp.getResponseAsString());
+			verify.verifyEquals(deleteRespJson.get("active"), 0);
+			System.out.println(deleteRespJson);
+			
+			//active : 1 (restoring note)
+			HashMap<String, Object> restoreParams = new HashMap<String, Object>();
+			restoreParams.put("active", 1);
+			String restoreJson = jsonUtils.toJson(restoreParams);
+			
+			RequestSpecification restoreSpec = requestHeadersFormSpecForPublicApis(restoreJson, headerParams);
+			Response restoreResp = RestOperationUtils.post(NOTES + "/" + noteId , null, restoreSpec, restoreParams);
+			APIResponse restoreApiResp = new APIResponse(restoreResp);
+			verify.verifyStatusCode(restoreApiResp.getStatusCode(), 200);
+			JSONObject restoreRespJson = new JSONObject(restoreApiResp.getResponseAsString());
+			verify.verifyEquals(restoreRespJson.get("active"), 1);
+			System.out.println(restoreRespJson);
+			
+			//permanent note deletion
+			RequestSpecification deleteNoteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteNoteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteNoteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteNoteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteNoteResp, 5000);
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Create a note with space as char in content", priority = 55)
+	public void createANoteWithSpaceAsCharInContent() throws Exception {
+		try {
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + String.valueOf(new Date().getTime()).indexOf(6));
+			formParams.put("content", " ");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+			verify.verifyResponseTime(resp, 5000);
+			verify.verifyEquals(respJson.get("type"), "typed", "Verify the note_category");
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "createANote.json");
+			
+			String noteId = (String) respJson.get("id");
+
+			// Note Deleting
+
+			RequestSpecification updateSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response updateResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, updateSpec, null);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(updateResp, 5000);
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Update a private note with space as char in Content", priority = 56)
+	public void updatingAPrivateNoteWithSpaceAsCharInContent() throws Exception {
+		try {
+
+			// note Creation
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			HashMap<String, Object> formParams = new HashMap<String, Object>();
+			formParams.put("ref", new Date().toString().trim());
+			formParams.put("type", "typed");
+			formParams.put("title", "PrivateNote" + new Date().getTime());
+			formParams.put("content", "<p>THIS IS a typed note</p>");
+			formParams.put("category", "meeting");
+
+			String json = jsonUtils.toJson(formParams);
+
+			RequestSpecification spec = requestHeadersFormSpecForPublicApis(json, headerParams);
+			Response resp = RestOperationUtils.post(NOTES, null, spec, formParams);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 201);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			String noteId = (String) respJson.get("id");
+
+			// Note Updation
+			List<String> tags = new ArrayList<String>();
+			tags.add("abc");
+
+			List<String> tickers = new ArrayList<String>();
+			tickers.add("aapl");
+			tickers.add("fb");
+
+			String updatedTitle = "Updated Title of Note - " + noteId;
+			HashMap<String, Object> updateParams = new HashMap<String, Object>();
+			updateParams.put("title", updatedTitle);
+			updateParams.put("content", " ");
+			updateParams.put("category", "general");
+			updateParams.put("tags", tags);
+			updateParams.put("tickers", tickers);
+
+			String updateJson = jsonUtils.toJson(updateParams);
+
+			RequestSpecification updateSpec = requestHeadersFormSpecForPublicApis(updateJson, headerParams);
+			Response updateResp = RestOperationUtils.post(NOTES + "/" + noteId, null, updateSpec, updateParams);
+			APIResponse updateApiResp = new APIResponse(updateResp);
+			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
+			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
+			verify.verifyResponseTime(updateResp, 5000);
+			
+			
+			//note deletion
+			RequestSpecification deleteSpec = requestHeadersSpecForPublicApis(headerParams);
+			Response deleteResp = RestOperationUtils.delete(NOTES + "/" + noteId, null, deleteSpec, null);
+			APIResponse deletedApiResp = new APIResponse(deleteResp);
+
+			verify.verifyStatusCode(deletedApiResp.getStatusCode(), 204);
+			verify.verifyResponseTime(deleteResp, 5000);
+
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+	@Test(description = "Upload an empty file", priority = 57)
+	public void uploadAnEmptyFile() throws Exception {
+		try {
+
+			String folderName = "notebookPublicApi" + File.separator;
+			String fileName = folderName + "emptyFile.txt";
+			FileUtil fileUtil = new FileUtil();
+			File file = fileUtil.getFileFromResources(fileName);
+
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("files", file);
+			params.put("file", fileName);
+
+			HashMap<String, String> headerParams = new HashMap<String, String>();
+			headerParams.put(XAPIKEY, X_API_KEY);
+			headerParams.put(XUSERKEY, X_USER_KEY);
+
+			RequestSpecification spec = multipartParamSpecForPublicApis(params, headerParams, file);
+			Response resp = RestOperationUtils.post(FILE_UPLOAD, null, spec, params);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			
+			verify.verifyResponseTime(resp, 5000);
+			verify.jsonSchemaValidation(resp, "notebookPublicApi" + File.separator + "uploadFile.json");
+		} catch (JSONException je) {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+			Thread.sleep(1000);
+		}
+	}
+	
+
 	public JSONObject getNoteDetail(String noteID) throws CoreCommonException {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
