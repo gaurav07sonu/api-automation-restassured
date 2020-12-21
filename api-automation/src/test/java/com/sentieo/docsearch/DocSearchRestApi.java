@@ -1286,18 +1286,31 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				if (respJson.getJSONObject("result") != null) {
-					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters")
-							.getJSONObject("doctype_parent").getJSONArray("doctype").getJSONObject(2);
-					if (rss != null) {
-						label = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("label");
-						url = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("url");
-						feed_req_id = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("feed_req_id");
+					JSONArray doctype = respJson.getJSONObject("result").getJSONObject("filters")
+							.getJSONObject("doctype_parent").getJSONArray("doctype");
+					if (doctype.length() != 0) {
+						for (int i = 0; i < doctype.length(); i++) {
+							JSONObject rss = doctype.getJSONObject(i);
+							String title = rss.getJSONArray("categories").getJSONObject(0).getString("title");
+							if (title.equalsIgnoreCase("RSS Feeds")) {
+								Boolean rsscheck = true;
+
+								if (rsscheck = true) {
+									if (rss != null) {
+										label = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+												.getJSONObject(0).getString("label");
+										url = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+												.getJSONObject(0).getString("url");
+										feed_req_id = rss.getJSONArray("categories").getJSONObject(0)
+												.getJSONArray("items").getJSONObject(0).getString("feed_req_id");
+									}
+								}
+							}
+						}
 					}
 				}
 			}
+
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
