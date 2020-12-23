@@ -354,7 +354,7 @@ public class DataProviderClass {
 		return groupArray;
 	}	
 	
-	@DataProvider(name = "test_doctype_rr_publicapi")
+//	@DataProvider(name = "test_doctype_rr_publicapi")
 	public Object[][] test_doctype_rr_publicapi() {
 		Object[][] groupArray = null;
 		groupArray = new String[][] {{"se_10619","rr_reasons_19","rr_styles_8"}, {"se_11864","rr_reasons_2","rr_styles_9"}
