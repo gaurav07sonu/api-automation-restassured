@@ -316,7 +316,7 @@ public class MobileFinanceApi extends APIDriver {
 						util.verifykeyAvailable(result, set.getKey(), set.getValue());
 					}
 
-					verify.verifyEquals((result.get("cur_year")), Calendar.getInstance().get(Calendar.YEAR),
+					verify.verifyEquals((result.get("cur_year")), Calendar.getInstance().get(Calendar.YEAR) - 1,
 							"Verify the value of key cur_year");
 
 					JSONArray data = result.getJSONArray("data");
