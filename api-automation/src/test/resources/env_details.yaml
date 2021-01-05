@@ -191,7 +191,7 @@ password: "DGL=14412jg"
 envName: "sandbox"
 appURL: "https://sandbox.sentieo.com"
 userAppUrl: "https://user-sandbox.sentieo.com"
-userName: "sandbox.test"
+userName: "sandbox.test-sb"
 password: "Sentieo@123"
 ---
 envName: "sandbox-api"
