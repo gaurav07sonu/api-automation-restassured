@@ -1,8 +1,6 @@
 package com.sentieo.mobile;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.io.File;
 
 import org.json.JSONObject;
 
@@ -13,19 +11,23 @@ import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 
-public class MobileCalendar extends APIDriver {
-
-	Calendar cal = Calendar.getInstance();
-	DateFormat dateformat = new SimpleDateFormat("d-MMM-yyyy");
+/**
+ * 
+ * @author akash
+ *
+ */
+public class MobileStream extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
-	
-	public void testCalendarAssertions(APIResponse apiResp, Response resp) throws Exception {
+
+	public void testFetchUsersTickersValue(APIResponse apiResponse, Response resp) throws Exception {
 		try {
+
+			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyTrue(respJson.getJSONArray("result").length() != 0, "checking results array");
+			verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "testFetchUsersTickersValue.json");
 		} catch (Exception je) {
 			je.printStackTrace();
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());

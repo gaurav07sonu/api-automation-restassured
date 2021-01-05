@@ -13,6 +13,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.jayway.restassured.response.Response;
@@ -45,11 +48,19 @@ public class DocSearchRestApi extends APIDriver {
 	static String docid_filling = "";
 	static String custom_doc_id_filling = "";
 	static String docid_note = "";
+	String locMobile = "";
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
+	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
+	}
+
 
 	@BeforeClass(alwaysRun = true)
 	public void setDoc_ID() throws CoreCommonException {
@@ -130,13 +141,17 @@ public class DocSearchRestApi extends APIDriver {
 
 //	Fetching doc info	
 
-	@Test(groups = "sanity", description = "Fetching doc info")
+	@Test(groups = {"sanity", "mobileMainApp"}, description = "Fetching doc info")
 	public void fetch_docs_meta_data() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_DOCS_META_DATA;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			String docID = "[" + "\"" + doc_id + "\"" + "]";
 			queryParams.put("doc_ids", docID);
+			
+			if(locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);

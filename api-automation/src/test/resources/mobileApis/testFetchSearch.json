@@ -1,0 +1,185 @@
+{
+
+	"required": [
+		"doc_type",
+		"ios_call",
+		"counter",
+		"request_user_agent",
+		"result",
+		"response"
+	],
+	"properties": {
+		"doc_type": {
+			"$id": "#/properties/doc_type",
+			"type": "array",
+			"title": "The Doc_type Schema",
+			"items": {
+				"$id": "#/properties/doc_type/items",
+				"type": "string",
+				"title": "The Items Schema",
+				"default": "",
+				"examples": [
+					"5adda1b13f23b36405011d0b",
+					"tt",
+					"gbf",
+					"ef"
+				],
+				"pattern": "^(.*)$"
+			}
+		},
+		"ios_call": {
+			"$id": "#/properties/ios_call",
+			"type": "boolean",
+			"title": "The Ios_call Schema",
+			"default": false,
+			"examples": [
+				true
+			]
+		},
+		"counter": {
+			"$id": "#/properties/counter",
+			"type": "integer",
+			"title": "The Counter Schema",
+			"default": 0,
+			"examples": [
+				0
+			]
+		},
+		"request_user_agent": {
+			"$id": "#/properties/request_user_agent",
+			"type": "string",
+			"title": "The Request_user_agent Schema",
+			"default": "",
+			"examples": [
+				"PostmanRuntime/7.6.1"
+			],
+			"pattern": "^(.*)$"
+		},
+		"result": {
+			"$id": "#/properties/result",
+			"type": "object",
+			"title": "The Result Schema",
+			"required": [
+				"total_results",
+				"docs",
+				"facets",
+				"took",
+				"query_terms",
+				"all_time_results"
+			],
+			"properties": {
+				"total_results": {
+					"$id": "#/properties/result/properties/total_results",
+					"type": "integer",
+					"title": "The Total_results Schema",
+					"default": 0,
+					"examples": [
+						0
+					]
+				},
+				"docs": {
+					"$id": "#/properties/result/properties/docs",
+					"type": "array",
+					"title": "The Docs Schema"
+				},
+				"facets": {
+					"$id": "#/properties/result/properties/facets",
+					"type": "object",
+					"title": "The Facets Schema"
+				},
+				"took": {
+					"$id": "#/properties/result/properties/took",
+					"type": "integer",
+					"title": "The Took Schema",
+					"default": 0,
+					"examples": [
+						6
+					]
+				},
+				"query_terms": {
+					"$id": "#/properties/result/properties/query_terms",
+					"type": "array",
+					"title": "The Query_terms Schema"
+				},
+				"all_time_results": {
+					"$id": "#/properties/result/properties/all_time_results",
+					"type": "integer",
+					"title": "The All_time_results Schema",
+					"default": 0,
+					"examples": [
+						120
+					]
+				}
+			}
+		},
+		"response": {
+			"$id": "#/properties/response",
+			"type": "object",
+			"title": "The Response Schema",
+			"required": [
+				"status",
+				"msg",
+				"search_dict"
+			],
+			"properties": {
+				"status": {
+					"$id": "#/properties/response/properties/status",
+					"type": "boolean",
+					"title": "The Status Schema",
+					"default": false,
+					"examples": [
+						true
+					]
+				},
+				"msg": {
+					"$id": "#/properties/response/properties/msg",
+					"type": "array",
+					"title": "The Msg Schema",
+					"items": {
+						"$id": "#/properties/response/properties/msg/items",
+						"type": "string",
+						"title": "The Items Schema",
+						"default": "",
+						"examples": [
+							"Success"
+						],
+						"pattern": "^(.*)$"
+					}
+				},
+				"search_dict": {
+					"$id": "#/properties/response/properties/search_dict",
+					"type": "string",
+					"title": "The Search_dict Schema",
+					"default": "",
+					"examples": [
+						""
+					],
+					"pattern": "^(.*)$"
+				}
+			}
+		},
+		"doc_subtype": {
+			"$id": "#/properties/doc_subtype",
+			"type": "array",
+			"title": "The Doc_subtype Schema",
+			"items": {
+				"$id": "#/properties/doc_subtype/items",
+				"type": "string",
+				"title": "The Items Schema",
+				"default": "",
+				"examples": [
+					"8-k",
+					"10-k",
+					"10-q",
+					"6-k",
+					"s-1",
+					"20-f",
+					"tt",
+					""
+				],
+				"pattern": "^(.*)$"
+			}
+		}
+	}
+
+}

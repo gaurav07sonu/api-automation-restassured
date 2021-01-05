@@ -794,7 +794,7 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity2", description = "fetch_institutional_holdings_data3")
+	@Test(groups = {"sanity2","mobile"}, description = "fetch_institutional_holdings_data3")
 	public void fetchTickerValues() throws Exception {
 		String URI = APP_URL + FETCH_USER_TICKER_VALUES;
 		HashMap<String, String> tickerData = new HashMap<String, String>();

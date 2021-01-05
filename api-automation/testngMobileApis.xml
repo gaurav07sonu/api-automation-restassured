@@ -12,12 +12,16 @@
 		<parameter name="loc" value="ios" />
 		<groups>
 			<run>
-				<include name="mobile" />
+				<include name="mobileMainApp" />
 			</run>
 		</groups>
 		<classes>
 			<class name="com.sentieo.mobile.MobileLoginTest" />
 			<class name="com.sentieo.notebook.NotebookApis" />
+			<class name="com.sentieo.docsearch.DocumentSearch" />
+			<class name="com.sentieo.mobile.MobileWatchlistTest" />
+			<class name="com.sentieo.user.AlertNotifiction" />
+			<class name="com.sentieo.docsearch.DocSearchRestApi" />
 		</classes>
 	</test>
 </suite>
