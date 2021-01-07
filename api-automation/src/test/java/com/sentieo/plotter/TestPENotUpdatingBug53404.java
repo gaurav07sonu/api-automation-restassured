@@ -38,9 +38,9 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 		int dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
 		if (dayofweek != 1 && dayofweek != 7) {
 			if (dayofweek == 2)
-				expectedDate = obj.getDate(-3, "");
+				expectedDate = obj.getDate(-3);
 			else
-				expectedDate = obj.getDate(0, "");
+				expectedDate = obj.getDate(0);
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			String URI = APP_URL + FETCH_GRAPH_DATA;
 			ticker = ticker.toLowerCase();
@@ -92,7 +92,7 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					digit = (int) (timestamp / 1000);
 					date = util.convertTimestampIntoDate(digit);
 					if (!date.contains(expectedDate))
-						expectedDate = obj.getDate(-1, "");
+						expectedDate = obj.getDate(-1);
 					verify.compareDates(date, expectedDate, "Verify the Current Date Point for P/E series");
 
 				}
@@ -103,10 +103,10 @@ public class TestPENotUpdatingBug53404 extends APIDriver {
 					util = new CommonUtil();
 					date = util.convertTimestampIntoDate(digit);
 					if (!date.contains(expectedDate))
-						expectedDate = obj.getDate(-1, "");
+						expectedDate = obj.getDate(-1);
 					
 					else if (!date.contains(expectedDate))
-						expectedDate = obj.getDate(0, "");
+						expectedDate = obj.getDate(0);
 					else
 						verify.compareDates(date, expectedDate,
 								"Verify the Current Date Point for PS&P 500 NTM - TWA P/E");

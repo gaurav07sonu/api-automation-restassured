@@ -48,6 +48,8 @@
 				<exclude name="com.sentieo.statuspage"></exclude>
 				<exclude name="com.sentieo.dashboard"></exclude>
 				<exclude name="com.sentieo.mobile"></exclude>
+				<exclude name="com.sentieo.returnsperchange"></exclude>
+				
 			</package>
 		</packages>
 	</test>

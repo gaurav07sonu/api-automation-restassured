@@ -25,7 +25,7 @@ import com.sentieo.utils.CommonUtil;
 public class TestDailySeriesData extends APIDriver {
 
 	String systemDate;
-	
+
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify(Method testMethod) {
 		verify = new APIAssertions();
@@ -35,7 +35,8 @@ public class TestDailySeriesData extends APIDriver {
 
 	public void keyMultiples(String headName, String graphType, String ticker) throws Exception {
 		CommonUtil obj = new CommonUtil();
-		String expectedDate = obj.getDate(0, "keyMultiples");
+		Calendar calNewYork = Calendar.getInstance();
+		String expectedDate = obj.getDate(0);
 		JSONArray value = null;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -100,17 +101,15 @@ public class TestDailySeriesData extends APIDriver {
 				int digit = (int) (timestamp / 1000);
 				CommonUtil util = new CommonUtil();
 				String date = util.convertTimestampIntoDate(digit);
-				if (!date.contains(expectedDate))
-					expectedDate = obj.getDate(-1, "keyMultiples");
-				
-				if (!date.contains(expectedDate))
-					expectedDate = obj.getDate(-2, "keyMultiples");
-				
-				if (!date.contains(expectedDate))
-					expectedDate = obj.getDate(-3, "keyMultiples");
-				
-				if (!date.contains(expectedDate))
-					expectedDate = obj.getDate(-4, "keyMultiples");
+				int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+				if (!date.contains(expectedDate)) {
+					if (dayOfWeek == 1)
+						expectedDate = obj.getDate(-2);
+					else if (dayOfWeek == 2)
+						expectedDate = obj.getDate(-3);
+					else
+						expectedDate = obj.getDate(-1);
+				}
 				verify.compareDates(date, expectedDate, "Verify the Current Date Point");
 			}
 		} else {

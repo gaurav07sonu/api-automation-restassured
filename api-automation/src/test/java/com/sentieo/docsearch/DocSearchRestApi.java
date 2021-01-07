@@ -2,9 +2,11 @@ package com.sentieo.docsearch;
 
 import static com.sentieo.constants.Constants.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +31,7 @@ import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
-
+import com.sentieo.utils.JSONUtils;
 public class DocSearchRestApi extends APIDriver {
 
 	public static String doc_id = "";
@@ -39,8 +41,8 @@ public class DocSearchRestApi extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	static String uss_ids = "";
 	static JSONObject uss_data = null;
-	static String feed_name = "";
-	static String feed_url = "";
+	static String label = "";
+	static String url = "";
 	static String feed_req_id = "";
 	static String did = "";
 	static JSONArray doc_arr; // doc list 30size
@@ -49,10 +51,13 @@ public class DocSearchRestApi extends APIDriver {
 	static String custom_doc_id_filling = "";
 	static String docid_note = "";
 	String locMobile = "";
+	static JSONUtils jsonUtils = null;
+	
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
+		jsonUtils = new JSONUtils();
 	}
 	
 	@BeforeTest(alwaysRun = true)
@@ -312,7 +317,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+//	@Test(groups = "sanity", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetch_company_docs(String ticker) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_COMPANY_DOCS;
@@ -1144,16 +1149,23 @@ public class DocSearchRestApi extends APIDriver {
 
 
 
-	@Test(groups = "sanity", description = "Requesting for RSS Feed")
+//	@Test(groups = "sanity", description = "Requesting for RSS Feed")
 	public void request_feed() throws CoreCommonException {
 		try {
 			if (feed_req_id.isEmpty())
 				fetch_search_filters();
 			if (!feed_req_id.isEmpty()) {
 				String URI = APP_URL + REQUEST_FEED;
+				HashMap<String, String> rssparams = new HashMap<String, String>();
+				rssparams.put("label", label);
+				rssparams.put("url", url);
+				List<HashMap<String, String>> feed_listParam = new ArrayList<>();
+				feed_listParam.add(rssparams);
+				String json = jsonUtils.toJson(feed_listParam);
+				
 				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("feed_name", feed_name);
-				queryParams.put("feed_url", feed_url);
+				queryParams.put("feed_list", json);
+				
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
@@ -1162,9 +1174,9 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				feed_req_id = respJson.getJSONObject("result").getString("feed_req_id");
+				url = respJson.getJSONArray("result").getJSONObject(0).getString("url");
 			} else
-				verify.assertTrue(false, "feed not present");
+				verify.assertTrue(false, "url not present");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -1182,8 +1194,8 @@ public class DocSearchRestApi extends APIDriver {
 				String URI = APP_URL + UPDATE_FEED;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
 				queryParams.put("feed_req_id", feed_req_id);
-				queryParams.put("feed_name", feed_name);
-				queryParams.put("feed_url", feed_url);
+				queryParams.put("label", label);
+				queryParams.put("url", url);
 
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -1210,8 +1222,15 @@ public class DocSearchRestApi extends APIDriver {
 				fetch_search_filters();
 			if (!feed_req_id.isEmpty()) {
 				String URI = APP_URL + UNSUBSCRIBE_FEED;
+				HashMap<String, String> rssparams = new HashMap<String, String>();
+				rssparams.put("feed_req_id", feed_req_id);
+				
+				List<HashMap<String, String>> feed_listParam = new ArrayList<>();
+				feed_listParam.add(rssparams);
+				String feed_list = jsonUtils.toJson(feed_listParam);
+				
 				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("feed_req_id", feed_req_id);
+				queryParams.put("feed_list", feed_list);
 
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -1282,18 +1301,31 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				if (respJson.getJSONObject("result") != null) {
-					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters")
-							.getJSONObject("rss_parent").getJSONArray("rss").getJSONObject(0);
-					if (rss != null) {
-						feed_name = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("label");
-						feed_url = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("url");
-						feed_req_id = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("feed_req_id");
+					JSONArray doctype = respJson.getJSONObject("result").getJSONObject("filters")
+							.getJSONObject("doctype_parent").getJSONArray("doctype");
+					if (doctype.length() != 0) {
+						for (int i = 0; i < doctype.length(); i++) {
+							JSONObject rss = doctype.getJSONObject(i);
+							String title = rss.getJSONArray("categories").getJSONObject(0).getString("title");
+							if (title.equalsIgnoreCase("RSS Feeds")) {
+								Boolean rsscheck = true;
+
+								if (rsscheck = true) {
+									if (rss != null) {
+										label = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+												.getJSONObject(0).getString("label");
+										url = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+												.getJSONObject(0).getString("url");
+										feed_req_id = rss.getJSONArray("categories").getJSONObject(0)
+												.getJSONArray("items").getJSONObject(0).getString("feed_req_id");
+									}
+								}
+							}
+						}
 					}
 				}
 			}
+
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {

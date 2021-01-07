@@ -162,6 +162,9 @@ public class CommonUtil {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "gross.csv");
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX")) {
 				filereader = new FileReader(RESOURCE_PATH + File.separator + "finance" + File.separator + "capex.csv");
+			} else if (testMethod.getName().contains("verifyReturnsPerecentChange")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "ReturnsFrequency.csv");
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
@@ -377,8 +380,8 @@ public class CommonUtil {
 		} else
 			verify.assertTrue(false, key + " :key not found");
 	}
-	
-	public String getDate(int days, String testType) {
+
+	public String getDate(int days) {
 		String str = "";
 		Calendar calNewYork = Calendar.getInstance();
 		DateFormat dateformat;
@@ -391,13 +394,37 @@ public class CommonUtil {
 		else if (dayOfWeek == 1)
 			calNewYork.add(Calendar.DAY_OF_MONTH, -2);
 
-		if (testType.contains("keyMultiples"))
-			calNewYork.add(Calendar.DAY_OF_MONTH, days);
 		else
 			calNewYork.add(Calendar.DAY_OF_MONTH, days);
 
 		str = dateformat.format(calNewYork.getTime());
 		return str;
+	}
+
+	public List<String> getReturnsTickers() {
+		List<String> AllTickers = new ArrayList<String>();
+		List<String[]> tickers = readTickerCSV("ReturnsFrequency.csv");
+		for (String[] row : tickers) {
+			int highlightLabelRandom = new Random().nextInt(tickers.size());
+			String[] cell = tickers.get(highlightLabelRandom);
+			for (String tickerName : cell) {
+				AllTickers.add(tickerName);
+				if (AllTickers.size() >= 50)
+					return AllTickers;
+			}
+		}
+		return AllTickers;
+	}
+
+	public long getTimeStamp(int days) {
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		cal.add(Calendar.DATE, days);
+		Date todate1 = cal.getTime();
+		dateFormat.format(todate1);
+		long time = todate1.getTime();
+		return time;
 	}
 
 }

@@ -1,12 +1,9 @@
 package com.sentieo.plotter;
 
 import static com.sentieo.constants.Constants.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TimeZone;
 
+import java.util.Calendar;
+import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -39,8 +36,8 @@ public class StockPrice50650 extends APIDriver {
 	@Test(description = "Plotter stock price Series")
 	public void stockPriceMissingValuesForGSPCTicker() throws CoreCommonException {
 		try {
+			Calendar calNewYork = Calendar.getInstance();
 			CommonUtil obj = new CommonUtil();
-			getDateTime();
 			if (dayofweek != 1 && dayofweek != 7) {
 				JSONArray value = null;
 				String URI = APP_URL + FETCH_GRAPH_DATA;
@@ -69,19 +66,16 @@ public class StockPrice50650 extends APIDriver {
 						int digit = (int) (timestamp / 1000);
 						CommonUtil util = new CommonUtil();
 						String date = util.convertTimestampIntoDate(digit);
-						String str = obj.getDate(0, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-1, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-2, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-3, "keyMultiples");
-
-						if (!date.contains(str))
-							str = obj.getDate(-4, "keyMultiples");
+						String str = obj.getDate(0);
+						if (!date.contains(str)) {
+							int dayOfWeek = calNewYork.get(Calendar.DAY_OF_WEEK);
+							if (dayOfWeek == 1)
+								str = obj.getDate(-2);
+							else if (dayOfWeek == 2)
+								str = obj.getDate(-3);
+							else
+								str = obj.getDate(-1);
+						}
 
 						verify.compareDates(date, str, "Verify the Current Date Point");
 						verify.verifyAll();
@@ -92,23 +86,5 @@ public class StockPrice50650 extends APIDriver {
 		} catch (Exception e) {
 			throw new CoreCommonException(e.getMessage());
 		}
-	}
-
-	public void getDateTime() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		SimpleDateFormat sdf = new SimpleDateFormat("kk:mm aa");
-		sdf.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-		Calendar calNewYork = Calendar.getInstance();
-		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-		dayofweek = calNewYork.get(Calendar.DAY_OF_WEEK);
-		time = sdf.format(calendar.getTime());
-		if (time.contains("AM"))
-			morningTime = time.replaceAll("AM", "");
-		else
-			morningTime = time.replaceAll("PM", "");
-		String[] hourMin = morningTime.split(":");
-		hour = Integer.parseInt(hourMin[0]);
-		// mins = Integer.parseInt(hourMin[1]);
 	}
 }

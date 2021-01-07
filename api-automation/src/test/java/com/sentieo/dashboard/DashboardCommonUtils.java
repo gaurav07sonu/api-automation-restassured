@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 
@@ -31,13 +32,11 @@ import com.sentieo.user.TestUserWatchlistData;
 import com.sentieo.utils.CoreCommonException;
 
 public class DashboardCommonUtils extends APIDriver {
-	static int feed_id = 0;
+	static String docID = "";
 	static int feedCount = 0;
 	static String watchlistID = "";
 	static String saveSearchName = "";
-	static String plotter_name = "";
 	org.json.JSONArray shared_dashboards = null;
-
 
 	public DashboardCommonUtils() {
 		setUp();
@@ -212,14 +211,12 @@ public class DashboardCommonUtils extends APIDriver {
 
 	}
 
-	public String getPlotterID() throws Exception {
-		String plotterid = "";
+	public JSONArray getPlotteData() throws Exception {
 		org.json.JSONArray loadData = null;
 		String URI = USER_APP_URL + LOADGRAPH_NEW;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
 		tickerData.put("sort_flag", "recent");
 		try {
-			Random rand = new Random();
 			RequestSpecification spec = formParamsSpec(tickerData);
 			Response resp = RestOperationUtils.post(URI, null, spec, tickerData);
 			APIResponse apiResp = new APIResponse(resp);
@@ -231,23 +228,42 @@ public class DashboardCommonUtils extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				loadData = respJson.getJSONObject("result").getJSONArray("graphobj");
-				int rand_int1 = rand.nextInt(loadData.length());
-				String plotter_id = loadData.getJSONObject(rand_int1).getString("plotter_id");
-				plotter_name = loadData.getJSONObject(rand_int1).getString("name");
-				plotterid = plotter_id;
-				return plotterid;
+				return loadData;
 			}
-
 		} catch (Exception e) {
 			verify.verificationFailures.add(e);
 			ExtentTestManager.getTest().log(LogStatus.FAIL, e.getMessage());
+		} finally {
+			verify.verifyAll();
 		}
-		verify.verifyAll();
-		return plotterid;
+		return loadData;
 	}
 
-	public List<Integer> fetch_search_filters() throws CoreCommonException {
-		List<Integer> rssID = new ArrayList<>();
+	public String getPlotterID(String option) throws Exception {
+		String plotterid = "";
+		org.json.JSONArray loadData = getPlotteData();
+		for (int i = 0; i < loadData.length(); i++) {
+			String plotter_name = loadData.getJSONObject(i).getString("name");
+			if (plotter_name.toLowerCase().trim().equalsIgnoreCase(option.toLowerCase().trim())) {
+				plotterid = loadData.getJSONObject(i).getString("plotter_id");
+				return plotterid;
+			}
+		}
+		return plotterid;
+
+	}
+
+	public String getRandomPlotter() throws Exception {
+		org.json.JSONArray loadData = getPlotteData();
+		Random rand = new Random();
+		int rand_int1 = rand.nextInt(loadData.length());
+		String plotter_name = loadData.getJSONObject(rand_int1).getString("name");
+		return plotter_name;
+	}
+
+	public List<String> fetch_search_filters() throws CoreCommonException {
+		List<String>doc_ID=new ArrayList<String>();
+		//List<Integer> rssID = new ArrayList<>();
 		String tickers = "";
 		try {
 			if (AddWatchlist.watchTickers.size() > 20) {
@@ -283,10 +299,10 @@ public class DashboardCommonUtils extends APIDriver {
 					if (rss != null) {
 						feedCount = rss.length();
 						for (int i = 0; i < rss.length(); i++) {
-							feed_id = rss.getJSONObject(i).getInt("feed_id");
-							rssID.add(feed_id);
+							docID = rss.getJSONObject(i).getString("id");
+							doc_ID.add(docID);
 						}
-						return rssID;
+						return doc_ID;
 					}
 				}
 			}
@@ -295,7 +311,7 @@ public class DashboardCommonUtils extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
-		return rssID;
+		return doc_ID;
 	}
 
 	public org.json.JSONArray dashboardlist(String option) {
