@@ -30,7 +30,6 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.mobile.MobileCalendar;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -51,7 +50,6 @@ public class NotebookApis extends APIDriver {
 
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
-	MobileCalendar mobileCal = null;
 	String URI = null;
 	String locMobile = "";
 	static String tagName = "";
@@ -74,7 +72,6 @@ public class NotebookApis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
-		mobileCal = new MobileCalendar();
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -239,7 +236,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", priority = 2, description = "Fetch all notes")
+	@Test(groups = {"sanity","mobileMainApp"}, priority = 2, description = "Fetch all notes")
 	public void fetchNoteAllList() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -248,11 +245,13 @@ public class NotebookApis extends APIDriver {
 			params.put("size", "5");
 			params.put("order", "note_updated_date:desc");
 			params.put("mode", "all");
-
+			if (locMobile.equals("ios")) {
+				params.put("loc", locMobile);
+			}
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-
+		
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			if (apiResp.getStatusCode() == 200) {
@@ -2278,7 +2277,7 @@ public class NotebookApis extends APIDriver {
 	APIResponse apiResp = null;
 	Response resp = null;
 
-	@Test(groups = {"sanity","mobile"}, priority = 47, description = "fetch Calendar")
+	@Test(groups = {"sanity","mobileMainApp"}, priority = 47, description = "fetch Calendar")
 	public void fetchCalendar() throws Exception {
 		String URI = USER_APP_URL + FETCHCALENDAR;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2292,16 +2291,11 @@ public class NotebookApis extends APIDriver {
 			parameters.put("endDate", year + "-" + current_month + "-" + last_date);
 			if (locMobile.equals("ios")) {
 				parameters.put("loc", locMobile);
-				RequestSpecification spec = formParamsSpecMobile(parameters);
-				resp = RestOperationUtils.post(URI, null, spec, parameters);
-				apiResp = new APIResponse(resp);
-				mobileCal.testCalendarAssertions(apiResp, resp);
-			}else {
+			}
 				RequestSpecification spec = formParamsSpec(parameters);
 				resp = RestOperationUtils.post(URI, null, spec, parameters);
 				apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
-			}
 			
 		} catch (Error je) {
 			je.printStackTrace();
@@ -2904,6 +2898,8 @@ public class NotebookApis extends APIDriver {
 					parameters.put("allow_pvt_company", "true");
 					parameters.put("pagetype", moduleType);
 					parameters.put("sentieoentity", sentieoEntity);
+					
+					
 					RequestSpecification spec = formParamsSpec(parameters);
 					Response resp = RestOperationUtils.get(APP_URL + SEARCH_ENTITIES, spec, parameters);
 					APIResponse apiResp = new APIResponse(resp);

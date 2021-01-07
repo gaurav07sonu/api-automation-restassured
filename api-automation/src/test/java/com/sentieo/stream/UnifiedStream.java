@@ -1,5 +1,8 @@
 package com.sentieo.stream;
 
+import static com.sentieo.constants.Constants.APP_URL;
+import static com.sentieo.constants.Constants.FETCH_UNIFIED_STREAM;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,11 +11,12 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import static com.sentieo.constants.Constants.*;
-import com.jayway.restassured.RestAssured;
+
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -24,13 +28,21 @@ import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 
 public class UnifiedStream extends APIDriver {
+	
+	String locMobile = "";
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = "sanity", description = "fetch screener models", dataProvider = "fetchUnifiedStream", dataProviderClass = DataProviderClass.class)
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
+	}
+
+	@Test(groups = {"sanity","mobileMainApp"}, description = "fetch screener models", dataProvider = "fetchUnifiedStream", dataProviderClass = DataProviderClass.class)
 	public void fetchUnifiedStream(String client_type, String doc_type, String tickers, String social_reach)
 			throws Exception {
 		String URI = APP_URL + FETCH_UNIFIED_STREAM;
@@ -42,6 +54,9 @@ public class UnifiedStream extends APIDriver {
 		tickerData.put("tickers", tickers);
 		tickerData.put("dashboard", "news_stream");
 		tickerData.put("client_type_status", client_type);
+		if(locMobile.equals("ios")) {
+			tickerData.put("loc","ios");
+		}
 		RequestSpecification spec = formParamsSpec(tickerData);
 		Response resp = RestOperationUtils.post(URI, null, spec, tickerData);
 		APIResponse apiResp = new APIResponse(resp);

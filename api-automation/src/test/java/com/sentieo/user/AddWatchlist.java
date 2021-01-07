@@ -1,7 +1,11 @@
 package com.sentieo.user;
 
-import static com.sentieo.constants.Constants.*;
+import static com.sentieo.constants.Constants.ADD_WATCHLIST;
+import static com.sentieo.constants.Constants.DELETE_WATCHLIST;
+import static com.sentieo.constants.Constants.FETCH_USER_PORTFOLIO;
+import static com.sentieo.constants.Constants.USER_APP_URL;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +14,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -21,6 +29,7 @@ import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
+
 
 public class AddWatchlist extends APIDriver {
 
@@ -34,17 +43,24 @@ public class AddWatchlist extends APIDriver {
 					"aks", "k", "drw", "dri", "drh", "ect", "drn", "tglo", "drd", "glw", "ads:gr", "qcom", "gpor",
 					"cohr", "cohu", "apam", "plow", "bdsi", "call", "type", "hwbk", "nke", "yamcy", "aeex", "yahoy",
 					"td", "md", "mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
+	String locMobile = "";
 
 	public AddWatchlist() {
 		setUp();
 	}
 
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
+	}
+	
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		verify = new APIAssertions();
 	}
 
-	@Test(groups = { "sanity", "test" }, description = "initial-loading")
+	@Test(groups = { "sanity", "test" ,"mobileMainApp"}, description = "initial-loading")
 	public void addWatchlist() throws Exception {
 		try {
 			CommonUtil obj = new CommonUtil();
@@ -88,7 +104,7 @@ public class AddWatchlist extends APIDriver {
 		return false;
 	}
 
-	@Test(groups = { "sanity", "test" }, description = "delete watchlist")
+	@Test(groups = { "sanity", "test", "mobileMainApp"}, description = "delete watchlist")
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
 			deleteUserWatchlist(watchID);
@@ -105,6 +121,10 @@ public class AddWatchlist extends APIDriver {
 		try {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
 			tickerData.put("id", watchID);
+			
+			if(locMobile.equals("ios")) {
+				tickerData.put("loc","ios");
+			}
 			RequestSpecification spec = formParamsSpec(tickerData);
 			Response resp = RestOperationUtils.get(URI, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
@@ -121,6 +141,9 @@ public class AddWatchlist extends APIDriver {
 				verify.assertEqualsActualContainsExpected(watchID, id, "Verify watchlist id");
 				boolean addedWatchStatus = userPortfolio(watchName);
 				verify.assertFalse(addedWatchStatus, "Verify watchlist deleted or not?");
+				if(locMobile.equals("ios")) {
+					verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "deleteUserWatchlist.json");
+				}
 			}
 
 		} catch (Exception e) {
@@ -130,7 +153,7 @@ public class AddWatchlist extends APIDriver {
 		}
 	}
 
-	public void createWatchlist(List<String> tickers) throws CoreCommonException {
+	public void createWatchlist(List<String> tickers) throws Exception {
 		CommonUtil obj = new CommonUtil();
 		watchName = obj.getRandomString();
 		String URI = USER_APP_URL + ADD_WATCHLIST;
@@ -139,6 +162,10 @@ public class AddWatchlist extends APIDriver {
 		ticker = ticker.replaceAll("\\[", "").replaceAll("\\]", "");
 		parameters.put("tickers", ticker);
 		parameters.put("w_name", watchName);
+
+		if (locMobile.equals("ios")) {
+			parameters.put("loc", "ios");
+		}
 		RequestSpecification spec = formParamsSpec(parameters);
 		Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 		APIResponse apiResp = new APIResponse(resp);
@@ -167,9 +194,11 @@ public class AddWatchlist extends APIDriver {
 				verify.assertEquals(watchTickers, tickers, "verify added tickers in watchlist", true);
 				boolean addedWatchStatus = userPortfolio(watchName);
 				verify.assertTrue(addedWatchStatus, "verify watchlist added or not?");
+				if(locMobile.equals("ios")) {
+					verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "addWatchlist.json");
+				}
 			}
 
 		}
-
 	}
 }

@@ -123,7 +123,7 @@ public class docsearchpublicapis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Verifying RR doc types, with rr_ctbids, rr_style and rr_reasons", dataProvider = "test_doctype_rr_publicapi", dataProviderClass = DataProviderClass.class)
+//	@Test(description = "Verifying RR doc types, with rr_ctbids, rr_style and rr_reasons", dataProvider = "test_doctype_rr_publicapi", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_rr_publicapi(String ctbids, String reasons, String styles) throws Exception {
 		try {
 			String URI = PUBLIC_API_URL + SEARCH;

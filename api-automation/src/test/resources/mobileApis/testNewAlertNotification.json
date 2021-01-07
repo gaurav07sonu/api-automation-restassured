@@ -1,0 +1,197 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "counter": "1",
+            "result": {
+                "alert_type": "all",
+                "last_visit": 1604321154000,
+                "timestamp": 1586930272000,
+                "start_new": 0,
+                "start": 0,
+                "res": []
+            },
+            "response": {
+                "status": true,
+                "msg": [
+                    "success"
+                ]
+            }
+        }
+    ],
+    "required": [
+        "counter",
+        "result",
+        "response"
+    ],
+    "properties": {
+        "counter": {
+            "$id": "#/properties/counter",
+            "type": "string",
+            "title": "The counter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "1"
+            ]
+        },
+        "result": {
+            "$id": "#/properties/result",
+            "type": "object",
+            "title": "The result schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "alert_type": "all",
+                    "last_visit": 1604321154000,
+                    "timestamp": 1586930272000,
+                    "start_new": 0,
+                    "start": 0,
+                    "res": []
+                }
+            ],
+            "required": [
+                "alert_type",
+                "last_visit",
+                "timestamp",
+                "start_new",
+                "start",
+                "res"
+            ],
+            "properties": {
+                "alert_type": {
+                    "$id": "#/properties/result/properties/alert_type",
+                    "type": "string",
+                    "title": "The alert_type schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "all"
+                    ]
+                },
+                "last_visit": {
+                    "$id": "#/properties/result/properties/last_visit",
+                    "type": "integer",
+                    "title": "The last_visit schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1604321154000
+                    ]
+                },
+                "timestamp": {
+                    "$id": "#/properties/result/properties/timestamp",
+                    "type": "integer",
+                    "title": "The timestamp schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1586930272000
+                    ]
+                },
+                "start_new": {
+                    "$id": "#/properties/result/properties/start_new",
+                    "type": "integer",
+                    "title": "The start_new schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0
+                    ]
+                },
+                "start": {
+                    "$id": "#/properties/result/properties/start",
+                    "type": "integer",
+                    "title": "The start schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0
+                    ]
+                },
+                "res": {
+                    "$id": "#/properties/result/properties/res",
+                    "type": "array",
+                    "title": "The res schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/result/properties/res/items"
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "response": {
+            "$id": "#/properties/response",
+            "type": "object",
+            "title": "The response schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "status": true,
+                    "msg": [
+                        "success"
+                    ]
+                }
+            ],
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "$id": "#/properties/response/properties/status",
+                    "type": "boolean",
+                    "title": "The status schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        true
+                    ]
+                },
+                "msg": {
+                    "$id": "#/properties/response/properties/msg",
+                    "type": "array",
+                    "title": "The msg schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            "success"
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/response/properties/msg/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/response/properties/msg/items/anyOf/0",
+                                "type": "string",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "success"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

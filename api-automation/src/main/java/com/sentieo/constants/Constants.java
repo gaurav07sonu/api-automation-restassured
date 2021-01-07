@@ -329,4 +329,7 @@ public class Constants {
 	public static final String LOGIN_1 = "/api/login_1/";
 	
 	public static final String FETCH_DOCS_MOBILE = "/api/fetch_docs/";
+	public static final String SAVE_FV_MARKET = "/api/save_fv_market/";
+	public static final String SAVE_FV_WATCHLIST = "/api/save_fv_watchlist/";
+	public static final String ADD_FEEDBACK = "/api/add_feedback/";
 }

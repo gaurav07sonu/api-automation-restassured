@@ -1,0 +1,223 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "result": {
+                "feedback": "testFeedback from automation",
+                "uid": "5e96a2607a782c6092ff8032",
+                "allowed": [
+                    "test.mobile02",
+                    "root"
+                ],
+                "comment": [],
+                "id": "5ff6b954f8fe360140e89935",
+                "timestamp": 1610004820000
+            },
+            "response": {
+                "msg": [
+                    "Feedback added"
+                ],
+                "status": true
+            },
+            "counter": 0
+        }
+    ],
+    "required": [
+        "result",
+        "response",
+        "counter"
+    ],
+    "properties": {
+        "result": {
+            "$id": "#/properties/result",
+            "type": "object",
+            "title": "The result schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "feedback": "testFeedback from automation",
+                    "uid": "5e96a2607a782c6092ff8032",
+                    "allowed": [
+                        "test.mobile02",
+                        "root"
+                    ],
+                    "comment": [],
+                    "id": "5ff6b954f8fe360140e89935",
+                    "timestamp": 1610004820000
+                }
+            ],
+            "required": [
+                "feedback",
+                "uid",
+                "allowed",
+                "comment",
+                "id",
+                "timestamp"
+            ],
+            "properties": {
+                "feedback": {
+                    "$id": "#/properties/result/properties/feedback",
+                    "type": "string",
+                    "title": "The feedback schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "testFeedback from automation"
+                    ]
+                },
+                "uid": {
+                    "$id": "#/properties/result/properties/uid",
+                    "type": "string",
+                    "title": "The uid schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "5e96a2607a782c6092ff8032"
+                    ]
+                },
+                "allowed": {
+                    "$id": "#/properties/result/properties/allowed",
+                    "type": "array",
+                    "title": "The allowed schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            "test.mobile02",
+                            "root"
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/result/properties/allowed/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/result/properties/allowed/items/anyOf/0",
+                                "type": "string",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "test.mobile02",
+                                    "root"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "comment": {
+                    "$id": "#/properties/result/properties/comment",
+                    "type": "array",
+                    "title": "The comment schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/result/properties/comment/items"
+                    }
+                },
+                "id": {
+                    "$id": "#/properties/result/properties/id",
+                    "type": "string",
+                    "title": "The id schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "5ff6b954f8fe360140e89935"
+                    ]
+                },
+                "timestamp": {
+                    "$id": "#/properties/result/properties/timestamp",
+                    "type": "integer",
+                    "title": "The timestamp schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1610004820000
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "response": {
+            "$id": "#/properties/response",
+            "type": "object",
+            "title": "The response schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "msg": [
+                        "Feedback added"
+                    ],
+                    "status": true
+                }
+            ],
+            "required": [
+                "msg",
+                "status"
+            ],
+            "properties": {
+                "msg": {
+                    "$id": "#/properties/response/properties/msg",
+                    "type": "array",
+                    "title": "The msg schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            "Feedback added"
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/response/properties/msg/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/response/properties/msg/items/anyOf/0",
+                                "type": "string",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "Feedback added"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "status": {
+                    "$id": "#/properties/response/properties/status",
+                    "type": "boolean",
+                    "title": "The status schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        true
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "counter": {
+            "$id": "#/properties/counter",
+            "type": "integer",
+            "title": "The counter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        }
+    },
+    "additionalProperties": true
+}

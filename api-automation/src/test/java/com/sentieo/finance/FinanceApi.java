@@ -544,7 +544,7 @@ public class FinanceApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "fetch2", description = "fetch_main_graph")
+	@Test(groups = {"fetch2", "mobile"} , description = "fetch_main_graph")
 	public void fetchmaingraph() throws Exception {
 		CommonUtil obj = new CommonUtil();
 		String systemDate = "";
@@ -553,6 +553,11 @@ public class FinanceApi extends APIDriver {
 			for (String cell : row) {
 				cell = cell.toLowerCase();
 				tickerData.put("ticker", cell);
+				{
+					if(loc2.equals("ios")) {
+						tickerData.put("loc", "ios");
+					}
+				}
 				RequestSpecification spec = formParamsSpec(tickerData);
 				Response resp = RestOperationUtils.post(FETCH_MAIN_GRAPH, null, spec, tickerData);
 				APIResponse apiResp = new APIResponse(resp);
@@ -598,7 +603,6 @@ public class FinanceApi extends APIDriver {
 					tickerData.put("sp_rel", "true");
 					tickerData.put("ptype", "rolling");
 					tickerData.put("shift", "backward");
-
 					RequestSpecification spec = queryParamsSpec(tickerData);
 					Response resp = RestOperationUtils.get(FETCH_GRAPH_DATA, spec, tickerData);
 					APIResponse apiResp = new APIResponse(resp);
@@ -741,7 +745,7 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "new_model_data", description = "FETCH_NEW_MODEL_DATA")
+	@Test(groups = {"new_model_data","mobile"}, description = "FETCH_NEW_MODEL_DATA")
 	public void fetchNewModelData() throws Exception {
 		String url = APP_URL + FETCH_NEW_MODEL_DATA;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -753,6 +757,9 @@ public class FinanceApi extends APIDriver {
 				tickerData.put("ptype", "fq");
 				tickerData.put("report_currency", "usd");
 				tickerData.put("units", "M");
+				if(loc2.equals("ios")) {
+					tickerData.put("loc", "ios");
+				}
 				try {
 					RequestSpecification spec = queryParamsSpec(tickerData);
 					Response resp = RestOperationUtils.get(url, spec, tickerData);
@@ -796,10 +803,13 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "sanity2", description = "fetch_institutional_holdings_data3")
+	@Test(groups = {"sanity2","mobile"}, description = "fetch_institutional_holdings_data3")
 	public void fetchTickerValues() throws Exception {
 		String URI = APP_URL + FETCH_USER_TICKER_VALUES;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
+		if(loc2.equals("ios")) {
+			tickerData.put("loc", "ios");
+		}
 		for (String[] row : tickers) {
 			for (String cell : row) {
 				cell = cell.toLowerCase();
@@ -868,7 +878,7 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "docs", description = "fetch_institutional_holdings_data3")
+	@Test(groups = {"docs", "mobile"}, description = "fetch_institutional_holdings_data3")
 	public void fetchDocs() throws Exception {
 		String URI = APP_URL + FETCH_DOCS;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -880,6 +890,9 @@ public class FinanceApi extends APIDriver {
 				tickerData.put("size_docs", "6");
 				tickerData.put("size_tweets", "15");
 				tickerData.put("split", "true");
+				if(loc2.equals("ios")) {
+					tickerData.put("loc", "ios");
+				}
 				try {
 					RequestSpecification spec = queryParamsSpec(tickerData);
 					Response resp = RestOperationUtils.get(URI, spec, tickerData);
@@ -940,10 +953,13 @@ public class FinanceApi extends APIDriver {
 		verify.verifyAll();
 	}
 
-	@Test(groups = "company", description = "fetch_institutional_holdings_data3")
+	@Test(groups = {"company","mobile"}, description = "fetch_institutional_holdings_data3")
 	public void fetchCompanyList() throws Exception {
 		String URI = APP_URL + FETCH_COMPANY_LIST;
 		HashMap<String, String> tickerData = new HashMap<String, String>();
+		if(loc2.equals("ios")) {
+			tickerData.put("loc","ios");
+		}
 		try {
 			RequestSpecification spec = queryParamsSpec(tickerData);
 			Response resp = RestOperationUtils.get(URI, spec, tickerData);
