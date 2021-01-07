@@ -2,7 +2,6 @@ package com.sentieo.notebook;
 
 import static com.sentieo.constants.Constants.*;
 
-import java.awt.print.Paper;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,7 +30,6 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.mobile.MobileCalendar;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -52,7 +50,6 @@ public class NotebookApis extends APIDriver {
 
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
-	MobileCalendar mobileCal = null;
 	String URI = null;
 	String locMobile = "";
 	static String tagName = "";
@@ -75,7 +72,6 @@ public class NotebookApis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
-		mobileCal = new MobileCalendar();
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -2295,16 +2291,11 @@ public class NotebookApis extends APIDriver {
 			parameters.put("endDate", year + "-" + current_month + "-" + last_date);
 			if (locMobile.equals("ios")) {
 				parameters.put("loc", locMobile);
-				RequestSpecification spec = formParamsSpecMobile(parameters);
-				resp = RestOperationUtils.post(URI, null, spec, parameters);
-				apiResp = new APIResponse(resp);
-				mobileCal.testCalendarAssertions(apiResp, resp);
-			}else {
+			}
 				RequestSpecification spec = formParamsSpec(parameters);
 				resp = RestOperationUtils.post(URI, null, spec, parameters);
 				apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
-			}
 			
 		} catch (Error je) {
 			je.printStackTrace();

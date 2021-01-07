@@ -4,8 +4,7 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-		<!-- <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" 
-			/> -->
+		<listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener"/> 
 	</listeners>
 
 	<test name="sentieo-tests" preserve-order="true">
@@ -24,8 +23,9 @@
 			<class name ="com.sentieo.finance.FinanceApi" />
 		    <class name ="com.sentieo.finance.MobileFinanceApi" />			
 			<class name="com.sentieo.statements.Statements" />
-			<class name ="com.sentieo.comparables.Comparables" />
 			<class name ="com.sentieo.EDT.FetchGraphDataEstimatesChart" />
+			<class name ="com.sentieo.comparables.Comparables" />
+			<class name ="com.sentieo.screener.Screener"/>
 
 		</classes>
 		
