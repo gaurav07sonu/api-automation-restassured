@@ -13,6 +13,9 @@ import org.json.JSONTokener;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -28,11 +31,20 @@ import com.sentieo.utils.CoreCommonException;
 public class MyAlertsTickersUpdateDelete extends APIDriver {
 
 	String ticker = "aapl";
+	String loc2 = "";
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
 		verify = new APIAssertions();
 	}
+	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		loc2 = loc;
+		System.out.println(loc2);
+	}
+
 
 	@Test(groups = "follow-group", description = "follow tickers for alerts", priority = 1)
 	public void verifyFollowTicker_GetWatchlistData() throws Exception {
@@ -93,12 +105,15 @@ public class MyAlertsTickersUpdateDelete extends APIDriver {
 		}
 	}
 
-	@Test(groups = "follow-group", description = "follow tickers for alerts", priority = 0)
+	@Test(groups = {"follow-group","mobileMainApp"}, description = "follow tickers for alerts", priority = 0)
 	public void followTicker() throws CoreCommonException {
 		String URI = USER_APP_URL + FOLLOW;
 		HashMap<String, String> querydata = new HashMap<String, String>();
 		querydata.put("ticker", ticker);
 		querydata.put("new_wl", "true");
+		if(loc2.equals("ios")) {
+			querydata.put("loc", "ios");
+		}
 		try {
 			JSONObject alertSettings = readJSON();
 			querydata.put("alert_settings", alertSettings.toString());

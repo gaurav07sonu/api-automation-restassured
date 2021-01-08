@@ -116,6 +116,87 @@ public class MobileV2ApisTest extends APIDriver {
 			verify.verifyAll();
 		}
 	}
+	
+	@Test(groups = "mobileMainApp", description = "fin wei mobile api")
+	public void testWeiAnalysisApi() throws Exception {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("loc", "ios");
+			parameters.put("feedback", "testFeedback from automation");
+			parameters.put("displayBy", "ticker");
+			parameters.put("main_filter_value", "xlc,soy,amlp");
+			parameters.put("currency", "usd");
+			parameters.put("columns_type", "price");
+			parameters.put("columns_type_value", "5");
+			
+			
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(APP_URL + FIN_WEI_ANALYSIS_MOBILE ,null,  spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson);
+			verify.verifyEquals(respJson.getJSONObject("response").get("status"), true);
+			verify.verifyTrue(respJson.getJSONObject("result").getJSONArray("wei_analysis_groups") != null,
+					"checking is data empty");
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "mobileMainApp", description = "fin market analysis mobile")
+	public void testFinMarketAnalysisMobile() throws Exception {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("loc", "ios");
+			parameters.put("ticker", "agt");
+			
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(APP_URL + FIN_MARKET_ANALYSIS_MOBILE ,null,  spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson);
+			verify.verifyEquals(respJson.getJSONObject("response").get("status"), true);
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
+	
+	@Test(groups = "mobileMainApp", description = "relative price vs sp")
+	public void testRelativePriceVsSp() throws Exception {
+		try {
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			parameters.put("loc", "ios");
+			parameters.put("ticker", "aapl");
+			
+			RequestSpecification spec = formParamsSpec(parameters);
+			Response resp = RestOperationUtils.post(APP_URL + RELATIVE_PRICEVSSP ,null,  spec, parameters);
+			APIResponse apiResp = new APIResponse(resp);
+			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			verify.verifyResponseTime(resp, 5000);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson);
+			verify.verifyEquals(respJson.getJSONObject("response").get("status"), true);
+			verify.verifyTrue(respJson.getJSONArray("result")!= null, "checking result is not empty");
+		} catch (JSONException je) {
+			je.printStackTrace();
+			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+			verify.verificationFailures.add(je);
+		} finally {
+			verify.verifyAll();
+		}
+	}
 
 	public String fetchWatchlistId() throws CoreCommonException {
 		try {

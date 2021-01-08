@@ -62,9 +62,6 @@ public class AlertNotifiction extends APIDriver {
 					if (res.length() == 0 || res == null)
 						verify.assertTrue(false, "shows blank data for " + alertType);
 				}
-				if(locMobile.equals("ios")) {
-					verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "testNewAlertNotification.json");
-				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
