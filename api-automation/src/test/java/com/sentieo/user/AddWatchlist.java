@@ -141,9 +141,10 @@ public class AddWatchlist extends APIDriver {
 				verify.assertEqualsActualContainsExpected(watchID, id, "Verify watchlist id");
 				boolean addedWatchStatus = userPortfolio(watchName);
 				verify.assertFalse(addedWatchStatus, "Verify watchlist deleted or not?");
-				if(locMobile.equals("ios")) {
-					verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "deleteUserWatchlist.json");
-				}
+				/*
+				 * if(locMobile.equals("ios")) { verify.jsonSchemaValidation(resp, "mobileApis"
+				 * + File.separator + "deleteUserWatchlist.json"); }
+				 */
 			}
 
 		} catch (Exception e) {
@@ -194,9 +195,10 @@ public class AddWatchlist extends APIDriver {
 				verify.assertEquals(watchTickers, tickers, "verify added tickers in watchlist", true);
 				boolean addedWatchStatus = userPortfolio(watchName);
 				verify.assertTrue(addedWatchStatus, "verify watchlist added or not?");
-				if(locMobile.equals("ios")) {
-					verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "addWatchlist.json");
-				}
+				/*
+				 * if(locMobile.equals("ios")) { verify.jsonSchemaValidation(resp, "mobileApis"
+				 * + File.separator + "addWatchlist.json"); }
+				 */
 			}
 
 		}

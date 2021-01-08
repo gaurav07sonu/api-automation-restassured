@@ -493,12 +493,15 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_transform_doc_content")
+	@Test(groups = {"sanity","mobileMainApp"}, description = "fetch_transform_doc_content")
 	public void fetch_transform_doc_content() throws Exception {
 		try {
 			String URI = APP_URL + FETCH_TRANSFORM_DOC_CONTENT;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("id", doc_id);
+			if(locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -917,12 +920,15 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 0)
+	@Test(groups = {"sanity", "mobileMainApp"}, description = "used to view document when user clicks doc from search result", priority = 0)
 	public void index_user_viewed_doc() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + INDEX_USER_VIEWED_DOC;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("doc_id", doc_id);
+			if(locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -1139,7 +1145,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "pdf view for note documents")
+	@Test(groups = {"sanity","mobileMainApp"}, description = "pdf view for note documents")
 	public void get_docnote_pdf() throws CoreCommonException {
 		try {
 			if (docid_note.isEmpty())
@@ -1148,6 +1154,9 @@ public class DocSearchRestApi extends APIDriver {
 				String URI = USER_APP_URL + GET_DOCNOTE_PDF;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
 				queryParams.put("doc_id", docid_note);
+				if(locMobile.equals("ios")) {
+					queryParams.put("loc", "ios");
+				}
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.get(URI, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);

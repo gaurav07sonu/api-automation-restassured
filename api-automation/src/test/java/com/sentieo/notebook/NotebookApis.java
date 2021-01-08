@@ -2869,7 +2869,7 @@ public class NotebookApis extends APIDriver {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(groups = "checktest", description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
+	@Test(groups = {"checktest", "mobileMainApp"}, description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
 	public void search_entities(String moduleType, String sentieoEntity) throws CoreCommonException, IOException {
 		try {
 		for (String[] row : tickers) {
