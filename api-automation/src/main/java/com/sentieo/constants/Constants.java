@@ -25,7 +25,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "mobile-api-app";
+		//String envArg = "app";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -332,4 +332,7 @@ public class Constants {
 	public static final String SAVE_FV_MARKET = "/api/save_fv_market/";
 	public static final String SAVE_FV_WATCHLIST = "/api/save_fv_watchlist/";
 	public static final String ADD_FEEDBACK = "/api/add_feedback/";
+	public static final String FIN_WEI_ANALYSIS_MOBILE = "/api/fin_wei_analysis_mobile/";
+	public static final String FIN_MARKET_ANALYSIS_MOBILE = "/api/fin_market_analysis_mobile/";
+	public static final String RELATIVE_PRICEVSSP = "/api/relativePriceVsSP/";
 }
