@@ -1,0 +1,222 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "owner": {
+                "id": "5f048e567a782c406dbdf398",
+                "type": "group"
+            },
+            "description": "this is a text field",
+            "created_at": "2021-01-14T05:33:27Z",
+            "active": 1,
+            "source": "user",
+            "type": "text",
+            "created_by": "testing.akash",
+            "required": false,
+            "ref": null,
+            "updated_at": "2021-01-14T05:33:27Z",
+            "name": "text-86ef",
+            "options": [],
+            "id": "5fffd7a7f8fe3606e78b6baf",
+            "key": "text-86ef"
+        }
+    ],
+    "required": [
+        "owner",
+        "description",
+        "created_at",
+        "active",
+        "source",
+        "type",
+        "created_by",
+        "required",
+        "ref",
+        "updated_at",
+        "name",
+        "options",
+        "id",
+        "key"
+    ],
+    "properties": {
+        "owner": {
+            "$id": "#/properties/owner",
+            "type": "object",
+            "title": "The owner schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "id": "5f048e567a782c406dbdf398",
+                    "type": "group"
+                }
+            ],
+            "required": [
+                "id",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "$id": "#/properties/owner/properties/id",
+                    "type": "string",
+                    "title": "The id schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "5f048e567a782c406dbdf398"
+                    ]
+                },
+                "type": {
+                    "$id": "#/properties/owner/properties/type",
+                    "type": "string",
+                    "title": "The type schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "group"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "description": {
+            "$id": "#/properties/description",
+            "type": "string",
+            "title": "The description schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "this is a text field"
+            ]
+        },
+        "created_at": {
+            "$id": "#/properties/created_at",
+            "type": "string",
+            "title": "The created_at schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "2021-01-14T05:33:27Z"
+            ]
+        },
+        "active": {
+            "$id": "#/properties/active",
+            "type": "integer",
+            "title": "The active schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                1
+            ]
+        },
+        "source": {
+            "$id": "#/properties/source",
+            "type": "string",
+            "title": "The source schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "user"
+            ]
+        },
+        "type": {
+            "$id": "#/properties/type",
+            "type": "string",
+            "title": "The type schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "text"
+            ]
+        },
+        "created_by": {
+            "$id": "#/properties/created_by",
+            "type": "string",
+            "title": "The created_by schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "testing.akash"
+            ]
+        },
+        "required": {
+            "$id": "#/properties/required",
+            "type": "boolean",
+            "title": "The required schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "ref": {
+            "$id": "#/properties/ref",
+            "type": "null",
+            "title": "The ref schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": null,
+            "examples": [
+                null
+            ]
+        },
+        "updated_at": {
+            "$id": "#/properties/updated_at",
+            "type": "string",
+            "title": "The updated_at schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "2021-01-14T05:33:27Z"
+            ]
+        },
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "The name schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "text-86ef"
+            ]
+        },
+        "options": {
+            "$id": "#/properties/options",
+            "type": "array",
+            "title": "The options schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                []
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/options/items"
+            }
+        },
+        "id": {
+            "$id": "#/properties/id",
+            "type": "string",
+            "title": "The id schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "5fffd7a7f8fe3606e78b6baf"
+            ]
+        },
+        "key": {
+            "$id": "#/properties/key",
+            "type": "string",
+            "title": "The key schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "text-86ef"
+            ]
+        }
+    },
+    "additionalProperties": true
+}
