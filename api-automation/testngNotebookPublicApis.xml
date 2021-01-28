@@ -19,7 +19,6 @@
 					<exclude name="updatingAPrivateNoteWithSpaceAsCharInContent"></exclude>
 				</methods>
 			</class> 
-			<class name="com.sentieo.notebookpublicapis.FieldsPublicApis"></class>
 		</classes>
 	</test>
 </suite>
