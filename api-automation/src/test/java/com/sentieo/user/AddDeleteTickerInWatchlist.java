@@ -13,11 +13,8 @@ import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
@@ -182,11 +179,11 @@ public class AddDeleteTickerInWatchlist extends APIDriver {
 
 				int rand_int1 = rand.nextInt(userWatchlist.length());
 				watchName = jsonArray.get(rand_int1).toString();
-				if (watchName.contains("Benchmarks")) {
+				if (watchName.contains("Benchmarks") || watchName.contains("S&P500")) {
 					do {
 						rand_int1 = rand.nextInt(userWatchlist.length());
 						watchName = jsonArray.get(rand_int1).toString();
-					} while (watchName.contains("Benchmarks"));
+					} while (watchName.contains("Benchmarks")|| watchName.contains("S&P500"));
 
 				}
 				watchTickers = userWatchlist.getJSONObject(watchName).getJSONArray("ticker");
