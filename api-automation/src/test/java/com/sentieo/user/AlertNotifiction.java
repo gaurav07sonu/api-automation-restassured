@@ -1,8 +1,6 @@
 package com.sentieo.user;
 
 import static com.sentieo.constants.Constants.*;
-
-import java.io.File;
 import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
