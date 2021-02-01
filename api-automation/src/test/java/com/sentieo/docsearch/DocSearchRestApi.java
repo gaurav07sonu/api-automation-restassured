@@ -1389,7 +1389,7 @@ public class DocSearchRestApi extends APIDriver {
 	@Test(groups = "sanity", description = "fetching note results in Single tenants only", dataProvider = "fetch_note_search", dataProviderClass = DataProviderClass.class)
 	public void fetch_note_search(String note_type, String filing_type, String filters) throws CoreCommonException {
 
-		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
+		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging") || USER_APP_URL.contains("wellsfargo")) {
 			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
 		} else {
 			try {
