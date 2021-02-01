@@ -83,7 +83,7 @@ public class MobileLoginTest extends APIDriver {
 					"Verify the API Response Status");
 			String msg = respJson.getJSONObject("response").getString("msg").toString();
 			if (msg.contains("Login successful")) {
-				userName = respJson.getJSONObject("result").getString("email").toString();
+				userName = respJson.getJSONObject("result").getString("username").toString();
 				verify.assertEqualsActualContainsExpected(EMAIL, userName, msg);
 			} else {
 				verify.assertTrue(false, msg);
