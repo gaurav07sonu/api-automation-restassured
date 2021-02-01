@@ -1157,13 +1157,40 @@ public class NotebookApis extends APIDriver {
 			}
 			if (!note_id.isEmpty()) {
 				tagName = "tag" + new Date().getTime();
+			// create tag
+				HashMap<String, String> tagdata = new HashMap<String, String>();
+				tagdata.put("category_id", "");
+				tagdata.put("category_tag_name", tagName);
+				tagdata.put("owner", "autotester");
+				
+				String dataJson = jsonUtils.toJson(tagdata);
+			
+			// add tag
 				HashMap<String, String> params = new HashMap<String, String>();
-				params.put("id", note_id);
-				params.put("field", "tag");
+				params.put("category_tag_details", dataJson);
 				params.put("action", "add");
-				params.put("term", tagName);
+				params.put("tag_type", "hash_tag");
+				params.put("group", "");
 
-				RequestSpecification tagSpec = formParamsSpec(params);
+				
+				RequestSpecification setTag = formParamsSpec(params);
+				Response addTagResp = RestOperationUtils.post(USER_APP_URL + CATEGORY_TAGS, null, setTag, params);
+				APIResponse addTagApiResp = new APIResponse(addTagResp);
+
+				verify.verifyStatusCode(addTagApiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(addTagResp, 5000);
+				
+				if(addTagApiResp.getStatusCode()==200) {
+					JSONObject respJson = new JSONObject(addTagApiResp.getResponseAsString());
+					String id = respJson.getJSONArray("result").getJSONObject(0).getString("id");
+				
+				HashMap<String, String> params2 = new HashMap<String, String>();
+				params2.put("id", note_id);
+				params2.put("term", id);
+				params2.put("action", "add");
+				params2.put("field", "tag");
+		
+				RequestSpecification tagSpec = formParamsSpec(params2);
 				Response tagResp = RestOperationUtils.post(USER_APP_URL + UPDATE_TAG_TICKER, null, tagSpec, params);
 				APIResponse tagApiResp = new APIResponse(tagResp);
 
@@ -1180,7 +1207,7 @@ public class NotebookApis extends APIDriver {
 					JSONArray tags = getNoteDetail(note_id).getJSONObject("result").getJSONArray("userTags");
 					boolean tagadded = false;
 					for (int i = 0; i < tags.length(); i++) {
-						if (tags.getString(i).equalsIgnoreCase(tagName)) {
+						if (tags.getString(i).equalsIgnoreCase(id)) {
 							tagadded = true;
 							verify.assertTrue(tagadded, "tag added in note successfully");
 							break;
@@ -1193,6 +1220,9 @@ public class NotebookApis extends APIDriver {
 			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
 			}
+		}else {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, "Tag not set");
+		}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
