@@ -25,7 +25,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "app-public-api";
+		//String envArg = "app";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -204,6 +204,8 @@ public class Constants {
 	public static final String CONSUME_CITATION_LINK = "/api/consume_citation_link/";
 	public static final String GET_NEW_FREE_CITATION_LINK = "/api/get_new_free_citation_link/";
 	public static final String SEARCH_ENTITIES = "/api/search_entities/";
+	public static final String CATEGORY_TAGS = "/api/category_tags/";
+
 
 	// notebook public apis
 	public static final String XUSERKEY = "x-user-key";
