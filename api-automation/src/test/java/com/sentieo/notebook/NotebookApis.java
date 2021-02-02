@@ -1161,7 +1161,7 @@ public class NotebookApis extends APIDriver {
 				HashMap<String, String> tagdata = new HashMap<String, String>();
 				tagdata.put("category_id", "");
 				tagdata.put("category_tag_name", tagName);
-				tagdata.put("owner", "autotester");
+				tagdata.put("owner", username);
 				
 				String dataJson = jsonUtils.toJson(tagdata);
 			
