@@ -29,7 +29,7 @@ import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 
 public class MobileLoginTest extends APIDriver {
-	String userName;
+	String email;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -83,8 +83,8 @@ public class MobileLoginTest extends APIDriver {
 					"Verify the API Response Status");
 			String msg = respJson.getJSONObject("response").getString("msg").toString();
 			if (msg.contains("Login successful")) {
-				userName = respJson.getJSONObject("result").getString("username").toString();
-				verify.assertEqualsActualContainsExpected(EMAIL, userName, msg);
+				email = respJson.getJSONObject("result").getString("email").toString();
+				verify.assertEqualsActualContainsExpected(EMAIL, email, msg);
 			} else {
 				verify.assertTrue(false, msg);
 			}
