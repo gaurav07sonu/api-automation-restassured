@@ -1221,7 +1221,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Updating existing RSS Feed")
+	//@Test(groups = "sanity", description = "Updating existing RSS Feed")
 	public void update_feed() throws CoreCommonException {
 
 		try {
