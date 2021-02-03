@@ -25,7 +25,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "app";
+		//String envArg = "testing-public-api";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -213,10 +213,11 @@ public class Constants {
 	public static final String FILE_UPLOAD = "/files";
 	public static final String LARGE_FILE_UPLOAD = "/file_url";
 	public static final String NOTES = "/notes";
+	public static final String EMAIL_HISTORY = "/notes/email/history";
 	
 	//Fields public apis
 	public static final String FIELDS = "/fields/";
-
+	
 	// security master APIs
 	public static final String ENTITY = "/sm/user/entities";
 	public static final String CHILD_ENTITIES = "/child_entities";

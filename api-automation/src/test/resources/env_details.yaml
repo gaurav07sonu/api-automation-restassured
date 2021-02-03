@@ -73,7 +73,7 @@ appURL: "https://testing.sentieo.com"
 userAppUrl: "https://user-testing.sentieo.com"
 userName: "testakash@testing.sentieo.com"
 password: "Sentieo@123"
-publicApiUrl: "https://api.sentieo.com/v1"
+publicApiUrl: "https://pzeiwi7e75.execute-api.us-east-1.amazonaws.com/devv1"
 xapikey: "FZZbe4oBBX7dd3XMQjzw02e5JTEfZvFS5mNKi47G"
 xuserkey: "testakash@testing.sentieo.com"
 ---
