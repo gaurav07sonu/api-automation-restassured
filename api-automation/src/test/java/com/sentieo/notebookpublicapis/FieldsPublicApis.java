@@ -127,6 +127,7 @@ public class FieldsPublicApis extends APIDriver {
 			APIResponse apiRespForFetch = new APIResponse(respForFetch);
 			verify.verifyStatusCode(apiRespForFetch.getStatusCode(), 200);
 			verify.verifyResponseTime(respForFetch, 5000);
+			if(apiRespForFetch.getStatusCode() ==200) {
 			JSONObject respJsonForFetch = new JSONObject(apiRespForFetch.getResponseAsString());
 			verify.verifyTrue(respJsonForFetch.getJSONArray("entries") !=null, "Checking json is not empty");
 			JSONObject firstElement = (JSONObject) respJsonForFetch.getJSONArray("entries").get(0);
@@ -139,6 +140,7 @@ public class FieldsPublicApis extends APIDriver {
 			APIResponse deleteApiResp = new APIResponse(deleteResp);
 			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
 			verify.verifyResponseTime(deleteResp, 5000);
+			}
 			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -188,6 +190,8 @@ public class FieldsPublicApis extends APIDriver {
 			APIResponse apiRespForFetch = new APIResponse(respForFetch);
 			verify.verifyStatusCode(apiRespForFetch.getStatusCode(), 200);
 			verify.verifyResponseTime(respForFetch, 5000);
+			if(apiRespForFetch.getStatusCode() == 200) {
+				
 			JSONObject respJsonForFetch = new JSONObject(apiRespForFetch.getResponseAsString());
 			verify.verifyTrue(respJsonForFetch.getJSONArray("entries") !=null, "Checking json is not empty");
 			JSONObject firstElement = (JSONObject) respJsonForFetch.getJSONArray("entries").get(0);
@@ -200,6 +204,7 @@ public class FieldsPublicApis extends APIDriver {
 			APIResponse deleteApiResp = new APIResponse(deleteResp);
 			verify.verifyStatusCode(deleteApiResp.getStatusCode(), 204);
 			verify.verifyResponseTime(deleteResp, 5000);
+			}
 			}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -249,7 +254,7 @@ public class FieldsPublicApis extends APIDriver {
 			APIResponse apiRespForFetch = new APIResponse(respForFetch);
 			verify.verifyStatusCode(apiRespForFetch.getStatusCode(), 200);
 			verify.verifyResponseTime(respForFetch, 5000);
-			if (apiResp.getStatusCode() == 201) {
+			if (apiResp.getStatusCode() == 200) {
 			JSONObject respJsonForFetch = new JSONObject(apiRespForFetch.getResponseAsString());
 			verify.verifyTrue(respJsonForFetch.getJSONArray("entries") !=null, "Checking json is not empty");
 			JSONObject firstElement = (JSONObject) respJsonForFetch.getJSONArray("entries").get(0);
@@ -439,6 +444,7 @@ public class FieldsPublicApis extends APIDriver {
 			APIResponse updateApiResp = new APIResponse(updateResp);
 			verify.verifyStatusCode(updateApiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(updateResp, 5000);
+			if(updateApiResp.getStatusCode() == 200) {
 			JSONObject updateRespJson = new JSONObject(updateApiResp.getResponseAsString());
 			verify.verifyEquals(updateRespJson.get("description"), "updated -this is a text field", "Checking updated field description");
 			verify.verifyEquals(updateRespJson.get("name"), updatedName, "Checking updated name");
@@ -460,7 +466,7 @@ public class FieldsPublicApis extends APIDriver {
 			verify.verifyResponseTime(fieldResp, 5000);
 			JSONObject fieldJson = new JSONObject(fieldApiResp.getResponseAsString());
 			verify.verifyTrue(fieldJson.getJSONObject("error")!= null, "checking error exists or not");
-		} }catch (JSONException je) {
+		} }}catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
 		} finally {

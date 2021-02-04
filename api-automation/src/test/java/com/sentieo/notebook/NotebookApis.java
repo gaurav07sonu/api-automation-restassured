@@ -1165,7 +1165,6 @@ public class NotebookApis extends APIDriver {
 				
 				String dataJson = jsonUtils.toJson(tagdata);
 			
-			// add tag
 				HashMap<String, String> params = new HashMap<String, String>();
 				params.put("category_tag_details", dataJson);
 				params.put("action", "add");
@@ -1183,7 +1182,8 @@ public class NotebookApis extends APIDriver {
 				if(addTagApiResp.getStatusCode()==200) {
 					JSONObject respJson = new JSONObject(addTagApiResp.getResponseAsString());
 					String id = respJson.getJSONArray("result").getJSONObject(0).getString("id");
-				
+			
+					//add tag
 				HashMap<String, String> params2 = new HashMap<String, String>();
 				params2.put("id", note_id);
 				params2.put("term", id);
