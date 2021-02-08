@@ -3162,7 +3162,7 @@ public class SecurityMasterApiTest extends APIDriver {
 			JSONObject status = respJson1.getJSONObject("status");
 			JSONArray jsonArray = status.getJSONArray("msg");
 			verify.verifyEquals(jsonArray.get(0), "Invalid Parameters");
-			verify.verifyEquals(jsonArray.get(1), "only one of these parameters is allowed - ciq_tickers, figi, bloomberg_ticker, permid, ric, isin, cusip, crunchbase_uuid, identifier");
+			verify.verifyEquals(jsonArray.get(1), "only one of these parameters is allowed - ciq_tickers, figi, bloomberg_ticker, permid, ric, isin, cusip, crunchbase_uuid");
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
