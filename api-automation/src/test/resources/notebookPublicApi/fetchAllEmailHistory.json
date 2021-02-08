@@ -1,0 +1,181 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "http://example.com/example.json",
+	"type": "object",
+	"title": "The root schema",
+	"description": "The root schema comprises the entire JSON document.",
+	"default": {
+		
+	},
+	"examples": [
+		{
+			"total_count": 4698,
+			"offset": 0,
+			"limit": 25,
+			"entries": [
+				{
+					"from_email": "keshav.garg@sentieo.com",
+					"to_email": "alphatest@check.sentieo.com",
+					"reason": "",
+					"date": "2018-03-19T06:48:53",
+					"id": "5aaf5d5585e380418800000f",
+					"subject": ""
+				}
+			]
+		}
+	],
+	"required": [
+		"total_count",
+		"offset",
+		"limit",
+		"entries"
+	],
+	"properties": {
+		"total_count": {
+			"$id": "#/properties/total_count",
+			"type": "integer",
+			"title": "The total_count schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": 0,
+			"examples": [
+				4698
+			]
+		},
+		"offset": {
+			"$id": "#/properties/offset",
+			"type": "integer",
+			"title": "The offset schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": 0,
+			"examples": [
+				0
+			]
+		},
+		"limit": {
+			"$id": "#/properties/limit",
+			"type": "integer",
+			"title": "The limit schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": 0,
+			"examples": [
+				25
+			]
+		},
+		"entries": {
+			"$id": "#/properties/entries",
+			"type": "array",
+			"title": "The entries schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": [],
+			"examples": [
+				[
+					{
+						"from_email": "keshav.garg@sentieo.com",
+						"to_email": "alphatest@check.sentieo.com",
+						"reason": "",
+						"date": "2018-03-19T06:48:53",
+						"id": "5aaf5d5585e380418800000f",
+						"subject": ""
+					}
+				]
+			],
+			"additionalItems": true,
+			"items": {
+				"$id": "#/properties/entries/items",
+				"anyOf": [
+					{
+						"$id": "#/properties/entries/items/anyOf/0",
+						"type": "object",
+						"title": "The first anyOf schema",
+						"description": "An explanation about the purpose of this instance.",
+						"default": {
+							
+						},
+						"examples": [
+							{
+								"from_email": "keshav.garg@sentieo.com",
+								"to_email": "alphatest@check.sentieo.com",
+								"reason": "",
+								"date": "2018-03-19T06:48:53",
+								"id": "5aaf5d5585e380418800000f",
+								"subject": ""
+							}
+						],
+						"required": [
+							"from_email",
+							"to_email",
+							"reason",
+							"date",
+							"id",
+							"subject"
+						],
+						"properties": {
+							"from_email": {
+								"$id": "#/properties/entries/items/anyOf/0/properties/from_email",
+								"type": "string",
+								"title": "The from_email schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": "",
+								"examples": [
+									"keshav.garg@sentieo.com"
+								]
+							},
+							"to_email": {
+								"$id": "#/properties/entries/items/anyOf/0/properties/to_email",
+								"type": "string",
+								"title": "The to_email schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": "",
+								"examples": [
+									"alphatest@check.sentieo.com"
+								]
+							},
+							"reason": {
+								"$id": "#/properties/entries/items/anyOf/0/properties/reason",
+								"type": "string",
+								"title": "The reason schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": "",
+								"examples": [
+									""
+								]
+							},
+							"date": {
+								"$id": "#/properties/entries/items/anyOf/0/properties/date",
+								"type": "string",
+								"title": "The date schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": "",
+								"examples": [
+									"2018-03-19T06:48:53"
+								]
+							},
+							"id": {
+								"$id": "#/properties/entries/items/anyOf/0/properties/id",
+								"type": "string",
+								"title": "The id schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": "",
+								"examples": [
+									"5aaf5d5585e380418800000f"
+								]
+							},
+							"subject": {
+								"$id": "#/properties/entries/items/anyOf/0/properties/subject",
+								"type": "string",
+								"title": "The subject schema",
+								"description": "An explanation about the purpose of this instance.",
+								"default": "",
+								"examples": [
+									""
+								]
+							}
+						},
+						"additionalProperties": true
+					}
+				]
+			}
+		}
+	},
+	"additionalProperties": true
+}
