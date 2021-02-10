@@ -27,12 +27,14 @@ import com.sentieo.utils.JSONUtils;
 public class EmailHistory extends APIDriver {
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
+	String xuserKey;
 
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
 		RestAssured.baseURI = PUBLIC_API_URL;
+		xuserKey = PUBLIC_API_URL.contains("devv1") ? xuserKey = "gaurav.anand@sentieo.com" : X_USER_KEY;
 	}
 
 	@Test(description = "fetch All email history", priority = 1)
@@ -40,7 +42,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(EMAIL_HISTORY, spec, null);
@@ -65,7 +67,7 @@ public class EmailHistory extends APIDriver {
 	public void fetchAllEmailHistoryWIthoutXApiKey() throws Exception {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(EMAIL_HISTORY, spec, null);
@@ -92,7 +94,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("start_date", "2020-03-19T12:02:23");
@@ -128,7 +130,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			RequestSpecification spec = requestHeadersSpecForPublicApis(headerParams);
 			Response resp = RestOperationUtils.get(EMAIL_HISTORY, spec, null);
@@ -158,7 +160,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("limit", "2");
@@ -188,7 +190,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("offset", "6");
@@ -218,7 +220,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("from_email", "no-reply@mail.sentieo.com");
@@ -252,7 +254,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			HashMap<String, String> filters = new HashMap<String, String>();
 			filters.put("from_email", "research@schrodersmail.sentieo.com");
@@ -282,7 +284,7 @@ public class EmailHistory extends APIDriver {
 		try {
 			HashMap<String, String> headerParams = new HashMap<String, String>();
 			headerParams.put(XAPIKEY, X_API_KEY);
-			headerParams.put(XUSERKEY, X_USER_KEY);
+			headerParams.put(XUSERKEY, xuserKey);
 
 			String invalidEmail = "cx@sentieo";
 			HashMap<String, String> filters = new HashMap<String, String>();
