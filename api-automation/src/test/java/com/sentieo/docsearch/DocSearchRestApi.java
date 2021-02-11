@@ -54,6 +54,7 @@ public class DocSearchRestApi extends APIDriver {
 	static String docid_note = "";
 	String locMobile = "";
 	static JSONUtils jsonUtils = null;
+	static String searchName = "";
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
@@ -955,13 +956,15 @@ public class DocSearchRestApi extends APIDriver {
 	public void save_user_search() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + SAVE_USER_SEARCH;
+			searchName = "sales" + new Date().getTime();
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("counter", "1");
 			queryParams.put("query", "sales");
 			queryParams.put("filters",
 					"{\"ticker\":{},\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"date\":{},\"other\":{}}");
 			queryParams.put("force_save", "true");
-			queryParams.put("name", "sales" + new Date().getTime());
+			queryParams.put("name", searchName);
+			queryParams.put("pticker_setting", "true");
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -982,7 +985,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanisadssty", description = "fetches meta info like date, file type etc.")
+	@Test(groups = "sanity", description = "fetches meta info like date, file type etc.")
 	public void fetch_files_meta_data() throws CoreCommonException {
 		try {
 			if (!APP_URL.contains("schroders")) {
@@ -1029,7 +1032,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sasdsaanity", description = "load file contents")
+	@Test(groups = "sanity", description = "load file contents")
 	public void fetch_file_content() throws CoreCommonException {
 		try {
 			if (!APP_URL.contains("schroders")) {
@@ -1064,13 +1067,14 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "saves user searches")
-	public void load_user_search() throws CoreCommonException {
+	public void user_load_search() throws CoreCommonException {
 		try {
 			do {
 				JSONArray data = load_userSearchs();
 				if (data.length() > 0) {
 					for (int i = 0; i < data.length(); i++) {
-						if (!data.getJSONObject(i).has("shared_by")) {
+						String name = data.getJSONObject(i).getString("name");
+						if (name.toLowerCase().trim().equalsIgnoreCase(searchName.toLowerCase().trim())) {
 							uss_ids = data.getJSONObject(i).getString("id");
 							uss_data = data.getJSONObject(i);
 							break;
@@ -1092,7 +1096,7 @@ public class DocSearchRestApi extends APIDriver {
 	public void load_saved_search_data() throws CoreCommonException {
 		try {
 			if (uss_ids.isEmpty())
-				load_user_search();
+				user_load_search();
 			if (!uss_ids.isEmpty()) {
 				String URI = APP_URL + LOAD_SAVED_SEARCH_DATA;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -1130,10 +1134,10 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "deletes user`s saved searches")
-	public void delete_saved_search() throws CoreCommonException {
+	public void user_saved_search_delete() throws CoreCommonException {
 		try {
 			if (uss_ids.isEmpty())
-				load_user_search();
+				user_load_search();
 			if (!uss_ids.isEmpty()) {
 				String URI = USER_APP_URL + DELETE_SAVED_SEARCH;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -1493,7 +1497,7 @@ public class DocSearchRestApi extends APIDriver {
 
 	public JSONArray setNoteTypeDocId() throws CoreCommonException {
 		String URI = "";
-		if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch")
+		if (APP_URL.contains("app") || APP_URL.contains("app2") || APP_URL.contains("testing") || APP_URL.contains("docsearch")
 				|| APP_URL.contains("staging") || APP_URL.contains("sandbox"))
 			URI = APP_URL + FETCH_SEARCH;
 		else
