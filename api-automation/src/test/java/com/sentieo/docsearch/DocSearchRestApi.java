@@ -953,7 +953,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "saves user searches")
-	public void save_user_search() throws CoreCommonException {
+	public void perform_user_save_search() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + SAVE_USER_SEARCH;
 			searchName = "sales" + new Date().getTime();
@@ -1083,7 +1083,7 @@ public class DocSearchRestApi extends APIDriver {
 				}
 
 				else
-					save_user_search();
+					perform_user_save_search();
 			} while (uss_ids.isEmpty());
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
@@ -1093,7 +1093,7 @@ public class DocSearchRestApi extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "load_saved_search_data")
-	public void load_saved_search_data() throws CoreCommonException {
+	public void user_saved_search_data_load() throws CoreCommonException {
 		try {
 			if (uss_ids.isEmpty())
 				user_load_search();
