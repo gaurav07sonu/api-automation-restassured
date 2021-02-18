@@ -3046,7 +3046,7 @@ public class NotebookPublicApis extends APIDriver {
 		}
 	}
 	
-	@Test(description = "Upload an empty file", priority = 57, enabled = false)
+	@Test(description = "Upload an empty file", priority = 57)
 	public void uploadAnEmptyFile() throws Exception {
 		try {
 
