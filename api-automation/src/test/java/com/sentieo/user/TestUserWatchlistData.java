@@ -74,7 +74,7 @@ public class TestUserWatchlistData extends APIDriver {
 				}
 			}
 		}
-		verify.verifyEquals(portfolio.length(), watchlistPortfolio.length(), "");
+		verify.verifyEquals(portfolio.length(), watchlistPortfolio.length(), "Verify userportfolio and watchlist manager watchlists");
 		verify.verifyAll();
 	}
 	public org.json.JSONArray getUserWatchlists() throws Exception {

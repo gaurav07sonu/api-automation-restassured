@@ -5,7 +5,7 @@
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
 		 <listener
-			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
+			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" /> 
 	</listeners>
 
 	<test name="notebookPublic" preserve-order="true">
@@ -18,7 +18,7 @@
 					<exclude name="testSoftDeleteAndRestoreOfNote"/>
 					<exclude name="updatingAPrivateNoteWithSpaceAsCharInContent"></exclude>
 				</methods>
-			</class>
+			</class> 
 		</classes>
 	</test>
 </suite>

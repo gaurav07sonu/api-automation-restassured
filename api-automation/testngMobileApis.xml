@@ -4,20 +4,28 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-		<listener
-			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
+		  <listener
+			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" /> 
 	</listeners>
 
 	<test name="Mobile APIs" preserve-order="true">
 		<parameter name="loc" value="ios" />
 		<groups>
 			<run>
-				<include name="mobile" />
+				<include name="mobileMainApp" />
 			</run>
 		</groups>
 		<classes>
-			<class name="com.sentieo.mobile.MobileLoginTest" />
+			 <class name="com.sentieo.mobile.MobileLoginTest" /> 
 			<class name="com.sentieo.notebook.NotebookApis" />
+			<class name="com.sentieo.docsearch.DocumentSearch" />
+			<class name="com.sentieo.user.AlertNotifiction" />
+			<class name="com.sentieo.docsearch.DocSearchRestApi" />
+			<class name="com.sentieo.user.AddWatchlist"></class>
+			<class name="com.sentieo.user.AddDeleteTickerInWatchlist"></class>
+			<class name="com.sentieo.stream.UnifiedStream"></class> 
+			<class name="com.sentieo.mobile.MobileV2ApisTest"></class>
+			<class name="com.sentieo.user.MyAlertsTickersUpdateDelete"></class>
 		</classes>
 	</test>
 </suite>

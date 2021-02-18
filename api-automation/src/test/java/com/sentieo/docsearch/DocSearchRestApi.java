@@ -2,9 +2,12 @@ package com.sentieo.docsearch;
 
 import static com.sentieo.constants.Constants.*;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.jayway.restassured.response.Response;
@@ -26,6 +32,7 @@ import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CoreCommonException;
+import com.sentieo.utils.JSONUtils;
 
 public class DocSearchRestApi extends APIDriver {
 
@@ -36,8 +43,8 @@ public class DocSearchRestApi extends APIDriver {
 	APIAssertions verify = new APIAssertions();
 	static String uss_ids = "";
 	static JSONObject uss_data = null;
-	static String feed_name = "";
-	static String feed_url = "";
+	static String label = "";
+	static String url = "";
 	static String feed_req_id = "";
 	static String did = "";
 	static JSONArray doc_arr; // doc list 30size
@@ -45,10 +52,19 @@ public class DocSearchRestApi extends APIDriver {
 	static String docid_filling = "";
 	static String custom_doc_id_filling = "";
 	static String docid_note = "";
+	String locMobile = "";
+	static JSONUtils jsonUtils = null;
 
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
+		jsonUtils = new JSONUtils();
+	}
+
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -130,13 +146,17 @@ public class DocSearchRestApi extends APIDriver {
 
 //	Fetching doc info	
 
-	@Test(groups = "sanity", description = "Fetching doc info")
+	@Test(groups = { "sanity", "mobileMainApp" }, description = "Fetching doc info")
 	public void fetch_docs_meta_data() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_DOCS_META_DATA;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			String docID = "[" + "\"" + doc_id + "\"" + "]";
 			queryParams.put("doc_ids", docID);
+
+			if (locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -250,7 +270,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_impact_score")
+	@Test(groups = { "sanity", "mobileMainApp" }, description = "fetch_impact_score")
 	public void fetch_impact_score() throws CoreCommonException {
 		try {
 			if (doc_arr.length() > 0) {
@@ -263,6 +283,9 @@ public class DocSearchRestApi extends APIDriver {
 				HashMap<String, String> queryParams = new HashMap<String, String>();
 				queryParams.put("did", did);
 				queryParams.put("query", "sales");
+				if (locMobile.equals("ios")) {
+					queryParams.put("loc", "ios");
+				}
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
@@ -297,7 +320,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
+//	@Test(groups = "sanity", description = "fetch_company_docs", dataProvider = "fetch_search_SearchOnly", dataProviderClass = DataProviderClass.class)
 	public void fetch_company_docs(String ticker) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_COMPANY_DOCS;
@@ -348,7 +371,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Fetch Sections")
+	@Test(groups = { "sanity", "mobileMainApp" }, description = "Fetch Sections")
 	public void fetch_sections() throws CoreCommonException {
 		try {
 			HashMap<String, String> queryParams = new HashMap<String, String>();
@@ -362,6 +385,9 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			JSONObject result = respJson.getJSONObject("result").getJSONObject("sections");
+			if (locMobile.equals("ios")) {
+				verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "fetch_sections.json");
+			}
 			String key;
 			Iterator<String> keys = result.keys();
 			while (keys.hasNext() && result != null) {
@@ -466,12 +492,15 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_transform_doc_content")
+	@Test(groups = { "sanity", "mobileMainApp" }, description = "fetch_transform_doc_content")
 	public void fetch_transform_doc_content() throws Exception {
 		try {
 			String URI = APP_URL + FETCH_TRANSFORM_DOC_CONTENT;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("id", doc_id);
+			if (locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -653,13 +682,18 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "query_suggest_autocomplete", dataProvider = "autocomplete", dataProviderClass = DataProviderClass.class)
+	@Test(groups = { "sanity",
+			"mobileMainApp" }, description = "query_suggest_autocomplete", dataProvider = "autocomplete", dataProviderClass = DataProviderClass.class)
 	public void query_suggest_autocomplete(String text, String tickers) throws CoreCommonException {
 		try {
 			String URI = APP_URL + QUERY_SUGGEST_AUTOCOMPLETE;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("text", text);
 			queryParams.put("tickers", tickers);
+
+			if (locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.get(URI, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -669,6 +703,9 @@ public class DocSearchRestApi extends APIDriver {
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 				JSONArray autocompleteResult = respJson.getJSONArray("result");
 				verify.assertTrue(autocompleteResult.length() != 0, "Verify Query Autocomple ");
+			}
+			if (locMobile.equals("ios")) {
+				verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "query_suggest_autocomplete.json");
 			}
 		} catch (JSONException e) {
 			throw new CoreCommonException(e);
@@ -707,7 +744,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "fetch_snippets")
+	@Test(groups = { "sanity", "mobileMainApp" }, description = "fetch_snippets")
 	public void fetch_snippets() throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SNIPPETS;
@@ -718,7 +755,9 @@ public class DocSearchRestApi extends APIDriver {
 			queryParams.put("tickers", doc_ticker);
 			queryParams.put("snippet_fragment_size", "400");
 			queryParams.put("synonym_setting", DocumentSearch.isSynonym);
-
+			if (locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -731,12 +770,18 @@ public class DocSearchRestApi extends APIDriver {
 				JSONArray docs = respJson.getJSONObject("result").getJSONArray("docs");
 				verify.assertTrue(docs.length() > 0, "doc should be present");
 				if (docs.length() > 0) {
-					JSONArray main_content = docs.getJSONObject(0).getJSONObject("highlights")
-							.getJSONArray("main_content");
-					for (int i = 0; i < main_content.length(); i++) {
-						if (main_content.getJSONArray(i).getString(0).isEmpty()) {
-							verify.assertTrue(false, "snippet not present for doc : " + doc_id);
-							ExtentTestManager.getTest().log(LogStatus.INFO, main_content.getJSONArray(i).getString(0));
+					if (locMobile.equals("ios")) {
+						JSONArray mobileContent = docs.getJSONObject(0).getJSONArray("highlights");
+						verify.assertTrue(mobileContent.length() > 0, "Content length check");
+					} else {
+						JSONArray main_content = docs.getJSONObject(0).getJSONObject("highlights")
+								.getJSONArray("main_content");
+						for (int i = 0; i < main_content.length(); i++) {
+							if (main_content.getJSONArray(i).getString(0).isEmpty()) {
+								verify.assertTrue(false, "snippet not present for doc : " + doc_id);
+								ExtentTestManager.getTest().log(LogStatus.INFO,
+										main_content.getJSONArray(i).getString(0));
+							}
 						}
 					}
 				}
@@ -877,12 +922,16 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "used to view document when user clicks doc from search result", priority = 0)
+	@Test(groups = { "sanity",
+			"mobileMainApp" }, description = "used to view document when user clicks doc from search result", priority = 0)
 	public void index_user_viewed_doc() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + INDEX_USER_VIEWED_DOC;
 			HashMap<String, String> queryParams = new HashMap<String, String>();
 			queryParams.put("doc_id", doc_id);
+			if (locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			RequestSpecification spec = formParamsSpec(queryParams);
 			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 			APIResponse apiResp = new APIResponse(resp);
@@ -1020,9 +1069,16 @@ public class DocSearchRestApi extends APIDriver {
 			do {
 				JSONArray data = load_userSearchs();
 				if (data.length() > 0) {
-					uss_ids = data.getJSONObject(0).getString("id");
-					uss_data = data.getJSONObject(0);
-				} else
+					for (int i = 0; i < data.length(); i++) {
+						if (!data.getJSONObject(i).has("shared_by")) {
+							uss_ids = data.getJSONObject(i).getString("id");
+							uss_data = data.getJSONObject(i);
+							break;
+						}
+					}
+				}
+
+				else
 					save_user_search();
 			} while (uss_ids.isEmpty());
 		} catch (Exception e) {
@@ -1099,7 +1155,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "pdf view for note documents")
+	@Test(groups = { "sanity", "mobileMainApp" }, description = "pdf view for note documents")
 	public void get_docnote_pdf() throws CoreCommonException {
 		try {
 			if (docid_note.isEmpty())
@@ -1108,6 +1164,9 @@ public class DocSearchRestApi extends APIDriver {
 				String URI = USER_APP_URL + GET_DOCNOTE_PDF;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
 				queryParams.put("doc_id", docid_note);
+				if (locMobile.equals("ios")) {
+					queryParams.put("loc", "ios");
+				}
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.get(URI, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
@@ -1127,8 +1186,6 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-
-
 	@Test(groups = "sanity", description = "Requesting for RSS Feed")
 	public void request_feed() throws CoreCommonException {
 		try {
@@ -1136,9 +1193,16 @@ public class DocSearchRestApi extends APIDriver {
 				fetch_search_filters();
 			if (!feed_req_id.isEmpty()) {
 				String URI = APP_URL + REQUEST_FEED;
+				HashMap<String, String> rssparams = new HashMap<String, String>();
+				rssparams.put("label", label);
+				rssparams.put("url", url);
+				List<HashMap<String, String>> feed_listParam = new ArrayList<>();
+				feed_listParam.add(rssparams);
+				String json = jsonUtils.toJson(feed_listParam);
+
 				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("feed_name", feed_name);
-				queryParams.put("feed_url", feed_url);
+				queryParams.put("feed_list", json);
+
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 				APIResponse apiResp = new APIResponse(resp);
@@ -1147,9 +1211,9 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyResponseTime(resp, 10000);
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
-				feed_req_id = respJson.getJSONObject("result").getString("feed_req_id");
+				url = respJson.getJSONArray("result").getJSONObject(0).getString("url");
 			} else
-				verify.assertTrue(false, "feed not present");
+				verify.assertTrue(false, "url not present");
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -1157,7 +1221,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", description = "Updating existing RSS Feed")
+	//@Test(groups = "sanity", description = "Updating existing RSS Feed")
 	public void update_feed() throws CoreCommonException {
 
 		try {
@@ -1167,8 +1231,8 @@ public class DocSearchRestApi extends APIDriver {
 				String URI = APP_URL + UPDATE_FEED;
 				HashMap<String, String> queryParams = new HashMap<String, String>();
 				queryParams.put("feed_req_id", feed_req_id);
-				queryParams.put("feed_name", feed_name);
-				queryParams.put("feed_url", feed_url);
+				queryParams.put("label", label);
+				queryParams.put("url", url);
 
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -1195,8 +1259,15 @@ public class DocSearchRestApi extends APIDriver {
 				fetch_search_filters();
 			if (!feed_req_id.isEmpty()) {
 				String URI = APP_URL + UNSUBSCRIBE_FEED;
+				HashMap<String, String> rssparams = new HashMap<String, String>();
+				rssparams.put("feed_req_id", feed_req_id);
+
+				List<HashMap<String, String>> feed_listParam = new ArrayList<>();
+				feed_listParam.add(rssparams);
+				String feed_list = jsonUtils.toJson(feed_listParam);
+
 				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("feed_req_id", feed_req_id);
+				queryParams.put("feed_list", feed_list);
 
 				RequestSpecification spec = formParamsSpec(queryParams);
 				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
@@ -1214,7 +1285,7 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 	}
-	
+
 	@Test(groups = "sanity", description = "fetching note info from doc")
 	public void fetch_document_note_info() throws CoreCommonException {
 		try {
@@ -1267,18 +1338,27 @@ public class DocSearchRestApi extends APIDriver {
 				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 						"Verify the API Response Status");
 				if (respJson.getJSONObject("result") != null) {
-					JSONObject rss = respJson.getJSONObject("result").getJSONObject("filters")
-							.getJSONObject("rss_parent").getJSONArray("rss").getJSONObject(0);
-					if (rss != null) {
-						feed_name = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("label");
-						feed_url = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("url");
-						feed_req_id = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
-								.getJSONObject(0).getString("feed_req_id");
+					JSONArray doctype = respJson.getJSONObject("result").getJSONObject("filters")
+							.getJSONObject("doctype_parent").getJSONArray("doctype");
+					if (doctype.length() != 0) {
+						for (int i = 0; i < doctype.length(); i++) {
+							JSONObject rss = doctype.getJSONObject(i);
+							String title = rss.getJSONArray("categories").getJSONObject(0).getString("title");
+							if (title.equalsIgnoreCase("RSS Feeds")) {
+								if (rss != null) {
+									label = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+											.getJSONObject(0).getString("label");
+									url = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+											.getJSONObject(0).getString("url");
+									feed_req_id = rss.getJSONArray("categories").getJSONObject(0).getJSONArray("items")
+											.getJSONObject(0).getString("feed_req_id");
+								}
+							}
+						}
 					}
 				}
 			}
+
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		} finally {
@@ -1313,7 +1393,8 @@ public class DocSearchRestApi extends APIDriver {
 	@Test(groups = "sanity", description = "fetching note results in Single tenants only", dataProvider = "fetch_note_search", dataProviderClass = DataProviderClass.class)
 	public void fetch_note_search(String note_type, String filing_type, String filters) throws CoreCommonException {
 
-		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
+		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")
+				|| USER_APP_URL.contains("staging") || USER_APP_URL.contains("wellsfargo")) {
 			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
 		} else {
 			try {
@@ -1349,7 +1430,8 @@ public class DocSearchRestApi extends APIDriver {
 
 	@Test(groups = "sanity", description = "Showing content of note docs in Single tenants only", dataProvider = "fetch_transform_note_content", dataProviderClass = DataProviderClass.class)
 	public void fetch_transform_note_content(String doc_type, String id) throws CoreCommonException {
-		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging") || APP_URL.contains("sandbox")) {
+		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")
+				|| USER_APP_URL.contains("staging") || APP_URL.contains("sandbox")) {
 			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
 		} else {
 			try {
@@ -1411,7 +1493,8 @@ public class DocSearchRestApi extends APIDriver {
 
 	public JSONArray setNoteTypeDocId() throws CoreCommonException {
 		String URI = "";
-		if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch") || APP_URL.contains("staging") || APP_URL.contains("sandbox"))
+		if (APP_URL.contains("app") || APP_URL.contains("testing") || APP_URL.contains("docsearch")
+				|| APP_URL.contains("staging") || APP_URL.contains("sandbox"))
 			URI = APP_URL + FETCH_SEARCH;
 		else
 			URI = USER_APP_URL + FETCH_NOTE_SEARCH;
@@ -1432,16 +1515,16 @@ public class DocSearchRestApi extends APIDriver {
 			JSONObject respJsonDoc = new JSONObject(apiRespDoc.getResponseAsString());
 			verify.verifyEquals(respJsonDoc.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
-			int total_results = 0 ;
+			int total_results = 0;
 			try {
 				Object total_result = respJsonDoc.getJSONObject("result").get("total_results");
-				if(total_result instanceof Integer) {
+				if (total_result instanceof Integer) {
 					total_results = (int) total_result;
-				}else {
+				} else {
 					String checktest = (String) total_result;
 					checktest = checktest.replaceAll("[^0-9]", "");
 					total_results = Integer.valueOf(checktest);
-				}					
+				}
 			} catch (Exception e) {
 				verify.assertTrue(false, "total result object incorrect : " + e.toString());
 			}
@@ -1483,6 +1566,5 @@ public class DocSearchRestApi extends APIDriver {
 		}
 		return data;
 	}
-	
 
 }

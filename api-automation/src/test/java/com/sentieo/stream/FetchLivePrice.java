@@ -9,6 +9,9 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -21,6 +24,7 @@ import com.sentieo.utils.CoreCommonException;
 public class FetchLivePrice extends APIDriver {
 
 	APIResponse apiResp = null;
+	String locMobile = "";
 	Response resp = null;
 	public static ArrayList<String> tickers = new ArrayList<String>(
 			Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr", "awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack",
@@ -37,8 +41,15 @@ public class FetchLivePrice extends APIDriver {
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
+	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
+	}
 
-	@Test(groups = { "heart-beat" }, description = "Check fetch live price")
+
+	@Test(groups = { "heart-beat", "mobile"}, description = "Check fetch live price")
 	public void fetchLivePrice() throws CoreCommonException {
 		int i = 0;
 		String URI = APP_URL + FETCH_LIVE_PRICE;
@@ -47,6 +58,9 @@ public class FetchLivePrice extends APIDriver {
 			String ticker = tickers.toString();
 			ticker = ticker.replaceAll("\\[", "").replaceAll("\\]", "");
 			parameters.put("tickers", ticker);
+			if(locMobile.equals("ios")) {
+				parameters.put("loc", "ios");
+			}
 			RequestSpecification spec = queryParamsSpec(parameters);
 			resp = RestOperationUtils.get(URI, spec, parameters);
 			apiResp = new APIResponse(resp);

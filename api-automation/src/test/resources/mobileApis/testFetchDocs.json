@@ -1,0 +1,257 @@
+{
+	"definitions": {
+		
+	},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"title": "The Root Schema",
+	"required": [
+		"counter",
+		"result",
+		"response"
+	],
+	"properties": {
+		"counter": {
+			"$id": "#/properties/counter",
+			"type": "string",
+			"title": "The Counter Schema",
+			"default": "",
+			"examples": [
+				"3"
+			],
+			"pattern": "^(.*)$"
+		},
+		"result": {
+			"$id": "#/properties/result",
+			"type": "array",
+			"title": "The Result Schema",
+			"items": {
+				"$id": "#/properties/result/items",
+				"type": "object",
+				"title": "The Items Schema",
+				"required": [
+					"doc_type",
+					"hits",
+					"filingdate",
+					"title",
+					"timestamp",
+					"is_pdf_doc",
+					"highlights",
+					"tickers",
+					"size",
+					"ticker",
+					"id",
+					"doc_subtype"
+				],
+				"properties": {
+					"doc_type": {
+						"$id": "#/properties/result/items/properties/doc_type",
+						"type": "string",
+						"title": "The Doc_type Schema",
+						"default": "",
+						"examples": [
+							"rr"
+						],
+						"pattern": "^(.*)$"
+					},
+					"hits": {
+						"$id": "#/properties/result/items/properties/hits",
+						"type": "integer",
+						"title": "The Hits Schema",
+						"default": 0,
+						"examples": [
+							0
+						]
+					},
+					"filingdate": {
+						"$id": "#/properties/result/items/properties/filingdate",
+						"type": "string",
+						"title": "The Filingdate Schema",
+						"default": "",
+						"examples": [
+							"Apr 24,2019, 06:08 AM"
+						],
+						"pattern": "^(.*)$"
+					},
+					"title": {
+						"$id": "#/properties/result/items/properties/title",
+						"type": "string",
+						"title": "The Title Schema",
+						"default": "",
+						"examples": [
+							"GS: Apple Inc. (AAPL): FQ2'19 Preview: Tweaking numbers up but see risk to June guide on demand and QCOM agreement"
+						],
+						"pattern": "^(.*)$"
+					},
+					"reasons": {
+						"$id": "#/properties/result/items/properties/reasons",
+						"type": "array",
+						"title": "The Reasons Schema",
+						"items": {
+							"$id": "#/properties/result/items/properties/reasons/items",
+							"type": [
+								"string",
+								"integer",
+								"number"
+							],
+							"title": "The Items Schema",
+							"default": "",
+							"examples": [
+								"rr_reasons_17",
+								30
+							]
+						}
+					},
+					"timestamp": {
+						"$id": "#/properties/result/items/properties/timestamp",
+						"type": "integer",
+						"title": "The Timestamp Schema",
+						"default": 0,
+						"examples": [
+							1556086080000
+						]
+					},
+					"is_pdf_doc": {
+						"$id": "#/properties/result/items/properties/is_pdf_doc",
+						"type": "boolean",
+						"title": "The Is_pdf_doc Schema",
+						"default": false,
+						"examples": [
+							true
+						]
+					},
+					"feed_source": {
+						"$id": "#/properties/result/items/properties/feed_source",
+						"type": "string",
+						"title": "The Feed_source Schema",
+						"default": "",
+						"examples": [
+							"6"
+						],
+						"pattern": "^(.*)$"
+					},
+					"country_code": {
+						"$id": "#/properties/result/items/properties/country_code",
+						"type": "string",
+						"title": "The Country_code Schema",
+						"default": "",
+						"examples": [
+							"us"
+						],
+						"pattern": "^(.*)$"
+					},
+					"highlights": {
+						"$id": "#/properties/result/items/properties/highlights",
+						"type": "object",
+						"title": "The Highlights Schema"
+					},
+					"tickers": {
+						"$id": "#/properties/result/items/properties/tickers",
+						"type": "array",
+						"title": "The Tickers Schema",
+						"items": {
+							"$id": "#/properties/result/items/properties/tickers/items",
+							"type": "string",
+							"title": "The Items Schema",
+							"default": "",
+							"examples": [
+								"aapl"
+							],
+							"pattern": "^(.*)$"
+						}
+					},
+					"size": {
+						"$id": "#/properties/result/items/properties/size",
+						"type": "integer",
+						"title": "The Size Schema",
+						"default": 0,
+						"examples": [
+							10
+						]
+					},
+					"ticker": {
+						"$id": "#/properties/result/items/properties/ticker",
+						"type": "array",
+						"title": "The Ticker Schema",
+						"items": {
+							"$id": "#/properties/result/items/properties/ticker/items",
+							"type": "string",
+							"title": "The Items Schema",
+							"default": "",
+							"examples": [
+								"aapl"
+							],
+							"pattern": "^(.*)$"
+						}
+					},
+					"id": {
+						"$id": "#/properties/result/items/properties/id",
+						"type": "string",
+						"title": "The Id Schema",
+						"default": "",
+						"examples": [
+							"5cbfffa244c25a19d900002a"
+						],
+						"pattern": "^(.*)$"
+					},
+					"doc_subtype": {
+						"$id": "#/properties/result/items/properties/doc_subtype",
+						"type": "string",
+						"title": "The Doc_subtype Schema",
+						"default": "",
+						"examples": [
+							"rr"
+						],
+						"pattern": "^(.*)$"
+					},
+					"orig": {
+						"$id": "#/properties/result/items/properties/orig",
+						"type": "array",
+						"title": "The Orig Schema",
+						"items": {
+							"$id": "#/properties/result/items/properties/orig/items",
+							"type": "string",
+							"title": "The Items Schema",
+							"default": "",
+							"examples": [
+								"aapl"
+							],
+							"pattern": "^(.*)$"
+						}
+					}
+				}
+			}
+		},
+		"response": {
+			"$id": "#/properties/response",
+			"type": "object",
+			"title": "The Response Schema",
+			"required": [
+				"status",
+				"msg"
+			],
+			"properties": {
+				"status": {
+					"$id": "#/properties/response/properties/status",
+					"type": "boolean",
+					"title": "The Status Schema",
+					"default": false,
+					"examples": [
+						true
+					]
+				},
+				"msg": {
+					"$id": "#/properties/response/properties/msg",
+					"type": "string",
+					"title": "The Msg Schema",
+					"default": "",
+					"examples": [
+						""
+					],
+					"pattern": "^(.*)$"
+				}
+			}
+		}
+	}
+}
