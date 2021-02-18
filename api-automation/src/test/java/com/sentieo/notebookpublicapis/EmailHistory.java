@@ -28,7 +28,11 @@ public class EmailHistory extends APIDriver {
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
 	String xuserKey;
-
+	
+	
+// This API will only work if x-user-key is an admin key, else will throw permission denied
+	
+	
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
