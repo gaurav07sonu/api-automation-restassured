@@ -80,8 +80,8 @@ public class TestWatchlistPriceChange extends APIDriver {
 			RequestSpecification spec = formParamsSpec(tickerData);
 			Response resp = RestOperationUtils.post(URI, null, spec, tickerData);
 			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
 					"Verify the API Response Status");
 			JSONObject obj = respJson.getJSONObject("result");
