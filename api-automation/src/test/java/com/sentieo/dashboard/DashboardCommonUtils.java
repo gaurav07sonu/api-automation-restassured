@@ -97,7 +97,7 @@ public class DashboardCommonUtils extends APIDriver {
 				saveSearchID = data.getJSONObject(rand_int1).getString("id");
 				return saveSearchID;
 			} else
-				obj.save_user_search();
+				obj.perform_user_save_search();
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		}
