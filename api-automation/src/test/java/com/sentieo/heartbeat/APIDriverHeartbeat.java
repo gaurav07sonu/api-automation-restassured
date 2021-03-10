@@ -112,6 +112,10 @@ public class APIDriverHeartbeat {
 					.headers(headers);
 					
 	}
+	protected RequestSpecification formParamsSpecDS(String formParams) {
+		return given().contentType("application/x-www-form-urlencoded; charset=UTF-8").accept(ContentType.JSON)
+				.cookie("csrftoken", "a").cookie("apid", apid).cookie("usid", usid).body(formParams);
+	}
 	
 	public static void updatePassResult(String path, String team, String statusCode, Response resp, HashMap<String, String> parameters) {
 		sbPass.append("<tr class=\"item\">");

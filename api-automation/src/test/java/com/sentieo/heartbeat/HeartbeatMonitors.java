@@ -13,6 +13,7 @@ import java.util.Random;
 
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -45,6 +46,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	static String doc_id = "";
 	static String doc_type = "";
 	static String title = "";
+	String DS_URL = "https://ds.sentieo.com";
 	
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
@@ -1727,6 +1729,136 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			}
 		}
 		
+		@Test(groups = "heart-beat", priority = 0, description = "verify classification_heatmap")
+		public void classification_heatmap() throws Exception {
+			Team team = Team.DataScience;
+			String URI = DS_URL + CLASSIFICATION_HEATMAP;
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			try {
+				String data = "{\"tickers\":[\"aapl\"],\"timeperiods\":[\"2016-2\",\"2016-3\",\"2016-4\",\"2017-1\",\"2017-2\",\"2017-3\",\"2017-4\",\"2018-1\",\"2018-2\",\"2018-3\",\"2018-4\",\"2019-1\",\"2019-2\",\"2019-3\",\"2019-4\",\"2020-1\",\"2020-2\",\"2020-3\",\"2020-4\",\"2021-1\"],\"doc_types\":[\"transcript-earnings\"]}";
+				parameters.put(data, "");
+				RequestSpecification spec = formParamsSpecDS(data);
+				Response resp = RestOperationUtils.post( URI, null, spec,
+						parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respjson = new JSONObject(apiResp.getResponseAsString());
+					assertTrue(respjson.getJSONObject("result").getJSONObject("aapl")!=null, "verify ticker data present");
+					assertTrue(respjson.getJSONArray("rivals").length()>0, "verify rivals data present");
+				}
+			} catch (Error e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			} catch (Exception e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			}
+		}
+
+		@Test(groups = "heart-beat", priority = 1, description = "verify classification html")
+		public void classification() throws Exception {
+			Team team = Team.DataScience;
+			String URI = DS_URL + CLASSIFICATION;
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			try {
+				parameters.put("source", "sentieotab");
+				parameters.put("ticker", "aapl");
+				parameters.put("data_source", "tri");
+				parameters.put("pageId", "4");
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
+				if (apiResp.getStatusCode() == 200) {
+					assertTrue(!apiResp.getResponseAsString().isEmpty(), "verify content not empty");
+					Assert.assertEquals(apiResp.getResponseHeaderValue("content-encoding"), "gzip",
+							"Verify response encoding should be gzip");
+					Assert.assertEquals(apiResp.getResponseHeaderValue("Content-Type"), "text/html; charset=utf-8",
+							"verify content type");
+				}
+				} catch (Error e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			} catch (Exception e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			}
+		}
+
+		@Test(groups = "heart-beat", priority = 2, description = "verify redlining html")
+		public void redlining() throws Exception {
+			Team team = Team.DataScience;
+			String URI = DS_URL + REDLINING;
+			HashMap<String, String> parameters = new HashMap<String, String>();
+
+			try {
+				parameters.put("source", "sentieotab");
+				parameters.put("ticker", "aapl");
+				parameters.put("pageId", "4");
+				RequestSpecification spec = formParamsSpec(parameters);
+				Response resp = RestOperationUtils.get(URI, spec, parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
+				if (apiResp.getStatusCode() == 200) {
+					assertTrue(!apiResp.getResponseAsString().isEmpty(), "verify content not empty");
+					Assert.assertEquals(apiResp.getResponseHeaderValue("content-encoding"), "gzip",
+							"Verify response encoding should be gzip");
+					Assert.assertEquals(apiResp.getResponseHeaderValue("Content-Type"), "text/html; charset=utf-8",
+							"verify content type");
+				}
+				} catch (Error e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			} catch (Exception e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			}
+		}
+
+		@Test(groups = "heart-beat", priority = 3, description = "verify fetch_redlining_heatmap")
+		public void fetch_redlining_heatmap() throws Exception {
+			Team team = Team.DataScience;
+			String URI = DS_URL + REDLINING_HEATMAP;
+			HashMap<String, String> parameters = new HashMap<String, String>();
+			try {
+				String data = "{\"timeperiod\":\"3y\",\"tickers\":[\"aapl\"],\"get_schema\":\"true\"}";
+				parameters.put(data, "");
+				RequestSpecification spec = formParamsSpecDS(data);
+				Response resp = RestOperationUtils.post(URI, null, spec,
+						parameters);
+				APIResponse apiResp = new APIResponse(resp);
+				Assert.assertEquals(apiResp.getStatusCode(), 200);
+				if (apiResp.getStatusCode() == 200) {
+					JSONObject respjson = new JSONObject(apiResp.getResponseAsString());
+					JSONArray result = respjson.getJSONArray("result");
+					for (int i = 0; i < result.length(); i++) {
+						assertTrue(result.getJSONObject(i)!=null, "verify result array present");
+					}
+					JSONArray entity_ids = respjson.getJSONArray("entity_ids");
+					assertTrue(entity_ids!=null, "verify entity_ids present");
+					
+					JSONObject schema = respjson.getJSONObject("schema");
+					
+					assertTrue(schema.getJSONObject("properties")!= null, "verify properties object present");
+					assertTrue(schema.getJSONArray("columns").length()>0, "verify columns array present");
+				}
+				} catch (Error e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			} catch (Exception e) {
+				
+				updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters, e.getMessage());
+				Assert.fail();
+			}
+		}
 	@AfterClass(alwaysRun = true)
 	public void generateHTML() {
 		String content = readHTMLHeader() + sbFail.toString() + sbPass.toString() + readHTMLFooter();
