@@ -4,19 +4,24 @@
 		<listener class-name="com.sentieo.listener.TestListener" />
 		<listener
 			class-name="com.sentieo.listener.AnnotationTransformer" />
-
-		<listener
+	 <listener
 			class-name="com.epam.reportportal.testng.ReportPortalTestNGListener" />
 	</listeners>
 
 	<test name="notebookPublic" preserve-order="true">
 		<classes>
-			<class name="com.sentieo.notebookpublicapis.NotebookPublicApis">
+			 <class name="com.sentieo.notebookpublicapis.NotebookPublicApis">
 				<methods>
 					<exclude name="addingDeletingTagInPrivateNoteSchroders" />
 					<exclude name="addingDeletingTickerInPrivateNoteSchroders" />
 					<exclude name="updatingAPrivateNoteCreatedViaAPISchroders" />
 				</methods>
+			</class>
+			 <class name="com.sentieo.notebookpublicapis.FieldsPublicApis"></class> 
+			<class name="com.sentieo.notebookpublicapis.EmailHistory">
+			<methods>
+			<exclude name="fetchAllEmailHistoryFromEmailSchroders"></exclude>
+			</methods>
 			</class>
 		</classes>
 	</test>

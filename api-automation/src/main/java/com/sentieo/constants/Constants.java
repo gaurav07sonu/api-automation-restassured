@@ -25,7 +25,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "mobile-api-app";
+		//String envArg = "testing-public-api";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -204,6 +204,8 @@ public class Constants {
 	public static final String CONSUME_CITATION_LINK = "/api/consume_citation_link/";
 	public static final String GET_NEW_FREE_CITATION_LINK = "/api/get_new_free_citation_link/";
 	public static final String SEARCH_ENTITIES = "/api/search_entities/";
+	public static final String CATEGORY_TAGS = "/api/category_tags/";
+
 
 	// notebook public apis
 	public static final String XUSERKEY = "x-user-key";
@@ -211,7 +213,11 @@ public class Constants {
 	public static final String FILE_UPLOAD = "/files";
 	public static final String LARGE_FILE_UPLOAD = "/file_url";
 	public static final String NOTES = "/notes";
-
+	public static final String EMAIL_HISTORY = "/notes/email/history";
+	
+	//Fields public apis
+	public static final String FIELDS = "/fields/";
+	
 	// security master APIs
 	public static final String ENTITY = "/sm/user/entities";
 	public static final String CHILD_ENTITIES = "/child_entities";
@@ -329,4 +335,22 @@ public class Constants {
 	public static final String LOGIN_1 = "/api/login_1/";
 	
 	public static final String FETCH_DOCS_MOBILE = "/api/fetch_docs/";
+	public static final String SAVE_FV_MARKET = "/api/save_fv_market/";
+	public static final String SAVE_FV_WATCHLIST = "/api/save_fv_watchlist/";
+	public static final String ADD_FEEDBACK = "/api/add_feedback/";
+	public static final String FIN_WEI_ANALYSIS_MOBILE = "/api/fin_wei_analysis_mobile/";
+	public static final String FIN_MARKET_ANALYSIS_MOBILE = "/api/fin_market_analysis_mobile/";
+	public static final String RELATIVE_PRICEVSSP = "/api/relativePriceVsSP/";
+	
+	//Data science
+	public static final String CLASSIFICATION_HEATMAP = "/fetch_classification_heatmap/";
+	public static final String CLASSIFICATION = "/grid/classification/";
+	public static final String REDLINING = "/grid/redlining/";
+	public static final String REDLINING_HEATMAP = "/api/fetch_redlining_heatmap/";
+	public static final String TOPIC = "/topic/";
+	public static final String GET_REDLINING_SNIPPET = "/grid/get_redlining_snippet/";
+	public static final String GRID = "/grid/";
+	public static final String TICKER_SECTOR_TRENDING_TERMS = "/api/ticker_sector_trending_terms/";
+	public static final String GET_TEXT_OFFSET = "/grid/get_text_offset/";
+
 }

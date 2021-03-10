@@ -30,7 +30,6 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.dataprovider.DataProviderClass;
-import com.sentieo.mobile.MobileCalendar;
 import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
@@ -51,7 +50,6 @@ public class NotebookApis extends APIDriver {
 
 	APIAssertions verify = null;
 	JSONUtils jsonUtils = null;
-	MobileCalendar mobileCal = null;
 	String URI = null;
 	String locMobile = "";
 	static String tagName = "";
@@ -74,7 +72,6 @@ public class NotebookApis extends APIDriver {
 	public void setUp() {
 		verify = new APIAssertions();
 		jsonUtils = new JSONUtils();
-		mobileCal = new MobileCalendar();
 	}
 
 	@BeforeClass(alwaysRun = true)
@@ -239,7 +236,7 @@ public class NotebookApis extends APIDriver {
 		}
 	}
 
-	@Test(groups = "sanity", priority = 2, description = "Fetch all notes")
+	@Test(groups = {"sanity","mobileMainApp"}, priority = 2, description = "Fetch all notes")
 	public void fetchNoteAllList() throws Exception {
 		try {
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -248,11 +245,13 @@ public class NotebookApis extends APIDriver {
 			params.put("size", "5");
 			params.put("order", "note_updated_date:desc");
 			params.put("mode", "all");
-
+			if (locMobile.equals("ios")) {
+				params.put("loc", locMobile);
+			}
 			RequestSpecification spec = formParamsSpec(params);
 			Response resp = RestOperationUtils.post(USER_APP_URL + FETCH_NOTE_LIST, null, spec, params);
 			APIResponse apiResp = new APIResponse(resp);
-
+		
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			if (apiResp.getStatusCode() == 200) {
@@ -1158,13 +1157,40 @@ public class NotebookApis extends APIDriver {
 			}
 			if (!note_id.isEmpty()) {
 				tagName = "tag" + new Date().getTime();
+			// create tag
+				HashMap<String, String> tagdata = new HashMap<String, String>();
+				tagdata.put("category_id", "");
+				tagdata.put("category_tag_name", tagName);
+				tagdata.put("owner", username);
+				
+				String dataJson = jsonUtils.toJson(tagdata);
+			
 				HashMap<String, String> params = new HashMap<String, String>();
-				params.put("id", note_id);
-				params.put("field", "tag");
+				params.put("category_tag_details", dataJson);
 				params.put("action", "add");
-				params.put("term", tagName);
+				params.put("tag_type", "hash_tag");
+				params.put("group", "");
 
-				RequestSpecification tagSpec = formParamsSpec(params);
+				
+				RequestSpecification setTag = formParamsSpec(params);
+				Response addTagResp = RestOperationUtils.post(USER_APP_URL + CATEGORY_TAGS, null, setTag, params);
+				APIResponse addTagApiResp = new APIResponse(addTagResp);
+
+				verify.verifyStatusCode(addTagApiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(addTagResp, 5000);
+				
+				if(addTagApiResp.getStatusCode()==200) {
+					JSONObject respJson = new JSONObject(addTagApiResp.getResponseAsString());
+					String id = respJson.getJSONArray("result").getJSONObject(0).getString("id");
+			
+					//add tag
+				HashMap<String, String> params2 = new HashMap<String, String>();
+				params2.put("id", note_id);
+				params2.put("term", id);
+				params2.put("action", "add");
+				params2.put("field", "tag");
+		
+				RequestSpecification tagSpec = formParamsSpec(params2);
 				Response tagResp = RestOperationUtils.post(USER_APP_URL + UPDATE_TAG_TICKER, null, tagSpec, params);
 				APIResponse tagApiResp = new APIResponse(tagResp);
 
@@ -1181,7 +1207,7 @@ public class NotebookApis extends APIDriver {
 					JSONArray tags = getNoteDetail(note_id).getJSONObject("result").getJSONArray("userTags");
 					boolean tagadded = false;
 					for (int i = 0; i < tags.length(); i++) {
-						if (tags.getString(i).equalsIgnoreCase(tagName)) {
+						if (tags.getString(i).equalsIgnoreCase(id)) {
 							tagadded = true;
 							verify.assertTrue(tagadded, "tag added in note successfully");
 							break;
@@ -1194,6 +1220,9 @@ public class NotebookApis extends APIDriver {
 			} else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "Fetch note api fail, note id not present");
 			}
+		}else {
+			ExtentTestManager.getTest().log(LogStatus.FAIL, "Tag not set");
+		}
 		} catch (JSONException je) {
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
 			verify.verificationFailures.add(je);
@@ -2278,7 +2307,7 @@ public class NotebookApis extends APIDriver {
 	APIResponse apiResp = null;
 	Response resp = null;
 
-	@Test(groups = {"sanity","mobile"}, priority = 47, description = "fetch Calendar")
+	@Test(groups = {"sanity","mobileMainApp"}, priority = 47, description = "fetch Calendar")
 	public void fetchCalendar() throws Exception {
 		String URI = USER_APP_URL + FETCHCALENDAR;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -2292,16 +2321,11 @@ public class NotebookApis extends APIDriver {
 			parameters.put("endDate", year + "-" + current_month + "-" + last_date);
 			if (locMobile.equals("ios")) {
 				parameters.put("loc", locMobile);
-				RequestSpecification spec = formParamsSpecMobile(parameters);
-				resp = RestOperationUtils.post(URI, null, spec, parameters);
-				apiResp = new APIResponse(resp);
-				mobileCal.testCalendarAssertions(apiResp, resp);
-			}else {
+			}
 				RequestSpecification spec = formParamsSpec(parameters);
 				resp = RestOperationUtils.post(URI, null, spec, parameters);
 				apiResp = new APIResponse(resp);
 				verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
-			}
 			
 		} catch (Error je) {
 			je.printStackTrace();
@@ -2875,7 +2899,7 @@ public class NotebookApis extends APIDriver {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(groups = "checktest", description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
+	@Test(groups = {"checktest", "mobileMainApp"}, description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
 	public void search_entities(String moduleType, String sentieoEntity) throws CoreCommonException, IOException {
 		try {
 		for (String[] row : tickers) {
@@ -2904,6 +2928,8 @@ public class NotebookApis extends APIDriver {
 					parameters.put("allow_pvt_company", "true");
 					parameters.put("pagetype", moduleType);
 					parameters.put("sentieoentity", sentieoEntity);
+					
+					
 					RequestSpecification spec = formParamsSpec(parameters);
 					Response resp = RestOperationUtils.get(APP_URL + SEARCH_ENTITIES, spec, parameters);
 					APIResponse apiResp = new APIResponse(resp);

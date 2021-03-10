@@ -2,6 +2,7 @@ package com.sentieo.docsearchpublicapis;
 
 import static com.sentieo.constants.Constants.PUBLIC_API_URL;
 import static com.sentieo.constants.Constants.SEARCH;
+import static com.sentieo.constants.Constants.USER_APP_URL;
 import static com.sentieo.constants.Constants.XAPIKEY1;
 import static com.sentieo.constants.Constants.XUSERKEY1;
 import static com.sentieo.constants.Constants.X_API_KEY;
@@ -123,7 +124,7 @@ public class docsearchpublicapis extends APIDriver {
 		}
 	}
 
-	@Test(description = "Verifying RR doc types, with rr_ctbids, rr_style and rr_reasons", dataProvider = "test_doctype_rr_publicapi", dataProviderClass = DataProviderClass.class)
+//	@Test(description = "Verifying RR doc types, with rr_ctbids, rr_style and rr_reasons", dataProvider = "test_doctype_rr_publicapi", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_rr_publicapi(String ctbids, String reasons, String styles) throws Exception {
 		try {
 			String URI = PUBLIC_API_URL + SEARCH;
@@ -204,54 +205,57 @@ public class docsearchpublicapis extends APIDriver {
 
 	@Test(description = "Verifying Note docs with doc type ,owner and categories", dataProvider = "test_doctype_notes_publicapi", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_notes_publicapi(String subtypes, String authors) throws Exception {
-		try {
-			String URI = PUBLIC_API_URL + SEARCH;
-			List<String> subtypeList = new ArrayList<String>();
-			subtypeList.add(subtypes);
-			if (subtypes == "attachment") { // accepting type notes in list of doc sub-type if doc sub-type is
-											// attachment//
-				subtypeList.add("in:note");
-			}
+		if (USER_APP_URL.contains("schroders") || USER_APP_URL.contains("schroderstest")
+				|| USER_APP_URL.contains("balyasny")) {
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for MTs only ");
+		} else {
+			try {
+				String URI = PUBLIC_API_URL + SEARCH;
+				List<String> subtypeList = new ArrayList<String>();
+				subtypeList.add(subtypes);
+				if (subtypes == "attachment") { // accepting type notes in list of doc sub-type if doc sub-type is
+												// attachment//
+					subtypeList.add("in:note");
+				}
 
-			List<String> categoriesList = new ArrayList<String>();
-			categoriesList.add("General");
+				List<String> categoriesList = new ArrayList<String>();
+				categoriesList.add("General");
 
-			List<String> authorsList = new ArrayList<String>();
-			authorsList.add(authors);
+				List<String> authorsList = new ArrayList<String>();
+				authorsList.add(authors);
 
-			HashMap<String, Object> docTypeParams = new HashMap<String, Object>();
-			docTypeParams.put("name", "note");
-			docTypeParams.put("subtypes", subtypeList);
-			docTypeParams.put("authors", authorsList);
+				HashMap<String, Object> docTypeParams = new HashMap<String, Object>();
+				docTypeParams.put("name", "note");
+				docTypeParams.put("subtypes", subtypeList);
+				docTypeParams.put("authors", authorsList);
 
-			List<HashMap<String, Object>> docTypeList = new ArrayList<>();
-			docTypeList.add(docTypeParams);
-			HashMap<String, Object> formParams = new HashMap<String, Object>();
-			formParams.put("size", "700");
-			formParams.put("sort", "filing_date:desc");
-			formParams.put("start", "0");
-			formParams.put("tickers", "");
-			formParams.put("doc_type", docTypeList);
-			formParams.put("query", "note");
+				List<HashMap<String, Object>> docTypeList = new ArrayList<>();
+				docTypeList.add(docTypeParams);
+				HashMap<String, Object> formParams = new HashMap<String, Object>();
+				formParams.put("size", "700");
+				formParams.put("sort", "filing_date:desc");
+				formParams.put("start", "0");
+				formParams.put("tickers", "");
+				formParams.put("doc_type", docTypeList);
+				formParams.put("query", "note");
 
-			HashMap<String, String> headerParams = new HashMap<String, String>();
-			headerParams.put(XAPIKEY1, X_API_KEY);
-			headerParams.put(XUSERKEY1, X_USER_KEY);
+				HashMap<String, String> headerParams = new HashMap<String, String>();
+				headerParams.put(XAPIKEY1, X_API_KEY);
+				headerParams.put(XUSERKEY1, X_USER_KEY);
 
-			String change = jsonUtils.toJson(formParams);
-			RequestSpecification spec = requestHeadersFormSpecForPublicApis(change, headerParams);
-			Response resp = RestOperationUtils.post(URI, null, spec, formParams);
-			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			verify.verifyResponseTime(resp, 5000);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				String change = jsonUtils.toJson(formParams);
+				RequestSpecification spec = requestHeadersFormSpecForPublicApis(change, headerParams);
+				Response resp = RestOperationUtils.post(URI, null, spec, formParams);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 
-			int total_results = respJson.getJSONObject("result").getInt("total");
-			verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
+				int total_results = respJson.getJSONObject("result").getInt("total");
+				verify.assertTrue(total_results > 0, "Verify the search result count is more than 0");
 
-			JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
-			boolean doctypeCheck = true;
-			if (total_results != 0) {
+				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("docs");
+				boolean doctypeCheck = true;
 				if (documentResults_size.length() != 0) {
 					for (int i = 0; i < documentResults_size.length(); i++) {
 						String doc_type1 = documentResults_size.getJSONObject(i).getString("doc_type");
@@ -262,14 +266,90 @@ public class docsearchpublicapis extends APIDriver {
 
 					verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
 				}
-			}
 
-		} catch (JSONException je) {
-			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
-			verify.verificationFailures.add(je);
-		} finally {
-			verify.verifyAll();
-			Thread.sleep(1000);
+			} catch (JSONException je) {
+				ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+				verify.verificationFailures.add(je);
+			} finally {
+				verify.verifyAll();
+				Thread.sleep(1000);
+			}
+		}
+	}
+
+	@Test(description = "Verifying Note docs on ST with doc type ,owner and categories")
+	public void st_test_doctype_notes_publicapi() throws Exception {
+		if (USER_APP_URL.contains("app") || USER_APP_URL.contains("testing") || USER_APP_URL.contains("app2")
+				|| USER_APP_URL.contains("staging") || USER_APP_URL.contains("sandbox")) {
+			ExtentTestManager.getTest().log(LogStatus.SKIP, "test skipped because this api is valid for STs only ");
+		} else {
+			try {
+				String URI = PUBLIC_API_URL + SEARCH;
+				List<String> subtypeList = new ArrayList<String>();
+				subtypeList.add("attachment");
+				List<String> categoriesList = new ArrayList<String>();
+				categoriesList.add("General");
+
+				List<String> authorsList = new ArrayList<String>();
+				if (USER_APP_URL.contains("schroderstest")) {
+					authorsList.add("schroders.check");
+				} else if (USER_APP_URL.contains("schroders")) {
+					authorsList.add("test.schroders1");
+				} else {
+					authorsList.add("demo.bamfunds");
+				}
+				
+
+				HashMap<String, Object> docTypeParams = new HashMap<String, Object>();
+				docTypeParams.put("name", "note");
+				docTypeParams.put("subtypes", subtypeList);
+				docTypeParams.put("authors", authorsList);
+
+				List<HashMap<String, Object>> docTypeList = new ArrayList<>();
+				docTypeList.add(docTypeParams);
+				HashMap<String, Object> formParams = new HashMap<String, Object>();
+				formParams.put("size", "50");
+				formParams.put("sort", "filing_date:desc");
+				formParams.put("start", "0");
+				formParams.put("tickers", "");
+				formParams.put("doc_type", docTypeList);
+				formParams.put("query", "");
+
+				HashMap<String, String> headerParams = new HashMap<String, String>();
+				headerParams.put(XAPIKEY1, X_API_KEY);
+				headerParams.put(XUSERKEY1, X_USER_KEY);
+
+				String change = jsonUtils.toJson(formParams);
+				RequestSpecification spec = requestHeadersFormSpecForPublicApis(change, headerParams);
+				Response resp = RestOperationUtils.post(URI, null, spec, formParams);
+				APIResponse apiResp = new APIResponse(resp);
+				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+
+				int total_note_results = respJson.getJSONObject("result").getInt("total_internal_docs");
+				verify.assertTrue(total_note_results > 0, "Verify the search result count is more than 0");
+
+				JSONArray documentResults_size = respJson.getJSONObject("result").getJSONArray("internal_docs");
+				boolean doctypeCheck = true;
+				if (documentResults_size.length() != 0) {
+					for (int i = 0; i < documentResults_size.length(); i++) {
+						String doc_type1 = documentResults_size.getJSONObject(i).getString("doc_type");
+						System.out.println(doc_type1.toString().contains("note"));
+						if (!doc_type1.toString().contains("note"))
+							doctypeCheck = false;
+					}
+
+					verify.assertTrue(doctypeCheck, "verifying doctype visibility in doc ");
+				}
+
+			} catch (JSONException je) {
+				ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
+				verify.verificationFailures.add(je);
+			} finally {
+				verify.verifyAll();
+				Thread.sleep(1000);
+			}
 		}
 	}
 
@@ -597,7 +677,7 @@ public class docsearchpublicapis extends APIDriver {
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			
+
 			int total_results = respJson.getJSONObject("result").getInt("total");
 			verify.assertTrue(total_results > 0, "Verify the search result count is greater than 5");
 

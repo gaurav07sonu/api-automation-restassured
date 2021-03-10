@@ -1,0 +1,2740 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "counter": 0,
+            "result": {
+                "alert_type": "filing",
+                "last_visit": 1610027271000,
+                "timestamp": 1610022891000,
+                "start_new": 0,
+                "start": 15,
+                "res": [
+                    {
+                        "alert_type": "globalfiling",
+                        "alert_id": "5ff6a71700e8c23ed022f2d4",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: Ownership - Directors & Officers Alert",
+                        "sub": "FB: Ownership - Directors & Officers Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                            "fb2a:gr": "Facebook, Inc. Class A",
+                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                            "fb:ro": "Facebook Inc",
+                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                            "tcxfbk:au": "FACEBOOK TRACRS",
+                            "fb": "Facebook Inc",
+                            "fb:av": "Facebook, Inc.",
+                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                            "fb3:ar": "FACEBOOK CEDEAR",
+                            "fabk:sw": "Facebook Inc",
+                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "globalfiling",
+                        "email": true,
+                        "timestamp": 1610000152,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": "FACEBOOK, INC. 144",
+                            "timestamp": 1609950665000,
+                            "doc_pdf_content_s3_id": "sentieodata#5ff6a6f0f8bad5170308a252.pdf",
+                            "type": "16",
+                            "date": "01.06.2021 16:31PM",
+                            "content-type": "application/pdf",
+                            "doc_content_s3_id": "sentieodocontent#5ff6a6f0f8bad5170308a252_idr"
+                        },
+                        "link": "",
+                        "date": "Thu 01.07.21 01:15 AM",
+                        "ticker": [
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1610000148000,
+                        "doc_type": "gf",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff6a6f0f8bad5170308a252"
+                    },
+                    {
+                        "alert_type": "globalfiling",
+                        "alert_id": "5ff6a7155c4cc93df722f477",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: Ownership - Directors & Officers Alert",
+                        "sub": "FB: Ownership - Directors & Officers Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                            "fb2a:gr": "Facebook, Inc. Class A",
+                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                            "fb:ro": "Facebook Inc",
+                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                            "tcxfbk:au": "FACEBOOK TRACRS",
+                            "fb": "Facebook Inc",
+                            "fb:av": "Facebook, Inc.",
+                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                            "fb3:ar": "FACEBOOK CEDEAR",
+                            "fabk:sw": "Facebook Inc",
+                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "globalfiling",
+                        "email": true,
+                        "timestamp": 1610000150,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": "FACEBOOK, INC. 144",
+                            "timestamp": 1609950666000,
+                            "doc_pdf_content_s3_id": "sentieodata#5ff6a6ecf8bad5170308a250.pdf",
+                            "type": "16",
+                            "date": "01.06.2021 16:31PM",
+                            "content-type": "application/pdf",
+                            "doc_content_s3_id": "sentieodocontent#5ff6a6ecf8bad5170308a250_idr"
+                        },
+                        "link": "",
+                        "date": "Thu 01.07.21 01:15 AM",
+                        "ticker": [
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1610000147000,
+                        "doc_type": "gf",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff6a6ecf8bad5170308a250"
+                    },
+                    {
+                        "alert_type": "globalfiling",
+                        "alert_id": "5ff6a70e5c4cc93df722f2c3",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: Ownership - Directors & Officers Alert",
+                        "sub": "FB: Ownership - Directors & Officers Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                            "fb2a:gr": "Facebook, Inc. Class A",
+                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                            "fb:ro": "Facebook Inc",
+                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                            "tcxfbk:au": "FACEBOOK TRACRS",
+                            "fb": "Facebook Inc",
+                            "fb:av": "Facebook, Inc.",
+                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                            "fb3:ar": "FACEBOOK CEDEAR",
+                            "fabk:sw": "Facebook Inc",
+                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "globalfiling",
+                        "email": true,
+                        "timestamp": 1610000143,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": "FACEBOOK, INC. 144",
+                            "timestamp": 1609950666000,
+                            "doc_pdf_content_s3_id": "sentieodata#5ff6a6eff8bad5170308a251.pdf",
+                            "type": "16",
+                            "date": "01.06.2021 16:31PM",
+                            "content-type": "application/pdf",
+                            "doc_content_s3_id": "sentieodocontent#5ff6a6eff8bad5170308a251_idr"
+                        },
+                        "link": "",
+                        "date": "Thu 01.07.21 01:15 AM",
+                        "ticker": [
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1610000139000,
+                        "doc_type": "gf",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff6a6eff8bad5170308a251"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff6a1e181928af071ecb8bf",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: FORM-4 Alert",
+                        "sub": "FB: FORM-4 Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "fb": "Facebook Inc"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "filing",
+                        "email": true,
+                        "timestamp": 1609998818,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": " FORM-4",
+                            "timestamp": 1609978729000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "form-4",
+                            "date": "01.07.2021 00:18AM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff6a1dc1e058a3d0c2cd34d"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=fb&flag=false&timestamp=1609998818&date=Thu+01.07.21+12%3A53+AM&doc_id=5ff6a1dc1e058a3d0c2cd34d",
+                        "date": "Thu 01.07.21 12:53 AM",
+                        "ticker": [
+                            "fb",
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1609998817000,
+                        "doc_type": "ef",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff6a1dc1e058a3d0c2cd34d"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff6a1de12d0b4b3b2eca5a6",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: FORM-4 Alert",
+                        "sub": "FB: FORM-4 Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "fb": "Facebook Inc"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "filing",
+                        "email": true,
+                        "timestamp": 1609998815,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": " FORM-4",
+                            "timestamp": 1609979348000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "form-4",
+                            "date": "01.07.2021 00:29AM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff6a1db1e058a3d0c2cd349"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=fb&flag=false&timestamp=1609998815&date=Thu+01.07.21+12%3A53+AM&doc_id=5ff6a1db1e058a3d0c2cd349",
+                        "date": "Thu 01.07.21 12:53 AM",
+                        "ticker": [
+                            "fb",
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1609998813000,
+                        "doc_type": "ef",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff6a1db1e058a3d0c2cd349"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff6a1dc63479dd621ecbbbf",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: FORM-4 Alert",
+                        "sub": "FB: FORM-4 Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "fb": "Facebook Inc"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "filing",
+                        "email": true,
+                        "timestamp": 1609998813,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": " FORM-4",
+                            "timestamp": 1609980002000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "form-4",
+                            "date": "01.07.2021 00:40AM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff6a1da1e058a3d0c2cd345"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=fb&flag=false&timestamp=1609998813&date=Thu+01.07.21+12%3A53+AM&doc_id=5ff6a1da1e058a3d0c2cd345",
+                        "date": "Thu 01.07.21 12:53 AM",
+                        "ticker": [
+                            "fb",
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1609998812000,
+                        "doc_type": "ef",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff6a1da1e058a3d0c2cd345"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff6310312d0b4b3b2ec90db",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f22ed759836ab21b20002dc",
+                        "follow_ticker": "f",
+                        "subject": "F: 8-K Alert",
+                        "sub": "F: 8-K Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "f": "Ford Motor Company"
+                        },
+                        "company_name": "FORD MOTOR CO",
+                        "type": "filing",
+                        "email": true,
+                        "timestamp": 1609969925,
+                        "entity_info": {
+                            "f": "F"
+                        },
+                        "doc_data": {
+                            "title": "Other 8-K",
+                            "timestamp": 1609969785000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "8-k",
+                            "date": "01.06.2021 21:49PM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff630f50972a46c906ee895"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=Other+8-K&ticker=f&flag=false&timestamp=1609969925&date=Wed+01.06.21+04%3A52+PM&doc_id=5ff630f50972a46c906ee895",
+                        "date": "Wed 01.06.21 04:52 PM",
+                        "ticker": [
+                            "f",
+                            "ford:av",
+                            "fdmo34:bz",
+                            "f:sw",
+                            "ford:sw",
+                            "fmc1:gr",
+                            "0p4f:ln",
+                            "00681r:mm",
+                            "us_ford:kz"
+                        ],
+                        "alert_initiated_time": 1609969919000,
+                        "doc_type": "ef",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff630f50972a46c906ee895"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff5042f25be6f1931ec172b",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                        "follow_ticker": "aapl",
+                        "subject": "",
+                        "sub": "",
+                        "desktop": true,
+                        "comp_name": {
+                            "aapl": "Apple Inc."
+                        },
+                        "company_name": "APPLE INC",
+                        "type": "filing",
+                        "email": false,
+                        "timestamp": 1609892911,
+                        "entity_info": {
+                            "aapl": "AAPL"
+                        },
+                        "doc_data": {
+                            "title": " FORM-4",
+                            "timestamp": 1609889591000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "form-4",
+                            "date": "01.05.2021 23:33PM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff5042c1e058a1534d4d799"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=aapl&flag=false&timestamp=1609892911&date=Tue+01.05.21+07%3A28+PM&doc_id=5ff5042c1e058a1534d4d799",
+                        "date": "Tue 01.05.21 07:28 PM",
+                        "ticker": [
+                            "aapl",
+                            "aapl:im",
+                            "aapl:av",
+                            "tcxapl:au",
+                            "apc:gr",
+                            "0r2v:ln",
+                            "aapl3:ar",
+                            "aapl:pe",
+                            "aapl:uz",
+                            "aapl34:bz",
+                            "aapl:ci",
+                            "apeu:sw",
+                            "aapl:sw",
+                            "app:ro",
+                            "aapl:cb",
+                            "us_aapl:kz"
+                        ],
+                        "alert_initiated_time": 1609892910000,
+                        "doc_type": "ef",
+                        "mobile": false,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff5042c1e058a1534d4d799"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff5038563479dd621ec3381",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                        "follow_ticker": "aapl",
+                        "subject": "",
+                        "sub": "",
+                        "desktop": true,
+                        "comp_name": {
+                            "aapl": "Apple Inc."
+                        },
+                        "company_name": "APPLE INC",
+                        "type": "filing",
+                        "email": false,
+                        "timestamp": 1609892741,
+                        "entity_info": {
+                            "aapl": "AAPL"
+                        },
+                        "doc_data": {
+                            "title": " FORM-3",
+                            "timestamp": 1609889463000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "form-3",
+                            "date": "01.05.2021 23:31PM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff5037a1e058a1534d4d76d"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-3&ticker=aapl&flag=false&timestamp=1609892741&date=Tue+01.05.21+07%3A25+PM&doc_id=5ff5037a1e058a1534d4d76d",
+                        "date": "Tue 01.05.21 07:25 PM",
+                        "ticker": [
+                            "aapl",
+                            "aapl:im",
+                            "aapl:av",
+                            "tcxapl:au",
+                            "apc:gr",
+                            "0r2v:ln",
+                            "aapl3:ar",
+                            "aapl:pe",
+                            "aapl:uz",
+                            "aapl34:bz",
+                            "aapl:ci",
+                            "apeu:sw",
+                            "aapl:sw",
+                            "app:ro",
+                            "aapl:cb",
+                            "us_aapl:kz"
+                        ],
+                        "alert_initiated_time": 1609892734000,
+                        "doc_type": "ef",
+                        "mobile": false,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff5037a1e058a1534d4d76d"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff4dc2625be6f1931ebfeb5",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                        "follow_ticker": "aapl",
+                        "subject": "",
+                        "sub": "",
+                        "desktop": true,
+                        "comp_name": {
+                            "aapl": "Apple Inc."
+                        },
+                        "company_name": "APPLE INC",
+                        "type": "filing",
+                        "email": false,
+                        "timestamp": 1609882662,
+                        "entity_info": {
+                            "aapl": "AAPL"
+                        },
+                        "doc_data": {
+                            "title": " DEFA14A",
+                            "timestamp": 1609882529000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "defa14a",
+                            "date": "01.05.2021 21:35PM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff4dc185133ce2ee184da32"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+DEFA14A&ticker=aapl&flag=false&timestamp=1609882662&date=Tue+01.05.21+04%3A37+PM&doc_id=5ff4dc185133ce2ee184da32",
+                        "date": "Tue 01.05.21 04:37 PM",
+                        "ticker": [
+                            "aapl",
+                            "aapl:im",
+                            "aapl:av",
+                            "tcxapl:au",
+                            "apc:gr",
+                            "0r2v:ln",
+                            "aapl3:ar",
+                            "aapl:pe",
+                            "aapl:uz",
+                            "aapl34:bz",
+                            "aapl:ci",
+                            "apeu:sw",
+                            "aapl:sw",
+                            "app:ro",
+                            "aapl:cb",
+                            "us_aapl:kz"
+                        ],
+                        "alert_initiated_time": 1609882650000,
+                        "doc_type": "ef",
+                        "mobile": false,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff4dc185133ce2ee184da32"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff4dbe063479dd621ec0e8e",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                        "follow_ticker": "aapl",
+                        "subject": "",
+                        "sub": "",
+                        "desktop": true,
+                        "comp_name": {
+                            "aapl": "Apple Inc."
+                        },
+                        "company_name": "APPLE INC",
+                        "type": "filing",
+                        "email": false,
+                        "timestamp": 1609882592,
+                        "entity_info": {
+                            "aapl": "AAPL"
+                        },
+                        "doc_data": {
+                            "title": " DEF 14A",
+                            "timestamp": 1609882442000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "def 14a",
+                            "date": "01.05.2021 21:34PM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff4dbcc5133ce2edff3b320"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=+DEF+14A&ticker=aapl&flag=false&timestamp=1609882592&date=Tue+01.05.21+04%3A36+PM&doc_id=5ff4dbcc5133ce2edff3b320",
+                        "date": "Tue 01.05.21 04:36 PM",
+                        "ticker": [
+                            "aapl",
+                            "aapl:im",
+                            "aapl:av",
+                            "tcxapl:au",
+                            "apc:gr",
+                            "0r2v:ln",
+                            "aapl3:ar",
+                            "aapl:pe",
+                            "aapl:uz",
+                            "aapl34:bz",
+                            "aapl:ci",
+                            "apeu:sw",
+                            "aapl:sw",
+                            "app:ro",
+                            "aapl:cb",
+                            "us_aapl:kz"
+                        ],
+                        "alert_initiated_time": 1609882581000,
+                        "doc_type": "ef",
+                        "mobile": false,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff4dbcc5133ce2edff3b320"
+                    },
+                    {
+                        "alert_type": "filing",
+                        "alert_id": "5ff4db4b12d0b4b3b2ec0d4f",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                        "follow_ticker": "aapl",
+                        "subject": "",
+                        "sub": "",
+                        "desktop": true,
+                        "comp_name": {
+                            "aapl": "Apple Inc."
+                        },
+                        "company_name": "APPLE INC",
+                        "type": "filing",
+                        "email": false,
+                        "timestamp": 1609882443,
+                        "entity_info": {
+                            "aapl": "AAPL"
+                        },
+                        "doc_data": {
+                            "title": "Mgmt 8-K",
+                            "timestamp": 1609882336000,
+                            "doc_pdf_content_s3_id": "",
+                            "type": "8-k",
+                            "date": "01.05.2021 21:32PM",
+                            "content-type": "text/html",
+                            "doc_content_s3_id": "sentieodocontent#5ff4db385133ce2edff3b31d"
+                        },
+                        "link": "https://app.sentieo.com/#doc?backtab=true&title=Mgmt+8-K&ticker=aapl&flag=false&timestamp=1609882443&date=Tue+01.05.21+04%3A34+PM&doc_id=5ff4db385133ce2edff3b31d",
+                        "date": "Tue 01.05.21 04:34 PM",
+                        "ticker": [
+                            "aapl",
+                            "aapl:im",
+                            "aapl:av",
+                            "tcxapl:au",
+                            "apc:gr",
+                            "0r2v:ln",
+                            "aapl3:ar",
+                            "aapl:pe",
+                            "aapl:uz",
+                            "aapl34:bz",
+                            "aapl:ci",
+                            "apeu:sw",
+                            "aapl:sw",
+                            "app:ro",
+                            "aapl:cb",
+                            "us_aapl:kz"
+                        ],
+                        "alert_initiated_time": 1609882428000,
+                        "doc_type": "ef",
+                        "mobile": false,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff4db385133ce2edff3b31d"
+                    },
+                    {
+                        "alert_type": "globalfiling",
+                        "alert_id": "5ff403955c4cc93df722e080",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: Ownership - Directors & Officers Alert",
+                        "sub": "FB: Ownership - Directors & Officers Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                            "fb2a:gr": "Facebook, Inc. Class A",
+                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                            "fb:ro": "Facebook Inc",
+                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                            "tcxfbk:au": "FACEBOOK TRACRS",
+                            "fb": "Facebook Inc",
+                            "fb:av": "Facebook, Inc.",
+                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                            "fb3:ar": "FACEBOOK CEDEAR",
+                            "fabk:sw": "Facebook Inc",
+                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "globalfiling",
+                        "email": true,
+                        "timestamp": 1609827222,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": "FACEBOOK, INC. 144",
+                            "timestamp": 1609780989000,
+                            "doc_pdf_content_s3_id": "sentieodata#5ff40360f8bad55aa0a15a18.pdf",
+                            "type": "16",
+                            "date": "01.04.2021 17:23PM",
+                            "content-type": "application/pdf",
+                            "doc_content_s3_id": "sentieodocontent#5ff40360f8bad55aa0a15a18_idr"
+                        },
+                        "link": "",
+                        "date": "Tue 01.05.21 01:13 AM",
+                        "ticker": [
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1609827219000,
+                        "doc_type": "gf",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff40360f8bad55aa0a15a18"
+                    },
+                    {
+                        "alert_type": "globalfiling",
+                        "alert_id": "5ff4039400e8c23ed022db22",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: Ownership - Directors & Officers Alert",
+                        "sub": "FB: Ownership - Directors & Officers Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                            "fb2a:gr": "Facebook, Inc. Class A",
+                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                            "fb:ro": "Facebook Inc",
+                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                            "tcxfbk:au": "FACEBOOK TRACRS",
+                            "fb": "Facebook Inc",
+                            "fb:av": "Facebook, Inc.",
+                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                            "fb3:ar": "FACEBOOK CEDEAR",
+                            "fabk:sw": "Facebook Inc",
+                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "globalfiling",
+                        "email": true,
+                        "timestamp": 1609827221,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": "FACEBOOK, INC. 144",
+                            "timestamp": 1609780989000,
+                            "doc_pdf_content_s3_id": "sentieodata#5ff40361f8bad55aa0a15a19.pdf",
+                            "type": "16",
+                            "date": "01.04.2021 17:23PM",
+                            "content-type": "application/pdf",
+                            "doc_content_s3_id": "sentieodocontent#5ff40361f8bad55aa0a15a19_idr"
+                        },
+                        "link": "",
+                        "date": "Tue 01.05.21 01:13 AM",
+                        "ticker": [
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1609827218000,
+                        "doc_type": "gf",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff40361f8bad55aa0a15a19"
+                    },
+                    {
+                        "alert_type": "globalfiling",
+                        "alert_id": "5ff4037a00e8c23ed022d93a",
+                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                        "follow_ticker": "fb",
+                        "subject": "FB: Ownership - Directors & Officers Alert",
+                        "sub": "FB: Ownership - Directors & Officers Alert",
+                        "desktop": true,
+                        "comp_name": {
+                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                            "fb2a:gr": "Facebook, Inc. Class A",
+                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                            "fb:ro": "Facebook Inc",
+                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                            "tcxfbk:au": "FACEBOOK TRACRS",
+                            "fb": "Facebook Inc",
+                            "fb:av": "Facebook, Inc.",
+                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                            "fb3:ar": "FACEBOOK CEDEAR",
+                            "fabk:sw": "Facebook Inc",
+                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                        },
+                        "company_name": "Facebook Inc",
+                        "type": "globalfiling",
+                        "email": true,
+                        "timestamp": 1609827195,
+                        "entity_info": {
+                            "fb": "FB"
+                        },
+                        "doc_data": {
+                            "title": "FACEBOOK, INC. 144",
+                            "timestamp": 1609780989000,
+                            "doc_pdf_content_s3_id": "sentieodata#5ff4035af8bad55aa0a15a14.pdf",
+                            "type": "16",
+                            "date": "01.04.2021 17:23PM",
+                            "content-type": "application/pdf",
+                            "doc_content_s3_id": "sentieodocontent#5ff4035af8bad55aa0a15a14_idr"
+                        },
+                        "link": "",
+                        "date": "Tue 01.05.21 01:13 AM",
+                        "ticker": [
+                            "us_fb:kz",
+                            "0qzi:ln",
+                            "fb:pe",
+                            "fb2a:gr",
+                            "ssyk:mm",
+                            "fb:ro",
+                            "fb:im",
+                            "fb:cb",
+                            "tcxfbk:au",
+                            "fb",
+                            "fb:av",
+                            "fb:ci",
+                            "fb3:ar",
+                            "fabk:sw",
+                            "fbok34:bz"
+                        ],
+                        "alert_initiated_time": 1609827192000,
+                        "doc_type": "gf",
+                        "mobile": true,
+                        "meta_type": "document",
+                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                        "doc_id": "5ff4035af8bad55aa0a15a14"
+                    }
+                ]
+            },
+            "response": {
+                "status": true,
+                "msg": [
+                    "success"
+                ]
+            }
+        }
+    ],
+    "required": [
+        "counter",
+        "result",
+        "response"
+    ],
+    "properties": {
+        "counter": {
+            "$id": "#/properties/counter",
+            "type": "integer",
+            "title": "The counter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "result": {
+            "$id": "#/properties/result",
+            "type": "object",
+            "title": "The result schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "alert_type": "filing",
+                    "last_visit": 1610027271000,
+                    "timestamp": 1610022891000,
+                    "start_new": 0,
+                    "start": 15,
+                    "res": [
+                        {
+                            "alert_type": "globalfiling",
+                            "alert_id": "5ff6a71700e8c23ed022f2d4",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: Ownership - Directors & Officers Alert",
+                            "sub": "FB: Ownership - Directors & Officers Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                "fb2a:gr": "Facebook, Inc. Class A",
+                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                "fb:ro": "Facebook Inc",
+                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                "fb": "Facebook Inc",
+                                "fb:av": "Facebook, Inc.",
+                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                "fb3:ar": "FACEBOOK CEDEAR",
+                                "fabk:sw": "Facebook Inc",
+                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "globalfiling",
+                            "email": true,
+                            "timestamp": 1610000152,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": "FACEBOOK, INC. 144",
+                                "timestamp": 1609950665000,
+                                "doc_pdf_content_s3_id": "sentieodata#5ff6a6f0f8bad5170308a252.pdf",
+                                "type": "16",
+                                "date": "01.06.2021 16:31PM",
+                                "content-type": "application/pdf",
+                                "doc_content_s3_id": "sentieodocontent#5ff6a6f0f8bad5170308a252_idr"
+                            },
+                            "link": "",
+                            "date": "Thu 01.07.21 01:15 AM",
+                            "ticker": [
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1610000148000,
+                            "doc_type": "gf",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff6a6f0f8bad5170308a252"
+                        },
+                        {
+                            "alert_type": "globalfiling",
+                            "alert_id": "5ff6a7155c4cc93df722f477",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: Ownership - Directors & Officers Alert",
+                            "sub": "FB: Ownership - Directors & Officers Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                "fb2a:gr": "Facebook, Inc. Class A",
+                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                "fb:ro": "Facebook Inc",
+                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                "fb": "Facebook Inc",
+                                "fb:av": "Facebook, Inc.",
+                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                "fb3:ar": "FACEBOOK CEDEAR",
+                                "fabk:sw": "Facebook Inc",
+                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "globalfiling",
+                            "email": true,
+                            "timestamp": 1610000150,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": "FACEBOOK, INC. 144",
+                                "timestamp": 1609950666000,
+                                "doc_pdf_content_s3_id": "sentieodata#5ff6a6ecf8bad5170308a250.pdf",
+                                "type": "16",
+                                "date": "01.06.2021 16:31PM",
+                                "content-type": "application/pdf",
+                                "doc_content_s3_id": "sentieodocontent#5ff6a6ecf8bad5170308a250_idr"
+                            },
+                            "link": "",
+                            "date": "Thu 01.07.21 01:15 AM",
+                            "ticker": [
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1610000147000,
+                            "doc_type": "gf",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff6a6ecf8bad5170308a250"
+                        },
+                        {
+                            "alert_type": "globalfiling",
+                            "alert_id": "5ff6a70e5c4cc93df722f2c3",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: Ownership - Directors & Officers Alert",
+                            "sub": "FB: Ownership - Directors & Officers Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                "fb2a:gr": "Facebook, Inc. Class A",
+                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                "fb:ro": "Facebook Inc",
+                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                "fb": "Facebook Inc",
+                                "fb:av": "Facebook, Inc.",
+                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                "fb3:ar": "FACEBOOK CEDEAR",
+                                "fabk:sw": "Facebook Inc",
+                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "globalfiling",
+                            "email": true,
+                            "timestamp": 1610000143,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": "FACEBOOK, INC. 144",
+                                "timestamp": 1609950666000,
+                                "doc_pdf_content_s3_id": "sentieodata#5ff6a6eff8bad5170308a251.pdf",
+                                "type": "16",
+                                "date": "01.06.2021 16:31PM",
+                                "content-type": "application/pdf",
+                                "doc_content_s3_id": "sentieodocontent#5ff6a6eff8bad5170308a251_idr"
+                            },
+                            "link": "",
+                            "date": "Thu 01.07.21 01:15 AM",
+                            "ticker": [
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1610000139000,
+                            "doc_type": "gf",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff6a6eff8bad5170308a251"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff6a1e181928af071ecb8bf",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: FORM-4 Alert",
+                            "sub": "FB: FORM-4 Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "fb": "Facebook Inc"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "filing",
+                            "email": true,
+                            "timestamp": 1609998818,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": " FORM-4",
+                                "timestamp": 1609978729000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "form-4",
+                                "date": "01.07.2021 00:18AM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff6a1dc1e058a3d0c2cd34d"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=fb&flag=false&timestamp=1609998818&date=Thu+01.07.21+12%3A53+AM&doc_id=5ff6a1dc1e058a3d0c2cd34d",
+                            "date": "Thu 01.07.21 12:53 AM",
+                            "ticker": [
+                                "fb",
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1609998817000,
+                            "doc_type": "ef",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff6a1dc1e058a3d0c2cd34d"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff6a1de12d0b4b3b2eca5a6",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: FORM-4 Alert",
+                            "sub": "FB: FORM-4 Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "fb": "Facebook Inc"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "filing",
+                            "email": true,
+                            "timestamp": 1609998815,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": " FORM-4",
+                                "timestamp": 1609979348000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "form-4",
+                                "date": "01.07.2021 00:29AM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff6a1db1e058a3d0c2cd349"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=fb&flag=false&timestamp=1609998815&date=Thu+01.07.21+12%3A53+AM&doc_id=5ff6a1db1e058a3d0c2cd349",
+                            "date": "Thu 01.07.21 12:53 AM",
+                            "ticker": [
+                                "fb",
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1609998813000,
+                            "doc_type": "ef",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff6a1db1e058a3d0c2cd349"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff6a1dc63479dd621ecbbbf",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: FORM-4 Alert",
+                            "sub": "FB: FORM-4 Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "fb": "Facebook Inc"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "filing",
+                            "email": true,
+                            "timestamp": 1609998813,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": " FORM-4",
+                                "timestamp": 1609980002000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "form-4",
+                                "date": "01.07.2021 00:40AM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff6a1da1e058a3d0c2cd345"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=fb&flag=false&timestamp=1609998813&date=Thu+01.07.21+12%3A53+AM&doc_id=5ff6a1da1e058a3d0c2cd345",
+                            "date": "Thu 01.07.21 12:53 AM",
+                            "ticker": [
+                                "fb",
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1609998812000,
+                            "doc_type": "ef",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff6a1da1e058a3d0c2cd345"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff6310312d0b4b3b2ec90db",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f22ed759836ab21b20002dc",
+                            "follow_ticker": "f",
+                            "subject": "F: 8-K Alert",
+                            "sub": "F: 8-K Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "f": "Ford Motor Company"
+                            },
+                            "company_name": "FORD MOTOR CO",
+                            "type": "filing",
+                            "email": true,
+                            "timestamp": 1609969925,
+                            "entity_info": {
+                                "f": "F"
+                            },
+                            "doc_data": {
+                                "title": "Other 8-K",
+                                "timestamp": 1609969785000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "8-k",
+                                "date": "01.06.2021 21:49PM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff630f50972a46c906ee895"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=Other+8-K&ticker=f&flag=false&timestamp=1609969925&date=Wed+01.06.21+04%3A52+PM&doc_id=5ff630f50972a46c906ee895",
+                            "date": "Wed 01.06.21 04:52 PM",
+                            "ticker": [
+                                "f",
+                                "ford:av",
+                                "fdmo34:bz",
+                                "f:sw",
+                                "ford:sw",
+                                "fmc1:gr",
+                                "0p4f:ln",
+                                "00681r:mm",
+                                "us_ford:kz"
+                            ],
+                            "alert_initiated_time": 1609969919000,
+                            "doc_type": "ef",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff630f50972a46c906ee895"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff5042f25be6f1931ec172b",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                            "follow_ticker": "aapl",
+                            "subject": "",
+                            "sub": "",
+                            "desktop": true,
+                            "comp_name": {
+                                "aapl": "Apple Inc."
+                            },
+                            "company_name": "APPLE INC",
+                            "type": "filing",
+                            "email": false,
+                            "timestamp": 1609892911,
+                            "entity_info": {
+                                "aapl": "AAPL"
+                            },
+                            "doc_data": {
+                                "title": " FORM-4",
+                                "timestamp": 1609889591000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "form-4",
+                                "date": "01.05.2021 23:33PM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff5042c1e058a1534d4d799"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-4&ticker=aapl&flag=false&timestamp=1609892911&date=Tue+01.05.21+07%3A28+PM&doc_id=5ff5042c1e058a1534d4d799",
+                            "date": "Tue 01.05.21 07:28 PM",
+                            "ticker": [
+                                "aapl",
+                                "aapl:im",
+                                "aapl:av",
+                                "tcxapl:au",
+                                "apc:gr",
+                                "0r2v:ln",
+                                "aapl3:ar",
+                                "aapl:pe",
+                                "aapl:uz",
+                                "aapl34:bz",
+                                "aapl:ci",
+                                "apeu:sw",
+                                "aapl:sw",
+                                "app:ro",
+                                "aapl:cb",
+                                "us_aapl:kz"
+                            ],
+                            "alert_initiated_time": 1609892910000,
+                            "doc_type": "ef",
+                            "mobile": false,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff5042c1e058a1534d4d799"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff5038563479dd621ec3381",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                            "follow_ticker": "aapl",
+                            "subject": "",
+                            "sub": "",
+                            "desktop": true,
+                            "comp_name": {
+                                "aapl": "Apple Inc."
+                            },
+                            "company_name": "APPLE INC",
+                            "type": "filing",
+                            "email": false,
+                            "timestamp": 1609892741,
+                            "entity_info": {
+                                "aapl": "AAPL"
+                            },
+                            "doc_data": {
+                                "title": " FORM-3",
+                                "timestamp": 1609889463000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "form-3",
+                                "date": "01.05.2021 23:31PM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff5037a1e058a1534d4d76d"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+FORM-3&ticker=aapl&flag=false&timestamp=1609892741&date=Tue+01.05.21+07%3A25+PM&doc_id=5ff5037a1e058a1534d4d76d",
+                            "date": "Tue 01.05.21 07:25 PM",
+                            "ticker": [
+                                "aapl",
+                                "aapl:im",
+                                "aapl:av",
+                                "tcxapl:au",
+                                "apc:gr",
+                                "0r2v:ln",
+                                "aapl3:ar",
+                                "aapl:pe",
+                                "aapl:uz",
+                                "aapl34:bz",
+                                "aapl:ci",
+                                "apeu:sw",
+                                "aapl:sw",
+                                "app:ro",
+                                "aapl:cb",
+                                "us_aapl:kz"
+                            ],
+                            "alert_initiated_time": 1609892734000,
+                            "doc_type": "ef",
+                            "mobile": false,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff5037a1e058a1534d4d76d"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff4dc2625be6f1931ebfeb5",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                            "follow_ticker": "aapl",
+                            "subject": "",
+                            "sub": "",
+                            "desktop": true,
+                            "comp_name": {
+                                "aapl": "Apple Inc."
+                            },
+                            "company_name": "APPLE INC",
+                            "type": "filing",
+                            "email": false,
+                            "timestamp": 1609882662,
+                            "entity_info": {
+                                "aapl": "AAPL"
+                            },
+                            "doc_data": {
+                                "title": " DEFA14A",
+                                "timestamp": 1609882529000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "defa14a",
+                                "date": "01.05.2021 21:35PM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff4dc185133ce2ee184da32"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+DEFA14A&ticker=aapl&flag=false&timestamp=1609882662&date=Tue+01.05.21+04%3A37+PM&doc_id=5ff4dc185133ce2ee184da32",
+                            "date": "Tue 01.05.21 04:37 PM",
+                            "ticker": [
+                                "aapl",
+                                "aapl:im",
+                                "aapl:av",
+                                "tcxapl:au",
+                                "apc:gr",
+                                "0r2v:ln",
+                                "aapl3:ar",
+                                "aapl:pe",
+                                "aapl:uz",
+                                "aapl34:bz",
+                                "aapl:ci",
+                                "apeu:sw",
+                                "aapl:sw",
+                                "app:ro",
+                                "aapl:cb",
+                                "us_aapl:kz"
+                            ],
+                            "alert_initiated_time": 1609882650000,
+                            "doc_type": "ef",
+                            "mobile": false,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff4dc185133ce2ee184da32"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff4dbe063479dd621ec0e8e",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                            "follow_ticker": "aapl",
+                            "subject": "",
+                            "sub": "",
+                            "desktop": true,
+                            "comp_name": {
+                                "aapl": "Apple Inc."
+                            },
+                            "company_name": "APPLE INC",
+                            "type": "filing",
+                            "email": false,
+                            "timestamp": 1609882592,
+                            "entity_info": {
+                                "aapl": "AAPL"
+                            },
+                            "doc_data": {
+                                "title": " DEF 14A",
+                                "timestamp": 1609882442000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "def 14a",
+                                "date": "01.05.2021 21:34PM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff4dbcc5133ce2edff3b320"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=+DEF+14A&ticker=aapl&flag=false&timestamp=1609882592&date=Tue+01.05.21+04%3A36+PM&doc_id=5ff4dbcc5133ce2edff3b320",
+                            "date": "Tue 01.05.21 04:36 PM",
+                            "ticker": [
+                                "aapl",
+                                "aapl:im",
+                                "aapl:av",
+                                "tcxapl:au",
+                                "apc:gr",
+                                "0r2v:ln",
+                                "aapl3:ar",
+                                "aapl:pe",
+                                "aapl:uz",
+                                "aapl34:bz",
+                                "aapl:ci",
+                                "apeu:sw",
+                                "aapl:sw",
+                                "app:ro",
+                                "aapl:cb",
+                                "us_aapl:kz"
+                            ],
+                            "alert_initiated_time": 1609882581000,
+                            "doc_type": "ef",
+                            "mobile": false,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff4dbcc5133ce2edff3b320"
+                        },
+                        {
+                            "alert_type": "filing",
+                            "alert_id": "5ff4db4b12d0b4b3b2ec0d4f",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f22ed739836ab21b2000005",
+                            "follow_ticker": "aapl",
+                            "subject": "",
+                            "sub": "",
+                            "desktop": true,
+                            "comp_name": {
+                                "aapl": "Apple Inc."
+                            },
+                            "company_name": "APPLE INC",
+                            "type": "filing",
+                            "email": false,
+                            "timestamp": 1609882443,
+                            "entity_info": {
+                                "aapl": "AAPL"
+                            },
+                            "doc_data": {
+                                "title": "Mgmt 8-K",
+                                "timestamp": 1609882336000,
+                                "doc_pdf_content_s3_id": "",
+                                "type": "8-k",
+                                "date": "01.05.2021 21:32PM",
+                                "content-type": "text/html",
+                                "doc_content_s3_id": "sentieodocontent#5ff4db385133ce2edff3b31d"
+                            },
+                            "link": "https://app.sentieo.com/#doc?backtab=true&title=Mgmt+8-K&ticker=aapl&flag=false&timestamp=1609882443&date=Tue+01.05.21+04%3A34+PM&doc_id=5ff4db385133ce2edff3b31d",
+                            "date": "Tue 01.05.21 04:34 PM",
+                            "ticker": [
+                                "aapl",
+                                "aapl:im",
+                                "aapl:av",
+                                "tcxapl:au",
+                                "apc:gr",
+                                "0r2v:ln",
+                                "aapl3:ar",
+                                "aapl:pe",
+                                "aapl:uz",
+                                "aapl34:bz",
+                                "aapl:ci",
+                                "apeu:sw",
+                                "aapl:sw",
+                                "app:ro",
+                                "aapl:cb",
+                                "us_aapl:kz"
+                            ],
+                            "alert_initiated_time": 1609882428000,
+                            "doc_type": "ef",
+                            "mobile": false,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff4db385133ce2edff3b31d"
+                        },
+                        {
+                            "alert_type": "globalfiling",
+                            "alert_id": "5ff403955c4cc93df722e080",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: Ownership - Directors & Officers Alert",
+                            "sub": "FB: Ownership - Directors & Officers Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                "fb2a:gr": "Facebook, Inc. Class A",
+                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                "fb:ro": "Facebook Inc",
+                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                "fb": "Facebook Inc",
+                                "fb:av": "Facebook, Inc.",
+                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                "fb3:ar": "FACEBOOK CEDEAR",
+                                "fabk:sw": "Facebook Inc",
+                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "globalfiling",
+                            "email": true,
+                            "timestamp": 1609827222,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": "FACEBOOK, INC. 144",
+                                "timestamp": 1609780989000,
+                                "doc_pdf_content_s3_id": "sentieodata#5ff40360f8bad55aa0a15a18.pdf",
+                                "type": "16",
+                                "date": "01.04.2021 17:23PM",
+                                "content-type": "application/pdf",
+                                "doc_content_s3_id": "sentieodocontent#5ff40360f8bad55aa0a15a18_idr"
+                            },
+                            "link": "",
+                            "date": "Tue 01.05.21 01:13 AM",
+                            "ticker": [
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1609827219000,
+                            "doc_type": "gf",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff40360f8bad55aa0a15a18"
+                        },
+                        {
+                            "alert_type": "globalfiling",
+                            "alert_id": "5ff4039400e8c23ed022db22",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: Ownership - Directors & Officers Alert",
+                            "sub": "FB: Ownership - Directors & Officers Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                "fb2a:gr": "Facebook, Inc. Class A",
+                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                "fb:ro": "Facebook Inc",
+                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                "fb": "Facebook Inc",
+                                "fb:av": "Facebook, Inc.",
+                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                "fb3:ar": "FACEBOOK CEDEAR",
+                                "fabk:sw": "Facebook Inc",
+                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "globalfiling",
+                            "email": true,
+                            "timestamp": 1609827221,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": "FACEBOOK, INC. 144",
+                                "timestamp": 1609780989000,
+                                "doc_pdf_content_s3_id": "sentieodata#5ff40361f8bad55aa0a15a19.pdf",
+                                "type": "16",
+                                "date": "01.04.2021 17:23PM",
+                                "content-type": "application/pdf",
+                                "doc_content_s3_id": "sentieodocontent#5ff40361f8bad55aa0a15a19_idr"
+                            },
+                            "link": "",
+                            "date": "Tue 01.05.21 01:13 AM",
+                            "ticker": [
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1609827218000,
+                            "doc_type": "gf",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff40361f8bad55aa0a15a19"
+                        },
+                        {
+                            "alert_type": "globalfiling",
+                            "alert_id": "5ff4037a00e8c23ed022d93a",
+                            "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                            "follow_ticker": "fb",
+                            "subject": "FB: Ownership - Directors & Officers Alert",
+                            "sub": "FB: Ownership - Directors & Officers Alert",
+                            "desktop": true,
+                            "comp_name": {
+                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                "fb2a:gr": "Facebook, Inc. Class A",
+                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                "fb:ro": "Facebook Inc",
+                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                "fb": "Facebook Inc",
+                                "fb:av": "Facebook, Inc.",
+                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                "fb3:ar": "FACEBOOK CEDEAR",
+                                "fabk:sw": "Facebook Inc",
+                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                            },
+                            "company_name": "Facebook Inc",
+                            "type": "globalfiling",
+                            "email": true,
+                            "timestamp": 1609827195,
+                            "entity_info": {
+                                "fb": "FB"
+                            },
+                            "doc_data": {
+                                "title": "FACEBOOK, INC. 144",
+                                "timestamp": 1609780989000,
+                                "doc_pdf_content_s3_id": "sentieodata#5ff4035af8bad55aa0a15a14.pdf",
+                                "type": "16",
+                                "date": "01.04.2021 17:23PM",
+                                "content-type": "application/pdf",
+                                "doc_content_s3_id": "sentieodocontent#5ff4035af8bad55aa0a15a14_idr"
+                            },
+                            "link": "",
+                            "date": "Tue 01.05.21 01:13 AM",
+                            "ticker": [
+                                "us_fb:kz",
+                                "0qzi:ln",
+                                "fb:pe",
+                                "fb2a:gr",
+                                "ssyk:mm",
+                                "fb:ro",
+                                "fb:im",
+                                "fb:cb",
+                                "tcxfbk:au",
+                                "fb",
+                                "fb:av",
+                                "fb:ci",
+                                "fb3:ar",
+                                "fabk:sw",
+                                "fbok34:bz"
+                            ],
+                            "alert_initiated_time": 1609827192000,
+                            "doc_type": "gf",
+                            "mobile": true,
+                            "meta_type": "document",
+                            "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                            "doc_id": "5ff4035af8bad55aa0a15a14"
+                        }
+                    ]
+                }
+            ],
+            "required": [
+                "alert_type",
+                "last_visit",
+                "timestamp",
+                "start_new",
+                "start",
+                "res"
+            ],
+            "properties": {
+                "alert_type": {
+                    "$id": "#/properties/result/properties/alert_type",
+                    "type": "string",
+                    "title": "The alert_type schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "filing"
+                    ]
+                },
+                "last_visit": {
+                    "$id": "#/properties/result/properties/last_visit",
+                    "type": "integer",
+                    "title": "The last_visit schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1610027271000
+                    ]
+                },
+                "timestamp": {
+                    "$id": "#/properties/result/properties/timestamp",
+                    "type": "integer",
+                    "title": "The timestamp schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1610022891000
+                    ]
+                },
+                "start_new": {
+                    "$id": "#/properties/result/properties/start_new",
+                    "type": "integer",
+                    "title": "The start_new schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0
+                    ]
+                },
+                "start": {
+                    "$id": "#/properties/result/properties/start",
+                    "type": "integer",
+                    "title": "The start schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        15
+                    ]
+                },
+                "res": {
+                    "$id": "#/properties/result/properties/res",
+                    "type": "array",
+                    "title": "The res schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "alert_type": "globalfiling",
+                                "alert_id": "5ff6a71700e8c23ed022f2d4",
+                                "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                                "follow_ticker": "fb",
+                                "subject": "FB: Ownership - Directors & Officers Alert",
+                                "sub": "FB: Ownership - Directors & Officers Alert",
+                                "desktop": true,
+                                "comp_name": {
+                                    "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                    "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                    "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                    "fb2a:gr": "Facebook, Inc. Class A",
+                                    "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                    "fb:ro": "Facebook Inc",
+                                    "fb:im": "FACEBOOK CLASS A (MIL)",
+                                    "fb:cb": "FACEBOOK 'A' (BOG)",
+                                    "tcxfbk:au": "FACEBOOK TRACRS",
+                                    "fb": "Facebook Inc",
+                                    "fb:av": "Facebook, Inc.",
+                                    "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                    "fb3:ar": "FACEBOOK CEDEAR",
+                                    "fabk:sw": "Facebook Inc",
+                                    "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                                },
+                                "company_name": "Facebook Inc",
+                                "type": "globalfiling",
+                                "email": true,
+                                "timestamp": 1610000152,
+                                "entity_info": {
+                                    "fb": "FB"
+                                },
+                                "doc_data": {
+                                    "title": "FACEBOOK, INC. 144",
+                                    "timestamp": 1609950665000,
+                                    "doc_pdf_content_s3_id": "sentieodata#5ff6a6f0f8bad5170308a252.pdf",
+                                    "type": "16",
+                                    "date": "01.06.2021 16:31PM",
+                                    "content-type": "application/pdf",
+                                    "doc_content_s3_id": "sentieodocontent#5ff6a6f0f8bad5170308a252_idr"
+                                },
+                                "link": "",
+                                "date": "Thu 01.07.21 01:15 AM",
+                                "ticker": [
+                                    "us_fb:kz",
+                                    "0qzi:ln",
+                                    "fb:pe",
+                                    "fb2a:gr",
+                                    "ssyk:mm",
+                                    "fb:ro",
+                                    "fb:im",
+                                    "fb:cb",
+                                    "tcxfbk:au",
+                                    "fb",
+                                    "fb:av",
+                                    "fb:ci",
+                                    "fb3:ar",
+                                    "fabk:sw",
+                                    "fbok34:bz"
+                                ],
+                                "alert_initiated_time": 1610000148000,
+                                "doc_type": "gf",
+                                "mobile": true,
+                                "meta_type": "document",
+                                "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                                "doc_id": "5ff6a6f0f8bad5170308a252"
+                            },
+                            {
+                                "alert_type": "globalfiling",
+                                "alert_id": "5ff6a7155c4cc93df722f477",
+                                "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                                "follow_ticker": "fb",
+                                "subject": "FB: Ownership - Directors & Officers Alert",
+                                "sub": "FB: Ownership - Directors & Officers Alert",
+                                "desktop": true,
+                                "comp_name": {
+                                    "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                    "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                    "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                    "fb2a:gr": "Facebook, Inc. Class A",
+                                    "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                    "fb:ro": "Facebook Inc",
+                                    "fb:im": "FACEBOOK CLASS A (MIL)",
+                                    "fb:cb": "FACEBOOK 'A' (BOG)",
+                                    "tcxfbk:au": "FACEBOOK TRACRS",
+                                    "fb": "Facebook Inc",
+                                    "fb:av": "Facebook, Inc.",
+                                    "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                    "fb3:ar": "FACEBOOK CEDEAR",
+                                    "fabk:sw": "Facebook Inc",
+                                    "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                                },
+                                "company_name": "Facebook Inc",
+                                "type": "globalfiling",
+                                "email": true,
+                                "timestamp": 1610000150,
+                                "entity_info": {
+                                    "fb": "FB"
+                                },
+                                "doc_data": {
+                                    "title": "FACEBOOK, INC. 144",
+                                    "timestamp": 1609950666000,
+                                    "doc_pdf_content_s3_id": "sentieodata#5ff6a6ecf8bad5170308a250.pdf",
+                                    "type": "16",
+                                    "date": "01.06.2021 16:31PM",
+                                    "content-type": "application/pdf",
+                                    "doc_content_s3_id": "sentieodocontent#5ff6a6ecf8bad5170308a250_idr"
+                                },
+                                "link": "",
+                                "date": "Thu 01.07.21 01:15 AM",
+                                "ticker": [
+                                    "us_fb:kz",
+                                    "0qzi:ln",
+                                    "fb:pe",
+                                    "fb2a:gr",
+                                    "ssyk:mm",
+                                    "fb:ro",
+                                    "fb:im",
+                                    "fb:cb",
+                                    "tcxfbk:au",
+                                    "fb",
+                                    "fb:av",
+                                    "fb:ci",
+                                    "fb3:ar",
+                                    "fabk:sw",
+                                    "fbok34:bz"
+                                ],
+                                "alert_initiated_time": 1610000147000,
+                                "doc_type": "gf",
+                                "mobile": true,
+                                "meta_type": "document",
+                                "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                                "doc_id": "5ff6a6ecf8bad5170308a250"
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/result/properties/res/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/result/properties/res/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "alert_type": "globalfiling",
+                                        "alert_id": "5ff6a71700e8c23ed022f2d4",
+                                        "logo": "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000",
+                                        "follow_ticker": "fb",
+                                        "subject": "FB: Ownership - Directors & Officers Alert",
+                                        "sub": "FB: Ownership - Directors & Officers Alert",
+                                        "desktop": true,
+                                        "comp_name": {
+                                            "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                            "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                            "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                            "fb2a:gr": "Facebook, Inc. Class A",
+                                            "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                            "fb:ro": "Facebook Inc",
+                                            "fb:im": "FACEBOOK CLASS A (MIL)",
+                                            "fb:cb": "FACEBOOK 'A' (BOG)",
+                                            "tcxfbk:au": "FACEBOOK TRACRS",
+                                            "fb": "Facebook Inc",
+                                            "fb:av": "Facebook, Inc.",
+                                            "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                            "fb3:ar": "FACEBOOK CEDEAR",
+                                            "fabk:sw": "Facebook Inc",
+                                            "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                                        },
+                                        "company_name": "Facebook Inc",
+                                        "type": "globalfiling",
+                                        "email": true,
+                                        "timestamp": 1610000152,
+                                        "entity_info": {
+                                            "fb": "FB"
+                                        },
+                                        "doc_data": {
+                                            "title": "FACEBOOK, INC. 144",
+                                            "timestamp": 1609950665000,
+                                            "doc_pdf_content_s3_id": "sentieodata#5ff6a6f0f8bad5170308a252.pdf",
+                                            "type": "16",
+                                            "date": "01.06.2021 16:31PM",
+                                            "content-type": "application/pdf",
+                                            "doc_content_s3_id": "sentieodocontent#5ff6a6f0f8bad5170308a252_idr"
+                                        },
+                                        "link": "",
+                                        "date": "Thu 01.07.21 01:15 AM",
+                                        "ticker": [
+                                            "us_fb:kz",
+                                            "0qzi:ln",
+                                            "fb:pe",
+                                            "fb2a:gr",
+                                            "ssyk:mm",
+                                            "fb:ro",
+                                            "fb:im",
+                                            "fb:cb",
+                                            "tcxfbk:au",
+                                            "fb",
+                                            "fb:av",
+                                            "fb:ci",
+                                            "fb3:ar",
+                                            "fabk:sw",
+                                            "fbok34:bz"
+                                        ],
+                                        "alert_initiated_time": 1610000148000,
+                                        "doc_type": "gf",
+                                        "mobile": true,
+                                        "meta_type": "document",
+                                        "image_url": "https://s3.amazonaws.com/sentieoprofile/filing.png",
+                                        "doc_id": "5ff6a6f0f8bad5170308a252"
+                                    }
+                                ],
+                                "required": [
+                                    "alert_type",
+                                    "alert_id",
+                                    "logo",
+                                    "follow_ticker",
+                                    "subject",
+                                    "sub",
+                                    "desktop",
+                                    "comp_name",
+                                    "company_name",
+                                    "type",
+                                    "email",
+                                    "timestamp",
+                                    "entity_info",
+                                    "doc_data",
+                                    "link",
+                                    "date",
+                                    "ticker",
+                                    "alert_initiated_time",
+                                    "doc_type",
+                                    "mobile",
+                                    "meta_type",
+                                    "image_url",
+                                    "doc_id"
+                                ],
+                                "properties": {
+                                    "alert_type": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/alert_type",
+                                        "type": "string",
+                                        "title": "The alert_type schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "globalfiling"
+                                        ]
+                                    },
+                                    "alert_id": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/alert_id",
+                                        "type": "string",
+                                        "title": "The alert_id schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "5ff6a71700e8c23ed022f2d4"
+                                        ]
+                                    },
+                                    "logo": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/logo",
+                                        "type": "string",
+                                        "title": "The logo schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "https://s3.amazonaws.com/company-logo/4f30c7c94a0c9b582e000000"
+                                        ]
+                                    },
+                                    "follow_ticker": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/follow_ticker",
+                                        "type": "string",
+                                        "title": "The follow_ticker schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "fb"
+                                        ]
+                                    },
+                                    "subject": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/subject",
+                                        "type": "string",
+                                        "title": "The subject schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "FB: Ownership - Directors & Officers Alert"
+                                        ]
+                                    },
+                                    "sub": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/sub",
+                                        "type": "string",
+                                        "title": "The sub schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "FB: Ownership - Directors & Officers Alert"
+                                        ]
+                                    },
+                                    "desktop": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/desktop",
+                                        "type": "boolean",
+                                        "title": "The desktop schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            true
+                                        ]
+                                    },
+                                    "comp_name": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name",
+                                        "type": "object",
+                                        "title": "The comp_name schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "us_fb:kz": "FACEBOOK CLASS A (KAZ)",
+                                                "0qzi:ln": "FACEBOOK CLASS A (LON)",
+                                                "fb:pe": "FACEBOOK CLASS A (LIM)",
+                                                "fb2a:gr": "Facebook, Inc. Class A",
+                                                "ssyk:mm": "FACEBOOK CLASS A (MEX)",
+                                                "fb:ro": "Facebook Inc",
+                                                "fb:im": "FACEBOOK CLASS A (MIL)",
+                                                "fb:cb": "FACEBOOK 'A' (BOG)",
+                                                "tcxfbk:au": "FACEBOOK TRACRS",
+                                                "fb": "Facebook Inc",
+                                                "fb:av": "Facebook, Inc.",
+                                                "fb:ci": "FACEBOOK CLASS A (SGO)",
+                                                "fb3:ar": "FACEBOOK CEDEAR",
+                                                "fabk:sw": "Facebook Inc",
+                                                "fbok34:bz": "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                                            }
+                                        ],
+                                        "required": [
+                                            "us_fb:kz",
+                                            "0qzi:ln",
+                                            "fb:pe",
+                                            "fb2a:gr",
+                                            "ssyk:mm",
+                                            "fb:ro",
+                                            "fb:im",
+                                            "fb:cb",
+                                            "tcxfbk:au",
+                                            "fb",
+                                            "fb:av",
+                                            "fb:ci",
+                                            "fb3:ar",
+                                            "fabk:sw",
+                                            "fbok34:bz"
+                                        ],
+                                        "properties": {
+                                            "us_fb:kz": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/us_fb%3Akz",
+                                                "type": "string",
+                                                "title": "The us_fb:kz schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CLASS A (KAZ)"
+                                                ]
+                                            },
+                                            "0qzi:ln": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/0qzi%3Aln",
+                                                "type": "string",
+                                                "title": "The 0qzi:ln schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CLASS A (LON)"
+                                                ]
+                                            },
+                                            "fb:pe": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb%3Ape",
+                                                "type": "string",
+                                                "title": "The fb:pe schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CLASS A (LIM)"
+                                                ]
+                                            },
+                                            "fb2a:gr": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb2a%3Agr",
+                                                "type": "string",
+                                                "title": "The fb2a:gr schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Facebook, Inc. Class A"
+                                                ]
+                                            },
+                                            "ssyk:mm": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/ssyk%3Amm",
+                                                "type": "string",
+                                                "title": "The ssyk:mm schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CLASS A (MEX)"
+                                                ]
+                                            },
+                                            "fb:ro": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb%3Aro",
+                                                "type": "string",
+                                                "title": "The fb:ro schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Facebook Inc"
+                                                ]
+                                            },
+                                            "fb:im": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb%3Aim",
+                                                "type": "string",
+                                                "title": "The fb:im schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CLASS A (MIL)"
+                                                ]
+                                            },
+                                            "fb:cb": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb%3Acb",
+                                                "type": "string",
+                                                "title": "The fb:cb schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK 'A' (BOG)"
+                                                ]
+                                            },
+                                            "tcxfbk:au": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/tcxfbk%3Aau",
+                                                "type": "string",
+                                                "title": "The tcxfbk:au schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK TRACRS"
+                                                ]
+                                            },
+                                            "fb": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb",
+                                                "type": "string",
+                                                "title": "The fb schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Facebook Inc"
+                                                ]
+                                            },
+                                            "fb:av": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb%3Aav",
+                                                "type": "string",
+                                                "title": "The fb:av schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Facebook, Inc."
+                                                ]
+                                            },
+                                            "fb:ci": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb%3Aci",
+                                                "type": "string",
+                                                "title": "The fb:ci schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CLASS A (SGO)"
+                                                ]
+                                            },
+                                            "fb3:ar": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fb3%3Aar",
+                                                "type": "string",
+                                                "title": "The fb3:ar schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK CEDEAR"
+                                                ]
+                                            },
+                                            "fabk:sw": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fabk%3Asw",
+                                                "type": "string",
+                                                "title": "The fabk:sw schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Facebook Inc"
+                                                ]
+                                            },
+                                            "fbok34:bz": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/comp_name/properties/fbok34%3Abz",
+                                                "type": "string",
+                                                "title": "The fbok34:bz schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Facebook Inc Shs Unsponsored Brazilian Depository Receipts Repr 1/2 Sh"
+                                                ]
+                                            }
+                                        },
+                                        "additionalProperties": true
+                                    },
+                                    "company_name": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/company_name",
+                                        "type": "string",
+                                        "title": "The company_name schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "Facebook Inc"
+                                        ]
+                                    },
+                                    "type": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/type",
+                                        "type": "string",
+                                        "title": "The type schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "globalfiling"
+                                        ]
+                                    },
+                                    "email": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/email",
+                                        "type": "boolean",
+                                        "title": "The email schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            true
+                                        ]
+                                    },
+                                    "timestamp": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/timestamp",
+                                        "type": "integer",
+                                        "title": "The timestamp schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0,
+                                        "examples": [
+                                            1610000152
+                                        ]
+                                    },
+                                    "entity_info": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/entity_info",
+                                        "type": "object",
+                                        "title": "The entity_info schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "fb": "FB"
+                                            }
+                                        ],
+                                        "required": [
+                                            "fb"
+                                        ],
+                                        "properties": {
+                                            "fb": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/entity_info/properties/fb",
+                                                "type": "string",
+                                                "title": "The fb schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FB"
+                                                ]
+                                            }
+                                        },
+                                        "additionalProperties": true
+                                    },
+                                    "doc_data": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data",
+                                        "type": "object",
+                                        "title": "The doc_data schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "title": "FACEBOOK, INC. 144",
+                                                "timestamp": 1609950665000,
+                                                "doc_pdf_content_s3_id": "sentieodata#5ff6a6f0f8bad5170308a252.pdf",
+                                                "type": "16",
+                                                "date": "01.06.2021 16:31PM",
+                                                "content-type": "application/pdf",
+                                                "doc_content_s3_id": "sentieodocontent#5ff6a6f0f8bad5170308a252_idr"
+                                            }
+                                        ],
+                                        "required": [
+                                            "title",
+                                            "timestamp",
+                                            "doc_pdf_content_s3_id",
+                                            "type",
+                                            "date",
+                                            "content-type",
+                                            "doc_content_s3_id"
+                                        ],
+                                        "properties": {
+                                            "title": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/title",
+                                                "type": "string",
+                                                "title": "The title schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "FACEBOOK, INC. 144"
+                                                ]
+                                            },
+                                            "timestamp": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/timestamp",
+                                                "type": "integer",
+                                                "title": "The timestamp schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": 0,
+                                                "examples": [
+                                                    1609950665000
+                                                ]
+                                            },
+                                            "doc_pdf_content_s3_id": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/doc_pdf_content_s3_id",
+                                                "type": "string",
+                                                "title": "The doc_pdf_content_s3_id schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "sentieodata#5ff6a6f0f8bad5170308a252.pdf"
+                                                ]
+                                            },
+                                            "type": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/type",
+                                                "type": "string",
+                                                "title": "The type schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "16"
+                                                ]
+                                            },
+                                            "date": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/date",
+                                                "type": "string",
+                                                "title": "The date schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "01.06.2021 16:31PM"
+                                                ]
+                                            },
+                                            "content-type": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/content-type",
+                                                "type": "string",
+                                                "title": "The content-type schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "application/pdf"
+                                                ]
+                                            },
+                                            "doc_content_s3_id": {
+                                                "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_data/properties/doc_content_s3_id",
+                                                "type": "string",
+                                                "title": "The doc_content_s3_id schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "sentieodocontent#5ff6a6f0f8bad5170308a252_idr"
+                                                ]
+                                            }
+                                        },
+                                        "additionalProperties": true
+                                    },
+                                    "link": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/link",
+                                        "type": "string",
+                                        "title": "The link schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    },
+                                    "date": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/date",
+                                        "type": "string",
+                                        "title": "The date schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "Thu 01.07.21 01:15 AM"
+                                        ]
+                                    },
+                                    "ticker": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/ticker",
+                                        "type": "array",
+                                        "title": "The ticker schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "examples": [
+                                            [
+                                                "us_fb:kz",
+                                                "0qzi:ln"
+                                            ]
+                                        ],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "$id": "#/properties/result/properties/res/items/anyOf/0/properties/ticker/items",
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/result/properties/res/items/anyOf/0/properties/ticker/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "us_fb:kz",
+                                                        "0qzi:ln"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "alert_initiated_time": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/alert_initiated_time",
+                                        "type": "integer",
+                                        "title": "The alert_initiated_time schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0,
+                                        "examples": [
+                                            1610000148000
+                                        ]
+                                    },
+                                    "doc_type": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_type",
+                                        "type": "string",
+                                        "title": "The doc_type schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "gf"
+                                        ]
+                                    },
+                                    "mobile": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/mobile",
+                                        "type": "boolean",
+                                        "title": "The mobile schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            true
+                                        ]
+                                    },
+                                    "meta_type": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/meta_type",
+                                        "type": "string",
+                                        "title": "The meta_type schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "document"
+                                        ]
+                                    },
+                                    "image_url": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/image_url",
+                                        "type": "string",
+                                        "title": "The image_url schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "https://s3.amazonaws.com/sentieoprofile/filing.png"
+                                        ]
+                                    },
+                                    "doc_id": {
+                                        "$id": "#/properties/result/properties/res/items/anyOf/0/properties/doc_id",
+                                        "type": "string",
+                                        "title": "The doc_id schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "5ff6a6f0f8bad5170308a252"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "response": {
+            "$id": "#/properties/response",
+            "type": "object",
+            "title": "The response schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "status": true,
+                    "msg": [
+                        "success"
+                    ]
+                }
+            ],
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "$id": "#/properties/response/properties/status",
+                    "type": "boolean",
+                    "title": "The status schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        true
+                    ]
+                },
+                "msg": {
+                    "$id": "#/properties/response/properties/msg",
+                    "type": "array",
+                    "title": "The msg schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            "success"
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/response/properties/msg/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/response/properties/msg/items/anyOf/0",
+                                "type": "string",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "success"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

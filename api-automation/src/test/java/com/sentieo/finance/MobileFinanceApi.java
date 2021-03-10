@@ -315,10 +315,15 @@ public class MobileFinanceApi extends APIDriver {
 					for (Map.Entry<String, String> set : keyMap.entrySet()) {
 						util.verifykeyAvailable(result, set.getKey(), set.getValue());
 					}
-
-					verify.verifyEquals((result.get("cur_year")), Calendar.getInstance().get(Calendar.YEAR),
-							"Verify the value of key cur_year");
-
+					int curYear = (int) result.get("cur_year");
+					if (curYear == (2020)) {
+						verify.verifyEquals(curYear, Calendar.getInstance().get(Calendar.YEAR) - 1,
+								"Verify the value of key cur_year");
+					}else {
+						verify.verifyEquals(curYear, Calendar.getInstance().get(Calendar.YEAR) ,
+								"Verify the value of key cur_year");
+					}
+					
 					JSONArray data = result.getJSONArray("data");
 					if (data.length() == 0 || data == null) {
 						verify.assertTrue(false, "API shows blank data");

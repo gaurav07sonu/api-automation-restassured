@@ -11,6 +11,9 @@ import java.util.Iterator;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -27,13 +30,20 @@ public class DocumentSearch extends APIDriver {
 
 	public static String query = "sales";
 	public static String isSynonym = "true";
+	String locMobile = "";
 	
 	@BeforeMethod(alwaysRun = true)
 	public void initVerify() {
 		verify = new APIAssertions();
 	}
 	
-	@Test(groups = "sanity", description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
+	}
+	
+	@Test(groups = {"sanity","mobileMainApp"}, description = "doc search with queries", dataProvider = "test_doctype_query", dataProviderClass = DataProviderClass.class)
 	public void test_doctype_query(String ticker, String query, String filters) throws CoreCommonException {
 		try {
 			String URI = APP_URL + FETCH_SEARCH;
@@ -44,7 +54,10 @@ public class DocumentSearch extends APIDriver {
 			queryParams.put("facets_flag", "false");
 			queryParams.put("allow_entity", "true");
 			queryParams.put("pticker_setting", "true");
-
+			
+			if(locMobile.equals("ios")) {
+				queryParams.put("loc", "ios");
+			}
 			JSONObject json = new JSONObject(filters);
 			System.out.println(json.getJSONObject("doctype"));
 			String docType = "";

@@ -32,7 +32,7 @@ import com.sentieo.user.TestUserWatchlistData;
 import com.sentieo.utils.CoreCommonException;
 
 public class DashboardCommonUtils extends APIDriver {
-	static int feed_id = 0;
+	static String docID = "";
 	static int feedCount = 0;
 	static String watchlistID = "";
 	static String saveSearchName = "";
@@ -97,7 +97,7 @@ public class DashboardCommonUtils extends APIDriver {
 				saveSearchID = data.getJSONObject(rand_int1).getString("id");
 				return saveSearchID;
 			} else
-				obj.save_user_search();
+				obj.perform_user_save_search();
 		} catch (Exception e) {
 			throw new CoreCommonException(e);
 		}
@@ -261,8 +261,9 @@ public class DashboardCommonUtils extends APIDriver {
 		return plotter_name;
 	}
 
-	public List<Integer> fetch_search_filters() throws CoreCommonException {
-		List<Integer> rssID = new ArrayList<>();
+	public List<String> fetch_search_filters() throws CoreCommonException {
+		List<String>doc_ID=new ArrayList<String>();
+		//List<Integer> rssID = new ArrayList<>();
 		String tickers = "";
 		try {
 			if (AddWatchlist.watchTickers.size() > 20) {
@@ -298,10 +299,10 @@ public class DashboardCommonUtils extends APIDriver {
 					if (rss != null) {
 						feedCount = rss.length();
 						for (int i = 0; i < rss.length(); i++) {
-							feed_id = rss.getJSONObject(i).getInt("feed_id");
-							rssID.add(feed_id);
+							docID = rss.getJSONObject(i).getString("id");
+							doc_ID.add(docID);
 						}
-						return rssID;
+						return doc_ID;
 					}
 				}
 			}
@@ -310,7 +311,7 @@ public class DashboardCommonUtils extends APIDriver {
 		} finally {
 			verify.verifyAll();
 		}
-		return rssID;
+		return doc_ID;
 	}
 
 	public org.json.JSONArray dashboardlist(String option) {

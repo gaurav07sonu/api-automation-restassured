@@ -29,7 +29,7 @@ import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 
 public class MobileLoginTest extends APIDriver {
-	String userName;
+	String email;
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -37,7 +37,7 @@ public class MobileLoginTest extends APIDriver {
 		RestAssured.baseURI = USER_APP_URL;
 	}
 
-	@Test(groups = "mobile", description = "set csrf token", priority = 1)
+	@Test(groups = "mobileMainApp", description = "set csrf token", priority = 1)
 	public void testSetCsrfToken() throws Exception {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -65,7 +65,7 @@ public class MobileLoginTest extends APIDriver {
 		}
 	}
 
-	@Test(groups = "mobile", description = "Login test", priority = 2)
+	@Test(groups = "mobileMainApp", description = "Login test", priority = 2)
 	public void testMobileLogin() throws Exception {
 		try {
 			HashMap<String, String> loginData = new HashMap<String, String>();
@@ -83,8 +83,8 @@ public class MobileLoginTest extends APIDriver {
 					"Verify the API Response Status");
 			String msg = respJson.getJSONObject("response").getString("msg").toString();
 			if (msg.contains("Login successful")) {
-				userName = respJson.getJSONObject("result").getString("email").toString();
-				verify.assertEqualsActualContainsExpected(EMAIL, userName, msg);
+				email = respJson.getJSONObject("result").getString("email").toString();
+				verify.assertEqualsActualContainsExpected(EMAIL, email, msg);
 			} else {
 				verify.assertTrue(false, msg);
 			}
@@ -98,7 +98,7 @@ public class MobileLoginTest extends APIDriver {
 		}
 	}
 
-	@Test(groups = "mobile", description = "test auto update", priority = 3)
+	@Test(groups = "mobileMainApp", description = "test auto update", priority = 3)
 	public void testAutoUpdate() throws Exception {
 		try {
 			HashMap<String, String> parameters = new HashMap<String, String>();
@@ -111,7 +111,7 @@ public class MobileLoginTest extends APIDriver {
 			verify.verifyResponseTime(resp, 5000);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			System.out.println(respJson);
-			verify.verifyEquals(respJson.getJSONObject("response").get("status"), true);
+			verify.verifyEquals(respJson.getJSONObject("response").get("status"), true, "Checking response status");
 			verify.jsonSchemaValidation(resp, "mobileApis" + File.separator + "testAutoUpdate.json");
 		} catch (JSONException je) {
 			je.printStackTrace();

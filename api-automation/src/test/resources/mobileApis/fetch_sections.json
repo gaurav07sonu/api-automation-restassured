@@ -1,0 +1,1260 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "http://example.com/example.json",
+	"type": "object",
+	"title": "The root schema",
+	"description": "The root schema comprises the entire JSON document.",
+	"default": {
+		
+	},
+	"examples": [
+		{
+			"result": {
+				"sections": {
+					"10q": [
+						{
+							"term": "Part 1.Item 1 - Financial Statements\" OR \"Part I Financial Information",
+							"default_mode": 1,
+							"value": "in:10q:FS",
+							"key": "10q.part 1.item 1"
+						},
+						{
+							"term": "Part 1.Item 2 - Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+							"default_mode": 2,
+							"value": "in:10q:MDA",
+							"key": "10q.part 1.item 2"
+						},
+						{
+							"term": "Part 1.Item 3 - Quantitative and Qualitative Disclosures About Market Risk",
+							"default_mode": 1,
+							"value": "in:10q:QQD",
+							"key": "10q.part 1.item 3"
+						},
+						{
+							"term": "Part 1.Item 4 - Controls and Procedures",
+							"default_mode": 1,
+							"value": "in:10q:CAP",
+							"key": "10q.part 1.item 4"
+						},
+						{
+							"term": "Part 2.Item 1 - Legal Proceedings",
+							"default_mode": 1,
+							"value": "in:10q:LP",
+							"key": "10q.part 2.item 1"
+						},
+						{
+							"term": "Part 2.Item 1A - Risk Factors",
+							"default_mode": 1,
+							"value": "in:10q:RF",
+							"key": "10q.part 2.item 1a"
+						},
+						{
+							"term": "Part 2.Item 2 - Unregistered Sales of Equity Securities and Use of Proceeds",
+							"default_mode": 1,
+							"value": "in:10q:USE",
+							"key": "10q.part 2.item 2"
+						},
+						{
+							"term": "Part 2.Item 3 - Defaults Upon Senior Securities",
+							"default_mode": 1,
+							"value": "in:10q:DSS",
+							"key": "10q.part 2.item 3"
+						},
+						{
+							"term": "Part 2.Item 4 - Mine Safety Disclosures",
+							"default_mode": 1,
+							"value": "in:10q:MSD",
+							"key": "10q.part 2.item 4"
+						},
+						{
+							"term": "Part 2.Item 5 - Other Information",
+							"default_mode": 1,
+							"value": "in:10q:OI",
+							"key": "10q.part 2.item 5"
+						},
+						{
+							"term": "Part 2.Item 6 - Exhibits",
+							"default_mode": 1,
+							"value": "in:10q:EXB",
+							"key": "10q.part 2.item 6"
+						}
+					],
+					"10k": [
+						{
+							"term": "Item 1 - Business",
+							"default_mode": 2,
+							"value": "in:10k:BSN",
+							"key": "10k.item 1"
+						},
+						{
+							"term": "Item 1A - Risk Factors",
+							"default_mode": 2,
+							"value": "in:10k:RF",
+							"key": "10k.item 1a"
+						},
+						{
+							"term": "Item 1B - Unresolved Staff Comments",
+							"default_mode": 1,
+							"value": "in:10k:USC",
+							"key": "10k.item 1b"
+						},
+						{
+							"term": "Item 2 - Properties",
+							"default_mode": 1,
+							"value": "in:10k:PROP",
+							"key": "10k.item 2"
+						},
+						{
+							"term": "Item 3 - Legal Proceedings",
+							"default_mode": 1,
+							"value": "in:10k:LP",
+							"key": "10k.item 3"
+						},
+						{
+							"term": "Item 4 - Mine Safety Disclosures",
+							"default_mode": 1,
+							"value": "in:10k:MSD",
+							"key": "10k.item 4"
+						},
+						{
+							"term": "Item 5 - Market",
+							"default_mode": 1,
+							"value": "in:10k:MKT",
+							"key": "10k.item 5"
+						},
+						{
+							"term": "Item 6 - Consolidated Financial Data\" OR \"consolidated financials\" OR \"selected financial data",
+							"default_mode": 1,
+							"value": "in:10k:CFD",
+							"key": "10k.item 6"
+						},
+						{
+							"term": "Item 7 - Management's Discussion and Analysis of Financial Condition and Results of Operations",
+							"default_mode": 2,
+							"value": "in:10k:MDA",
+							"key": "10k.item 7"
+						},
+						{
+							"term": "Item 7A - Quantitative and Qualitative Disclosures",
+							"default_mode": 1,
+							"value": "in:10k:QQD",
+							"key": "10k.item 7a"
+						},
+						{
+							"term": "Item 8 - Financial Statements",
+							"default_mode": 2,
+							"value": "in:10k:FS",
+							"key": "10k.item 8"
+						},
+						{
+							"term": "Item 9 - Changes in and Disagreements With Accountants on Accounting and Financial Disclosure",
+							"default_mode": 1,
+							"value": "in:10k:CAD",
+							"key": "10k.item 9"
+						},
+						{
+							"term": "Item 9A - Controls and Procedures",
+							"default_mode": 1,
+							"value": "in:10k:CAP",
+							"key": "10k.item 9a"
+						},
+						{
+							"term": "Item 9B - Other Information",
+							"default_mode": 1,
+							"value": "in:10k:OI",
+							"key": "10k.item 9b"
+						},
+						{
+							"term": "Item 10 - Directors Executive Officers and Corporate Governance",
+							"default_mode": 1,
+							"value": "in:10k:DEO",
+							"key": "10k.item 10"
+						},
+						{
+							"term": "Item 11 - Executive Compensation",
+							"default_mode": 1,
+							"value": "in:10k:EC",
+							"key": "10k.item 11"
+						},
+						{
+							"term": "Item 12 - Security Ownership of Certain Beneficial Owners and Management and Related Stockholder Matters",
+							"default_mode": 1,
+							"value": "in:10k:SO",
+							"key": "10k.item 12"
+						},
+						{
+							"term": "Item 13 - Certain Relationships and Related Transactions and Director Independence",
+							"default_mode": 1,
+							"value": "in:10k:RRT",
+							"key": "10k.item 13"
+						},
+						{
+							"term": "Item 14 - Principal Accounting Fees and Services",
+							"default_mode": 1,
+							"value": "in:10k:PAFS",
+							"key": "10k.item 14"
+						},
+						{
+							"term": "Item 15 - Exhibits Financial Statement Schedules",
+							"default_mode": 1,
+							"value": "in:10k:EFSS",
+							"key": "10k.item 15"
+						}
+					],
+					"tr": [
+						{
+							"term": "All Management",
+							"default_mode": 1,
+							"value": "in:tr:MGMT",
+							"key": "tr.all management"
+						},
+						{
+							"term": "CEO",
+							"default_mode": 1,
+							"value": "in:tr:CEO",
+							"key": "tr.ceo"
+						},
+						{
+							"term": "President",
+							"default_mode": 1,
+							"value": "in:tr:PRES",
+							"key": "tr.president"
+						},
+						{
+							"term": "CFO",
+							"default_mode": 1,
+							"value": "in:tr:CFO",
+							"key": "tr.cfo"
+						},
+						{
+							"term": "Senior Director",
+							"default_mode": 1,
+							"value": "in:tr:SDIR",
+							"key": "tr.senior director"
+						},
+						{
+							"term": "Treasurer",
+							"default_mode": 1,
+							"value": "in:tr:TRE",
+							"key": "tr.treasurer"
+						},
+						{
+							"term": "Founder",
+							"default_mode": 1,
+							"value": "in:tr:FND",
+							"key": "tr.founder"
+						},
+						{
+							"term": "Chairman",
+							"default_mode": 1,
+							"value": "in:tr:CMN",
+							"key": "tr.chairman"
+						},
+						{
+							"term": "COO",
+							"default_mode": 1,
+							"value": "in:tr:COO",
+							"key": "tr.coo"
+						},
+						{
+							"term": "CIO",
+							"default_mode": 1,
+							"value": "in:tr:CIO",
+							"key": "tr.cio"
+						},
+						{
+							"term": "VP",
+							"default_mode": 1,
+							"value": "in:tr:VP",
+							"key": "tr.vp"
+						},
+						{
+							"term": "VP Of Sales",
+							"default_mode": 1,
+							"value": "in:tr:VPS",
+							"key": "tr.vp of sales"
+						},
+						{
+							"term": "SVP",
+							"default_mode": 1,
+							"value": "in:tr:SVP",
+							"key": "tr.svp"
+						},
+						{
+							"term": "EVP",
+							"default_mode": 1,
+							"value": "in:tr:EVP",
+							"key": "tr.evp"
+						},
+						{
+							"term": "Analysts",
+							"default_mode": 1,
+							"value": "in:tr:ANS",
+							"key": "tr.analysts"
+						}
+					]
+				}
+			},
+			"response": {
+				"msg": [],
+				"status": true
+			},
+			"counter": "1"
+		}
+	],
+	"required": [
+		"result",
+		"response",
+		"counter"
+	],
+	"properties": {
+		"result": {
+			"$id": "#/properties/result",
+			"type": "object",
+			"title": "The result schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": {
+				
+			},
+			"examples": [
+				{
+					"sections": {
+						"10q": [
+							{
+								"term": "Part 1.Item 1 - Financial Statements\" OR \"Part I Financial Information",
+								"default_mode": 1,
+								"value": "in:10q:FS",
+								"key": "10q.part 1.item 1"
+							},
+							{
+								"term": "Part 1.Item 2 - Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+								"default_mode": 2,
+								"value": "in:10q:MDA",
+								"key": "10q.part 1.item 2"
+							},
+							{
+								"term": "Part 1.Item 3 - Quantitative and Qualitative Disclosures About Market Risk",
+								"default_mode": 1,
+								"value": "in:10q:QQD",
+								"key": "10q.part 1.item 3"
+							},
+							{
+								"term": "Part 1.Item 4 - Controls and Procedures",
+								"default_mode": 1,
+								"value": "in:10q:CAP",
+								"key": "10q.part 1.item 4"
+							},
+							{
+								"term": "Part 2.Item 1 - Legal Proceedings",
+								"default_mode": 1,
+								"value": "in:10q:LP",
+								"key": "10q.part 2.item 1"
+							},
+							{
+								"term": "Part 2.Item 1A - Risk Factors",
+								"default_mode": 1,
+								"value": "in:10q:RF",
+								"key": "10q.part 2.item 1a"
+							},
+							{
+								"term": "Part 2.Item 2 - Unregistered Sales of Equity Securities and Use of Proceeds",
+								"default_mode": 1,
+								"value": "in:10q:USE",
+								"key": "10q.part 2.item 2"
+							},
+							{
+								"term": "Part 2.Item 3 - Defaults Upon Senior Securities",
+								"default_mode": 1,
+								"value": "in:10q:DSS",
+								"key": "10q.part 2.item 3"
+							},
+							{
+								"term": "Part 2.Item 4 - Mine Safety Disclosures",
+								"default_mode": 1,
+								"value": "in:10q:MSD",
+								"key": "10q.part 2.item 4"
+							},
+							{
+								"term": "Part 2.Item 5 - Other Information",
+								"default_mode": 1,
+								"value": "in:10q:OI",
+								"key": "10q.part 2.item 5"
+							},
+							{
+								"term": "Part 2.Item 6 - Exhibits",
+								"default_mode": 1,
+								"value": "in:10q:EXB",
+								"key": "10q.part 2.item 6"
+							}
+						],
+						"10k": [
+							{
+								"term": "Item 1 - Business",
+								"default_mode": 2,
+								"value": "in:10k:BSN",
+								"key": "10k.item 1"
+							},
+							{
+								"term": "Item 1A - Risk Factors",
+								"default_mode": 2,
+								"value": "in:10k:RF",
+								"key": "10k.item 1a"
+							},
+							{
+								"term": "Item 1B - Unresolved Staff Comments",
+								"default_mode": 1,
+								"value": "in:10k:USC",
+								"key": "10k.item 1b"
+							},
+							{
+								"term": "Item 2 - Properties",
+								"default_mode": 1,
+								"value": "in:10k:PROP",
+								"key": "10k.item 2"
+							},
+							{
+								"term": "Item 3 - Legal Proceedings",
+								"default_mode": 1,
+								"value": "in:10k:LP",
+								"key": "10k.item 3"
+							},
+							{
+								"term": "Item 4 - Mine Safety Disclosures",
+								"default_mode": 1,
+								"value": "in:10k:MSD",
+								"key": "10k.item 4"
+							},
+							{
+								"term": "Item 5 - Market",
+								"default_mode": 1,
+								"value": "in:10k:MKT",
+								"key": "10k.item 5"
+							},
+							{
+								"term": "Item 6 - Consolidated Financial Data\" OR \"consolidated financials\" OR \"selected financial data",
+								"default_mode": 1,
+								"value": "in:10k:CFD",
+								"key": "10k.item 6"
+							},
+							{
+								"term": "Item 7 - Management's Discussion and Analysis of Financial Condition and Results of Operations",
+								"default_mode": 2,
+								"value": "in:10k:MDA",
+								"key": "10k.item 7"
+							},
+							{
+								"term": "Item 7A - Quantitative and Qualitative Disclosures",
+								"default_mode": 1,
+								"value": "in:10k:QQD",
+								"key": "10k.item 7a"
+							},
+							{
+								"term": "Item 8 - Financial Statements",
+								"default_mode": 2,
+								"value": "in:10k:FS",
+								"key": "10k.item 8"
+							},
+							{
+								"term": "Item 9 - Changes in and Disagreements With Accountants on Accounting and Financial Disclosure",
+								"default_mode": 1,
+								"value": "in:10k:CAD",
+								"key": "10k.item 9"
+							},
+							{
+								"term": "Item 9A - Controls and Procedures",
+								"default_mode": 1,
+								"value": "in:10k:CAP",
+								"key": "10k.item 9a"
+							},
+							{
+								"term": "Item 9B - Other Information",
+								"default_mode": 1,
+								"value": "in:10k:OI",
+								"key": "10k.item 9b"
+							},
+							{
+								"term": "Item 10 - Directors Executive Officers and Corporate Governance",
+								"default_mode": 1,
+								"value": "in:10k:DEO",
+								"key": "10k.item 10"
+							},
+							{
+								"term": "Item 11 - Executive Compensation",
+								"default_mode": 1,
+								"value": "in:10k:EC",
+								"key": "10k.item 11"
+							},
+							{
+								"term": "Item 12 - Security Ownership of Certain Beneficial Owners and Management and Related Stockholder Matters",
+								"default_mode": 1,
+								"value": "in:10k:SO",
+								"key": "10k.item 12"
+							},
+							{
+								"term": "Item 13 - Certain Relationships and Related Transactions and Director Independence",
+								"default_mode": 1,
+								"value": "in:10k:RRT",
+								"key": "10k.item 13"
+							},
+							{
+								"term": "Item 14 - Principal Accounting Fees and Services",
+								"default_mode": 1,
+								"value": "in:10k:PAFS",
+								"key": "10k.item 14"
+							},
+							{
+								"term": "Item 15 - Exhibits Financial Statement Schedules",
+								"default_mode": 1,
+								"value": "in:10k:EFSS",
+								"key": "10k.item 15"
+							}
+						],
+						"tr": [
+							{
+								"term": "All Management",
+								"default_mode": 1,
+								"value": "in:tr:MGMT",
+								"key": "tr.all management"
+							},
+							{
+								"term": "CEO",
+								"default_mode": 1,
+								"value": "in:tr:CEO",
+								"key": "tr.ceo"
+							},
+							{
+								"term": "President",
+								"default_mode": 1,
+								"value": "in:tr:PRES",
+								"key": "tr.president"
+							},
+							{
+								"term": "CFO",
+								"default_mode": 1,
+								"value": "in:tr:CFO",
+								"key": "tr.cfo"
+							},
+							{
+								"term": "Senior Director",
+								"default_mode": 1,
+								"value": "in:tr:SDIR",
+								"key": "tr.senior director"
+							},
+							{
+								"term": "Treasurer",
+								"default_mode": 1,
+								"value": "in:tr:TRE",
+								"key": "tr.treasurer"
+							},
+							{
+								"term": "Founder",
+								"default_mode": 1,
+								"value": "in:tr:FND",
+								"key": "tr.founder"
+							},
+							{
+								"term": "Chairman",
+								"default_mode": 1,
+								"value": "in:tr:CMN",
+								"key": "tr.chairman"
+							},
+							{
+								"term": "COO",
+								"default_mode": 1,
+								"value": "in:tr:COO",
+								"key": "tr.coo"
+							},
+							{
+								"term": "CIO",
+								"default_mode": 1,
+								"value": "in:tr:CIO",
+								"key": "tr.cio"
+							},
+							{
+								"term": "VP",
+								"default_mode": 1,
+								"value": "in:tr:VP",
+								"key": "tr.vp"
+							},
+							{
+								"term": "VP Of Sales",
+								"default_mode": 1,
+								"value": "in:tr:VPS",
+								"key": "tr.vp of sales"
+							},
+							{
+								"term": "SVP",
+								"default_mode": 1,
+								"value": "in:tr:SVP",
+								"key": "tr.svp"
+							},
+							{
+								"term": "EVP",
+								"default_mode": 1,
+								"value": "in:tr:EVP",
+								"key": "tr.evp"
+							},
+							{
+								"term": "Analysts",
+								"default_mode": 1,
+								"value": "in:tr:ANS",
+								"key": "tr.analysts"
+							}
+						]
+					}
+				}
+			],
+			"required": [
+				"sections"
+			],
+			"properties": {
+				"sections": {
+					"$id": "#/properties/result/properties/sections",
+					"type": "object",
+					"title": "The sections schema",
+					"description": "An explanation about the purpose of this instance.",
+					"default": {
+						
+					},
+					"examples": [
+						{
+							"10q": [
+								{
+									"term": "Part 1.Item 1 - Financial Statements\" OR \"Part I Financial Information",
+									"default_mode": 1,
+									"value": "in:10q:FS",
+									"key": "10q.part 1.item 1"
+								},
+								{
+									"term": "Part 1.Item 2 - Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+									"default_mode": 2,
+									"value": "in:10q:MDA",
+									"key": "10q.part 1.item 2"
+								},
+								{
+									"term": "Part 1.Item 3 - Quantitative and Qualitative Disclosures About Market Risk",
+									"default_mode": 1,
+									"value": "in:10q:QQD",
+									"key": "10q.part 1.item 3"
+								},
+								{
+									"term": "Part 1.Item 4 - Controls and Procedures",
+									"default_mode": 1,
+									"value": "in:10q:CAP",
+									"key": "10q.part 1.item 4"
+								},
+								{
+									"term": "Part 2.Item 1 - Legal Proceedings",
+									"default_mode": 1,
+									"value": "in:10q:LP",
+									"key": "10q.part 2.item 1"
+								},
+								{
+									"term": "Part 2.Item 1A - Risk Factors",
+									"default_mode": 1,
+									"value": "in:10q:RF",
+									"key": "10q.part 2.item 1a"
+								},
+								{
+									"term": "Part 2.Item 2 - Unregistered Sales of Equity Securities and Use of Proceeds",
+									"default_mode": 1,
+									"value": "in:10q:USE",
+									"key": "10q.part 2.item 2"
+								},
+								{
+									"term": "Part 2.Item 3 - Defaults Upon Senior Securities",
+									"default_mode": 1,
+									"value": "in:10q:DSS",
+									"key": "10q.part 2.item 3"
+								},
+								{
+									"term": "Part 2.Item 4 - Mine Safety Disclosures",
+									"default_mode": 1,
+									"value": "in:10q:MSD",
+									"key": "10q.part 2.item 4"
+								},
+								{
+									"term": "Part 2.Item 5 - Other Information",
+									"default_mode": 1,
+									"value": "in:10q:OI",
+									"key": "10q.part 2.item 5"
+								},
+								{
+									"term": "Part 2.Item 6 - Exhibits",
+									"default_mode": 1,
+									"value": "in:10q:EXB",
+									"key": "10q.part 2.item 6"
+								}
+							],
+							"10k": [
+								{
+									"term": "Item 1 - Business",
+									"default_mode": 2,
+									"value": "in:10k:BSN",
+									"key": "10k.item 1"
+								},
+								{
+									"term": "Item 1A - Risk Factors",
+									"default_mode": 2,
+									"value": "in:10k:RF",
+									"key": "10k.item 1a"
+								},
+								{
+									"term": "Item 1B - Unresolved Staff Comments",
+									"default_mode": 1,
+									"value": "in:10k:USC",
+									"key": "10k.item 1b"
+								},
+								{
+									"term": "Item 2 - Properties",
+									"default_mode": 1,
+									"value": "in:10k:PROP",
+									"key": "10k.item 2"
+								},
+								{
+									"term": "Item 3 - Legal Proceedings",
+									"default_mode": 1,
+									"value": "in:10k:LP",
+									"key": "10k.item 3"
+								},
+								{
+									"term": "Item 4 - Mine Safety Disclosures",
+									"default_mode": 1,
+									"value": "in:10k:MSD",
+									"key": "10k.item 4"
+								},
+								{
+									"term": "Item 5 - Market",
+									"default_mode": 1,
+									"value": "in:10k:MKT",
+									"key": "10k.item 5"
+								},
+								{
+									"term": "Item 6 - Consolidated Financial Data\" OR \"consolidated financials\" OR \"selected financial data",
+									"default_mode": 1,
+									"value": "in:10k:CFD",
+									"key": "10k.item 6"
+								},
+								{
+									"term": "Item 7 - Management's Discussion and Analysis of Financial Condition and Results of Operations",
+									"default_mode": 2,
+									"value": "in:10k:MDA",
+									"key": "10k.item 7"
+								},
+								{
+									"term": "Item 7A - Quantitative and Qualitative Disclosures",
+									"default_mode": 1,
+									"value": "in:10k:QQD",
+									"key": "10k.item 7a"
+								},
+								{
+									"term": "Item 8 - Financial Statements",
+									"default_mode": 2,
+									"value": "in:10k:FS",
+									"key": "10k.item 8"
+								},
+								{
+									"term": "Item 9 - Changes in and Disagreements With Accountants on Accounting and Financial Disclosure",
+									"default_mode": 1,
+									"value": "in:10k:CAD",
+									"key": "10k.item 9"
+								},
+								{
+									"term": "Item 9A - Controls and Procedures",
+									"default_mode": 1,
+									"value": "in:10k:CAP",
+									"key": "10k.item 9a"
+								},
+								{
+									"term": "Item 9B - Other Information",
+									"default_mode": 1,
+									"value": "in:10k:OI",
+									"key": "10k.item 9b"
+								},
+								{
+									"term": "Item 10 - Directors Executive Officers and Corporate Governance",
+									"default_mode": 1,
+									"value": "in:10k:DEO",
+									"key": "10k.item 10"
+								},
+								{
+									"term": "Item 11 - Executive Compensation",
+									"default_mode": 1,
+									"value": "in:10k:EC",
+									"key": "10k.item 11"
+								},
+								{
+									"term": "Item 12 - Security Ownership of Certain Beneficial Owners and Management and Related Stockholder Matters",
+									"default_mode": 1,
+									"value": "in:10k:SO",
+									"key": "10k.item 12"
+								},
+								{
+									"term": "Item 13 - Certain Relationships and Related Transactions and Director Independence",
+									"default_mode": 1,
+									"value": "in:10k:RRT",
+									"key": "10k.item 13"
+								},
+								{
+									"term": "Item 14 - Principal Accounting Fees and Services",
+									"default_mode": 1,
+									"value": "in:10k:PAFS",
+									"key": "10k.item 14"
+								},
+								{
+									"term": "Item 15 - Exhibits Financial Statement Schedules",
+									"default_mode": 1,
+									"value": "in:10k:EFSS",
+									"key": "10k.item 15"
+								}
+							],
+							"tr": [
+								{
+									"term": "All Management",
+									"default_mode": 1,
+									"value": "in:tr:MGMT",
+									"key": "tr.all management"
+								},
+								{
+									"term": "CEO",
+									"default_mode": 1,
+									"value": "in:tr:CEO",
+									"key": "tr.ceo"
+								},
+								{
+									"term": "President",
+									"default_mode": 1,
+									"value": "in:tr:PRES",
+									"key": "tr.president"
+								},
+								{
+									"term": "CFO",
+									"default_mode": 1,
+									"value": "in:tr:CFO",
+									"key": "tr.cfo"
+								},
+								{
+									"term": "Senior Director",
+									"default_mode": 1,
+									"value": "in:tr:SDIR",
+									"key": "tr.senior director"
+								},
+								{
+									"term": "Treasurer",
+									"default_mode": 1,
+									"value": "in:tr:TRE",
+									"key": "tr.treasurer"
+								},
+								{
+									"term": "Founder",
+									"default_mode": 1,
+									"value": "in:tr:FND",
+									"key": "tr.founder"
+								},
+								{
+									"term": "Chairman",
+									"default_mode": 1,
+									"value": "in:tr:CMN",
+									"key": "tr.chairman"
+								},
+								{
+									"term": "COO",
+									"default_mode": 1,
+									"value": "in:tr:COO",
+									"key": "tr.coo"
+								},
+								{
+									"term": "CIO",
+									"default_mode": 1,
+									"value": "in:tr:CIO",
+									"key": "tr.cio"
+								},
+								{
+									"term": "VP",
+									"default_mode": 1,
+									"value": "in:tr:VP",
+									"key": "tr.vp"
+								},
+								{
+									"term": "VP Of Sales",
+									"default_mode": 1,
+									"value": "in:tr:VPS",
+									"key": "tr.vp of sales"
+								},
+								{
+									"term": "SVP",
+									"default_mode": 1,
+									"value": "in:tr:SVP",
+									"key": "tr.svp"
+								},
+								{
+									"term": "EVP",
+									"default_mode": 1,
+									"value": "in:tr:EVP",
+									"key": "tr.evp"
+								},
+								{
+									"term": "Analysts",
+									"default_mode": 1,
+									"value": "in:tr:ANS",
+									"key": "tr.analysts"
+								}
+							]
+						}
+					],
+					"required": [
+						"10q",
+						"10k",
+						"tr"
+					],
+					"properties": {
+						"10q": {
+							"$id": "#/properties/result/properties/sections/properties/10q",
+							"type": "array",
+							"title": "The 10q schema",
+							"description": "An explanation about the purpose of this instance.",
+							"default": [],
+							"examples": [
+								[
+									{
+										"term": "Part 1.Item 1 - Financial Statements\" OR \"Part I Financial Information",
+										"default_mode": 1,
+										"value": "in:10q:FS",
+										"key": "10q.part 1.item 1"
+									},
+									{
+										"term": "Part 1.Item 2 - Management’s Discussion and Analysis of Financial Condition and Results of Operations",
+										"default_mode": 2,
+										"value": "in:10q:MDA",
+										"key": "10q.part 1.item 2"
+									}
+								]
+							],
+							"additionalItems": true,
+							"items": {
+								"$id": "#/properties/result/properties/sections/properties/10q/items",
+								"anyOf": [
+									{
+										"$id": "#/properties/result/properties/sections/properties/10q/items/anyOf/0",
+										"type": "object",
+										"title": "The first anyOf schema",
+										"description": "An explanation about the purpose of this instance.",
+										"default": {
+											
+										},
+										"examples": [
+											{
+												"term": "Part 1.Item 1 - Financial Statements\" OR \"Part I Financial Information",
+												"default_mode": 1,
+												"value": "in:10q:FS",
+												"key": "10q.part 1.item 1"
+											}
+										],
+										"required": [
+											"term",
+											"default_mode",
+											"value",
+											"key"
+										],
+										"properties": {
+											"term": {
+												"$id": "#/properties/result/properties/sections/properties/10q/items/anyOf/0/properties/term",
+												"type": "string",
+												"title": "The term schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"Part 1.Item 1 - Financial Statements\" OR \"Part I Financial Information"
+												]
+											},
+											"default_mode": {
+												"$id": "#/properties/result/properties/sections/properties/10q/items/anyOf/0/properties/default_mode",
+												"type": "integer",
+												"title": "The default_mode schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": 0,
+												"examples": [
+													1
+												]
+											},
+											"value": {
+												"$id": "#/properties/result/properties/sections/properties/10q/items/anyOf/0/properties/value",
+												"type": "string",
+												"title": "The value schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"in:10q:FS"
+												]
+											},
+											"key": {
+												"$id": "#/properties/result/properties/sections/properties/10q/items/anyOf/0/properties/key",
+												"type": "string",
+												"title": "The key schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"10q.part 1.item 1"
+												]
+											}
+										},
+										"additionalProperties": true
+									}
+								]
+							}
+						},
+						"10k": {
+							"$id": "#/properties/result/properties/sections/properties/10k",
+							"type": "array",
+							"title": "The 10k schema",
+							"description": "An explanation about the purpose of this instance.",
+							"default": [],
+							"examples": [
+								[
+									{
+										"term": "Item 1 - Business",
+										"default_mode": 2,
+										"value": "in:10k:BSN",
+										"key": "10k.item 1"
+									},
+									{
+										"term": "Item 1A - Risk Factors",
+										"default_mode": 2,
+										"value": "in:10k:RF",
+										"key": "10k.item 1a"
+									}
+								]
+							],
+							"additionalItems": true,
+							"items": {
+								"$id": "#/properties/result/properties/sections/properties/10k/items",
+								"anyOf": [
+									{
+										"$id": "#/properties/result/properties/sections/properties/10k/items/anyOf/0",
+										"type": "object",
+										"title": "The first anyOf schema",
+										"description": "An explanation about the purpose of this instance.",
+										"default": {
+											
+										},
+										"examples": [
+											{
+												"term": "Item 1 - Business",
+												"default_mode": 2,
+												"value": "in:10k:BSN",
+												"key": "10k.item 1"
+											}
+										],
+										"required": [
+											"term",
+											"default_mode",
+											"value",
+											"key"
+										],
+										"properties": {
+											"term": {
+												"$id": "#/properties/result/properties/sections/properties/10k/items/anyOf/0/properties/term",
+												"type": "string",
+												"title": "The term schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"Item 1 - Business"
+												]
+											},
+											"default_mode": {
+												"$id": "#/properties/result/properties/sections/properties/10k/items/anyOf/0/properties/default_mode",
+												"type": "integer",
+												"title": "The default_mode schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": 0,
+												"examples": [
+													2
+												]
+											},
+											"value": {
+												"$id": "#/properties/result/properties/sections/properties/10k/items/anyOf/0/properties/value",
+												"type": "string",
+												"title": "The value schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"in:10k:BSN"
+												]
+											},
+											"key": {
+												"$id": "#/properties/result/properties/sections/properties/10k/items/anyOf/0/properties/key",
+												"type": "string",
+												"title": "The key schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"10k.item 1"
+												]
+											}
+										},
+										"additionalProperties": true
+									}
+								]
+							}
+						},
+						"tr": {
+							"$id": "#/properties/result/properties/sections/properties/tr",
+							"type": "array",
+							"title": "The tr schema",
+							"description": "An explanation about the purpose of this instance.",
+							"default": [],
+							"examples": [
+								[
+									{
+										"term": "All Management",
+										"default_mode": 1,
+										"value": "in:tr:MGMT",
+										"key": "tr.all management"
+									},
+									{
+										"term": "CEO",
+										"default_mode": 1,
+										"value": "in:tr:CEO",
+										"key": "tr.ceo"
+									}
+								]
+							],
+							"additionalItems": true,
+							"items": {
+								"$id": "#/properties/result/properties/sections/properties/tr/items",
+								"anyOf": [
+									{
+										"$id": "#/properties/result/properties/sections/properties/tr/items/anyOf/0",
+										"type": "object",
+										"title": "The first anyOf schema",
+										"description": "An explanation about the purpose of this instance.",
+										"default": {
+											
+										},
+										"examples": [
+											{
+												"term": "All Management",
+												"default_mode": 1,
+												"value": "in:tr:MGMT",
+												"key": "tr.all management"
+											}
+										],
+										"required": [
+											"term",
+											"default_mode",
+											"value",
+											"key"
+										],
+										"properties": {
+											"term": {
+												"$id": "#/properties/result/properties/sections/properties/tr/items/anyOf/0/properties/term",
+												"type": "string",
+												"title": "The term schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"All Management"
+												]
+											},
+											"default_mode": {
+												"$id": "#/properties/result/properties/sections/properties/tr/items/anyOf/0/properties/default_mode",
+												"type": "integer",
+												"title": "The default_mode schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": 0,
+												"examples": [
+													1
+												]
+											},
+											"value": {
+												"$id": "#/properties/result/properties/sections/properties/tr/items/anyOf/0/properties/value",
+												"type": "string",
+												"title": "The value schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"in:tr:MGMT"
+												]
+											},
+											"key": {
+												"$id": "#/properties/result/properties/sections/properties/tr/items/anyOf/0/properties/key",
+												"type": "string",
+												"title": "The key schema",
+												"description": "An explanation about the purpose of this instance.",
+												"default": "",
+												"examples": [
+													"tr.all management"
+												]
+											}
+										},
+										"additionalProperties": true
+									}
+								]
+							}
+						}
+					},
+					"additionalProperties": true
+				}
+			},
+			"additionalProperties": true
+		},
+		"response": {
+			"$id": "#/properties/response",
+			"type": "object",
+			"title": "The response schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": {
+				
+			},
+			"examples": [
+				{
+					"msg": [],
+					"status": true
+				}
+			],
+			"required": [
+				"msg",
+				"status"
+			],
+			"properties": {
+				"msg": {
+					"$id": "#/properties/response/properties/msg",
+					"type": "array",
+					"title": "The msg schema",
+					"description": "An explanation about the purpose of this instance.",
+					"default": [],
+					"examples": [
+						[]
+					],
+					"additionalItems": true,
+					"items": {
+						"$id": "#/properties/response/properties/msg/items"
+					}
+				},
+				"status": {
+					"$id": "#/properties/response/properties/status",
+					"type": "boolean",
+					"title": "The status schema",
+					"description": "An explanation about the purpose of this instance.",
+					"default": false,
+					"examples": [
+						true
+					]
+				}
+			},
+			"additionalProperties": true
+		},
+		"counter": {
+			"$id": "#/properties/counter",
+			"type": "string",
+			"title": "The counter schema",
+			"description": "An explanation about the purpose of this instance.",
+			"default": "",
+			"examples": [
+				"1"
+			]
+		}
+	},
+	"additionalProperties": true
+}

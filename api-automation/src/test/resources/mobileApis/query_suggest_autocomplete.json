@@ -1,0 +1,88 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/object1612600352.json", 
+	"title": "Root", 
+	"type": "object",
+	"required": [
+		"result",
+		"response",
+		"text",
+		"counter",
+		"tickers"
+	],
+	"properties": {
+		"result": {
+			"$id": "#root/result", 
+			"title": "Result", 
+			"type": "array",
+			"default": [],
+			"items":{
+				"$id": "#root/result/items", 
+				"title": "Items", 
+				"type": "array",
+				"default": []
+			}
+		},
+		"response": {
+			"$id": "#root/response", 
+			"title": "Response", 
+			"type": "object",
+			"required": [
+				"msg",
+				"status"
+			],
+			"properties": {
+				"msg": {
+					"$id": "#root/response/msg", 
+					"title": "Msg", 
+					"type": "string",
+					"default": "",
+					"examples": [
+						"Request processed successfully."
+					],
+					"pattern": "^.*$"
+				},
+				"status": {
+					"$id": "#root/response/status", 
+					"title": "Status", 
+					"type": "boolean",
+					"examples": [
+						true
+					],
+					"default": true
+				}
+			}
+		}
+,
+		"text": {
+			"$id": "#root/text", 
+			"title": "Text", 
+			"type": "string",
+			"default": "",
+			"examples": [
+				"sales"
+			],
+			"pattern": "^.*$"
+		},
+		"counter": {
+			"$id": "#root/counter", 
+			"title": "Counter", 
+			"type": "integer",
+			"examples": [
+				0
+			],
+			"default": 0
+		},
+		"tickers": {
+			"$id": "#root/tickers", 
+			"title": "Tickers", 
+			"type": "string",
+			"default": "",
+			"examples": [
+				"aapl"
+			],
+			"pattern": "^.*$"
+		}
+	}
+}

@@ -6,6 +6,9 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
@@ -17,17 +20,29 @@ import com.sentieo.rest.base.RestOperationUtils;
 public class Screener extends APIDriver {
 
 	APIAssertions verify = new APIAssertions();
+	String locMobile = "";
 
 	@BeforeMethod
 	public void setUp() {
 		verify = new APIAssertions();
 	}
+	
+	@BeforeTest(alwaysRun = true)
+	@Parameters({ "loc" })
+	public void getLoc(@Optional("loc") String loc) {
+		locMobile = loc;
+	}
 
-	@Test(groups = "sanity", description = "fetchscreenermodels")
+
+	@Test(groups = {"sanity","mobile"}, description = "fetchscreenermodels")
 	public void fetchscreenermodels() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		queryParams.put("ptype", "screener_models");
 		queryParams.put("fetch_mode", "all");
+		if(locMobile.equals("ios")) {
+			queryParams.put("loc", "ios");
+		}
+		
 		RequestSpecification spec = queryParamsSpec(queryParams);
 
 		Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_SCREENER_MODELS, spec, queryParams);
@@ -93,7 +108,7 @@ public class Screener extends APIDriver {
 
 	}
 
-	@Test(groups = "sanity", description = "fetchscreenersearch")
+	@Test(groups = {"sanity","mobile"}, description = "fetchscreenersearch")
 	public void fetchscreenersearch() throws Exception {
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 //		queryParams.put("source_fields",
@@ -114,6 +129,10 @@ public class Screener extends APIDriver {
 		queryParams.put("sort", "FY_Y_S_mkt_cap:desc");
 		queryParams.put("currency", "usd");
 		queryParams.put("screener_search_settings", "{\"unique_str\":\"\",\"page_nav\":0,\"page_sort\":0}");
+		
+		if(locMobile.equals("ios")) {
+			queryParams.put("loc", "ios");
+		}
 
 		RequestSpecification spec = formParamsSpec(queryParams);
 
