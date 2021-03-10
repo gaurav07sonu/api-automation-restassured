@@ -1737,7 +1737,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			try {
 				String data = "{\"tickers\":[\"aapl\"],\"timeperiods\":[\"2016-2\",\"2016-3\",\"2016-4\",\"2017-1\",\"2017-2\",\"2017-3\",\"2017-4\",\"2018-1\",\"2018-2\",\"2018-3\",\"2018-4\",\"2019-1\",\"2019-2\",\"2019-3\",\"2019-4\",\"2020-1\",\"2020-2\",\"2020-3\",\"2020-4\",\"2021-1\"],\"doc_types\":[\"transcript-earnings\"]}";
 				parameters.put(data, "");
-				System.out.println(parameters);
 				RequestSpecification spec = formParamsSpecDS(data);
 				Response resp = RestOperationUtils.post( URI, null, spec,
 						parameters);
@@ -1745,7 +1744,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				if (apiResp.getStatusCode() == 200) {
 					JSONObject respjson = new JSONObject(apiResp.getResponseAsString());
-					System.out.println(respjson);
 					assertTrue(respjson.getJSONObject("result").getJSONObject("aapl")!=null, "verify ticker data present");
 					assertTrue(respjson.getJSONArray("rivals").length()>0, "verify rivals data present");
 				}
@@ -1832,7 +1830,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 			try {
 				String data = "{\"timeperiod\":\"3y\",\"tickers\":[\"aapl\"],\"get_schema\":\"true\"}";
 				parameters.put(data, "");
-				System.out.println(parameters);
 				RequestSpecification spec = formParamsSpecDS(data);
 				Response resp = RestOperationUtils.post(URI, null, spec,
 						parameters);
@@ -1840,7 +1837,6 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				Assert.assertEquals(apiResp.getStatusCode(), 200);
 				if (apiResp.getStatusCode() == 200) {
 					JSONObject respjson = new JSONObject(apiResp.getResponseAsString());
-					System.out.println(respjson);
 					JSONArray result = respjson.getJSONArray("result");
 					for (int i = 0; i < result.length(); i++) {
 						assertTrue(result.getJSONObject(i)!=null, "verify result array present");
