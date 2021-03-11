@@ -341,4 +341,16 @@ public class Constants {
 	public static final String FIN_WEI_ANALYSIS_MOBILE = "/api/fin_wei_analysis_mobile/";
 	public static final String FIN_MARKET_ANALYSIS_MOBILE = "/api/fin_market_analysis_mobile/";
 	public static final String RELATIVE_PRICEVSSP = "/api/relativePriceVsSP/";
+	
+	//Data science
+	public static final String CLASSIFICATION_HEATMAP = "/fetch_classification_heatmap/";
+	public static final String CLASSIFICATION = "/grid/classification/";
+	public static final String REDLINING = "/grid/redlining/";
+	public static final String REDLINING_HEATMAP = "/api/fetch_redlining_heatmap/";
+	public static final String TOPIC = "/topic/";
+	public static final String GET_REDLINING_SNIPPET = "/grid/get_redlining_snippet/";
+	public static final String GRID = "/grid/";
+	public static final String TICKER_SECTOR_TRENDING_TERMS = "/api/ticker_sector_trending_terms/";
+	public static final String GET_TEXT_OFFSET = "/grid/get_text_offset/";
+
 }
