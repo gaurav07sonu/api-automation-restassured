@@ -184,7 +184,7 @@ public class DocSearchRestApi extends APIDriver {
 				boolean status = false;
 				if (docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
 					status = true;
-				else if (title.contains(docTitle) && !docTitle.isEmpty() && !title.isEmpty())
+				else if (title.trim().contains(docTitle.trim()) && !docTitle.isEmpty() && !title.isEmpty())
 					status = true;
 				if (!status) {
 					ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
