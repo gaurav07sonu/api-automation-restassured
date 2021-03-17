@@ -128,12 +128,10 @@ public class DashboardCommonUtils extends APIDriver {
 							saveSearchName = data.getJSONObject(rand_int1).getString("name");
 							saveSearchID = data.getJSONObject(rand_int1).getString("id");
 						}
-						System.out.println(data.getJSONObject(rand_int1).has("shared_by"));
 						counter++;
 					} while (!data.getJSONObject(rand_int1).has("shared_by") && counter != 10);
 
 				} else {
-					rand_int1 = rand.nextInt(data.length());
 					saveSearchName = data.getJSONObject(rand_int1).getString("name");
 					saveSearchID = data.getJSONObject(rand_int1).getString("id");
 
