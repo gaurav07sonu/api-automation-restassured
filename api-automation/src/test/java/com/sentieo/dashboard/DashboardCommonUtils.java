@@ -93,8 +93,16 @@ public class DashboardCommonUtils extends APIDriver {
 			Random rand = new Random();
 			if (data.length() > 0) {
 				int rand_int1 = rand.nextInt(data.length());
-				saveSearchName = data.getJSONObject(rand_int1).getString("name");
-				saveSearchID = data.getJSONObject(rand_int1).getString("id");
+				if (data.getJSONObject(rand_int1).has("shared_by")) {
+					do {
+						rand_int1 = rand.nextInt(data.length());
+						saveSearchName = data.getJSONObject(rand_int1).getString("name");
+						saveSearchID = data.getJSONObject(rand_int1).getString("id");
+					} while (data.getJSONObject(rand_int1).has("shared_by"));
+				} else {
+					saveSearchName = data.getJSONObject(rand_int1).getString("name");
+					saveSearchID = data.getJSONObject(rand_int1).getString("id");
+				}
 				return saveSearchID;
 			} else
 				obj.perform_user_save_search();
@@ -102,6 +110,42 @@ public class DashboardCommonUtils extends APIDriver {
 			throw new CoreCommonException(e);
 		}
 		return saveSearchID;
+	}
+
+	public String getRandomShareSearch() throws CoreCommonException {
+		String saveSearchID = "";
+		int counter = 0;
+		DocSearchRestApi obj = new DocSearchRestApi();
+		try {
+			org.json.JSONArray data = obj.load_userSearchs();
+			Random rand = new Random();
+			if (data.length() > 0) {
+				int rand_int1 = rand.nextInt(data.length());
+				if (!data.getJSONObject(rand_int1).has("shared_by")) {
+					do {
+						rand_int1 = rand.nextInt(data.length());
+						if (data.getJSONObject(rand_int1).has("shared_by")) {
+							saveSearchName = data.getJSONObject(rand_int1).getString("name");
+							saveSearchID = data.getJSONObject(rand_int1).getString("id");
+						}
+						System.out.println(data.getJSONObject(rand_int1).has("shared_by"));
+						counter++;
+					} while (!data.getJSONObject(rand_int1).has("shared_by") && counter != 10);
+
+				} else {
+					rand_int1 = rand.nextInt(data.length());
+					saveSearchName = data.getJSONObject(rand_int1).getString("name");
+					saveSearchID = data.getJSONObject(rand_int1).getString("id");
+
+				}
+				return saveSearchID;
+			} else
+				obj.perform_user_save_search();
+		} catch (Exception e) {
+			throw new CoreCommonException(e);
+		}
+		return saveSearchID;
+
 	}
 
 	public String getWatchlistID(String option) throws CoreCommonException {
@@ -262,8 +306,8 @@ public class DashboardCommonUtils extends APIDriver {
 	}
 
 	public List<String> fetch_search_filters() throws CoreCommonException {
-		List<String>doc_ID=new ArrayList<String>();
-		//List<Integer> rssID = new ArrayList<>();
+		List<String> doc_ID = new ArrayList<String>();
+		// List<Integer> rssID = new ArrayList<>();
 		String tickers = "";
 		try {
 			if (AddWatchlist.watchTickers.size() > 20) {
