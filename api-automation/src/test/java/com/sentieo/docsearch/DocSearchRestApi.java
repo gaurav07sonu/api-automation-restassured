@@ -171,6 +171,12 @@ public class DocSearchRestApi extends APIDriver {
 				String docType = result.get("doc_type").toString();
 				String docid = result.getString("doc_id").toString();
 				String docTitle = result.getString("title");
+				String split[] = title.trim().split(":",2);
+				if (split.length == 1)
+					title = split[0].trim();
+				else
+					title = split[1].trim();
+
 				String date = result.getString("filingdate");
 
 				verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
@@ -178,7 +184,7 @@ public class DocSearchRestApi extends APIDriver {
 				boolean status = false;
 				if (docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
 					status = true;
-				else if (title.contains(docTitle) && !docTitle.isEmpty() && !title.isEmpty())
+				else if (title.trim().contains(docTitle.trim()) && !docTitle.isEmpty() && !title.isEmpty())
 					status = true;
 				if (!status) {
 					ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
@@ -1225,7 +1231,7 @@ public class DocSearchRestApi extends APIDriver {
 		}
 	}
 
-	//@Test(groups = "sanity", description = "Updating existing RSS Feed")
+	// @Test(groups = "sanity", description = "Updating existing RSS Feed")
 	public void update_feed() throws CoreCommonException {
 
 		try {
@@ -1497,8 +1503,8 @@ public class DocSearchRestApi extends APIDriver {
 
 	public JSONArray setNoteTypeDocId() throws CoreCommonException {
 		String URI = "";
-		if (APP_URL.contains("app") || APP_URL.contains("app2") || APP_URL.contains("testing") || APP_URL.contains("docsearch")
-				|| APP_URL.contains("staging") || APP_URL.contains("sandbox"))
+		if (APP_URL.contains("app") || APP_URL.contains("app2") || APP_URL.contains("testing")
+				|| APP_URL.contains("docsearch") || APP_URL.contains("staging") || APP_URL.contains("sandbox"))
 			URI = APP_URL + FETCH_SEARCH;
 		else
 			URI = USER_APP_URL + FETCH_NOTE_SEARCH;
