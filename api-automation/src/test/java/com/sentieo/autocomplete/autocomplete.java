@@ -236,7 +236,7 @@ public class autocomplete extends APIDriver {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					verify.assertTrue(false, "ticker : " + tickername + e.toString());
+					verify.assertTrue(false, "ticker : " + tickername + " Error :  " +  e.toString());
 				}
 			}
 		} catch (JSONException je) {
@@ -305,7 +305,7 @@ public class autocomplete extends APIDriver {
 					
 				} catch (Exception e) {
 					e.printStackTrace();
-					verify.assertTrue(false, "ticker : " + tickername + e.toString());
+					verify.assertTrue(false, "ticker : " + tickername + " Error :  " + e.toString());
 				}
 			}
 		} catch (JSONException je) {
