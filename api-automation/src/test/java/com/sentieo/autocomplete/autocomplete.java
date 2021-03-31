@@ -56,7 +56,7 @@ public class autocomplete extends APIDriver {
 
 	@BeforeClass(alwaysRun = true)
 	public void setTickers() {
-		tickers = CSVReaderUtil.readAllDataAtOnce("finance" + File.separator + "autocomplete_ticker_list.csv");
+		tickers = CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
 	}
 
 	@SuppressWarnings("unused")
