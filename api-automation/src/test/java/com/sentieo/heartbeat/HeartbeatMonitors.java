@@ -47,6 +47,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 	static String doc_type = "";
 	static String title = "";
 	String DS_URL = "https://ds.sentieo.com";
+	static String docidFailureMsg = "Skipped due to fetchSearch test case failure";
 
 	@BeforeClass(alwaysRun = true)
 	public void setup() throws Exception {
@@ -625,15 +626,18 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		String URI = APP_URL + FETCH_TRANSFORM_DOC_CONTENT;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
-			parameters.put("id", doc_id);
-			RequestSpecification spec = formParamsSpec(parameters);
-			resp = RestOperationUtils.post(URI, null, spec, parameters);
-			apiResp = new APIResponse(resp);
-			Assert.assertEquals(apiResp.getStatusCode(), 200, "Api response : ");
-			Assert.assertEquals(apiResp.getResponseHeaderValue("Content-Type"), "text/html; charset=utf-8",
-					"verify content type");
-			Assert.assertTrue(!apiResp.getResponseAsString().isEmpty(), "verify content not empty");
-			updatePassResult(URI, team.toString(), "200", resp, parameters);
+			if (!doc_id.isEmpty()) {
+				parameters.put("id", doc_id);
+				RequestSpecification spec = formParamsSpec(parameters);
+				resp = RestOperationUtils.post(URI, null, spec, parameters);
+				apiResp = new APIResponse(resp);
+				Assert.assertEquals(apiResp.getStatusCode(), 200, "Api response : ");
+				Assert.assertEquals(apiResp.getResponseHeaderValue("Content-Type"), "text/html; charset=utf-8",
+						"verify content type");
+				Assert.assertTrue(!apiResp.getResponseAsString().isEmpty(), "verify content not empty");
+				updatePassResult(URI, team.toString(), "200", resp, parameters);
+			}else
+				updateSkipResult(URI, team.toString(), "Skip" ,docidFailureMsg, "Doc id empty");
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters,
 					e.getMessage());
@@ -652,6 +656,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		String URI = APP_URL + FETCH_SNIPPETS;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
+			if(!doc_id.isEmpty()) {
 			parameters.put("doc_id", doc_id);
 			parameters.put("doctype", doc_type);
 			parameters.put("tickers", "aapl");
@@ -676,6 +681,9 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 				}
 			}
 			updatePassResult(URI, team.toString(), "200", resp, parameters);
+		}else
+			updateSkipResult(URI, team.toString(), "Skip" ,docidFailureMsg, "Doc id empty");
+
 		} catch (Error e) {
 			updateFailResult(URI, team.toString(), String.valueOf(apiResp.getStatusCode()), resp, parameters,
 					e.getMessage());
