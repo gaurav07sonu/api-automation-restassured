@@ -55,7 +55,7 @@ public class VerifyLogin extends APIDriver {
 	@DataProvider(name = "URLNames")
 	public static String[][] redataProviderMethod() {
 		return new String[][] { { "https://user-app.sentieo.com", "alphagani35@gmail.com", "DGL=14412jg" },
-				{ "https://user-balyasny.sentieo.com", "alphagani35@gmail.com", "DGL=14412jg" },
+				{ "https://user-balyasny.sentieo.com", "alphagani35@gmail.com", "Gani35!@#*()" },
 				{ "https://user-citadel.sentieo.com", "alphagani35@gmail.com", "DGL=14412jg" } };
 	}
 }
