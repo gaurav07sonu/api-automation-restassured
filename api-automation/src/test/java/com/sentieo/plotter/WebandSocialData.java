@@ -48,7 +48,7 @@ public class WebandSocialData extends APIDriver {
 		tickers = common.getDay("finance" + File.separator + "MosaicDataSet.csv");
 	}
 
-	@Test(description = "Plotter Web and Social Data Series", groups = { "gtrends", "strong_ties" })
+	//@Test(description = "Plotter Web and Social Data Series", groups = { "gtrends", "strong_ties" })
 	public void googleTrends() throws CoreCommonException {
 		try {
 			Calendar calNewYork = Calendar.getInstance();
