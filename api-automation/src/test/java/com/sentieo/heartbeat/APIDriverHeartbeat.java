@@ -177,6 +177,34 @@ public class APIDriverHeartbeat {
 			failedAPIData.add("'" + path.substring(path.lastIndexOf("api"), path.length()-1) + "'" + " | Unexpected response code: " + statusCode);
 		}
 	}
+	
+	
+	public static void updateSkipResult(String path, String team, String statusCode, String resp, String parameters) {
+		sbPass.append("<tr class=\"item\">");
+		
+		sbPass.append("<td>");
+		sbPass.append(path);
+		sbPass.append("</td>");
+		
+		sbPass.append("<td>");
+		sbPass.append(team);
+		sbPass.append("</td>");
+		
+		sbPass.append("<td>");
+		sbPass.append(statusCode);
+		sbPass.append("</td>");
+		
+		sbPass.append("<td>");
+		sbPass.append(resp);
+		sbPass.append("</td>");
+		
+		sbPass.append("<td>");
+		sbPass.append("<span>&#9989;</span>");
+		sbPass.append("</td>");
+		
+		sbPass.append("</tr>");
+		taggedUsers.add(users.get(team));
+	}
 		
 	public static String readHTMLHeader() {
 		StringBuilder sb = new StringBuilder();

@@ -181,15 +181,7 @@ public class DocSearchRestApi extends APIDriver {
 
 				verify.assertEqualsActualContainsExpected(doc_type, docType, "verify docType");
 				verify.assertEqualsActualContainsExpected(doc_id, docid, "verify docID");
-				boolean status = false;
-				if (docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
-					status = true;
-				else if (title.trim().contains(docTitle.trim()) && !docTitle.isEmpty() && !title.isEmpty())
-					status = true;
-				if (!status) {
-					ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
-					ExtentTestManager.getTest().log(LogStatus.INFO, "Expected : " + title);
-				}
+				boolean status = validateDocTitle(docTitle);
 				verify.assertTrue(status, "verify document title");
 				verify.assertEqualsActualContainsExpected(filingDate, date, "verify document date");
 			}
@@ -478,15 +470,7 @@ public class DocSearchRestApi extends APIDriver {
 				verify.assertEqualsActualContainsExpected(doc_type,
 						respJson.getJSONObject("result").getString("doc_type"), "verify docType");
 				String docTitle = respJson.getJSONObject("result").getString("title");
-				boolean status = false;
-				if (docTitle.contains(title) && !docTitle.isEmpty() && !title.isEmpty())
-					status = true;
-				else if (title.contains(docTitle) && !docTitle.isEmpty() && !title.isEmpty())
-					status = true;
-				if (!status) {
-					ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
-					ExtentTestManager.getTest().log(LogStatus.INFO, "Expected : " + title);
-				}
+				Boolean status = validateDocTitle(docTitle);
 				verify.assertTrue(status, "verify document title");
 				verify.assertEqualsActualContainsExpected(filingDate,
 						respJson.getJSONObject("result").getString("filingdate"), "verify document date");
@@ -1575,6 +1559,19 @@ public class DocSearchRestApi extends APIDriver {
 			verify.verifyAll();
 		}
 		return data;
+	}
+	
+	public boolean validateDocTitle(String docTitle) {
+		boolean status = false;
+		if (docTitle.trim().contains(title.trim()) && !docTitle.isEmpty() && !title.isEmpty())
+			status = true;
+		else if (title.trim().contains(docTitle.trim()) && !docTitle.isEmpty() && !title.isEmpty())
+			status = true;
+		if (!status) {
+			ExtentTestManager.getTest().log(LogStatus.INFO, "actual : " + docTitle);
+			ExtentTestManager.getTest().log(LogStatus.INFO, "Expected : " + title);
+		}
+		return status;
 	}
 
 }

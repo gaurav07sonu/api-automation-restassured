@@ -111,7 +111,8 @@ public class CommonUtil {
 				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesTangibleBookValueNTM"))
 				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue"))
 				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVEBITDA_CAPEX"))
-				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT"))) {
+				&& (!testMethod.getName().equalsIgnoreCase("keyMultiplesEVGROSSPROFIT")) 
+				&& (!testMethod.getName().equalsIgnoreCase("validateETF"))) {
 			randomTickers.put(1001, "AAPL");
 			randomTickers.put(1002, "AMZN");
 			randomTickers.put(1003, "TSLA");
@@ -168,7 +169,11 @@ public class CommonUtil {
 			} else if (testMethod.getName().equalsIgnoreCase("keyMultiplesP_BookValue")) {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "BookValue.csv");
-			} else {
+			} else if (testMethod.getName().equalsIgnoreCase("validateETF")) {
+				filereader = new FileReader(
+						RESOURCE_PATH + File.separator + "finance" + File.separator + "etf.csv");
+			} 
+			else {
 				filereader = new FileReader(
 						RESOURCE_PATH + File.separator + "finance" + File.separator + "randomtickers.csv");
 			}

@@ -667,7 +667,11 @@ public class DataProviderClass {
 	public String[][] fetchAutocompleteData_tickers() {
 		return new String[][] { { "EDT", "1" }, { "docsearch", "1" }, { "notebook", "0" } };
 	}
-
+	
+	@DataProvider(name = "module-type1")
+	public String[][] fetchAutocompleteData_ticker() {
+		return new String[][] { { "dashboard", "1","true"},{ "most", "0" ,"false"}};
+	}
 	@DataProvider(name = "revenue")
 	public Object[][] revenuePeriodType() {
 		return new Object[][] { { "Quarterly" }, { "Annual" } };
