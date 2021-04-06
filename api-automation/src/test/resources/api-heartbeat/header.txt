@@ -70,6 +70,7 @@ h1 {
 <option>Stream</option>
 <option>tableX</option>
 <option>User</option>
+<option>Data Science</option>
 </select>
 <button style="display: inline-block" type="submit"  onClick="refreshPage()">Remove filter</button>
 </div>
