@@ -45,6 +45,12 @@ public class APIDriver {
 		return given().contentType("application/x-www-form-urlencoded; charset=UTF-8").accept(ContentType.JSON)
 				.cookie("csrftoken", "a").cookie("apid", apid).cookie("usid", usid).formParameters(formParams);
 	}
+	
+	protected RequestSpecification formParamsSpec(HashMap<String, String> formParams,String apid, String usid) {
+		formParams.put("csrfmiddlewaretoken", "a");
+		return given().contentType("application/x-www-form-urlencoded; charset=UTF-8").accept(ContentType.JSON)
+				.cookie("csrftoken", "a").cookie("apid", apid).cookie("usid", usid).formParameters(formParams);
+	}
 
 	protected RequestSpecification formParamsSpecMobile(HashMap<String, String> formParams) {
 		formParams.put("csrfmiddlewaretoken", "a");
