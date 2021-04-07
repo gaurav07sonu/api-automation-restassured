@@ -31,7 +31,7 @@ public class VerifyLogin extends APIDriver {
 		HashMap<String, String> loginData = new HashMap<String, String>();
 		loginData.put("email", email);
 		loginData.put("password", password);
-		RequestSpecification spec = formParamsSpec(loginData);
+		RequestSpecification spec = formParamsSpec(loginData,"","");
 		Response resp = RestOperationUtils.get(URI, spec, null);
 		APIResponse apiResp = new APIResponse(resp);
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
