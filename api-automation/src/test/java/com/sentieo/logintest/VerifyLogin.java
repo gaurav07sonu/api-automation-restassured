@@ -31,7 +31,7 @@ public class VerifyLogin extends APIDriver {
 		HashMap<String, String> loginData = new HashMap<String, String>();
 		loginData.put("email", email);
 		loginData.put("password", password);
-		RequestSpecification spec = formParamsSpec(loginData);
+		RequestSpecification spec = formParamsSpec(loginData,"","");
 		Response resp = RestOperationUtils.get(URI, spec, null);
 		APIResponse apiResp = new APIResponse(resp);
 		verify.verifyStatusCode(apiResp.getStatusCode(), 200);
@@ -55,7 +55,7 @@ public class VerifyLogin extends APIDriver {
 	@DataProvider(name = "URLNames")
 	public static String[][] redataProviderMethod() {
 		return new String[][] { { "https://user-app.sentieo.com", "alphagani35@gmail.com", "DGL=14412jg" },
-				{ "https://user-balyasny.sentieo.com", "alphagani35@gmail.com", "Gani35!@#*()" },
+				{ "https://user-balyasny.sentieo.com", "balyasny.alertcheck@sentieo.com", "Sentieo@123" },
 				{ "https://user-citadel.sentieo.com", "alphagani35@gmail.com", "DGL=14412jg" } };
 	}
 }

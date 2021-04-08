@@ -1,6 +1,9 @@
 package com.sentieo.dashboard;
 
 import static com.sentieo.constants.Constants.*;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,9 +11,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
+
 import org.json.JSONObject;
 import org.json.simple.JSONArray;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.jayway.restassured.RestAssured;
@@ -29,13 +34,14 @@ import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 
 public class CreateDashboard extends APIDriver {
-
+	Properties prop;
+	FileReader reader;
 	public static ArrayList<String> expectedWidgets = new ArrayList<String>(Arrays.asList("SavedSearchWidget_1",
 			"PlotterWidget_3", "PriceMonitorWidget_2", "DocumentWidget_1", "RSSWidget_1"));
 	static String cloneDashboardID = "";
 	static List<String> docIDS = new ArrayList<>();
 	static String selectedWatchlist = "";
-	static String viewName ="";
+	static String viewName = "";
 	String widgetList = "{\"SavedSearchWidget_1\":{\"configuration\":{\"settings\":{\"size\":15,\"count\":0,\"start\":0,\"endOfResult\":false,\"name\":\"Saved Search\",\"filterObj\":{}},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"SavedSearchWidget_1\"}},\"PlotterWidget_3\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"name\":\"Plotter\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\",\"widgetTitle\":\"Plotter\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PlotterWidget_3\"}},\"PriceMonitorWidget_2\":{\"configuration\":{\"settings\":{\"minSize\":\"s\",\"wrapPreference\":\"dont-wrap\",\"infiniteScroll\":true,\"infiniteScrollWaiting\":500,\"restrictOuterScroll\":true,\"disableLinking\":true,\"name\":\"Price Monitor\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":2,\"driveBy\":\"local\",\"wrapPreference\":\"dont-wrap\",\"columnOption1\":\"edt-icon\",\"columnOption2\":\"docsearch-icon\",\"updateUserData\":{\"wl_mapping\":{},\"wl_id_mapping\":{},\"selectedRow\":\"{\\\"lastSelectedGroupID\\\":\\\"\\\",\\\"selectedTicker\\\":\\\"\\\"}\",\"watchlistsState\":{},\"viewData\":{},\"marketMonitorLoaded\":false},\"displayDensity\":\"compact\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"PriceMonitorWidget_2\"}},\"DocumentWidget_1\":{\"configuration\":{\"settings\":{\"size\":20,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{},\"defaultFilterObj\":{\"bd\":[],\"gbf\":[],\"rr\":[],\"ni\":[],\"tt\":[],\"ef\":[],\"jr\":[],\"ppt\":[],\"nw\":[],\"reg\":[],\"sd\":[]},\"pticker_setting\":true,\"name\":\"All Documents\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"DocumentWidget_1\"}},\"RSSWidget_1\":{\"configuration\":{\"settings\":{\"size\":20,\"count\":0,\"start\":0,\"endOfResult\":false,\"filterObj\":{\"rss\":{\"\":{\"\":{\"feed_id_599\":{\"value\":[599]}}}}},\"defaultFilterObj\":{\"\":{}},\"pticker_setting\":true,\"name\":\"RSS Feeds\"},\"configurable\":{\"resizeEnable\":true,\"deleteEnable\":true,\"settingEnable\":true,\"viewPreference\":\"small\",\"verticalFactor\":1,\"driveBy\":\"local\"},\"data\":{\"tickers\":[],\"watchlists\":\"\"},\"widgetID\":\"RSSWidget_1\"}}}";
 	String widget_order = "[\"SavedSearchWidget_1\",\"PlotterWidget_3\",\"PriceMonitorWidget_2\",\"DocumentWidget_1\",\"RSSWidget_1\"]";
 	static String plotter_id = "";
@@ -52,8 +58,8 @@ public class CreateDashboard extends APIDriver {
 		verify = new APIAssertions();
 	}
 
-	@AfterClass
-	public void after_class() throws Exception {
+	@Test(groups = "sanity", description = "Delete owner dashboard and wathclist", priority = 17)
+	public void deleteOwnerDashboardandWatchlist() throws Exception {
 		try {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
 			login();
@@ -70,9 +76,9 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "fv", description = "create dashboard", priority = 0)
 	public void createNewDashboard() throws Exception {
 		CommonUtil obj = new CommonUtil();
-		String randomString= obj.getRandomString();
-		viewName= randomString + new Date().getTime();
-		
+		String randomString = obj.getRandomString();
+		viewName = randomString + new Date().getTime();
+
 		String dashboardName = "Dashboard name is  : [<font color=\"red\">" + viewName;
 		dashboardName = "<span style=\"font-weight: bold;\">" + dashboardName + ": </span>";
 		ExtentTestManager.getTest().log(LogStatus.INFO, viewName);
@@ -261,30 +267,33 @@ public class CreateDashboard extends APIDriver {
 	public void shareDashboard() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + DASHBOARD_SHARE;
-			HashMap<String, String> dashboardData = new HashMap<String, String>();
-			dashboardData.put("entity_id", db_id);
-			dashboardData.put("entity_type", "SentieoDashboard");
-			dashboardData.put("share_with_list",
-					"[{\"shared_with_type\":\"user\",\"shared_with_name\":\"bhaskar\",\"shared_with_display_name\":\"Bhaskar Sentieo\",\"access_level\":\"view\",\"state\":\"active\",\"email\":\"1\"}]");
-			dashboardData.put("email", "1");
-			dashboardData.put("email_img", "data:image/png;base64,iVBOR");
-			dashboardData.put("dashboard_name", viewName);
-			RequestSpecification spec = formParamsSpec(dashboardData);
-			Response resp = RestOperationUtils.post(URI, null, spec, dashboardData);
-			APIResponse apiResp = new APIResponse(resp);
-			int statuscode = apiResp.getStatusCode();
-			verify.verifyStatusCode(statuscode, 200);
-			if (statuscode == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
-						"Verify the API Message");
-				JSONObject result = respJson.getJSONObject("result");
-				String shared_users = result.getJSONArray("shared_users").getJSONObject(0)
-						.getString("shared_with_name").toLowerCase().trim();
-				verify.assertEqualsActualContainsExpected(shared_users, "bhaskar", "Verify shared user ");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				HashMap<String, String> dashboardData = new HashMap<String, String>();
+				dashboardData.put("entity_id", db_id);
+				dashboardData.put("entity_type", "SentieoDashboard");
+				dashboardData.put("share_with_list",
+						"[{\"shared_with_type\":\"user\",\"shared_with_name\":\"bhaskar\",\"shared_with_display_name\":\"Bhaskar Sentieo\",\"access_level\":\"view\",\"state\":\"active\",\"email\":\"1\"}]");
+				dashboardData.put("email", "1");
+				dashboardData.put("email_img", "data:image/png;base64,iVBOR");
+				dashboardData.put("dashboard_name", viewName);
+				RequestSpecification spec = formParamsSpec(dashboardData);
+				Response resp = RestOperationUtils.post(URI, null, spec, dashboardData);
+				APIResponse apiResp = new APIResponse(resp);
+				int statuscode = apiResp.getStatusCode();
+				verify.verifyStatusCode(statuscode, 200);
+				if (statuscode == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+							"Verify the API Message");
+					JSONObject result = respJson.getJSONObject("result");
+					String shared_users = result.getJSONArray("shared_users").getJSONObject(0)
+							.getString("shared_with_name").toLowerCase().trim();
+					verify.assertEqualsActualContainsExpected(shared_users, "bhaskar", "Verify shared user ");
+				} else
+					ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + URI);
 			}
 		} catch (Exception e) {
 			verify.assertTrue(false, "in shareDashboard catch " + e.toString());
@@ -298,21 +307,24 @@ public class CreateDashboard extends APIDriver {
 		try {
 			RestAssured.baseURI = APP_URL;
 			String URI = USER_APP_URL + LOGIN_URL;
-			HashMap<String, String> loginData = new HashMap<String, String>();
-			loginData.put("email", "bhaskar@sentieo.com");
-			loginData.put("password", "Sentieo.789");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				HashMap<String, String> loginData = new HashMap<String, String>();
+				loginData.put("email", prop.getProperty("shareDashboard"));
+				loginData.put("password", prop.getProperty("shareDashboardPassword"));
+				RequestSpecification spec = loginSpec(loginData);
+				Response resp = RestOperationUtils.login(URI, null, spec, loginData);
+				APIResponse apiResp = new APIResponse(resp);
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				username = respJson.getJSONObject("result").getString("username");
+				apid = resp.getCookie("apid");
+				usid = resp.getCookie("usid");
+				if (apid.isEmpty() || usid.isEmpty()) {
+					System.out.println("Login failed");
+					System.exit(1);
+				}
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + URI);
 
-			RequestSpecification spec = loginSpec(loginData);
-			Response resp = RestOperationUtils.login(URI, null, spec, loginData);
-			APIResponse apiResp = new APIResponse(resp);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			username = respJson.getJSONObject("result").getString("username");
-			apid = resp.getCookie("apid");
-			usid = resp.getCookie("usid");
-			if (apid.isEmpty() || usid.isEmpty()) {
-				System.out.println("Login failed");
-				System.exit(1);
-			}
 		} catch (Exception e) {
 			verify.assertTrue(false, "In testlogin catch " + e.toString());
 		}
@@ -321,27 +333,33 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "get dashboard items", priority = 6)
 	public void verifySharedDashboard() throws Exception {
 		try {
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/dd/yy");
-			LocalDateTime now = LocalDateTime.now();
-			String currentDate = dtf.format(now);
-			CommonUtil util = new CommonUtil();
-			String date = "";
-			org.json.JSONArray shared_dashboards = obj.dashboardlist("shared");
-			for (int i = 0; i < shared_dashboards.length(); i++) {
-				String dashboard_name = shared_dashboards.getJSONObject(i).getString("dashboard_name").toLowerCase();
-				if (dashboard_name.equalsIgnoreCase(viewName.toLowerCase())) {
-					double timeStamp = shared_dashboards.getJSONObject(i).getDouble("created_ts");
-					int digit = (int) (timeStamp / 1000);
-					date = util.convertTimestampIntoDate(digit);
-					//verify.compareDates(date, currentDate, "Verify the created date for dahsboard");
-					verify.assertTrue(true, viewName + "Verify shared dashboard view ");
-					break;
-				} else {
-					if (i == shared_dashboards.length())
-						verify.assertTrue(false, viewName + "Not found ");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/dd/yy");
+				LocalDateTime now = LocalDateTime.now();
+				String currentDate = dtf.format(now);
+				CommonUtil util = new CommonUtil();
+				String date = "";
+				org.json.JSONArray shared_dashboards = obj.dashboardlist("shared");
+				for (int i = 0; i < shared_dashboards.length(); i++) {
+					String dashboard_name = shared_dashboards.getJSONObject(i).getString("dashboard_name")
+							.toLowerCase();
+					if (dashboard_name.equalsIgnoreCase(viewName.toLowerCase())) {
+						double timeStamp = shared_dashboards.getJSONObject(i).getDouble("created_ts");
+						int digit = (int) (timeStamp / 1000);
+						date = util.convertTimestampIntoDate(digit);
+						// verify.compareDates(date, currentDate, "Verify the created date for
+						// dahsboard");
+						verify.assertTrue(true, viewName + "Verify shared dashboard view ");
+						break;
+					} else {
+						if (i == shared_dashboards.length())
+							verify.assertTrue(false, viewName + "Not found ");
+					}
 				}
-			}
+
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 
 		} catch (Exception e) {
 			verify.assertTrue(false, "In verifySharedDashboard catch " + e.toString());
@@ -354,39 +372,42 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "share", description = "get dashboard items", priority = 7)
 	public void getSharedDashboardData() throws Exception {
 		try {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/dd/yy");
-			LocalDateTime now = LocalDateTime.now();
-			String currentDate = dtf.format(now);
-			CommonUtil util = new CommonUtil();
-			String date = "";
-			String URI = USER_APP_URL + DASHBOARD_DATA;
-			HashMap<String, String> dashboardData = new HashMap<String, String>();
-			dashboardData.put("dashboard_id", db_id);
-			RequestSpecification spec = formParamsSpec(dashboardData);
-			Response resp = RestOperationUtils.post(URI, null, spec, dashboardData);
-			APIResponse apiResp = new APIResponse(resp);
-			int statusCode = apiResp.getStatusCode();
-			verify.verifyStatusCode(statusCode, 200);
-			if (statusCode == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
-						"Verify the API Message");
-				JSONObject result = respJson.getJSONObject("result");
-				String dashboardName = result.getString("dashboard_name");
-				verify.assertEqualsActualContainsExpected(dashboardName, viewName, "Verify shared view name");
-				double timeStamp = result.getDouble("created_ts");
-				int digit = (int) (timeStamp / 1000);
-				date = util.convertTimestampIntoDate(digit);
-				verify.compareDates(date, currentDate, "Verify the created date for dahsboard ");
-				JSONObject widgetList = result.getJSONObject("widgetlist");
-				DashboardCommonUtils obj = new DashboardCommonUtils();
-				List<String> actualWidgest = obj.getWidgetList(widgetList);
-				verify.assertEquals(actualWidgest, expectedWidgets, "Verify shared widgest", true);
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/dd/yy");
+				LocalDateTime now = LocalDateTime.now();
+				String currentDate = dtf.format(now);
+				CommonUtil util = new CommonUtil();
+				String date = "";
+				String URI = USER_APP_URL + DASHBOARD_DATA;
+				HashMap<String, String> dashboardData = new HashMap<String, String>();
+				dashboardData.put("dashboard_id", db_id);
+				RequestSpecification spec = formParamsSpec(dashboardData);
+				Response resp = RestOperationUtils.post(URI, null, spec, dashboardData);
+				APIResponse apiResp = new APIResponse(resp);
+				int statusCode = apiResp.getStatusCode();
+				verify.verifyStatusCode(statusCode, 200);
+				if (statusCode == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+							"Verify the API Message");
+					JSONObject result = respJson.getJSONObject("result");
+					String dashboardName = result.getString("dashboard_name");
+					verify.assertEqualsActualContainsExpected(dashboardName, viewName, "Verify shared view name");
+					double timeStamp = result.getDouble("created_ts");
+					int digit = (int) (timeStamp / 1000);
+					date = util.convertTimestampIntoDate(digit);
+					verify.compareDates(date, currentDate, "Verify the created date for dahsboard ");
+					JSONObject widgetList = result.getJSONObject("widgetlist");
+					DashboardCommonUtils obj = new DashboardCommonUtils();
+					List<String> actualWidgest = obj.getWidgetList(widgetList);
+					verify.assertEquals(actualWidgest, expectedWidgets, "Verify shared widgest", true);
 
-			}
+				}
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In getSharedDashboardData catch " + e.toString());
 
@@ -399,56 +420,62 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 8)
 	public void clonedashboard() throws CoreCommonException {
 		try {
-			String cloneDashboard = viewName + " " + "- Copy";
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			String URI = USER_APP_URL + CLONE_DASHBOARD;
-			HashMap<String, String> dashboardData = new HashMap<String, String>();
-			dashboardData.put("dashboard_id", db_id);
-			dashboardData.put("dashboard_name", cloneDashboard);
-			JSONObject jj = new JSONObject();
-			dashboardData.put("clone_details", jj.toString());
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				String cloneDashboard = viewName + " " + "- Copy";
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				String URI = USER_APP_URL + CLONE_DASHBOARD;
+				HashMap<String, String> dashboardData = new HashMap<String, String>();
+				dashboardData.put("dashboard_id", db_id);
+				dashboardData.put("dashboard_name", cloneDashboard);
+				JSONObject jj = new JSONObject();
+				dashboardData.put("clone_details", jj.toString());
 
-			RequestSpecification spec = formParamsSpec(dashboardData);
-			Response resp = RestOperationUtils.post(URI, null, spec, dashboardData);
-			APIResponse apiResp = new APIResponse(resp);
-			int statusCode = apiResp.getStatusCode();
-			verify.verifyStatusCode(statusCode, 200);
-			if (statusCode == 200) {
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
-				verify.verifyResponseTime(resp, 5000);
-				JSONObject result = respJson.getJSONObject("result");
+				RequestSpecification spec = formParamsSpec(dashboardData);
+				Response resp = RestOperationUtils.post(URI, null, spec, dashboardData);
+				APIResponse apiResp = new APIResponse(resp);
+				int statusCode = apiResp.getStatusCode();
+				verify.verifyStatusCode(statusCode, 200);
+				if (statusCode == 200) {
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+					verify.verifyResponseTime(resp, 5000);
+					JSONObject result = respJson.getJSONObject("result");
 
-				JSONObject widgetList = result.getJSONObject("widgetlist");
+					JSONObject widgetList = result.getJSONObject("widgetlist");
 
-				List<String> actualWidgest = obj.getWidgetList(widgetList);
-				verify.assertEquals(actualWidgest, expectedWidgets, "Verify shared widgest", true);
+					List<String> actualWidgest = obj.getWidgetList(widgetList);
+					verify.assertEquals(actualWidgest, expectedWidgets, "Verify shared widgest", true);
 
-				String dashboardName = result.getString("dashboard_name");
-				String dash = viewName + " " + "-" + " Copy";
-				verify.assertEqualsActualContainsExpected(dashboardName, dash, "Verify dashboard name after cloning");
+					String dashboardName = result.getString("dashboard_name");
+					String dash = viewName + " " + "-" + " Copy";
+					verify.assertEqualsActualContainsExpected(dashboardName, dash,
+							"Verify dashboard name after cloning");
 
-				org.json.JSONArray token_list = result.getJSONArray("token_list");
-				String tokenType = token_list.getJSONObject(0).getString("token_type").toLowerCase().trim();
-				if (tokenType.equalsIgnoreCase("watchlist")) {
-					String watchName = token_list.getJSONObject(0).getString("name");
-					String watchExpected = selectedWatchlist + " " + "@" + " " + viewName;
-					verify.assertEqualsActualContainsExpected(watchName.toLowerCase().trim(),
-							watchExpected.toLowerCase().trim(), "Verify watchlist name after cloning dashboard");
-				}
-				List<String> tickers = obj.getTokenTickers(token_list);
-				verify.assertEquals(tickers, AddWatchlist.watchTickers, "Verify watchlist tickers", true);
-				org.json.JSONArray my_dash = obj.dashboardlist("");
-				for (int i = 0; i < my_dash.length(); i++) {
-					String name = my_dash.getJSONObject(i).getString("dashboard_name");
-					if (name.equalsIgnoreCase(cloneDashboard)) {
-						cloneDashboardID = my_dash.getJSONObject(i).getString("db_id");
-						break;
+					org.json.JSONArray token_list = result.getJSONArray("token_list");
+					String tokenType = token_list.getJSONObject(0).getString("token_type").toLowerCase().trim();
+					if (tokenType.equalsIgnoreCase("watchlist")) {
+						String watchName = token_list.getJSONObject(0).getString("name");
+						String watchExpected = selectedWatchlist + " " + "@" + " " + viewName;
+						verify.assertEqualsActualContainsExpected(watchName.toLowerCase().trim(),
+								watchExpected.toLowerCase().trim(), "Verify watchlist name after cloning dashboard");
 					}
-				}
+					List<String> tickers = obj.getTokenTickers(token_list);
+					verify.assertEquals(tickers, AddWatchlist.watchTickers, "Verify watchlist tickers", true);
+					org.json.JSONArray my_dash = obj.dashboardlist("");
+					for (int i = 0; i < my_dash.length(); i++) {
+						String name = my_dash.getJSONObject(i).getString("dashboard_name");
+						if (name.equalsIgnoreCase(cloneDashboard)) {
+							cloneDashboardID = my_dash.getJSONObject(i).getString("db_id");
+							break;
+						}
+					}
+				} else
+					ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			verify.assertTrue(false, "In clonedashboard catch " + e.toString());
 		} finally {
 			verify.verifyAll();
@@ -459,10 +486,13 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 9)
 	public void verifyCloneWatchlist() throws CoreCommonException {
 		try {
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			String option = selectedWatchlist + " @" + " " + viewName;
-			boolean result = obj.verifyWatchlist(option);
-			verify.assertTrue(result, "Verify Clone Watchlist : ");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				String option = selectedWatchlist + " @" + " " + viewName;
+				boolean result = obj.verifyWatchlist(option);
+				verify.assertTrue(result, "Verify Clone Watchlist : ");
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In verifyCloneWatchlist catch " + e.toString());
 		} finally {
@@ -473,21 +503,24 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 10)
 	public void verifyCloneSavedSearch() throws CoreCommonException {
 		try {
-			DocSearchRestApi obj = new DocSearchRestApi();
-			clonedSearchName = DashboardCommonUtils.saveSearchName + " @" + " " + viewName;
-			org.json.JSONArray data = obj.load_userSearchs();
-			for (int i = 0; i < data.length(); i++) {
-				String saveSearch = data.getJSONObject(i).getString("name");
-				if (saveSearch.equalsIgnoreCase(clonedSearchName)) {
-					verify.assertEqualsActualContainsExpected(saveSearch, clonedSearchName,
-							"Verify search after cloning ");
-					break;
-				} else {
-					if (i == data.length() - 1)
-						verify.assertTrue(false, "Save search not found after cloning dashboard : ");
-				}
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DocSearchRestApi obj = new DocSearchRestApi();
+				clonedSearchName = DashboardCommonUtils.saveSearchName + " @" + " " + viewName;
+				org.json.JSONArray data = obj.load_userSearchs();
+				for (int i = 0; i < data.length(); i++) {
+					String saveSearch = data.getJSONObject(i).getString("name");
+					if (saveSearch.equalsIgnoreCase(clonedSearchName)) {
+						verify.assertEqualsActualContainsExpected(saveSearch, clonedSearchName,
+								"Verify search after cloning ");
+						break;
+					} else {
+						if (i == data.length() - 1)
+							verify.assertTrue(false, "Save search not found after cloning dashboard : ");
+					}
 
-			}
+				}
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In verifyCloneSavedSearch catch " + e.toString());
 		} finally {
@@ -498,10 +531,13 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 11)
 	public void verifyClonePlotter() throws CoreCommonException {
 		try {
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			clonedPlotterName = plotterName + " @" + " " + viewName;
-			boolean result = obj.loadGraphNew(clonedPlotterName);
-			verify.assertTrue(result, "Verify clone plotter is available ?:");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				clonedPlotterName = plotterName + " @" + " " + viewName;
+				boolean result = obj.loadGraphNew(clonedPlotterName);
+				verify.assertTrue(result, "Verify clone plotter is available ?:");
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In verifyClonePlotter catch " + e.toString());
 		} finally {
@@ -512,9 +548,12 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 12)
 	public void verifyCloneRSSFEEDS() throws CoreCommonException {
 		try {
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			List<String> getrssID = obj.fetch_search_filters();
-			verify.assertTrue(getrssID.size()!=0, "Verify RSS-Data");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				List<String> getrssID = obj.fetch_search_filters();
+				verify.assertTrue(getrssID.size() != 0, "Verify RSS-Data");
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In verifyCloneRSSFEEDS catch " + e.toString());
 		} finally {
@@ -525,26 +564,28 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "deletes user`s saved searches", priority = 13)
 	public void delete_saved_search() throws CoreCommonException {
 		try {
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			String uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
-			if (!uss_ids.isEmpty()) {
-				String URI = USER_APP_URL + DELETE_SAVED_SEARCH;
-				HashMap<String, String> queryParams = new HashMap<String, String>();
-				queryParams.put("id", uss_ids);
-				RequestSpecification spec = formParamsSpec(queryParams);
-				Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
-				APIResponse apiResp = new APIResponse(resp);
-				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-				verify.verifyResponseTime(resp, 10000);
-				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-						"Verify the API Response Status");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				String uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
+				if (!uss_ids.isEmpty()) {
+					String URI = USER_APP_URL + DELETE_SAVED_SEARCH;
+					HashMap<String, String> queryParams = new HashMap<String, String>();
+					queryParams.put("id", uss_ids);
+					RequestSpecification spec = formParamsSpec(queryParams);
+					Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+					APIResponse apiResp = new APIResponse(resp);
+					JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+					verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+					verify.verifyResponseTime(resp, 10000);
+					verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+							"Verify the API Response Status");
+				} else
+					verify.assertTrue(false, "Search not found");
+				uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
+				if (!uss_ids.isEmpty())
+					verify.assertTrue(false, "Search is not deleted  : ");
 			} else
-				verify.assertTrue(false, "Search not found");
-			uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
-			if (!uss_ids.isEmpty())
-				verify.assertTrue(false, "Search is not deleted  : ");
-
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In delete_saved_search catch " + e.toString());
 		} finally {
@@ -553,22 +594,25 @@ public class CreateDashboard extends APIDriver {
 	}
 
 	@Test(groups = "sanity", description = "deletes user`s saved searches", priority = 14)
-	public void deleteWatchlist() throws CoreCommonException {
+	public void deleteCloneWatchlist() throws CoreCommonException {
 		try {
-			DashboardCommonUtils dash = new DashboardCommonUtils();
-			String watchExpected = selectedWatchlist + " " + "@" + " " + viewName;
-			AddWatchlist obj = new AddWatchlist();
-			String watchID = dash.getWatchlistID(watchExpected);
-			if (!watchID.isEmpty()) {
-				obj.deleteUserWatchlist(watchID);
-				boolean result = dash.verifyWatchlist(watchExpected);
-				verify.assertFalse(result, "Verify Deleted Watchlist : ");
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils dash = new DashboardCommonUtils();
+				String watchExpected = selectedWatchlist + " " + "@" + " " + viewName;
+				AddWatchlist obj = new AddWatchlist();
+				String watchID = dash.getWatchlistID(watchExpected);
+				if (!watchID.isEmpty()) {
+					obj.deleteUserWatchlist(watchID);
+					boolean result = dash.verifyWatchlist(watchExpected);
+					verify.assertFalse(result, "Verify Deleted Watchlist : ");
 
+				} else
+					verify.assertTrue(false, "Watchlist not found : ");
+				watchID = dash.getWatchlistID(watchExpected);
+				if (!watchID.isEmpty())
+					verify.assertTrue(false, "Watchlist is not deleted : ");
 			} else
-				verify.assertTrue(false, "Watchlist not found : ");
-			watchID = dash.getWatchlistID(watchExpected);
-			if (!watchID.isEmpty())
-				verify.assertTrue(false, "Watchlist is not deleted : ");
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In deleteWatchlist catch " + e.toString());
 		} finally {
@@ -580,28 +624,42 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "Delete Plotter ", priority = 15)
 	public void deletePlotter() {
 		try {
-			DashboardCommonUtils dash = new DashboardCommonUtils();
-			String plotter_id = dash.getPlotterID(clonedPlotterName);
-			LoadGraph obj = new LoadGraph();
-			obj.deleteGraph(plotter_id);
-			boolean result = dash.loadGraphNew(clonedPlotterName);
-			verify.assertFalse(result, "Verify delete plotter :");
-			verify.verifyAll();
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				DashboardCommonUtils dash = new DashboardCommonUtils();
+				String plotter_id = dash.getPlotterID(clonedPlotterName);
+				LoadGraph obj = new LoadGraph();
+				obj.deleteGraph(plotter_id);
+				boolean result = dash.loadGraphNew(clonedPlotterName);
+				verify.assertFalse(result, "Verify delete plotter :");
+				verify.verifyAll();
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
 		} catch (Exception e) {
 			verify.assertTrue(false, "In deletePlotter catch " + e.toString());
 		}
 	}
 
 	@Test(groups = "sanity", description = "Delete Plotter ", priority = 16)
-	public void dashboardDelete() throws CoreCommonException {
+	public void deleteCloneDashboard() throws CoreCommonException {
 		try {
-			String cloneDashboard = viewName + " " + "- Copy";
-			DashboardCommonUtils obj = new DashboardCommonUtils();
-			obj.deleteDashboard(cloneDashboardID, cloneDashboard);
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+				String cloneDashboard = viewName + " " + "- Copy";
+				DashboardCommonUtils obj = new DashboardCommonUtils();
+				obj.deleteDashboard(cloneDashboardID, cloneDashboard);
+			} else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
+
 		} catch (Exception e) {
 			verify.assertTrue(false, "In dashboardDelete catch " + e.toString());
 		} finally {
 			verify.verifyAll();
 		}
+	}
+
+	@BeforeClass(alwaysRun = true)
+	public void loadFile() throws IOException {
+		reader = new FileReader("config.properties");
+		prop = new Properties();
+		prop.load(reader);
 	}
 }
