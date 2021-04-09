@@ -79,11 +79,6 @@ public class NotebookApis extends APIDriver {
 		URI = USER_APP_URL;
 	}
 	
-	@BeforeClass(alwaysRun = true)
-	public void setTickers() {
-		tickers = CSVReaderUtil.readAllDataAtOnce("notebook" + File.separator + "autocomplete_ticker_list.csv");
-	}
-	
 	@BeforeTest(alwaysRun = true)
 	@Parameters({ "loc" })
 	public void getLoc(@Optional("loc") String loc) {
@@ -2181,6 +2176,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 44, description = "Verify thesis fields")
 	public void fetch_thesis_fields() throws CoreCommonException {
 		try {
+			if(APP_URL.contains("balyasny")) {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			RequestSpecification spec = formParamsSpec(parameters);
 			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_THESIS_FIELDS, spec, parameters);
@@ -2205,6 +2201,8 @@ public class NotebookApis extends APIDriver {
 						verify.assertTrue(true, "Verify fields present ");
 				}
 			}
+			}else
+				ExtentTestManager.getTest().log(LogStatus.SKIP, "skipped on bams");	
 		} catch (JSONException je) {
 			je.printStackTrace();
 			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
@@ -2888,188 +2886,6 @@ public class NotebookApis extends APIDriver {
 			}
 		  }else {
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "not supported on : " + APP_URL);
-			}
-		} catch (JSONException je) {
-			je.printStackTrace();
-			ExtentTestManager.getTest().log(LogStatus.FAIL, je.getMessage());
-			verify.verificationFailures.add(je);
-		} finally {
-			verify.verifyAll();
-		}
-	}
-
-	@SuppressWarnings("unused")
-	//@Test(groups = {"checktest", "mobileMainApp"}, description = "Check autocomplete api", dataProvider = "module-type", dataProviderClass = DataProviderClass.class)
-	public void search_entities(String moduleType, String sentieoEntity) throws CoreCommonException, IOException {
-		try {
-		for (String[] row : tickers) {
-				String tickername = "";
-				String type = "";
-				String status = "";
-				try {
-					for (String cell : row) {
-						if (tickername.isEmpty()) {
-							tickername = cell;
-							continue;
-						}
-						if (type.isEmpty()) {
-							type = cell;
-							continue;
-						}
-						if (status.isEmpty()) {
-							status = cell;
-						}
-					}
-					if(moduleType.equalsIgnoreCase("EDT"))  //to print proper name in report
-						moduleType="company";
-					
-					HashMap<String, String> parameters = new HashMap<String, String>();
-					parameters.put("suggest", tickername);
-					parameters.put("allow_pvt_company", "true");
-					parameters.put("pagetype", moduleType);
-					parameters.put("sentieoentity", sentieoEntity);
-					
-					
-					RequestSpecification spec = formParamsSpec(parameters);
-					Response resp = RestOperationUtils.get(APP_URL + SEARCH_ENTITIES, spec, parameters);
-					APIResponse apiResp = new APIResponse(resp);
-					ExtentTestManager.getTest().log(LogStatus.INFO, "Ticker/Partial Search : " + tickername);
-					if(!(apiResp.getStatusCode() == 200))	
-					verify.verifyEquals(apiResp.getStatusCode(), 200, "Api response");
-					verify.verifyResponseTime(resp, 5000);
-					if (apiResp.getStatusCode() == 200) {
-						JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-						if(!respJson.getJSONObject("response").getBoolean("status"))
-						verify.assertTrue(respJson.getJSONObject("response").getBoolean("status"), "verify api status");
-						if (type.equalsIgnoreCase("public")) {
-							JSONArray companylist;
-							if (sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company"))
-								companylist = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("company");
-							else
-								companylist = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("sentieoentity");
-							if (null == companylist  || companylist.length() == 0) {
-								verify.assertTrue(false, "Ticker not coming for search : " + tickername);
-							}
-							if (companylist.length() > 0) {
-								JSONObject tickerData = companylist.getJSONObject(0);
-								String token_label = tickerData.getString("token_label");
-								String ticker_status = tickerData.getString("status");
-								if (!tickerData.getString("name").toLowerCase().contains(tickername.toLowerCase()))
-									verify.assertEqualsActualContainsExpected(
-											tickerData.getString("name").toLowerCase(), tickername.toLowerCase(),
-											"verify ticker name");
-								if (ticker_status.isEmpty())
-								verify.assertTrue(!ticker_status.isEmpty(), "verify ticker status");
-								
-								if (tickerData.getString("_id").isEmpty())
-									verify.assertTrue(!tickerData.getString("_id").isEmpty(),
-											"verify ticker _id present");
-								if(sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company")) {
-								if (!tickerData.getString("type").equalsIgnoreCase("company")) 
-									verify.verifyEquals(tickerData.getString("type"), "company", "verify company type");
-								}else {
-									if (!tickerData.getString("type").equalsIgnoreCase("sentieoentity"))
-										verify.verifyEquals(tickerData.getString("type"), "sentieoentity", "verify company type");									
-								}
-							}
-						} else if (type.equalsIgnoreCase("private")) {
-							JSONArray privcomp;
-							if (sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company"))
-								privcomp = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("privcomp");
-							else
-								privcomp = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("privateentity");
-							if (null == privcomp || privcomp.length() == 0) {
-								verify.assertTrue(false, "Ticker not coming for search : " + tickername);
-							}
-							if (privcomp.length() > 0) {
-								JSONObject tickerData = privcomp.getJSONObject(0);
-								String token_label = tickerData.getString("token_label");
-								String ticker_status = tickerData.getString("status");
-								if (!tickerData.getString("name").toLowerCase().contains(tickername.toLowerCase()))
-									verify.assertEqualsActualContainsExpected(
-											tickerData.getString("name").toLowerCase(), tickername.toLowerCase(),
-											"verify ticker name");
-								if (ticker_status.isEmpty())
-										verify.assertTrue(!ticker_status.isEmpty(), "verify ticker status");
-								
-								if (tickerData.getString("_id").isEmpty())
-									verify.assertTrue(!tickerData.getString("_id").isEmpty(),
-											"verify ticker _id present");
-								if(sentieoEntity.equalsIgnoreCase("0") || moduleType.equalsIgnoreCase("company")) {
-									if (!tickerData.getString("type").equalsIgnoreCase("privcomp")) 
-										verify.verifyEquals(tickerData.getString("type"), "privcomp", "verify company type");
-									}else {
-										if (!tickerData.getString("type").equalsIgnoreCase("privateentity"))
-											verify.verifyEquals(tickerData.getString("type"), "privateentity", "verify company type");									
-									}
-							
-								if(tickerData.getString("name").toLowerCase().contains(tickerData.getString("_id").toLowerCase()))
-									verify.assertTrue(false, "Id appearing in name" + tickerData.getString("name"));
-							}
-						} else {// for partial text search
-							if (sentieoEntity.equals("0") || moduleType.equalsIgnoreCase("company")) {
-								JSONArray companylist = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("company");
-								verify.assertTrue(companylist.length() > 0, "company data should be present");
-
-								JSONArray privcomp = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("privcomp");
-								verify.assertTrue(privcomp.length() > 0, "privcomp data should be present");
-								
-								if (privcomp.length() > 0) {			
-									if(privcomp.getJSONObject(0).getString("name").toLowerCase().contains(privcomp.getJSONObject(0).getString("_id").toLowerCase()))
-										verify.assertTrue(false, "Id appearing in name" + privcomp.getJSONObject(0).getString("name"));
-								}
-								if(!moduleType.equalsIgnoreCase("company")) {
-//								JSONArray crypto = respJson.getJSONObject("result").getJSONObject("data")
-//										.getJSONArray("crypto");
-//								verify.assertTrue(crypto.length() > 0, "crypto data should be present");
-
-								JSONArray entity = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("entity");
-								verify.assertTrue(entity.length() > 0, "entity data should be present");
-
-//								if(!(tickername.equalsIgnoreCase("8") && tickername.equalsIgnoreCase("AA"))) {
-//								JSONArray organization = respJson.getJSONObject("result").getJSONObject("data")
-//										.getJSONArray("organization");
-//								verify.assertTrue(organization.length() > 0, "organization data should be present");
-//								
-//								
-//								JSONArray debt = respJson.getJSONObject("result").getJSONObject("data")
-//										.getJSONArray("debt");
-//								verify.assertTrue(debt.length() > 0, "debt data should be present");
-								}
-							} else {
-								JSONArray privateentity = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("privateentity");
-								verify.assertTrue(privateentity.length() > 0, "privateentity data should be present");
-
-								JSONArray sentieoentity = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("sentieoentity");
-								verify.assertTrue(sentieoentity.length() > 0, "sentieoentity data should be present");
-
-								JSONArray subsidiary = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("subsidiary");
-								verify.assertTrue(subsidiary.length() > 0, "subsidiary data should be present");
-
-								JSONArray cryptoentity = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("cryptoentity");
-								verify.assertTrue(cryptoentity.length() > 0, "cryptoentity data should be present");
-
-								JSONArray secentity = respJson.getJSONObject("result").getJSONObject("data")
-										.getJSONArray("secentity");
-								verify.assertTrue(secentity.length() > 0, "secentity data should be present");
-							}
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					verify.assertTrue(false, "ticker : " + tickername + e.toString());
-				}
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
