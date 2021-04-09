@@ -1992,7 +1992,7 @@ public class HeartbeatMonitors extends APIDriverHeartbeat {
 		String URI = DS_URL + REDLINING_HEATMAP;
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		try {
-			String data = "{\"timeperiod\":\"3y\",\"tickers\":[\"aapl\"],\"get_schema\":\"true\"}";
+			String data = "{\"timeperiod\":\"3y\",\"tickers\":[\"aapl\"],\"doctype\":[\"10-k\",\"10-q\"],\"get_schema\":\"true\"}";
 			parameters.put(data, "");
 			RequestSpecification spec = formParamsSpecDS(data);
 			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
