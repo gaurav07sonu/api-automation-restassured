@@ -1,25 +1,21 @@
 package com.sentieo.dashboard;
 
-import static com.sentieo.constants.Constants.APP_URL;
-import static com.sentieo.constants.Constants.DELETE_DASHBOARD;
-import static com.sentieo.constants.Constants.FETCH_SEARCH;
-import static com.sentieo.constants.Constants.GET_DASHBOARD_LIST;
-import static com.sentieo.constants.Constants.LOADGRAPH_NEW;
-import static com.sentieo.constants.Constants.UPDATE_DASHBOARD_WIDGET;
-import static com.sentieo.constants.Constants.USER_APP_URL;
-
+import static com.sentieo.constants.Constants.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.openqa.selenium.JavascriptExecutor;
 import org.testng.annotations.BeforeMethod;
 
 import com.google.common.collect.Lists;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
+import com.mongodb.util.JSON;
 import com.relevantcodes.extentreports.LogStatus;
 import com.sentieo.assertion.APIAssertions;
 import com.sentieo.docsearch.DocSearchRestApi;
@@ -387,13 +383,51 @@ public class DashboardCommonUtils extends APIDriver {
 		return my_dashboards;
 	}
 
+	public String getWidgetName(String option, String dashID) {
+		String widgetName = "";
+		String URI = USER_APP_URL + GET_DASHBOARD_LIST;
+		HashMap<String, String> dashboardData = new HashMap<String, String>();
+		try {
+			dashboardData.put("dashboard_id", dashID);
+			RequestSpecification spec = formParamsSpec(dashboardData);
+			Response resp = RestOperationUtils.get(URI, spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			int statusCode = apiResp.getStatusCode();
+			verify.verifyStatusCode(statusCode, 200);
+			if (statusCode == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				JSONObject result = respJson.getJSONObject("result").getJSONObject("first_object");
+				if (result.length() == 0 || result == null)
+					verify.assertTrue(false, "API shows blank data");
+				else {
+					JSONObject list = result.getJSONObject("widgetlist");
+					for (int i = 0; i < list.names().length(); i++) {
+						String widget = list.names().get(i).toString();
+						if (widget.contains(option)) {
+							widgetName = list.names().getJSONObject(i).getJSONObject("configuration")
+									.getJSONObject("settings").getString("name");
+							return widgetName;
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return widgetName;
+	}
+
 	public void updateWidget(HashMap<String, String> tickerData) throws CoreCommonException {
 		String URI = USER_APP_URL + UPDATE_DASHBOARD_WIDGET;
 		try {
 			RequestSpecification spec = formParamsSpec(tickerData);
 			Response resp = RestOperationUtils.post(URI, null, spec, tickerData);
 			APIResponse apiResp = new APIResponse(resp);
-			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
+			int status = apiResp.getStatusCode();
+			verify.verifyStatusCode(status, 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
 			verify.verifyResponseTime(resp, 5000);
 			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
@@ -419,20 +453,18 @@ public class DashboardCommonUtils extends APIDriver {
 			Response resp = RestOperationUtils.get(URI, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
-			Thread.sleep(1000);
-			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-			verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
-					"Verify the API Response Status");
-			verify.verifyResponseTime(resp, 5000);
-			verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
-					"Verify the API Message");
 			if (apiResp.getStatusCode() == 200) {
-
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				verify.verifyEquals(respJson.getJSONObject("response").getBoolean("status"), true,
+						"Verify the API Response Status");
+				verify.verifyResponseTime(resp, 5000);
+				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+						"Verify the API Message");
 				JSONObject result = respJson.getJSONObject("result");
 				if (result.length() == 0 || result == null)
 					verify.assertTrue(false, "Delete dashboard API shows blank data");
 				else {
-					org.json.JSONArray db_list = result.getJSONArray("db_list");
+					org.json.JSONArray db_list = result.getJSONArray("my_dashboards");
 					for (int i = 0; i < db_list.length(); i++) {
 						String dashboard_name = db_list.getJSONObject(i).getString("dashboard_name").toLowerCase();
 						if (dashboard_name.equalsIgnoreCase(viewName.toLowerCase())) {
@@ -455,4 +487,217 @@ public class DashboardCommonUtils extends APIDriver {
 
 	}
 
+	public org.json.JSONArray load_userSearchs(String ap_id, String us_id) {
+		org.json.JSONArray data = null;
+		try {
+			RequestSpecification spec;
+			String URI = USER_APP_URL + LOAD_USER_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			if (!ap_id.isEmpty() && !us_id.isEmpty())
+				spec = formParamsSpec(queryParams, ap_id, us_id);
+			else
+				spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.get(URI, spec, null);
+			APIResponse apiResp = new APIResponse(resp);
+			int status = apiResp.getStatusCode();
+			verify.verifyStatusCode(status, 200);
+			if (status == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				data = respJson.getJSONObject("result").getJSONArray("userss");
+				return data;
+			} else
+				verify.assertTrue(false, "Status code is " + status);
+		} catch (Exception e) {
+
+		}
+		return data;
+	}
+
+	public String getLoadSearchID(String searchName, String ap_id, String us_id) {
+		JSONArray data = load_userSearchs(ap_id, us_id);
+		for (int i = 0; i < data.length(); i++) {
+			String name = data.getJSONObject(i).getString("name");
+			if (name.toLowerCase().trim().equalsIgnoreCase(searchName.toLowerCase().trim())) {
+				String search_ids = data.getJSONObject(i).getString("id");
+				return search_ids;
+			}
+		}
+		return "";
+	}
+
+	public void save_user_search(String query, String tickers, String searchName, String filters,
+			boolean watchlistSearch, String watchID, String saveSearchID, String apid, String usid) {
+		try {
+			RequestSpecification spec;
+			String URI = USER_APP_URL + SAVE_USER_SEARCH;
+			HashMap<String, String> queryParams = new HashMap<String, String>();
+			tickers = tickers.toString().replace("[", "").replace("]", "").trim();
+			tickers = tickers.replace("\"", "");
+			if (!tickers.isEmpty() && !watchlistSearch)
+				queryParams.put("tickers", tickers);
+
+			if (!saveSearchID.isEmpty()) {
+				queryParams.put("id", saveSearchID);
+				queryParams.put("overwrite", "2");
+			}
+
+			if (watchlistSearch) {
+				queryParams.put("watchlist_ids", watchID);
+				queryParams.put("watchlist_tickers", tickers);
+			}
+
+			queryParams.put("query", query);
+			queryParams.put("filters", filters);
+			queryParams.put("force_save", "true");
+			queryParams.put("pticker_setting", "true");
+			queryParams.put("name", searchName);
+			queryParams.put("synonym_setting", "true");
+
+			if (!apid.isEmpty() && !usid.isEmpty())
+				spec = formParamsSpec(queryParams, apid, usid);
+
+			else
+				spec = formParamsSpec(queryParams);
+			Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+			APIResponse apiResp = new APIResponse(resp);
+			int status = apiResp.getStatusCode();
+			verify.verifyStatusCode(status, 200);
+			if (status == 200) {
+				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+				System.out.println(respJson.toString());
+			} else
+				verify.assertTrue(false, "Status code is " + status);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+
+		}
+	}
+
+	public void sharedSearch(String id, String us_id, String ap_id) throws CoreCommonException {
+		String URI = USER_APP_URL + SHARED_USER_SEARCH;
+		HashMap<String, String> queryParams = new HashMap<String, String>();
+		queryParams.put("uss_id", id);
+		queryParams.put("share_with_list",
+				"[{\"shared_with_type\":\"user\",\"shared_with_name\":\"bhaskar\",\"shared_with_display_name\":\"Bhaskar Sentieo\",\"access_level\":\"clone\",\"state\":\"active\"");
+		RequestSpecification spec = formParamsSpec(queryParams, us_id, ap_id);
+		Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+		APIResponse apiResp = new APIResponse(resp);
+		int status = apiResp.getStatusCode();
+		verify.verifyStatusCode(status, 200);
+		if (status == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			System.out.println(respJson.toString());
+		} else
+			verify.assertTrue(false, "Status code is " + status);
+
+	}
+
+	
+	public List<String> getloadsearchdata(String search_id, String search, String displayName)
+			throws CoreCommonException {
+	
+		List<String> titles = new ArrayList<String>();
+	//	String id = ("\"" + search_id + "\"");
+		String search_name = ("\"" + search + "\"");
+		String config = "{\"sector\":\"\",\"exp_avg_result\":null,\"table_search\":false,\"email_alert\":false,\"period\":null,\"watchlist_tickers\":\"\",\"query\":\"change in tax\",\"search_count\":{},\"id\":"
+				+ search_id
+				+ ",\"filter_obj\":{\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"other\":{},\"date\":{},\"ticker\":{}},\"size\":\"\",\"sort_option\":\"filing_date:desc\",\"synonym_setting\":true,\"source\":\"\",\"multi_field_bit\":0,\"sensitivity_setting\":null,\"watchlist_ids\":[],\"etype\":[],\"table_search_bit\":0,\"search_id\":null,\"sort\":\"filing_date:desc\",\"sqs\":{},\"entity_info\":{\"fb\":\"FB\",\"amzn\":\"AMZN\",\"tsla\":\"TSLA\",\"aapl\":\"AAPL\"},\"pticker_setting\":true,\"updated_at\":\"06-Apr-2021\",\"geography\":{},\"subsector\":\"\",\"email_alert_type\":0,\"notification_alert\":false,\"name\":"
+				+ search_name
+				+ ",\"tickers_filters\":\"\",\"nw_pticker\":false,\"fqs\":{},\"tickers\":\"aapl,amzn,tsla,fb\",\"shared_by\":{\"access_level\":\"clone\",\"shared_by_display_name\":"
+				+ displayName + "}}";
+		
+		
+		String config2=" {\"sector\":\"\",\"exp_avg_result\":null,\"table_search\":false,\"email_alert\":false,\"period\":null,\"watchlist_tickers\":\"\",\"query\":\"change in tax\",\"search_count\":{},\"id\":\"606b23b6f8fe3674ef1e405b\",\"filter_obj\":{\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"other\":{},\"date\":{},\"ticker\":{}},\"size\":\"\",\"sort_option\":\"filing_date:desc\",\"synonym_setting\":true,\"source\":\"\",\"multi_field_bit\":0,\"sensitivity_setting\":null,\"watchlist_ids\":[],\"etype\":[],\"table_search_bit\":0,\"search_id\":null,\"sort\":\"filing_date:desc\",\"sqs\":{},\"entity_info\":{\"fb\":\"FB\",\"amzn\":\"AMZN\",\"tsla\":\"TSLA\",\"aapl\":\"AAPL\"},\"pticker_setting\":true,\"updated_at\":\"06-Apr-2021\",\"geography\":{},\"subsector\":\"\",\"email_alert_type\":0,\"notification_alert\":false,\"name\":\"Query share & search with ticker@user.test9\",\"tickers_filters\":\"\",\"nw_pticker\":false,\"fqs\":{},\"tickers\":\"aapl,amzn,tsla,fb\",\"shared_by\":{\"access_level\":\"clone\",\"shared_by_display_name\":\"User Test\"}}";
+		
+		String URI = APP_URL + LOAD_SAVED_SEARCH_DATA;
+		HashMap<String, String> queryParams = new HashMap<String, String>();
+		queryParams.put("start", "0");
+		queryParams.put("size", "15");
+		queryParams.put("uss_ids", "["+search_id+"]");
+		queryParams.put("uss_data", config);
+		queryParams.put("all_tickers", "[]");
+		queryParams.put("tickers", "[]");
+		queryParams.put("watchlistIds", "[]");
+		queryParams.put("watchlist_tickers", "[]");
+		RequestSpecification spec = formParamsSpec(queryParams);
+		Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+		APIResponse apiResp = new APIResponse(resp);
+		int status = apiResp.getStatusCode();
+		if (status == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			try {
+				JSONArray docs = respJson.getJSONObject("result").getJSONArray("uss_data");
+				for (int i = 0; i < docs.length(); i++) {
+					String title = docs.getJSONObject(i).getString("title").trim().toLowerCase();
+					titles.add(title);
+				}
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+			return titles;
+
+		}
+		return titles;
+	}
+
+	public List<String> fetchSearch(String query, String tickers, String filters, String searchTitle,
+			boolean watchSearch, String watchlist_ids) throws Exception {
+		tickers = tickers.toString().replace("[", "").replace("]", "").trim();
+		tickers = tickers.replace("\"", "");
+		List<String> titles = new ArrayList<String>();
+		String URI = APP_URL + FETCH_SEARCH;
+		HashMap<String, String> queryParams = new HashMap<String, String>();
+		queryParams.put("title", searchTitle);
+		queryParams.put("id", "4");
+		queryParams.put("size", "30");
+		queryParams.put("query", query);
+		if (watchSearch) {
+			queryParams.put("watchlist_tickers", tickers);
+			queryParams.put("tickers", "");
+			queryParams.put("watchlist_ids", watchlist_ids);
+		} else
+			queryParams.put("tickers", tickers);
+		queryParams.put("original_query", query);
+		queryParams.put("default_sort", "date");
+		queryParams.put("sort", "filing_date:desc");
+		queryParams.put("snippet_fragment_size", "400");
+		queryParams.put("original_query", query);
+		queryParams.put("facets_flag", "false");
+		queryParams.put("allow_entity", "true");
+		queryParams.put("synonym_setting", "true");
+		queryParams.put("call_from", "docsearch");
+		queryParams.put("filters", filters);
+
+		RequestSpecification spec = formParamsSpec(queryParams);
+		Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
+		APIResponse apiResp = new APIResponse(resp);
+		int status = apiResp.getStatusCode();
+		if (status == 200) {
+			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
+			JSONArray docs = respJson.getJSONObject("result").getJSONArray("docs");
+			for (int i = 0; i < docs.length(); i++) {
+				String title = docs.getJSONObject(i).getString("title").trim().toLowerCase();
+				titles.add(title);
+				if (titles.size() == 15)
+					return titles;
+			}
+		}
+		return titles;
+
+	}
+
+	public String getSaveSearchSharedUser(String env) {
+		env = env.replaceAll("https://", "");
+		String extensionRemoved = env.split("\\.")[0];
+		String uname = "";
+		switch (extensionRemoved) {
+		case "app":
+			uname = "user.test9";
+			break;
+		case "balyasny":
+			// code block
+			break;
+		}
+		return uname;
+	}
 }
