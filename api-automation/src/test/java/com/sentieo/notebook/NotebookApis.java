@@ -1087,7 +1087,7 @@ public class NotebookApis extends APIDriver {
 			if (URI.contains("app") || URI.contains("notebook") || URI.contains("app2") || URI.contains("testing") || URI.contains("staging")) {
 
 				HashMap<String, String> thesisData = new HashMap<String, String>();
-				String ticker = "dfkcy";
+				String ticker = "aapl";
 				thesisData.put("thesis_type", "thesis");
 				thesisData.put("tickers", ticker);
 				thesisData.put("name", "DFKCY Thesis");
