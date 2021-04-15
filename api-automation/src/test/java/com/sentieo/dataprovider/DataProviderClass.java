@@ -349,8 +349,7 @@ public class DataProviderClass {
 		Object[][] groupArray = null;
 		groupArray = new String[][] {{"ef" , "10-k", "aapl"}, {"ef" , "10-q/a", ""}, {"ppt" , "1", ""}, {"nw" , "lx_3588", "msft"},{"tt" , "earnings", ""},
 									{"gbf" , "1", ""}, {"ni" , "pr", ""},{"reg" , "epa", ""},
-									{"jr" , "c19", ""}, {"sd" , "all", ""}, {"rss" , "14", ""}, {"bd" , "", ""}
-		};
+									{"jr" , "c19", ""}, {"rss" , "14", ""}, {"bd" , "", ""}};
 		return groupArray;
 	}	
 	
@@ -827,5 +826,10 @@ public class DataProviderClass {
 		groupArray = new String[][] {{"2020-01-09T00:00:00","2020-05-01T00:00:00"}, {"2020-11-01T00:00:00","2018-10-01T00:00:00"}
 		};
 		return groupArray;
+	}
+	
+	@DataProvider(name = "topic_type")
+	public Object[][] topicType() {
+		return new Object[][] { { "business" }, { "corporate_actions" }, { "economic" }, { "legal_regulatory" }, { "esg" }, { "deflection" }, { "general_topics" }, { "country_region" } };
 	}
 }
