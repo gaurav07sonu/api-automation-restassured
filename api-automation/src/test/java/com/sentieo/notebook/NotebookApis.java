@@ -2176,7 +2176,7 @@ public class NotebookApis extends APIDriver {
 	@Test(groups = "sanity", priority = 44, description = "Verify thesis fields")
 	public void fetch_thesis_fields() throws CoreCommonException {
 		try {
-			if(APP_URL.contains("balyasny")) {
+			if(!APP_URL.contains("balyasny")) {
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			RequestSpecification spec = formParamsSpec(parameters);
 			Response resp = RestOperationUtils.get(USER_APP_URL + FETCH_THESIS_FIELDS, spec, parameters);
