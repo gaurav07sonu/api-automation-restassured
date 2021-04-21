@@ -302,8 +302,7 @@ public class WebandSocialData extends APIDriver {
 		return no_mapping;
 	}
 
-	@Test(groups = { "gtrends-autocomplete",
-			"test" }, description = "gtrends autocomplete check", dataProvider = "searchAutocomplete", dataProviderClass = DataProviderClass.class)
+	//@Test(groups = { "gtrends-autocomplete","test" }, description = "gtrends autocomplete check", dataProvider = "searchAutocomplete", dataProviderClass = DataProviderClass.class)
 	public void gtrendsAutocomplete(String query) throws Exception {
 		String URI = APP_URL + GTRENDSAUTOCOMPLETE;
 		boolean status = true;
