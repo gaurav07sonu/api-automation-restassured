@@ -59,6 +59,12 @@ publicApiUrl: "https://api.sentieo.com/v1"
 xapikey: "FZZbe4oBBX7dd3XMQjzw02e5JTEfZvFS5mNKi47G"
 xuserkey: "akash.aggarwal@sentieo.com"
 ---
+envName: "platform"
+appURL: "https://platform.sentieo.com"
+userAppUrl: "https://user-platform.sentieo.com"
+userName: "alphagani35@gmail.com"
+password: "DGL=14412jg"
+---
 envName: "testing-devv1"
 appURL: "https://testing.sentieo.com"
 userAppUrl: "https://user-testing.sentieo.com"
