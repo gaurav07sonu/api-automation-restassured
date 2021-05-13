@@ -278,7 +278,20 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 		}
 
 	}
-	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "initial-loading", priority = 5)
+	
+	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "delete watchlist", priority = 5)
+	public void deleteShareWatchlist() throws CoreCommonException {
+		try {
+			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
+			obj.deleteUserWatchlist(sharedWatchlist_ID, true);
+		} catch (Exception e) {
+			verify.assertTrue(false, e.toString());
+		} finally {
+			verify.verifyAll();
+		}
+
+	}
+	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "initial-loading", priority = 6)
 	public void verifyaddedTickersForWatchlistOwner() throws CoreCommonException {
 		AddDeleteTickerInWatchlist addDel = new AddDeleteTickerInWatchlist();
 		try {
@@ -293,7 +306,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 		}
 	}
 
-	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "delete watchlist", priority = 6)
+	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "delete watchlist", priority = 7)
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
 			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
