@@ -31,8 +31,7 @@ import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
 import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
-
-import watchlistsharing.ShareWatchlistWithEditPermission;
+import com.sentieo.watchlistsharing.ShareWatchlistWithEditPermission;
 
 public class CreateDashboard extends APIDriver {
 	Properties prop;

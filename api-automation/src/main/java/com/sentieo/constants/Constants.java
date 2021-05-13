@@ -25,7 +25,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "testing";
+		//String envArg = "platform";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -282,6 +282,7 @@ public class Constants {
 	// public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
 	public static final String ALERT_NOTIFICATION_CLICK = "/alert/notification_click/";
 	public static final String NEW_ALERT_NOTIFICATION = "/alert/new_alert_notification/";
+	public static final String CLONE_WATCHLIST="/api/clone_watchlist_api/";
 
 	// private companies
 	public static final String FETCH_CB_EXIT_TABLE = "/api/fetch_cb_exit_table/";

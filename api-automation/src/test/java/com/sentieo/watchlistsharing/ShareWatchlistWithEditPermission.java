@@ -1,4 +1,4 @@
-package watchlistsharing;
+package com.sentieo.watchlistsharing;
 
 import static com.sentieo.constants.Constants.*;
 
@@ -38,7 +38,6 @@ import com.sentieo.utils.CoreCommonException;
 public class ShareWatchlistWithEditPermission extends APIDriver {
 	Properties prop;
 	FileReader reader;
-	static String sharedWatchlist_ID = "";
 	public static String watchID = "";
 	public static String watchName = "";
 	public static ArrayList<String> watchTickers = new ArrayList<>();
@@ -85,13 +84,13 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 		try {
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_testing1"),
-						prop.getProperty("shared_with_display_name_testing1"), "edit");
+						prop.getProperty("shared_with_display_name_testing1"), "edit", false);
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_app1"),
-						prop.getProperty("shared_with_display_name_app1"), "edit");
+						prop.getProperty("shared_with_display_name_app1"), "edit", false);
 			else
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_global1"),
-						prop.getProperty("shared_with_display_name_global1"), "edit");
+						prop.getProperty("shared_with_display_name_global1"), "edit", false);
 
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
@@ -269,10 +268,10 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 		try {
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_testing2"),
-						prop.getProperty("shared_with_display_name_testing2"), "edit");
+						prop.getProperty("shared_with_display_name_testing2"), "edit", false);
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_app2"),
-						prop.getProperty("shared_with_display_name_app2"), "edit");
+						prop.getProperty("shared_with_display_name_app2"), "edit", false);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
@@ -587,21 +586,32 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 		}
 	}
 
-	public void shareWatchlist(String watchlist_id, String shared_with_name,
-			String shared_with_display_name, String permission) {
+	public void shareWatchlist(String watchlist_id, String shared_with_name, String shared_with_display_name,
+			String permission, boolean shareWithCopy) {
 		try {
+			String URI = "";
 			shared_with_name = ("\"" + shared_with_name + "\"");
 			shared_with_display_name = ("\"" + shared_with_display_name + "\"");
 			permission = ("\"" + permission + "\"");
-			String URI = USER_APP_URL + SHARE_WATCHLIST;
 			HashMap<String, String> parameters = new HashMap<String, String>();
 			parameters.put("watchlist_id", watchlist_id);
-			parameters.put("share_with_list", " [{\"shared_with_type\":\"user\",\"shared_with_name\":"
-					+ shared_with_name + ",\"shared_with_display_name\":" + shared_with_display_name
-					+ ",\"access_level\":" + permission + ",\"value\":" + shared_with_name + ",\"id\":"
-					+ shared_with_name
-					+ ",\"state\":\"active\",\"strategy\":{\"itemValueKey\":\"value\",\"itemNameKey\":\"name\",\"itemIdKey\":\"value\",\"type\":\"users\",\"autoHighlight\":true,\"sortOrder\":[\"groups\",\"users\"],\"menuCategories\":{\"groups\":\"Teams\",\"users\":\"Users\",\"All\":\"All\"},\"sortKey\":\"type\",\"tokenCss\":\"\",\"itemProps\":{},\"autoCompleteInput\":null,\"selectionKeys\":[13,9,188],\"inputProps\":{\"tokenProps\":{\"className\":\"text-token user-token\"}},\"limitItems\":0,\"removeToken\":true},\"email\":\"1\"}]");
 
+			if (!shareWithCopy) {
+				URI = USER_APP_URL + SHARE_WATCHLIST;
+				parameters.put("share_with_list", " [{\"shared_with_type\":\"user\",\"shared_with_name\":"
+						+ shared_with_name + ",\"shared_with_display_name\":" + shared_with_display_name
+						+ ",\"access_level\":" + permission + ",\"value\":" + shared_with_name + ",\"id\":"
+						+ shared_with_name
+						+ ",\"state\":\"active\",\"strategy\":{\"itemValueKey\":\"value\",\"itemNameKey\":\"name\",\"itemIdKey\":\"value\",\"type\":\"users\",\"autoHighlight\":true,\"sortOrder\":[\"groups\",\"users\"],\"menuCategories\":{\"groups\":\"Teams\",\"users\":\"Users\",\"All\":\"All\"},\"sortKey\":\"type\",\"tokenCss\":\"\",\"itemProps\":{},\"autoCompleteInput\":null,\"selectionKeys\":[13,9,188],\"inputProps\":{\"tokenProps\":{\"className\":\"text-token user-token\"}},\"limitItems\":0,\"removeToken\":true},\"email\":\"1\"}]");
+			} else {
+				URI = USER_APP_URL + CLONE_WATCHLIST;
+				parameters.put("copy_for_list", " [{\"shared_with_type\":\"user\",\"shared_with_name\":"
+						+ shared_with_name + ",\"shared_with_display_name\":" + shared_with_display_name
+						+ ",\"access_level\":" + permission + ",\"value\":" + shared_with_name + ",\"id\":"
+						+ shared_with_name
+						+ ",\"state\":\"active\",\"strategy\":{\"itemValueKey\":\"value\",\"itemNameKey\":\"name\",\"itemIdKey\":\"value\",\"type\":\"users\",\"autoHighlight\":true,\"sortOrder\":[\"groups\",\"users\"],\"menuCategories\":{\"groups\":\"Teams\",\"users\":\"Users\",\"All\":\"All\"},\"sortKey\":\"type\",\"tokenCss\":\"\",\"itemProps\":{},\"autoCompleteInput\":null,\"selectionKeys\":[13,9,188],\"inputProps\":{\"tokenProps\":{\"className\":\"text-token user-token\"}},\"limitItems\":0,\"removeToken\":true},\"email\":\"1\"}]");
+
+			}
 			RequestSpecification spec = formParamsSpec(parameters);
 			Response resp = RestOperationUtils.post(URI, null, spec, parameters);
 			APIResponse apiResp = new APIResponse(resp);
@@ -610,8 +620,14 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 			if (status == 200) {
 				verify.verifyResponseTime(resp, 5000);
 				JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
-				verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
-						"Verify the API Message");
+				if (!shareWithCopy)
+					verify.verifyEquals(respJson.getJSONObject("response").getJSONArray("msg").get(0), "success",
+							"Verify the API Message");
+				else {
+					String res = respJson.getJSONObject("result").getJSONArray("copy_status").get(0).toString();
+					if (!res.contains("Watchlist successfully created"))
+						verify.assertTrue(false, "Watchlist copy not created ");
+				}
 			}
 		} catch (Exception e) {
 			verify.assertTrue(false, "in catch " + e.toString());
