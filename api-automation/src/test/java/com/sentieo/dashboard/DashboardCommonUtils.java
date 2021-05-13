@@ -299,16 +299,16 @@ public class DashboardCommonUtils extends APIDriver {
 		return plotter_name;
 	}
 
-	public List<String> fetch_search_filters() throws CoreCommonException {
+	public List<String> fetch_search_filters(List<String> watchTickers) throws CoreCommonException {
 		List<String> doc_ID = new ArrayList<String>();
 		// List<Integer> rssID = new ArrayList<>();
 		String tickers = "";
 		try {
-			if (ShareWatchlistWithEditPermission.watchTickers.size() > 20) {
-				List<List<String>> lists = Lists.partition(ShareWatchlistWithEditPermission.watchTickers, 20);
+			if (watchTickers.size() > 20) {
+				List<List<String>> lists = Lists.partition(watchTickers, 20);
 				tickers = lists.get(1).toString();
 			} else
-				tickers = ShareWatchlistWithEditPermission.watchTickers.toString();
+				tickers = watchTickers.toString();
 			tickers = tickers.replaceAll("\\[", "").replaceAll("\\]", "").trim();
 			tickers = tickers.replaceAll("( )+", " ");
 			String URI = APP_URL + FETCH_SEARCH;
