@@ -10,7 +10,7 @@
 
 	<test name="sentieo-tests" preserve-order="true">
 		<packages>
-			<package name="com.sentieo.watchsharing.*" />
+			<package name="com.sentieo.watchlistsharing.*" />
 		</packages>
 	</test>
 </suite>
