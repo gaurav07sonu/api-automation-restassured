@@ -29,9 +29,10 @@ import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.user.AddWatchlist;
 import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
+
+import watchlistsharing.ShareWatchlistWithEditPermission;
 
 public class CreateDashboard extends APIDriver {
 	Properties prop;
@@ -64,8 +65,8 @@ public class CreateDashboard extends APIDriver {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
 			login();
 			obj.deleteDashboard(db_id, viewName);
-			AddWatchlist objw = new AddWatchlist();
-			objw.deleteUserWatchlist(watchID);
+			ShareWatchlistWithEditPermission objw = new ShareWatchlistWithEditPermission();
+			objw.deleteUserWatchlist(watchID,true);
 		} catch (CoreCommonException e) {
 			verify.assertTrue(false, "In after_class catch " + e.toString());
 		} finally {
@@ -154,13 +155,13 @@ public class CreateDashboard extends APIDriver {
 	@SuppressWarnings("unchecked")
 	public void updateWatchlist() throws CoreCommonException {
 		String URI = USER_APP_URL + UPDATE_DB_TOKEN_LIST;
-		AddWatchlist obj = new AddWatchlist();
+		ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
 		DashboardCommonUtils com = new DashboardCommonUtils();
 		List<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn", "tsla", "a", "b", "c", "d"));
 		try {
 			obj.createWatchlist(tickers);
-			selectedWatchlist = AddWatchlist.watchName;
-			watchID = AddWatchlist.watchID;
+			selectedWatchlist = ShareWatchlistWithEditPermission.watchName;
+			watchID = ShareWatchlistWithEditPermission.watchID;
 			String msg = "Tokens, Active Tokens,  Updated successfully";
 			String watchName = "Update : [<font color=\"red\">" + selectedWatchlist + " watchlist in dashboard : ";
 			watchName = "<span style=\"font-weight: bold;\">" + watchName + ": </span>";
@@ -461,7 +462,7 @@ public class CreateDashboard extends APIDriver {
 								watchExpected.toLowerCase().trim(), "Verify watchlist name after cloning dashboard");
 					}
 					List<String> tickers = obj.getTokenTickers(token_list);
-					verify.assertEquals(tickers, AddWatchlist.watchTickers, "Verify watchlist tickers", true);
+					verify.assertEquals(tickers, ShareWatchlistWithEditPermission.watchTickers, "Verify watchlist tickers", true);
 					org.json.JSONArray my_dash = obj.dashboardlist("");
 					for (int i = 0; i < my_dash.length(); i++) {
 						String name = my_dash.getJSONObject(i).getString("dashboard_name");
@@ -599,10 +600,10 @@ public class CreateDashboard extends APIDriver {
 			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils dash = new DashboardCommonUtils();
 				String watchExpected = selectedWatchlist + " " + "@" + " " + viewName;
-				AddWatchlist obj = new AddWatchlist();
+				ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
 				String watchID = dash.getWatchlistID(watchExpected);
 				if (!watchID.isEmpty()) {
-					obj.deleteUserWatchlist(watchID);
+					obj.deleteUserWatchlist(watchID,true);
 					boolean result = dash.verifyWatchlist(watchExpected);
 					verify.assertFalse(result, "Verify Deleted Watchlist : ");
 

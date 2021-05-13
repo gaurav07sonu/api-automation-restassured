@@ -23,9 +23,10 @@ import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.user.AddWatchlist;
 import com.sentieo.user.TestUserWatchlistData;
 import com.sentieo.utils.CoreCommonException;
+
+import watchlistsharing.ShareWatchlistWithEditPermission;
 
 public class DashboardCommonUtils extends APIDriver {
 	static String docID = "";
@@ -304,11 +305,11 @@ public class DashboardCommonUtils extends APIDriver {
 		// List<Integer> rssID = new ArrayList<>();
 		String tickers = "";
 		try {
-			if (AddWatchlist.watchTickers.size() > 20) {
-				List<List<String>> lists = Lists.partition(AddWatchlist.watchTickers, 20);
+			if (ShareWatchlistWithEditPermission.watchTickers.size() > 20) {
+				List<List<String>> lists = Lists.partition(ShareWatchlistWithEditPermission.watchTickers, 20);
 				tickers = lists.get(1).toString();
 			} else
-				tickers = AddWatchlist.watchTickers.toString();
+				tickers = ShareWatchlistWithEditPermission.watchTickers.toString();
 			tickers = tickers.replaceAll("\\[", "").replaceAll("\\]", "").trim();
 			tickers = tickers.replaceAll("( )+", " ");
 			String URI = APP_URL + FETCH_SEARCH;
@@ -354,10 +355,11 @@ public class DashboardCommonUtils extends APIDriver {
 
 	public org.json.JSONArray dashboardlist(String option) {
 		org.json.JSONArray my_dashboards = null;
+		RequestSpecification spec;
 		String URI = USER_APP_URL + GET_DASHBOARD_LIST;
 		HashMap<String, String> dashboardData = new HashMap<String, String>();
 		try {
-			RequestSpecification spec = formParamsSpec(dashboardData);
+			spec = formParamsSpec(dashboardData);
 			Response resp = RestOperationUtils.get(URI, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
 			int statusCode = apiResp.getStatusCode();
@@ -389,6 +391,7 @@ public class DashboardCommonUtils extends APIDriver {
 		HashMap<String, String> dashboardData = new HashMap<String, String>();
 		try {
 			dashboardData.put("dashboard_id", dashID);
+			dashboardData.put("initial", "1");
 			RequestSpecification spec = formParamsSpec(dashboardData);
 			Response resp = RestOperationUtils.get(URI, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
@@ -407,7 +410,7 @@ public class DashboardCommonUtils extends APIDriver {
 					for (int i = 0; i < list.names().length(); i++) {
 						String widget = list.names().get(i).toString();
 						if (widget.contains(option)) {
-							widgetName = list.names().getJSONObject(i).getJSONObject("configuration")
+							widgetName = list.getJSONObject(widget).getJSONObject("configuration")
 									.getJSONObject("settings").getString("name");
 							return widgetName;
 						}
@@ -592,33 +595,34 @@ public class DashboardCommonUtils extends APIDriver {
 
 	}
 
-	
 	public List<String> getloadsearchdata(String search_id, String search, String displayName)
 			throws CoreCommonException {
-	
 		List<String> titles = new ArrayList<String>();
-	//	String id = ("\"" + search_id + "\"");
+		// String id = ("\"" + search_id + "\"");
 		String search_name = ("\"" + search + "\"");
+		String name = ("\"" + displayName + "\"");
+		String searh_idw = ("\"" + search_id + "\"");
+
 		String config = "{\"sector\":\"\",\"exp_avg_result\":null,\"table_search\":false,\"email_alert\":false,\"period\":null,\"watchlist_tickers\":\"\",\"query\":\"change in tax\",\"search_count\":{},\"id\":"
 				+ search_id
 				+ ",\"filter_obj\":{\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"other\":{},\"date\":{},\"ticker\":{}},\"size\":\"\",\"sort_option\":\"filing_date:desc\",\"synonym_setting\":true,\"source\":\"\",\"multi_field_bit\":0,\"sensitivity_setting\":null,\"watchlist_ids\":[],\"etype\":[],\"table_search_bit\":0,\"search_id\":null,\"sort\":\"filing_date:desc\",\"sqs\":{},\"entity_info\":{\"fb\":\"FB\",\"amzn\":\"AMZN\",\"tsla\":\"TSLA\",\"aapl\":\"AAPL\"},\"pticker_setting\":true,\"updated_at\":\"06-Apr-2021\",\"geography\":{},\"subsector\":\"\",\"email_alert_type\":0,\"notification_alert\":false,\"name\":"
 				+ search_name
 				+ ",\"tickers_filters\":\"\",\"nw_pticker\":false,\"fqs\":{},\"tickers\":\"aapl,amzn,tsla,fb\",\"shared_by\":{\"access_level\":\"clone\",\"shared_by_display_name\":"
-				+ displayName + "}}";
-		
-		
-		String config2=" {\"sector\":\"\",\"exp_avg_result\":null,\"table_search\":false,\"email_alert\":false,\"period\":null,\"watchlist_tickers\":\"\",\"query\":\"change in tax\",\"search_count\":{},\"id\":\"606b23b6f8fe3674ef1e405b\",\"filter_obj\":{\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"other\":{},\"date\":{},\"ticker\":{}},\"size\":\"\",\"sort_option\":\"filing_date:desc\",\"synonym_setting\":true,\"source\":\"\",\"multi_field_bit\":0,\"sensitivity_setting\":null,\"watchlist_ids\":[],\"etype\":[],\"table_search_bit\":0,\"search_id\":null,\"sort\":\"filing_date:desc\",\"sqs\":{},\"entity_info\":{\"fb\":\"FB\",\"amzn\":\"AMZN\",\"tsla\":\"TSLA\",\"aapl\":\"AAPL\"},\"pticker_setting\":true,\"updated_at\":\"06-Apr-2021\",\"geography\":{},\"subsector\":\"\",\"email_alert_type\":0,\"notification_alert\":false,\"name\":\"Query share & search with ticker@user.test9\",\"tickers_filters\":\"\",\"nw_pticker\":false,\"fqs\":{},\"tickers\":\"aapl,amzn,tsla,fb\",\"shared_by\":{\"access_level\":\"clone\",\"shared_by_display_name\":\"User Test\"}}";
-		
+				+ name + "}}";
+
+		String config2 = " {\"sector\":\"\",\"exp_avg_result\":null,\"table_search\":false,\"email_alert\":false,\"period\":null,\"watchlist_tickers\":\"\",\"query\":\"change in tax\",\"search_count\":{},\"id\":\"606b23b6f8fe3674ef1e405b\",\"filter_obj\":{\"sector\":{},\"language\":{},\"section\":{},\"doctype\":{},\"regions\":{},\"source\":{},\"other\":{},\"date\":{},\"ticker\":{}},\"size\":\"\",\"sort_option\":\"filing_date:desc\",\"synonym_setting\":true,\"source\":\"\",\"multi_field_bit\":0,\"sensitivity_setting\":null,\"watchlist_ids\":[],\"etype\":[],\"table_search_bit\":0,\"search_id\":null,\"sort\":\"filing_date:desc\",\"sqs\":{},\"entity_info\":{\"fb\":\"FB\",\"amzn\":\"AMZN\",\"tsla\":\"TSLA\",\"aapl\":\"AAPL\"},\"pticker_setting\":true,\"updated_at\":\"06-Apr-2021\",\"geography\":{},\"subsector\":\"\",\"email_alert_type\":0,\"notification_alert\":false,\"name\":\"Query share & search with ticker@user.test9\",\"tickers_filters\":\"\",\"nw_pticker\":false,\"fqs\":{},\"tickers\":\"aapl,amzn,tsla,fb\",\"shared_by\":{\"access_level\":\"clone\",\"shared_by_display_name\":\"User Test\"}}";
+
 		String URI = APP_URL + LOAD_SAVED_SEARCH_DATA;
 		HashMap<String, String> queryParams = new HashMap<String, String>();
 		queryParams.put("start", "0");
 		queryParams.put("size", "15");
-		queryParams.put("uss_ids", "["+search_id+"]");
+		queryParams.put("uss_ids", "[" + search_id + "]");
 		queryParams.put("uss_data", config);
 		queryParams.put("all_tickers", "[]");
 		queryParams.put("tickers", "[]");
 		queryParams.put("watchlistIds", "[]");
 		queryParams.put("watchlist_tickers", "[]");
+
 		RequestSpecification spec = formParamsSpec(queryParams);
 		Response resp = RestOperationUtils.post(URI, null, spec, queryParams);
 		APIResponse apiResp = new APIResponse(resp);
