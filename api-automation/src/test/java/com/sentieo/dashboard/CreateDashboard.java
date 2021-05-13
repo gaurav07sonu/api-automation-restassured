@@ -67,7 +67,7 @@ public class CreateDashboard extends APIDriver {
 			login();
 			obj.deleteDashboard(db_id, viewName);
 			ShareWatchlistWithEditPermission objw = new ShareWatchlistWithEditPermission();
-			objw.deleteUserWatchlist(watchID, true);
+			objw.deleteUserWatchlist(watchID, true,watchName);
 		} catch (CoreCommonException e) {
 			verify.assertTrue(false, "In after_class catch " + e.toString());
 		} finally {
@@ -606,7 +606,7 @@ public class CreateDashboard extends APIDriver {
 				ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
 				String watchID = dash.getWatchlistID(watchExpected);
 				if (!watchID.isEmpty()) {
-					obj.deleteUserWatchlist(watchID, true);
+					obj.deleteUserWatchlist(watchID, true,watchExpected);
 					boolean result = dash.verifyWatchlist(watchExpected);
 					verify.assertFalse(result, "Verify Deleted Watchlist : ");
 

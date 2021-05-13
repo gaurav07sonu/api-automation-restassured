@@ -214,7 +214,7 @@ public class ShareWatchlistWithViewPermission extends APIDriver {
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
 			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
-			obj.deleteUserWatchlist(watchID, true);
+			obj.deleteUserWatchlist(watchID, true,watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {

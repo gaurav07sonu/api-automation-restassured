@@ -283,7 +283,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 	public void deleteShareWatchlist() throws CoreCommonException {
 		try {
 			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
-			obj.deleteUserWatchlist(sharedWatchlist_ID, true);
+			obj.deleteUserWatchlist(sharedWatchlist_ID, true,watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
@@ -310,7 +310,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
 			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
-			obj.deleteUserWatchlist(watchID, true);
+			obj.deleteUserWatchlist(watchID, true,watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {

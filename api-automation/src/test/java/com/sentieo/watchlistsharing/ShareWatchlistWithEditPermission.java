@@ -459,7 +459,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "delete watchlist", priority = 10)
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
-			deleteUserWatchlist(watchID, true);
+			deleteUserWatchlist(watchID, true,watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
@@ -468,7 +468,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 
 	}
 
-	public void deleteUserWatchlist(String watchID, boolean msg) throws CoreCommonException {
+	public void deleteUserWatchlist(String watchID, boolean msg,String watchName) throws CoreCommonException {
 		String URI = USER_APP_URL + DELETE_WATCHLIST;
 		try {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -478,7 +478,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 				tickerData.put("loc", "ios");
 			}
 			RequestSpecification spec = formParamsSpec(tickerData);
-			Response resp = RestOperationUtils.get(URI, spec, null);
+			Response resp = RestOperationUtils.get(URI, spec, tickerData);
 			APIResponse apiResp = new APIResponse(resp);
 			verify.verifyStatusCode(apiResp.getStatusCode(), 200);
 			JSONObject respJson = new JSONObject(apiResp.getResponseAsString());
