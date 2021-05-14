@@ -36,11 +36,11 @@ import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
 
 public class ShareWatchlistWithCopyPermission extends APIDriver {
-	String watchName ="";
+	String watchName = "";
 	Properties prop;
 	FileReader reader;
 	static String sharedWatchlist_ID = "";
-	static String watchID="";
+	static String watchID = "";
 	static ArrayList<String> watchTickers = new ArrayList<>();
 	static ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr",
 			"awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack", "ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue",
@@ -71,15 +71,15 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 	public void addWatchlist() throws Exception {
 		try {
 			ShareWatchlistWithEditPermission edit = new ShareWatchlistWithEditPermission();
-			DashboardCommonUtils das=new DashboardCommonUtils();
+			DashboardCommonUtils das = new DashboardCommonUtils();
 			CommonUtil obj = new CommonUtil();
 			watchName = obj.getRandomString();
 			ticker = obj.pickNRandomItems(tickers, 5);
-			List<String>addedTickers=edit.createWatchlist(ticker,watchName);
+			List<String> addedTickers = edit.createWatchlist(ticker, watchName);
 			verify.assertEquals(addedTickers, ticker, "verify added tickers in watchlist", true);
 			boolean addedWatchStatus = edit.userPortfolio(watchName);
 			verify.assertTrue(addedWatchStatus, "verify watchlist added or not?");
-			watchID=das.getWatchlistID(watchName);
+			watchID = das.getWatchlistID(watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, "in catch " + e.toString());
 		} finally {
@@ -93,15 +93,13 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 		try {
 			ShareWatchlistWithEditPermission edit = new ShareWatchlistWithEditPermission();
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
-				edit.shareWatchlist(watchID,
-						prop.getProperty("shared_with_name_testing1"),
+				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_testing1"),
 						prop.getProperty("shared_with_display_name_testing1"), "copy", true);
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_app1"),
 						prop.getProperty("shared_with_display_name_app1"), "copy", true);
 			else
-				edit.shareWatchlist(watchID,
-						prop.getProperty("shared_with_name_global1"),
+				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_global1"),
 						prop.getProperty("shared_with_display_name_global1"), "copy", true);
 
 		} catch (Exception e) {
@@ -157,6 +155,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "initial-loading", priority = 3)
 	public void addTickerInShareWatchlist() throws Exception {
 		List<String> tickers = new ArrayList<String>();
+		String tick = "";
 		AddDeleteTickerInWatchlist addDel = new AddDeleteTickerInWatchlist();
 		HashMap<String, String> querydata = new HashMap<String, String>();
 		ArrayList<String> updatedTicker = new ArrayList<String>();
@@ -203,7 +202,9 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 				addTicker = addTicker.replaceAll("\\s", "");
 				String[] arrSplit = addTicker.split(",");
 				for (int i = 0; i < arrSplit.length; i++) {
-					watchTickers.add(arrSplit[i].trim().toLowerCase());
+					tick = arrSplit[i].trim().toLowerCase();
+					if (!tick.isEmpty())
+						watchTickers.add(tick.trim());
 				}
 				watchTickers.addAll(ticker);
 				Collections.sort(watchTickers);
@@ -219,6 +220,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 		}
 
 	}
+
 	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "initial-loading", priority = 4)
 	public void removeTickerFromShareWatchlist() throws CoreCommonException {
 		AddDeleteTickerInWatchlist addDel = new AddDeleteTickerInWatchlist();
@@ -238,7 +240,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 				querydata.put("loc", "ios");
 			}
 			ExtentTestManager.getTest().log(LogStatus.INFO,
-					"<b>" + "Remove: -" + deleteTicker + " from " +watchName + " watchlist");
+					"<b>" + "Remove: -" + deleteTicker + " from " + watchName + " watchlist");
 			RequestSpecification spec = formParamsSpec(querydata);
 			Response resp = RestOperationUtils.get(URI, spec, null);
 			APIResponse apiResp = new APIResponse(resp);
@@ -278,12 +280,12 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 		}
 
 	}
-	
+
 	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "delete watchlist", priority = 5)
 	public void deleteShareWatchlist() throws CoreCommonException {
 		try {
 			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
-			obj.deleteUserWatchlist(sharedWatchlist_ID, true,watchName);
+			obj.deleteUserWatchlist(sharedWatchlist_ID, true, watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
@@ -291,13 +293,13 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 		}
 
 	}
+
 	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "initial-loading", priority = 6)
 	public void verifyaddedTickersForWatchlistOwner() throws CoreCommonException {
 		AddDeleteTickerInWatchlist addDel = new AddDeleteTickerInWatchlist();
 		try {
 			login();
-			List<String> updatedTickerPortFolio = addDel.userPortfolio(watchName,
-					watchID);
+			List<String> updatedTickerPortFolio = addDel.userPortfolio(watchName, watchID);
 			verify.assertEquals(ticker, updatedTickerPortFolio, "Verify added ticker for owner", true);
 		} catch (CoreCommonException e) {
 			verify.assertTrue(false, "in add Ticker Watchlist catch : " + e.toString());
@@ -310,7 +312,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
 			ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
-			obj.deleteUserWatchlist(watchID, true,watchName);
+			obj.deleteUserWatchlist(watchID, true, watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
