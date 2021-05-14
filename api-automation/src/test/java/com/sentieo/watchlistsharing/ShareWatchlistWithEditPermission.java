@@ -37,10 +37,10 @@ import com.sentieo.utils.CoreCommonException;
 
 public class ShareWatchlistWithEditPermission extends APIDriver {
 	Properties prop;
-	String watchName ="";
+	String watchName = "";
 	FileReader reader;
 	String watchID = "";
-	List<String> randomTickers=new ArrayList<String>();
+	List<String> randomTickers = new ArrayList<String>();
 	static ArrayList<String> watchTickers = new ArrayList<>();
 	static ArrayList<String> tickers = new ArrayList<String>(Arrays.asList("qure", "lndc", "or:fp", "htgc", "bayn:gr",
 			"awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack", "ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue",
@@ -72,7 +72,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 			CommonUtil obj = new CommonUtil();
 			watchName = obj.getRandomString();
 			randomTickers = obj.pickNRandomItems(tickers, 5);
-			List<String>addedTickers=createWatchlist(randomTickers,watchName);
+			List<String> addedTickers = createWatchlist(randomTickers, watchName);
 			verify.assertEquals(addedTickers, randomTickers, "verify added tickers in watchlist", true);
 			boolean addedWatchStatus = userPortfolio(watchName);
 			verify.assertTrue(addedWatchStatus, "verify watchlist added or not?");
@@ -192,7 +192,8 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 				addTicker = addTicker.replaceAll("\\s", "");
 				String[] arrSplit = addTicker.split(",");
 				for (int i = 0; i < arrSplit.length; i++) {
-					watchTickers.add(arrSplit[i].trim().toLowerCase());
+					if (!arrSplit[i].trim().isEmpty() && !watchTickers.contains(arrSplit[i].trim()))
+						watchTickers.add(arrSplit[i].trim().toLowerCase());
 				}
 				watchTickers.addAll(randomTickers);
 				Collections.sort(watchTickers);
@@ -459,7 +460,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 	@Test(groups = { "sanity", "test", "mobileMainApp" }, description = "delete watchlist", priority = 10)
 	public void deleteWatchlist() throws CoreCommonException {
 		try {
-			deleteUserWatchlist(watchID, true,watchName);
+			deleteUserWatchlist(watchID, true, watchName);
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
@@ -468,7 +469,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 
 	}
 
-	public void deleteUserWatchlist(String watchID, boolean msg,String watchName) throws CoreCommonException {
+	public void deleteUserWatchlist(String watchID, boolean msg, String watchName) throws CoreCommonException {
 		String URI = USER_APP_URL + DELETE_WATCHLIST;
 		try {
 			HashMap<String, String> tickerData = new HashMap<String, String>();
@@ -542,7 +543,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 		return false;
 	}
 
-	public ArrayList<String> createWatchlist(List<String> tickers,String watchName) throws Exception {
+	public ArrayList<String> createWatchlist(List<String> tickers, String watchName) throws Exception {
 		ArrayList<String> createWatchTickers = new ArrayList<>();
 		String URI = USER_APP_URL + ADD_WATCHLIST;
 		HashMap<String, String> parameters = new HashMap<String, String>();
@@ -579,7 +580,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 					String tickerName = watchlistTickers.getString(i);
 					createWatchTickers.add(tickerName);
 				}
-			/*
+				/*
 				 * if(locMobile.equals("ios")) { verify.jsonSchemaValidation(resp, "mobileApis"
 				 * + File.separator + "addWatchlist.json"); }
 				 */

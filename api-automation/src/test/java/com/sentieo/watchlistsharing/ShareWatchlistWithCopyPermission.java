@@ -203,8 +203,8 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 				String[] arrSplit = addTicker.split(",");
 				for (int i = 0; i < arrSplit.length; i++) {
 					tick = arrSplit[i].trim().toLowerCase();
-					if (!tick.isEmpty())
-						watchTickers.add(tick.trim());
+					if (!tick.isEmpty() && !watchTickers.contains(tick))
+						watchTickers.add(arrSplit[i].trim().toLowerCase());
 				}
 				watchTickers.addAll(ticker);
 				Collections.sort(watchTickers);
