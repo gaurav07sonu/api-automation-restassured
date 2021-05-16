@@ -199,8 +199,8 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 				comman.addAll(randomTickers);
 				for (int i = 0; i < comman.size(); i++) {
 					String tick = comman.get(i);
-					if (!watchTickers.contains(tick))
-						watchTickers.add(tick);
+					if (!watchTickers.contains(tick) && !tick.isEmpty())
+						watchTickers.add(tick.trim());
 				}
 				Collections.sort(watchTickers);
 				verify.assertEquals(watchTickers, updatedTickerPortFolio, "Verify added ticker with previous tickers",
