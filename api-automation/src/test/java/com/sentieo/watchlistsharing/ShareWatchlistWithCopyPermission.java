@@ -46,8 +46,8 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 			"awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack", "ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue",
 			"nem", "nee", "lb", "bluu", "tipt", "med", "hmta", "atec", "pnqi", "wnrp", "amswa", "met", "hmtv",
 			"hm-b:ss", "tgls", "ssa:ln", "ghdx", "aks", "k", "drw", "dri", "drh", "drn", "tglo", "drd", "glw", "ads:gr",
-			"qcom", "cohr", "cohu", "apam", "plow", "bdsi", "call", "hwbk", "nke", "yamcy", "aeex", "yahoy",
-			"td", "md", "mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
+			"qcom", "cohr", "cohu", "apam", "plow", "bdsi", "call", "hwbk", "nke", "yamcy", "aeex", "yahoy", "td", "md",
+			"mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
 	String locMobile = "";
 	static List<String> allTicker;
 	static List<String> ticker = new ArrayList<String>();
@@ -198,7 +198,6 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 				Collections.sort(updatedTicker);
 				Collections.sort(updatedTickerPortFolio);
 				verify.assertEquals(updatedTicker, updatedTickerPortFolio, "Verify added ticker", true);
-
 				addTicker = addTicker.replaceAll("\\s", "");
 				String[] arrSplit = addTicker.split(",");
 				for (int i = 0; i < arrSplit.length; i++) {
@@ -206,8 +205,13 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 					if (!tick.isEmpty() && !watchTickers.contains(tick))
 						watchTickers.add(arrSplit[i].trim().toLowerCase());
 				}
-				watchTickers.addAll(ticker);
-				Collections.sort(watchTickers);
+				List<String> comman = new ArrayList<String>();
+				comman.addAll(ticker);
+				for (int i = 0; i < comman.size(); i++) {
+					String ticks = comman.get(i);
+					if (!watchTickers.contains(ticks) && !ticks.isEmpty())
+						watchTickers.add(ticks.trim());
+				}
 				verify.assertEquals(watchTickers, updatedTickerPortFolio, "Verify added ticker with previous tickers",
 						true);
 				verify.assertEquals(watchTickers, updatedTicker, "Verify added ticker with edit tickers", true);
