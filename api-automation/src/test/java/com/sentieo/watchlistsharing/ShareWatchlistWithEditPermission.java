@@ -372,9 +372,10 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 				addTicker = addTicker.replaceAll("\\s", "");
 				String[] arrSplit = addTicker.split(",");
 				for (int i = 0; i < arrSplit.length; i++) {
-					watchTickers.add(arrSplit[i].trim().toLowerCase());
+					if (!watchTickers.contains(arrSplit[i].trim().toLowerCase())
+							&& !arrSplit[i].trim().toLowerCase().isEmpty())
+						watchTickers.add(arrSplit[i].trim().toLowerCase());
 				}
-				Collections.sort(watchTickers);
 				verify.assertEquals(watchTickers, updatedTickerPortFolio,
 						"Verify added ticker with portfolio call for share shared watchlist", true);
 				verify.assertEquals(watchTickers, updatedTicker,
