@@ -46,8 +46,8 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 			"awgi", "pmts", "eirl", "mrk:gr", "axsm", "jack", "ovbc", "fhn", "cmg", "psix", "tcbi", "ups", "blue",
 			"nem", "nee", "lb", "bluu", "tipt", "med", "hmta", "atec", "pnqi", "wnrp", "amswa", "met", "hmtv",
 			"hm-b:ss", "tgls", "ssa:ln", "ghdx", "aks", "k", "drw", "dri", "drh", "drn", "tglo", "drd", "glw", "ads:gr",
-			"qcom", "cohr", "cohu", "apam", "plow", "bdsi", "call", "hwbk", "nke", "yamcy", "aeex", "yahoy",
-			"td", "md", "mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
+			"qcom", "cohr", "cohu", "apam", "plow", "bdsi", "call", "hwbk", "nke", "yamcy", "aeex", "yahoy", "td", "md",
+			"mg", "ma", "mc", "mb", "atkr", "mo", "mn", "mu", "mt", "mx", "czz", "czr"));
 	String locMobile = "";
 	static List<String> allTicker;
 
@@ -195,11 +195,13 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 					if (!arrSplit[i].trim().isEmpty() && !watchTickers.contains(arrSplit[i].trim()))
 						watchTickers.add(arrSplit[i].trim().toLowerCase());
 				}
-				List<String>comman=new ArrayList<String>();
+				List<String> comman = new ArrayList<String>();
 				comman.addAll(randomTickers);
-				comman.retainAll(watchTickers);
-				watchTickers.addAll(randomTickers);
-				watchTickers.removeAll(comman);
+				for (int i = 0; i < comman.size(); i++) {
+					String tick = comman.get(i);
+					if (!watchTickers.contains(tick))
+						watchTickers.add(tick);
+				}
 				Collections.sort(watchTickers);
 				verify.assertEquals(watchTickers, updatedTickerPortFolio, "Verify added ticker with previous tickers",
 						true);
