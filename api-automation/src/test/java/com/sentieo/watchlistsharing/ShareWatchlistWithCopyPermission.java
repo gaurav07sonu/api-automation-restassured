@@ -94,13 +94,13 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 			ShareWatchlistWithEditPermission edit = new ShareWatchlistWithEditPermission();
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
 				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_testing1"),
-						prop.getProperty("shared_with_display_name_testing1"), "copy", true);
+						prop.getProperty("shared_with_display_name_testing1"), "copy", true, watchName);
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_app1"),
-						prop.getProperty("shared_with_display_name_app1"), "copy", true);
+						prop.getProperty("shared_with_display_name_app1"), "copy", true, watchName);
 			else
 				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_global1"),
-						prop.getProperty("shared_with_display_name_global1"), "copy", true);
+						prop.getProperty("shared_with_display_name_global1"), "copy", true, watchName);
 
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
@@ -142,7 +142,7 @@ public class ShareWatchlistWithCopyPermission extends APIDriver {
 			boolean addedWatchStatus = edit.userPortfolio(watchName);
 			verify.assertTrue(addedWatchStatus, "Verify shared watchlist is visible ??");
 			sharedWatchlist_ID = obj.getWatchlistID(watchName);
-			if (sharedWatchlist_ID.contains("_shared"))
+			if (sharedWatchlist_ID.contains("_shared") || sharedWatchlist_ID.isEmpty())
 				verify.assertTrue(false, "Copy watchlist ID contains shared");
 
 		} catch (Exception e) {

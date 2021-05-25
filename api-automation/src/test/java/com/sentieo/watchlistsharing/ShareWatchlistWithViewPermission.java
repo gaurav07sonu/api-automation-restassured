@@ -96,14 +96,14 @@ public class ShareWatchlistWithViewPermission extends APIDriver {
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
 				edit.shareWatchlist(watchID,
 						prop.getProperty("shared_with_name_testing1"),
-						prop.getProperty("shared_with_display_name_testing1"), "view", false);
+						prop.getProperty("shared_with_display_name_testing1"), "view", false, "");
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				edit.shareWatchlist(watchID, prop.getProperty("shared_with_name_app1"),
-						prop.getProperty("shared_with_display_name_app1"), "view", false);
+						prop.getProperty("shared_with_display_name_app1"), "view", false, "");
 			else
 				edit.shareWatchlist(watchID,
 						prop.getProperty("shared_with_name_global1"),
-						prop.getProperty("shared_with_display_name_global1"), "view", false);
+						prop.getProperty("shared_with_display_name_global1"), "view", false, "");
 
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());

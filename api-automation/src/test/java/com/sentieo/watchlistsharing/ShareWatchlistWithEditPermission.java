@@ -89,13 +89,13 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 		try {
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_testing1"),
-						prop.getProperty("shared_with_display_name_testing1"), "edit", false);
+						prop.getProperty("shared_with_display_name_testing1"), "edit", false, "");
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_app1"),
-						prop.getProperty("shared_with_display_name_app1"), "edit", false);
+						prop.getProperty("shared_with_display_name_app1"), "edit", false, "");
 			else
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_global1"),
-						prop.getProperty("shared_with_display_name_global1"), "edit", false);
+						prop.getProperty("shared_with_display_name_global1"), "edit", false, "");
 
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
@@ -281,10 +281,10 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 		try {
 			if (USER_APP_URL.contains("testing") || USER_APP_URL.contains("platform"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_testing2"),
-						prop.getProperty("shared_with_display_name_testing2"), "edit", false);
+						prop.getProperty("shared_with_display_name_testing2"), "edit", false, "");
 			else if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging"))
 				shareWatchlist(watchID, prop.getProperty("shared_with_name_app2"),
-						prop.getProperty("shared_with_display_name_app2"), "edit", false);
+						prop.getProperty("shared_with_display_name_app2"), "edit", false, "");
 		} catch (Exception e) {
 			verify.assertTrue(false, e.toString());
 		} finally {
@@ -599,7 +599,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 	}
 
 	public void shareWatchlist(String watchlist_id, String shared_with_name, String shared_with_display_name,
-			String permission, boolean shareWithCopy) {
+			String permission, boolean shareWithCopy, String watchName) {
 		try {
 			String URI = "";
 			shared_with_name = ("\"" + shared_with_name + "\"");
@@ -616,6 +616,7 @@ public class ShareWatchlistWithEditPermission extends APIDriver {
 						+ shared_with_name
 						+ ",\"state\":\"active\",\"strategy\":{\"itemValueKey\":\"value\",\"itemNameKey\":\"name\",\"itemIdKey\":\"value\",\"type\":\"users\",\"autoHighlight\":true,\"sortOrder\":[\"groups\",\"users\"],\"menuCategories\":{\"groups\":\"Teams\",\"users\":\"Users\",\"All\":\"All\"},\"sortKey\":\"type\",\"tokenCss\":\"\",\"itemProps\":{},\"autoCompleteInput\":null,\"selectionKeys\":[13,9,188],\"inputProps\":{\"tokenProps\":{\"className\":\"text-token user-token\"}},\"limitItems\":0,\"removeToken\":true},\"email\":\"1\"}]");
 			} else {
+				parameters.put("watchlist_name", watchName);
 				URI = USER_APP_URL + CLONE_WATCHLIST;
 				parameters.put("copy_for_list", " [{\"shared_with_type\":\"user\",\"shared_with_name\":"
 						+ shared_with_name + ",\"shared_with_display_name\":" + shared_with_display_name
