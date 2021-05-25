@@ -25,7 +25,7 @@ public class Constants {
 
 	static {
 		String envArg = System.getProperty("env");
-		//String envArg = "testing-public-api";
+		//String envArg = "platform";
 		String usernameArg = System.getProperty("username");
 		String passwordArg = System.getProperty("password");
 		Yaml yaml = new Yaml(new Constructor(Configuration.class));
@@ -103,6 +103,7 @@ public class Constants {
 	public static final String FETCH_LANDING_PAGE_DATA = "/api/fetch_landing_page_data/";
 	public static final String FETCH_FILES_META_DATA = "/api/fetch_files_meta_data/";
 	public static final String SAVE_USER_SEARCH = "/api/save_user_search/";
+	public static final String SHARED_USER_SEARCH = "/share_saved_search/";
 	public static final String FETCH_FILE_CONTENT = "/api/fetch_file_content/";
 	public static final String LOAD_USER_SEARCH = "/api/load_user_search/";
 	public static final String FETCH_USER_VIEWED_DOCS = "/api/fetch_user_viewed_docs/";
@@ -277,9 +278,11 @@ public class Constants {
 	public static final String EDIT_WATCHLIST = "/api/edit_watchlist/";
 	public static final String UNFOLLOW_TICKER = "/alert/unfollow_ticker/";
 	public static final String FOLLOW = "/alert/follow_ticker/";
+	public static final String SHARE_WATCHLIST="/api/share_watchlist_api/";
 	// public static final String FETCH_ALERT_SETTINGS="/api/fetch_alert_settings/";
 	public static final String ALERT_NOTIFICATION_CLICK = "/alert/notification_click/";
 	public static final String NEW_ALERT_NOTIFICATION = "/alert/new_alert_notification/";
+	public static final String CLONE_WATCHLIST="/api/clone_watchlist_api/";
 
 	// private companies
 	public static final String FETCH_CB_EXIT_TABLE = "/api/fetch_cb_exit_table/";

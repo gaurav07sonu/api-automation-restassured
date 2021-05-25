@@ -29,12 +29,13 @@ import com.sentieo.report.ExtentTestManager;
 import com.sentieo.rest.base.APIDriver;
 import com.sentieo.rest.base.APIResponse;
 import com.sentieo.rest.base.RestOperationUtils;
-import com.sentieo.user.AddWatchlist;
 import com.sentieo.utils.CommonUtil;
 import com.sentieo.utils.CoreCommonException;
+import com.sentieo.watchlistsharing.ShareWatchlistWithEditPermission;
 
 public class CreateDashboard extends APIDriver {
 	Properties prop;
+	String watchName = "";
 	FileReader reader;
 	public static ArrayList<String> expectedWidgets = new ArrayList<String>(Arrays.asList("SavedSearchWidget_1",
 			"PlotterWidget_3", "PriceMonitorWidget_2", "DocumentWidget_1", "RSSWidget_1"));
@@ -52,6 +53,7 @@ public class CreateDashboard extends APIDriver {
 	static String clonedPlotterName = "";
 	static String watchID = "";
 	static String plotterName = "";
+	static List<String> watchTickers = new ArrayList<String>();
 
 	@BeforeMethod(alwaysRun = true)
 	public void setUp() {
@@ -64,8 +66,8 @@ public class CreateDashboard extends APIDriver {
 			DashboardCommonUtils obj = new DashboardCommonUtils();
 			login();
 			obj.deleteDashboard(db_id, viewName);
-			AddWatchlist objw = new AddWatchlist();
-			objw.deleteUserWatchlist(watchID);
+			ShareWatchlistWithEditPermission objw = new ShareWatchlistWithEditPermission();
+			objw.deleteUserWatchlist(watchID, true,watchName);
 		} catch (CoreCommonException e) {
 			verify.assertTrue(false, "In after_class catch " + e.toString());
 		} finally {
@@ -153,14 +155,16 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "qw223", description = "create dashboard", priority = 1)
 	@SuppressWarnings("unchecked")
 	public void updateWatchlist() throws CoreCommonException {
+		CommonUtil comm = new CommonUtil();
+		watchName = comm.getRandomString();
 		String URI = USER_APP_URL + UPDATE_DB_TOKEN_LIST;
-		AddWatchlist obj = new AddWatchlist();
+		ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
 		DashboardCommonUtils com = new DashboardCommonUtils();
 		List<String> tickers = new ArrayList<String>(Arrays.asList("aapl", "amzn", "tsla", "a", "b", "c", "d"));
 		try {
-			obj.createWatchlist(tickers);
-			selectedWatchlist = AddWatchlist.watchName;
-			watchID = AddWatchlist.watchID;
+			watchTickers = obj.createWatchlist(tickers, watchName);
+			selectedWatchlist = watchName;
+			watchID = com.getWatchlistID(watchName);
 			String msg = "Tokens, Active Tokens,  Updated successfully";
 			String watchName = "Update : [<font color=\"red\">" + selectedWatchlist + " watchlist in dashboard : ";
 			watchName = "<span style=\"font-weight: bold;\">" + watchName + ": </span>";
@@ -191,7 +195,7 @@ public class CreateDashboard extends APIDriver {
 				verify.verifyResponseTime(resp, 5000);
 				verify.verifyEquals(respJson.getJSONObject("result").getString("msg").trim(), msg,
 						"Verify the API Message");
-				docIDS = com.fetch_search_filters();
+				docIDS = com.fetch_search_filters(watchTickers);
 				verify.assertTrue(docIDS.size() != 0, "Verify RSS feeds data : ");
 			}
 		} catch (Exception e) {
@@ -267,7 +271,7 @@ public class CreateDashboard extends APIDriver {
 	public void shareDashboard() throws CoreCommonException {
 		try {
 			String URI = USER_APP_URL + DASHBOARD_SHARE;
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				HashMap<String, String> dashboardData = new HashMap<String, String>();
 				dashboardData.put("entity_id", db_id);
 				dashboardData.put("entity_type", "SentieoDashboard");
@@ -307,7 +311,7 @@ public class CreateDashboard extends APIDriver {
 		try {
 			RestAssured.baseURI = APP_URL;
 			String URI = USER_APP_URL + LOGIN_URL;
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				HashMap<String, String> loginData = new HashMap<String, String>();
 				loginData.put("email", prop.getProperty("shareDashboard"));
 				loginData.put("password", prop.getProperty("shareDashboardPassword"));
@@ -333,7 +337,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "get dashboard items", priority = 6)
 	public void verifySharedDashboard() throws Exception {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils obj = new DashboardCommonUtils();
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/dd/yy");
 				LocalDateTime now = LocalDateTime.now();
@@ -372,7 +376,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "share", description = "get dashboard items", priority = 7)
 	public void getSharedDashboardData() throws Exception {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/dd/yy");
 				LocalDateTime now = LocalDateTime.now();
 				String currentDate = dtf.format(now);
@@ -420,7 +424,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 8)
 	public void clonedashboard() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				String cloneDashboard = viewName + " " + "- Copy";
 				DashboardCommonUtils obj = new DashboardCommonUtils();
 				String URI = USER_APP_URL + CLONE_DASHBOARD;
@@ -461,7 +465,7 @@ public class CreateDashboard extends APIDriver {
 								watchExpected.toLowerCase().trim(), "Verify watchlist name after cloning dashboard");
 					}
 					List<String> tickers = obj.getTokenTickers(token_list);
-					verify.assertEquals(tickers, AddWatchlist.watchTickers, "Verify watchlist tickers", true);
+					verify.assertEquals(tickers, watchTickers, "Verify watchlist tickers", true);
 					org.json.JSONArray my_dash = obj.dashboardlist("");
 					for (int i = 0; i < my_dash.length(); i++) {
 						String name = my_dash.getJSONObject(i).getString("dashboard_name");
@@ -486,7 +490,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 9)
 	public void verifyCloneWatchlist() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils obj = new DashboardCommonUtils();
 				String option = selectedWatchlist + " @" + " " + viewName;
 				boolean result = obj.verifyWatchlist(option);
@@ -503,7 +507,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 10)
 	public void verifyCloneSavedSearch() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DocSearchRestApi obj = new DocSearchRestApi();
 				clonedSearchName = DashboardCommonUtils.saveSearchName + " @" + " " + viewName;
 				org.json.JSONArray data = obj.load_userSearchs();
@@ -531,7 +535,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 11)
 	public void verifyClonePlotter() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils obj = new DashboardCommonUtils();
 				clonedPlotterName = plotterName + " @" + " " + viewName;
 				boolean result = obj.loadGraphNew(clonedPlotterName);
@@ -548,9 +552,9 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "clone", description = "get dashboard items", priority = 12)
 	public void verifyCloneRSSFEEDS() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils obj = new DashboardCommonUtils();
-				List<String> getrssID = obj.fetch_search_filters();
+				List<String> getrssID = obj.fetch_search_filters(watchTickers);
 				verify.assertTrue(getrssID.size() != 0, "Verify RSS-Data");
 			} else
 				ExtentTestManager.getTest().log(LogStatus.SKIP, "We don't run sharing cases on " + USER_APP_URL);
@@ -564,7 +568,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "deletes user`s saved searches", priority = 13)
 	public void delete_saved_search() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils obj = new DashboardCommonUtils();
 				String uss_ids = obj.getDeleteSaveSearchID(clonedSearchName);
 				if (!uss_ids.isEmpty()) {
@@ -596,13 +600,13 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "deletes user`s saved searches", priority = 14)
 	public void deleteCloneWatchlist() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils dash = new DashboardCommonUtils();
 				String watchExpected = selectedWatchlist + " " + "@" + " " + viewName;
-				AddWatchlist obj = new AddWatchlist();
+				ShareWatchlistWithEditPermission obj = new ShareWatchlistWithEditPermission();
 				String watchID = dash.getWatchlistID(watchExpected);
 				if (!watchID.isEmpty()) {
-					obj.deleteUserWatchlist(watchID);
+					obj.deleteUserWatchlist(watchID, true,watchExpected);
 					boolean result = dash.verifyWatchlist(watchExpected);
 					verify.assertFalse(result, "Verify Deleted Watchlist : ");
 
@@ -624,7 +628,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "Delete Plotter ", priority = 15)
 	public void deletePlotter() {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				DashboardCommonUtils dash = new DashboardCommonUtils();
 				String plotter_id = dash.getPlotterID(clonedPlotterName);
 				LoadGraph obj = new LoadGraph();
@@ -642,7 +646,7 @@ public class CreateDashboard extends APIDriver {
 	@Test(groups = "sanity", description = "Delete Plotter ", priority = 16)
 	public void deleteCloneDashboard() throws CoreCommonException {
 		try {
-			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2")|| USER_APP_URL.contains("staging")) {
+			if (USER_APP_URL.contains("app") || USER_APP_URL.contains("app2") || USER_APP_URL.contains("staging")) {
 				String cloneDashboard = viewName + " " + "- Copy";
 				DashboardCommonUtils obj = new DashboardCommonUtils();
 				obj.deleteDashboard(cloneDashboardID, cloneDashboard);
