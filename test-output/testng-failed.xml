@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" parallel="classes" name="Failed suite [Sentieo tests]" guice-stage="DEVELOPMENT">
+  <listeners>
+    <listener class-name="com.sentieo.listener.TestListener"/>
+    <listener class-name="com.sentieo.listener.AnnotationTransformer"/>
+  </listeners>
+  <test thread-count="1" parallel="classes" name="sentieo-tests(failed)">
+    <classes>
+      <class name="com.sentieo.docsearch.DocumentSearch">
+        <methods>
+          <include name="getLoc"/>
+          <include name="login"/>
+          <include name="fetchsearch_doctype" invocation-numbers="8"/>
+          <include name="initVerify"/>
+        </methods>
+      </class> <!-- com.sentieo.docsearch.DocumentSearch -->
+    </classes>
+  </test> <!-- sentieo-tests(failed) -->
+</suite> <!-- Failed suite [Sentieo tests] -->
